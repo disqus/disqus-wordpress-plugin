@@ -1,0 +1,24 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+ .dsq-admin-header {
+    background: #494e58;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    left: -20px;
+    right: -20px;
+    color: white;
+ }
+
+.dsq-admin-wrapper {
+    margin-top: 20px;
+}
+
+.button-hero .disqus-icon {
+    float: left;
+    margin-top: 7px;
+    margin-right: 7px;
+}
