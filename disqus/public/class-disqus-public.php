@@ -83,20 +83,41 @@ class Disqus_Public {
 		);
 	}
 
-	private function dsq_can_load_for_post( $post ) {
-		if ( !isset( $post ) )
-			return false;
-
+	private function dsq_can_load() {
 		if ( !$this->shortname )
 			return false;
 
 		if ( is_feed() )
 			return false;
 
+		return true;
+	}
+
+	private function dsq_can_load_for_post( $post ) {
+		if ( !$this->dsq_can_load() )
+			return false;
+
+		if ( !isset( $post ) )
+			return false;
+
 		if ( 'draft' == $post->post_status )
 			return false;
 
 		return true;
+	}
+
+	private function load_comment_count() {
+		if ( !$this->dsq_can_load() )
+			return;
+
+		$count_vars = $this->count_vars();
+		wp_enqueue_script( $this->disqus . '_count', plugin_dir_url( __FILE__ ) . 'js/comment_count.js', array(), $this->version, true );
+
+		wp_localize_script( $this->disqus . '_count', 'countVars', $count_vars );
+	}
+
+	private function load_comment_embed() {
+		add_filter( 'comments_template', array( $this, 'dsq_comments_template') );
 	}
 
 	public function dsq_comments_template() {
@@ -121,11 +142,9 @@ class Disqus_Public {
 		if ( !$this->dsq_can_load_for_post( $post ) )
 			return;
 
-		$count_vars = $this->count_vars();
-		wp_enqueue_script( $this->disqus . '_count', plugin_dir_url( __FILE__ ) . 'js/comment_count.js', array(), $this->version, true );
-
-		wp_localize_script( $this->disqus . '_count', 'countVars', $count_vars );
-
-		add_filter( 'comments_template', array( $this, 'dsq_comments_template') );
+		$this->load_comment_count();
+		$this->load_comment_embed();
 	}
+
+
 }
