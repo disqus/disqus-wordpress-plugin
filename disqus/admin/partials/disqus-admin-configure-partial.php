@@ -34,24 +34,6 @@
                     <p class="description">The <strong>Public Key</strong> of your API Application.</p>
                 </td>
             </tr>
-            <tr>
-                <th scope="row">
-                    <label for="apisecret">API Secret Key</label>
-                </th>
-                <td>
-                    <input type="text" id="apisecret" name="dsq_api_secret" value="<?php echo esc_attr( get_option( 'dsq_api_secret' ) ) ?>" class="regular-text" />
-                    <p class="description">The <strong>Secret Key</strong> of your API Application.</p>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">
-                    <label for="accesstoken">API Access Token</label>
-                </th>
-                <td>
-                    <input type="text" id="accesstoken" name="dsq_access_token" value="<?php echo esc_attr( get_option( 'dsq_access_token' ) ) ?>" class="regular-text" />
-                    <p class="description">The <strong>Access Token</strong> of your API Application.</p>
-                </td>
-            </tr>
         </tbody>
     </table>
     <p class="submit">
