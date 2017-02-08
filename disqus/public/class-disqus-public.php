@@ -48,33 +48,66 @@ class Disqus_Public {
 	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct( $disqus, $version ) {
-
 		$this->disqus = $disqus;
 		$this->version = $version;
-
+		$this->shortname = strtolower( get_option( 'dsq_shortname' ) );
 	}
 
-	/**
-	 * Register the stylesheets for the public-facing side of the site.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_styles() {
+	private function dsq_identifier_for_post( $post ) {
+		return $post->ID . ' ' . $post->guid;
+	}
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Plugin_Name_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Plugin_Name_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+	private function dsq_title_for_post( $post ) {
+		$title = get_the_title( $post );
+    	$title = strip_tags( $title, '<b><u><i><h1><h2><h3><code><blockquote><br><hr>' );
+    	return $title;
+	}
 
-		wp_enqueue_style( $this->disqus, plugin_dir_url( __FILE__ ) . 'css/disqus-public.css', array(), $this->version, 'all' );
+	private function embed_vars_for_post( $post ) {
+		return array(
+			'disqusConfig' => array(
+				'platform' => 'wordpress',
+				//'language' => apply_filters( 'disqus_language_filter', '' ),
+			),
+			'disqusIdentifier' => $this->dsq_identifier_for_post( $post ),
+			'disqusShortname' => $this->shortname,
+			'disqusTitle' => $this->dsq_title_for_post( $post ),
+			'disqusUrl' => get_permalink(),
+			'postId' => $post->ID,
+		);
+	}
 
+	private function count_vars() {
+		return array(
+			'disqusShortname' => $this->shortname,
+		);
+	}
+
+	private function dsq_can_load_for_post( $post ) {
+		if ( !isset( $post ) )
+			return false;
+
+		if ( !$this->shortname )
+			return false;
+
+		if ( is_feed() )
+			return false;
+
+		if ( 'draft' == $post->post_status )
+			return false;
+
+		return true;
+	}
+
+	public function dsq_comments_template() {
+		global $post;
+
+		$embed_vars = $this->embed_vars_for_post( $post );
+
+		wp_enqueue_script( $this->disqus . '_embed', plugin_dir_url( __FILE__ ) . 'js/comment_embed.js', array(), $this->version, true );
+		wp_localize_script( $this->disqus . '_embed', 'embedVars', $embed_vars );
+
+		return plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/disqus-public-display.php';
 	}
 
 	/**
@@ -83,21 +116,16 @@ class Disqus_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
+		global $post;
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Plugin_Name_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Plugin_Name_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+		if ( !$this->dsq_can_load_for_post( $post ) )
+			return;
 
-		wp_enqueue_script( $this->disqus, plugin_dir_url( __FILE__ ) . 'js/disqus-public.js', array( 'jquery' ), $this->version, false );
+		$count_vars = $this->count_vars();
+		wp_enqueue_script( $this->disqus . '_count', plugin_dir_url( __FILE__ ) . 'js/comment_count.js', array(), $this->version, true );
 
+		wp_localize_script( $this->disqus . '_count', 'countVars', $count_vars );
+
+		add_filter( 'comments_template', array( $this, 'dsq_comments_template') );
 	}
-
 }
