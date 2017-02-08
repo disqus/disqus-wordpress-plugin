@@ -208,4 +208,27 @@ class Disqus {
 		return $this->version;
 	}
 
+	/**
+	 * Formats the unique disqus_identifier for a given post.
+	 *
+	 * @since     1.0.0
+	 * @param     string    $post       The wordpress post object.
+	 * @return    string    The unique disqus_identifier.
+	 */
+	public function dsq_identifier_for_post( $post ) {
+		return $post->ID . ' ' . $post->guid;
+	}
+
+	/**
+	 * Formats the title for a given post.
+	 *
+	 * @since     1.0.0
+	 * @param     string    $post       The wordpress post object.
+	 * @return    string    The formatted disqus_title.
+	 */
+	public function dsq_title_for_post( $post ) {
+		$title = get_the_title( $post );
+    	$title = strip_tags( $title, '<b><u><i><h1><h2><h3><code><blockquote><br><hr>' );
+    	return $title;
+	}
 }
