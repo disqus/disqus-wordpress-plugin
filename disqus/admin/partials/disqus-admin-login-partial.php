@@ -32,7 +32,6 @@ $oauth_url = 'http://dev.disqus.org:8000/api/oauth/2.0/authorize/' .
         <a href="<?php echo esc_url( $oauth_url ) ?>" class="button button-primary button-hero">
             <svg class="disqus-icon" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                  width="30px" height="30px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
-                <g id="Layer_2"></g>
                 <path fill="#FFFFFF" d="M102.535,167.5c-16.518,0-31.621-6.036-43.298-16.021L30.5,155.405l11.102-27.401
                     c-3.868-8.535-6.038-18.01-6.038-28.004c0-37.277,29.984-67.5,66.971-67.5c36.984,0,66.965,30.223,66.965,67.5
                     C169.5,137.284,139.52,167.5,102.535,167.5z M139.102,99.807v-0.188c0-19.478-13.736-33.367-37.42-33.367h-25.58v67.5h25.201
