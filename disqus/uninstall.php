@@ -29,3 +29,7 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+// TODO: Make the checks recommended above
+delete_option('disqus_forum_url');
+delete_option('disqus_public_key');

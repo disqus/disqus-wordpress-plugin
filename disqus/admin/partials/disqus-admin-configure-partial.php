@@ -21,7 +21,7 @@
                     <label for="shortname">Site Shortname</label>
                 </th>
                 <td>
-                    <input type="text" id="shortname" name="dsq_shortname" value="<?php echo esc_attr( get_option( 'dsq_shortname' ) ) ?>" class="regular-text" />
+                    <input type="text" id="shortname" name="disqus_forum_url" value="<?php echo esc_attr( get_option( 'disqus_forum_url' ) ) ?>" class="regular-text" />
                     <p class="description">Your site's unique <a href="https://help.disqus.com/customer/portal/articles/466208" target="_blank">shortname</a>.</p>
                 </td>
             </tr>
@@ -30,7 +30,7 @@
                     <label for="apikey">API Public Key</label>
                 </th>
                 <td>
-                    <input type="text" id="apikey" name="dsq_api_key" value="<?php echo esc_attr( get_option( 'dsq_api_key' ) ) ?>" class="regular-text" />
+                    <input type="text" id="apikey" name="disqus_public_key" value="<?php echo esc_attr( get_option( 'disqus_public_key' ) ) ?>" class="regular-text" />
                     <p class="description">The <strong>Public Key</strong> of your API Application.</p>
                 </td>
             </tr>

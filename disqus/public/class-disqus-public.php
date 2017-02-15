@@ -50,7 +50,7 @@ class Disqus_Public {
 	public function __construct( $disqus, $version ) {
 		$this->disqus = $disqus;
 		$this->version = $version;
-		$this->shortname = strtolower( get_option( 'dsq_shortname' ) );
+		$this->shortname = strtolower( get_option( 'disqus_forum_url' ) );
 	}
 
 	private function dsq_identifier_for_post( $post ) {

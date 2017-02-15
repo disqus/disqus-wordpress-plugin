@@ -47,7 +47,7 @@
 
 <?php
 
-if ( get_option( 'dsq_shortname' ) ) {
+if ( get_option( 'disqus_forum_url' ) ) {
 
     // This means the user has configured a shortname for this site and can view the options
     require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-main-partial.php';

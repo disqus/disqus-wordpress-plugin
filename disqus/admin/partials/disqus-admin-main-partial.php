@@ -9,7 +9,7 @@
  * @package    Disqus
  * @subpackage Disqus/admin/partials
  */
-$shortname = strtolower( get_option( 'dsq_shortname' ) );
+$shortname = strtolower( get_option( 'disqus_forum_url' ) );
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->

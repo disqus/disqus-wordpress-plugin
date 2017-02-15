@@ -128,9 +128,9 @@ class Disqus_Admin {
 
 		    // Posting to this page implies a change in configuration. This page supports posting
 		    // of the manual configuration through the form, or via the Disqus API Callback.
-		    if ( isset( $_POST['dsq_shortname'] ) ) {
-		    	$normalized_shortname = preg_replace( '/\s\s+/', '', strtolower( $_POST['dsq_shortname'] ) );
-		        update_option( 'dsq_shortname', $normalized_shortname );
+		    if ( isset( $_POST['disqus_forum_url'] ) ) {
+		    	$normalized_shortname = preg_replace( '/\s\s+/', '', strtolower( $_POST['disqus_forum_url'] ) );
+		        update_option( 'disqus_forum_url', $normalized_shortname );
 
 		        add_action( 'admin_notices', 'updated_shortname_notice', 1, $normalized_shortname );
 		    }
