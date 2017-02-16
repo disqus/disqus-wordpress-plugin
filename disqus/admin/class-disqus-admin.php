@@ -52,7 +52,7 @@ class Disqus_Admin {
 		$this->disqus = $disqus;
 		$this->version = $version;
 
-		add_action('admin_menu', array( $this, 'dsq_contruct_admin_menu' ));
+		add_action( 'admin_menu', array( $this, 'dsq_contruct_admin_menu' ));
 	}
 
 	/**
@@ -148,19 +148,8 @@ class Disqus_Admin {
 	 * @since    1.0.0
 	 */
 	function updated_shortname_notice($shortname) {
-		echo '<div class="updated">
-        	You\'ve just installed <strong>' . esc_html( $shortname ) . '</strong> onto your site!.
-    	</div>';
-	}
-
-	/**
-	 * Displays an admin notice indicating there was an error logging in
-	 *
-	 * @since    1.0.0
-	 */
-	function disqus_oauth_error($error_description) {
-		echo '<div class="error">
-		    There was an error logging in: ' . esc_html( $error_description ) .
-		'</div>';
+		echo '<div class="updated">' .
+        	'You\'ve just installed <strong>' . $shortname . '</strong> onto your site!.'
+    	. '</div>';
 	}
 }

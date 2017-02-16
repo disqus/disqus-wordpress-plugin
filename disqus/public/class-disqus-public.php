@@ -67,7 +67,6 @@ class Disqus_Public {
 		return array(
 			'disqusConfig' => array(
 				'platform' => 'wordpress',
-				//'language' => apply_filters( 'disqus_language_filter', '' ),
 			),
 			'disqusIdentifier' => $this->dsq_identifier_for_post( $post ),
 			'disqusShortname' => $this->shortname,

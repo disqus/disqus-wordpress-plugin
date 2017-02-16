@@ -38,12 +38,9 @@ $shortname = strtolower( get_option( 'disqus_forum_url' ) );
 <?php if ( current_user_can( 'manage_options' ) )  { ?>
 
 <div class="card">
-    <h2 class="title">Configuration <small>(advanced)</small></h2>
+    <h2 class="title">Configuration</h2>
     <p>Warning: Changing these values may break plugin features or cause commenting to stop working.</p>
-    <p id="advancedConfigButton" class="submit">
-        <button type="button" class="button">Show Configuration Options</button>
-    </p>
-    <section id="advancedConfigurationSection" style="display:none;">
+    <section class="dsq-advanced-config">
         <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-configure-partial.php'; ?>
     </section>
 </div>

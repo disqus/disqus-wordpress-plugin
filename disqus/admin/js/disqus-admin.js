@@ -31,11 +31,6 @@
 
 	var documentReadyHandler = function () {
 
-		$('#advancedConfigButton').on('click', function () {
-			$(this).hide();
-			$('#advancedConfigurationSection').show();
-		});
-
 	};
 
 	$(document).ready(documentReadyHandler);
