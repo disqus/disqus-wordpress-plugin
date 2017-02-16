@@ -119,12 +119,13 @@ class Disqus_Admin {
 	 * @since    1.0.0
 	 */
 	function dsq_render_admin_index() {
+		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && !empty( $_POST ) ) {
 
-		if ( isset( $_GET['error_description'] ) ) {
-			add_action( 'admin_notices', 'disqus_oauth_error', 1, $_GET['error_description'] );
-		}
-
-		if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
+			// Verify nonce/referrer
+			if ( !check_admin_referer( 'dsq_admin_nonce', 'dsq_admin_nonce' ) ) {
+				esc_html_e('This request is not valid.');
+				exit;
+			}
 
 		    // Posting to this page implies a change in configuration. This page supports posting
 		    // of the manual configuration through the form, or via the Disqus API Callback.
@@ -137,6 +138,7 @@ class Disqus_Admin {
 
 		}
 
+		// Now show the admin page
 		require_once plugin_dir_path( __FILE__ ) . 'partials/disqus-admin-partial.php';
 	}
 

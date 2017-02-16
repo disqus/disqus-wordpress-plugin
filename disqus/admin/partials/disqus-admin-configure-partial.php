@@ -13,7 +13,6 @@
 ?>
 
 <form id="advancedConfigForm" action="" method="POST">
-    <!-- TODO add nonce and check it -->
     <table class="form-table">
         <tbody>
             <tr>
@@ -39,4 +38,5 @@
     <p class="submit">
         <input type="submit" name="submit" id="submit" class="button button-primary" value="Save" />
     </p>
+    <?php wp_nonce_field( 'dsq_admin_nonce', 'dsq_admin_nonce' ); ?>
 </form>
