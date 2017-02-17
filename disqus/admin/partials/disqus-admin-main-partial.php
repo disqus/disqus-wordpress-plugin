@@ -40,7 +40,7 @@ $shortname = strtolower( get_option( 'disqus_forum_url' ) );
 <div class="card">
     <h2 class="title">Configuration</h2>
     <p>Warning: Changing these values may break plugin features or cause commenting to stop working.</p>
-    <section class="dsq-advanced-config">
+    <section class="dsq-admin-config">
         <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-configure-partial.php'; ?>
     </section>
 </div>

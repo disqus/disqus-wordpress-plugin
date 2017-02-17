@@ -20,27 +20,36 @@
 </h1>
 
 <div class="card">
-    <h2 class="title">Configure Disqus</h2>
-    <p>You may configure this plugin manually if you've already registered a site and a Disqus <a href="https://disqus.com/api/applications/" target="_blank">API Application</a>.</p>
+    <h2 class="title">Configure Disqus for <strong><?php echo get_option( 'blogname' ) ?></strong></h2>
+    <p>Follow each of the steps below to configure the plugin. You may skip any of the ones you've already completed.</p>
     <hr />
 
-    <section class="dsq-advanced-config">
-        <h3>Step 1: Register your site with Disqus</h3>
-        <p class="description">You can skip this if you have a site that you want to use already.</p>
+    <section class="dsq-admin-config">
+        <h3>Step 1: Log in or sign up for a Disqus account</h3>
+        <p class="description">You will be prompted to login or signup with Disqus.</p>
         <p class="submit">
-            <a class="button button-primary" href="https://disqus.com/admin/create/" target="_blank">Register Site</a>
+            <a class="button" href="https://disqus.com/profile/signup/" target="_blank">Login</a>
         </p>
         <hr />
 
-        <h3>Step 2: Create an API Application</h3>
-        <p class="description">After you've created it, go to the <strong>Settings</strong> tab for that application and change <strong>Default Access</strong> to <strong>Read, Write, and Manage Forums</strong>.</p>
+        <h3>Step 2: Create a site</h3>
+        <p class="description">
+            Create a new site or choose one you have already registered with your account.
+        </p>
         <p class="submit">
-            <a class="button button-primary" href="https://disqus.com/api/applications/register/" target="_blank">Create Application</a>
+            <a class="button" href="https://disqus.com/admin/create/" target="_blank">Register Site</a>
         </p>
         <hr />
 
-        <h3>Step 3: Configure the Plugin</h3>
+        <h3>Step 3: Get your site shortname</h3>
+        <p class="description">
+            After creating your site, you'll be prompted to accept the policy and select your platform. If you have more than one site, choose the one you want to install here by pressing the <strong>Pick a Site</strong> button.
+        </p>
+        <p class="submit">
+            <a class="button" href="https://disqus.com/admin/install/wordpress/" target="_blank">Get Shortname</a>
+        </p>
         <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-configure-partial.php'; ?>
+
     </section>
 
 </div>

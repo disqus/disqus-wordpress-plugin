@@ -24,6 +24,7 @@
                     <p class="description">Your site's unique identifier <a href="https://help.disqus.com/customer/portal/articles/466208" target="_blank">What is this?</a>.</p>
                 </td>
             </tr>
+            <!-- Enable when SSO works
             <tr>
                 <th scope="row">
                     <label for="apikey">API Public Key <small>(optional)</small></label>
@@ -33,6 +34,7 @@
                     <p class="description">The <strong>Public Key</strong> of your <a href="https://disqus.com/api/applications" target="_blank">API Application</a>.</p>
                 </td>
             </tr>
+            -->
         </tbody>
     </table>
     <p class="submit">
