@@ -45,14 +45,6 @@ $shortname = strtolower( get_option( 'disqus_forum_url' ) );
     </section>
 </div>
 
-<h1>Options</h1>
-
-<form id="resetForm" action="" method="post">
-    <!-- TODO add nonce and check it -->
-    <input type="hidden" name="action" value="reset" />
-    <input type="submit" value="Reset Configuration" />
-</form>
-
 <?php } else { ?>
 
 <p>You don't have permission to make any changes here. Please contact the site administrator to get access.</p>
