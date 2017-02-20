@@ -1,0 +1,25 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "files.trimTrailingWhitespace": true,
+
+    // From `final-newline` extension
+    "files.insertFinalNewline": true,
+
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true
+    },
+
+    // Configure glob patterns for excluding files and folders in searches.
+    // Inherits all glob patterns from the file.exclude setting.
+    "search.exclude": {
+	},
+
+    "editor.rulers": [
+        120
+    ],
+    "window.zoomLevel": 0,
+    "php.validate.enable": true,
+    "php.validate.executablePath": null,
+    "php.validate.run": "onType"
+}
