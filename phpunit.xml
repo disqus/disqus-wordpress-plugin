@@ -1,0 +1,18 @@
+<phpunit
+  bootstrap="tests/bootstrap.php"
+  backupGlobals="false"
+  colors="true"
+  convertErrorsToExceptions="true"
+  convertNoticesToExceptions="true"
+  convertWarningsToExceptions="true"
+  >
+  <php>
+    <!-- Enter the name of your main plugin file here -->
+    <env name="DISQUS_PLUGIN" value="disqus/disqus.php.php"/>
+  </php>
+  <testsuites>
+    <testsuite>
+      <directory prefix="test-" suffix=".php">./tests/</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
