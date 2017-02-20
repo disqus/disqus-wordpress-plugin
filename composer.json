@@ -1,0 +1,22 @@
+{
+    "name": "disqus/disqus-wordpress-plugin",
+    "description": "WordPress plugin for Disqus",
+    "keywords": [
+        "wordpress",
+        "disqus",
+        "comments"
+    ],
+    "homepage": "https://disqus.com/",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Ryan Valentin",
+            "email": "ryan@disqus.com"
+        }
+    ],
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=5.6.3",
+        "composer/installers": "v1.2.0"
+    }
+}
