@@ -8,7 +8,7 @@
   >
   <php>
     <!-- Enter the name of your main plugin file here -->
-    <env name="DISQUS_PLUGIN" value="disqus/disqus.php.php"/>
+    <env name="DISQUS_PLUGIN" value="disqus/disqus.php"/>
   </php>
   <testsuites>
     <testsuite>

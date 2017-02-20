@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ryanvalentin/disqus-wordpress-minimal.svg?branch=master)](https://travis-ci.org/ryanvalentin/disqus-wordpress-minimal)
+
 # WordPress Plugin Boilerplate
 
 A standardized, organized, object-oriented foundation for building high-quality WordPress Plugins.
