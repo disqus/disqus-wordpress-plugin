@@ -1,1 +1,4 @@
 <?php
+/**
+ * Main plugin index.
+ */

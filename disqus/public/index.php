@@ -1,1 +1,4 @@
 <?php
+/**
+ * Public index.
+ */
