@@ -28,7 +28,7 @@
         <h3>Step 1: Log in or sign up for a Disqus account</h3>
         <p class="description">You will be prompted to login or signup with Disqus.</p>
         <p class="submit">
-            <a class="button" href="https://disqus.com/profile/signup/" target="_blank">Login</a>
+            <a class="button" href="https://disqus.com/profile/signup/?next=/admin/create/" target="_blank">Login</a>
         </p>
         <hr />
 
