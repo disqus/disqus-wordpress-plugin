@@ -24,5 +24,5 @@ before_script:
     - bash wp-tests/bin/install-wp-tests.sh test root '' localhost $WP_VERSION
 
 script:
-    - phpcs --standard=WordPress ./**/*.php
+    - phpcs --standard=WordPress --ignore=*/tests/* ./**/*.php
     - phpunit

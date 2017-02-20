@@ -1,6 +1,7 @@
 <?php
 /**
  * Sets up unit tests.
+ * @package    Disqus
  */
 
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
@@ -19,10 +20,14 @@ $GLOBALS['wp_tests_options'] = array(
 
 require_once $_tests_dir . '/includes/functions.php';
 
-/*
+/**
  * Activate this plugin automatically.
  */
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
+
+/**
+ * Manually loads the plugin.
+ */
 function _manually_load_plugin() {
 	require dirname( __DIR__ ) . '/' . PLUGIN_FILE;
 }
