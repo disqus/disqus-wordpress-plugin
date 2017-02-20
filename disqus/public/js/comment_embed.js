@@ -11,30 +11,14 @@ var disqus_config = function () {
     onNewComment: fires when a new comment is posted,
     onIdentify: fires when user is authenticated
     */
-    if (typeof embedVars.disqusConfig.remote_auth_s3 !== 'undefined') {
-        this.page.remote_auth_s3 = embedVars.disqusConfig.remote_auth_s3;
-    }
+    var dsqConfig = embedVars.disqusConfig;
+    this.page.remote_auth_s3 = dsqConfig.remote_auth_s3;
+    this.page.api_key = dsqConfig.api_key;
+    this.sso = dsqConfig.sso;
+    this.language = dsqConfig.language;
 
-    if (typeof embedVars.disqusConfig.api_key !== 'undefined') {
-        this.page.api_key = embedVars.disqusConfig.api_key;
-    }
-
-    if (typeof embedVars.disqusConfig.sso !== 'undefined') {
-        this.sso = {
-            name: embedVars.disqusConfig.sso.name,
-            button: embedVars.disqusConfig.sso.button,
-            url: embedVars.disqusConfig.sso.url,
-            logout: embedVars.disqusConfig.sso.logout,
-            width: embedVars.disqusConfig.sso.width,
-            height: embedVars.disqusConfig.sso.height
-        };
-    }
-
-    this.language = embedVars.disqusConfig.language;
-
-    if (disqus_config_custom) {
+    if (disqus_config_custom)
         disqus_config_custom.call(this);
-    }
 };
 
 (function() {
