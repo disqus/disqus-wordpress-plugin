@@ -107,10 +107,14 @@ class Disqus_Admin {
 	 * @since    1.0.0
 	 */
 	function dsq_contruct_admin_menu() {
+		// Remove the existing Wordpress comments menu item to prevent confusion
+		// about where to administer comments. The admin will have a link to this
+		// page.
+		if ( current_user_can ( 'moderate_comments' )  ) {
+			remove_menu_page( 'edit-comments.php' );
+		}
 
-		// Adds a section to the dashboard menu for Disqus
-        //add_menu_page( 'Disqus', 'Disqus', 'moderate_comments', 'disqus', array( $this, 'dsq_render_admin_index' ), '', 24 );
-        add_comments_page( 'Disqus', 'Disqus', 'moderate_comments', 'disqus', array( $this, 'dsq_render_admin_index' ) );
+        add_menu_page( 'Disqus', 'Disqus', 'moderate_comments', 'disqus', array( $this, 'dsq_render_admin_index' ), 'dashicons-admin-comments', 24 );
 	}
 
 	/**
@@ -123,7 +127,7 @@ class Disqus_Admin {
 
 			// Verify nonce/referrer
 			if ( !check_admin_referer( 'dsq_admin_nonce', 'dsq_admin_nonce' ) ) {
-				esc_html_e('This request is not valid.');
+				dsq_gettext_e('This request is not valid.');
 				exit;
 			}
 
@@ -135,7 +139,6 @@ class Disqus_Admin {
 
 		        add_action( 'admin_notices', 'updated_shortname_notice', 1, $normalized_shortname );
 		    }
-
 		}
 
 		// Now show the admin page
@@ -149,7 +152,7 @@ class Disqus_Admin {
 	 */
 	function updated_shortname_notice($shortname) {
 		echo '<div class="updated">' .
-        	'You\'ve just installed <strong>' . $shortname . '</strong> onto your site!.'
+        	dsq_gettext_e( 'You\'ve just installed %s onto your site!', $shortname )
     	. '</div>';
 	}
 }

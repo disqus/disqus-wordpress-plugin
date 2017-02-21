@@ -31,6 +31,33 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
+ * Echoes a localized string using a format.
+ *
+ * @since    1.0.0
+ * @param    string    $text    The string to be localized
+ * @return   string    The localized string.
+ */
+function dsq_gettext( $text ) {
+	return esc_html__( $text );
+}
+
+/**
+ * Echoes a localized string using a format.
+ *
+ * @since    1.0.0
+ * @param    string    $format    The string format of the localized text
+ * @param    mixed     $args      Arguments to pass to the formatted string
+ */
+function dsq_gettext_e( $format, ...$args ) {
+	if ( 0 == count($args ) ) {
+		echo dsq_gettext( $format );
+		return;
+	}
+
+	printf( dsq_gettext( $format ), ...$args );
+}
+
+/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-disqus-activator.php
  */

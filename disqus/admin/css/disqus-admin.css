@@ -22,3 +22,11 @@
     margin-top: 7px;
     margin-right: 7px;
 }
+
+.welcome-panel {
+    overflow: hidden;
+}
+
+.welcome-panel-column .button {
+    margin-bottom: 1.33em;
+}

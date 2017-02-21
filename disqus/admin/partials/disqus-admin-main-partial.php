@@ -10,36 +10,69 @@
  * @subpackage Disqus/admin/partials
  */
 $shortname = strtolower( get_option( 'disqus_forum_url' ) );
+$site_name = esc_html( get_option( 'blogname' ) );
 ?>
 
-<!-- This file should primarily consist of HTML with a little bit of PHP. -->
-
-<h1>Disqus is Installed.</h1>
-<ul>
-    <li>
-        <a href="https://<?php echo $shortname ?>.disqus.com/admin/moderate/" target="_blank">
-            Moderate Comments
-        </a>
-    </li>
-    <li>
-        <a href="https://<?php echo $shortname ?>.disqus.com/admin/settings/general/" target="_blank">
-            General/Appearance Settings
-        </a>
-    </li>
-    <li>
-        <a href="https://<?php echo $shortname ?>.disqus.com/admin/settings/community/" target="_blank">
-            Community Settings
-        </a>
-    </li>
-</ul>
+<!-- Welcome Panel -->
+<div class="welcome-panel">
+    <div class="welcome-panel-content">
+        <h2>
+            <?php dsq_gettext_e( 'Welcome Back' ) ?>
+        </h2>
+        <p class="about-description">
+            <?php dsq_gettext_e( 'Check out what\'s been happening on %s', $site_name ) ?>
+        </p>
+        <div class="welcome-panel-column-container">
+            <div class="welcome-panel-column">
+                <h3>
+                    <?php dsq_gettext_e( 'Comments' ) ?>
+                </h3>
+                <p class="description">
+                    <?php dsq_gettext_e( 'Read, manage, and engage with comments and people on your site.' ) ?>
+                </p>
+                <a class="button" href="https://<?php echo $shortname ?>.disqus.com/admin/moderate/" target="_blank">
+                    <?php dsq_gettext_e( 'Moderate Comments' ) ?>
+                </a>
+            </div>
+            <div class="welcome-panel-column">
+                <h3>
+                    <?php dsq_gettext_e( 'Analytics' ) ?>
+                </h3>
+                <p class="description">
+                    <?php dsq_gettext_e( 'Understand your community with engagement analytics, popular content, and more.' ) ?>
+                </p>
+                <a class="button" href="https://<?php echo $shortname ?>.disqus.com/admin/moderate/" target="_blank">
+                    <?php dsq_gettext_e( 'Analyze Engagement' ) ?>
+                </a>
+            </div>
+            <div class="welcome-panel-column">
+                <h3>
+                    <?php dsq_gettext_e( 'Configure' ) ?>
+                </h3>
+                <p class="description">
+                    <?php dsq_gettext_e( 'Customize %s on your site with identity, appearance, and community options.', 'Disqus' ) ?>
+                </p>
+                <a class="button" href="https://<?php echo $shortname ?>.disqus.com/admin/moderate/" target="_blank">
+                    <?php dsq_gettext_e( 'Edit Settings' ) ?>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- Plugin configuration -->
 <?php if ( current_user_can( 'manage_options' ) )  { ?>
 
 <div class="card">
-    <h2 class="title">Configuration</h2>
-    <p>Warning: Changing these values may break plugin features or cause commenting to stop working.</p>
+    <h2 class="title">
+        <?php dsq_gettext_e( 'Plugin Settings' ) ?>
+    </h2>
+    <div class="notice notice-warning inline">
+        <p>
+            <?php dsq_gettext_e( 'Changing these values may break plugin features or cause commenting to stop working.' ) ?>
+        </p>
+    </div>
     <section class="dsq-admin-config">
         <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-configure-partial.php'; ?>
     </section>
@@ -47,6 +80,8 @@ $shortname = strtolower( get_option( 'disqus_forum_url' ) );
 
 <?php } else { ?>
 
-<p>You don't have permission to make any changes here. Please contact the site administrator to get access.</p>
+<p>
+    <?php dsq_gettext_e( 'You don\'t have permission to make any changes here. Please contact the site administrator to get access.' ) ?>
+</p>
 
 <?php } ?>

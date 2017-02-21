@@ -1,0 +1,181 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-02-21 15:50-0800\n"
+"PO-Revision-Date: 2017-02-21 15:50-0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: dsq_gettext_e;dsq_gettext\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin/class-disqus-admin.php:130
+msgid "This request is not valid."
+msgstr ""
+
+#: admin/class-disqus-admin.php:155
+#, php-format
+msgid "You've just installed %s onto your site!"
+msgstr ""
+
+#: admin/partials/disqus-admin-configure-partial.php:21
+msgid "Site Shortname"
+msgstr ""
+
+#: admin/partials/disqus-admin-configure-partial.php:27
+msgid "Your site's unique identifier"
+msgstr ""
+
+#: admin/partials/disqus-admin-configure-partial.php:30
+msgid "What is this?"
+msgstr ""
+
+#: admin/partials/disqus-admin-configure-partial.php:49
+msgid "Save"
+msgstr ""
+
+#: admin/partials/disqus-admin-login-partial.php:19
+#, php-format
+msgid "Add %s to %s"
+msgstr ""
+
+#: admin/partials/disqus-admin-login-partial.php:24
+#, php-format
+msgid "Install %s"
+msgstr ""
+
+#: admin/partials/disqus-admin-login-partial.php:27
+msgid ""
+"Follow each of the steps below to configure the plugin. You may skip any of "
+"the ones you've already completed."
+msgstr ""
+
+#: admin/partials/disqus-admin-login-partial.php:33
+#, php-format
+msgid "Step 1: Log in or sign up for a %s account"
+msgstr ""
+
+#: admin/partials/disqus-admin-login-partial.php:36
+#, php-format
+msgid "You will be prompted to login or signup with %s"
+msgstr ""
+
+#: admin/partials/disqus-admin-login-partial.php:40
+msgid "Login"
+msgstr ""
+
+#: admin/partials/disqus-admin-login-partial.php:46
+msgid "Step 2: Create a site"
+msgstr ""
+
+#: admin/partials/disqus-admin-login-partial.php:49
+msgid ""
+"Create a new site or choose one you have already registered with your "
+"account."
+msgstr ""
+
+#: admin/partials/disqus-admin-login-partial.php:53
+msgid "Register Site"
+msgstr ""
+
+#: admin/partials/disqus-admin-login-partial.php:59
+msgid "Step 3: Get your site shortname"
+msgstr ""
+
+#: admin/partials/disqus-admin-login-partial.php:62
+msgid ""
+"After creating your site, you'll be prompted to accept the policy and select "
+"your platform. If you have more than one site, choose the one you want to "
+"install here by pressing the \"Pick a Site\" button."
+msgstr ""
+
+#: admin/partials/disqus-admin-login-partial.php:66
+msgid "Get Shortname"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:20
+msgid "Welcome Back"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:23
+#, php-format
+msgid "Check out what's been happening on %s"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:28
+msgid "Comments"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:31
+msgid "Read, manage, and engage with comments and people on your site."
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:34
+msgid "Moderate Comments"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:39
+msgid "Analytics"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:42
+msgid ""
+"Understand your community with engagement analytics, popular content, and "
+"more."
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:45
+msgid "Analyze Engagement"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:50
+msgid "Configure"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:53
+#, php-format
+msgid ""
+"Customize %s on your site with identity, appearance, and community options."
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:56
+msgid "Edit Settings"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:69
+msgid "Plugin Settings"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:73
+msgid ""
+"Changing these values may break plugin features or cause commenting to stop "
+"working."
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:84
+msgid ""
+"You don't have permission to make any changes here. Please contact the site "
+"administrator to get access."
+msgstr ""
+
+#: admin/partials/disqus-admin-wpcomments-partial.php:16
+msgid "WordPress Comments"
+msgstr ""
+
+#: admin/partials/disqus-admin-wpcomments-partial.php:20
+#, php-format
+msgid ""
+"%s has replaced the default WordPress commenting system. You may access and "
+"edit the comments in your database, but any actions performed there will not "
+"be reflected in %s."
+msgstr ""
+
+#: admin/partials/disqus-admin-wpcomments-partial.php:25
+msgid "View Comments"
+msgstr ""

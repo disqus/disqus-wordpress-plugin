@@ -10,43 +10,62 @@
  * @package    Disqus
  * @subpackage Disqus/admin/partials
  */
-
+$site_name = esc_html( get_option( 'blogname' ) );
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 
 <h1 class="title">
-    Add Disqus to <?php echo get_option( 'blogname' ) ?>
+    <?php dsq_gettext_e( 'Add %s to %s', 'Disqus', $site_name ) ?>
 </h1>
 
 <div class="card">
-    <h2 class="title">Configure Disqus for <strong><?php echo get_option( 'blogname' ) ?></strong></h2>
-    <p>Follow each of the steps below to configure the plugin. You may skip any of the ones you've already completed.</p>
+    <h2 class="title">
+        <?php dsq_gettext_e( 'Install %s', 'Disqus' ) ?>
+    </h2>
+    <p>
+        <?php dsq_gettext_e( 'Follow each of the steps below to configure the plugin. You may skip any of the ones you\'ve already completed.' ) ?>
+    </p>
     <hr />
 
     <section class="dsq-admin-config">
-        <h3>Step 1: Log in or sign up for a Disqus account</h3>
-        <p class="description">You will be prompted to login or signup with Disqus.</p>
+        <h3>
+            <?php dsq_gettext_e( 'Step 1: Log in or sign up for a %s account', 'Disqus' ) ?>
+        </h3>
+        <p class="description">
+            <?php dsq_gettext_e( 'You will be prompted to login or signup with %s', 'Disqus' ) ?>
+        </p>
         <p class="submit">
-            <a class="button" href="https://disqus.com/profile/signup/?next=/admin/create/" target="_blank">Login</a>
+            <a class="button" href="https://disqus.com/profile/signup/?next=/admin/create/" target="_blank">
+                <?php dsq_gettext_e( 'Login' ) ?>
+            </a>
         </p>
         <hr />
 
-        <h3>Step 2: Create a site</h3>
+        <h3>
+            <?php dsq_gettext_e( 'Step 2: Create a site' ) ?>
+        </h3>
         <p class="description">
-            Create a new site or choose one you have already registered with your account.
+            <?php dsq_gettext_e( 'Create a new site or choose one you have already registered with your account.' ) ?>
         </p>
         <p class="submit">
-            <a class="button" href="https://disqus.com/admin/create/" target="_blank">Register Site</a>
+            <a class="button" href="https://disqus.com/admin/create/" target="_blank">
+                <?php dsq_gettext_e( 'Register Site' ) ?>
+            </a>
         </p>
         <hr />
 
-        <h3>Step 3: Get your site shortname</h3>
+        <h3>
+            <?php dsq_gettext_e( 'Step 3: Get your site shortname' ) ?>
+        </h3>
         <p class="description">
-            After creating your site, you'll be prompted to accept the policy and select your platform. If you have more than one site, choose the one you want to install here by pressing the <strong>Pick a Site</strong> button.
+            <?php dsq_gettext_e( 'After creating your site, you\'ll be prompted to accept the policy and select your platform. If you have more than one site, choose the one you want to install here by pressing the "Pick a Site" button.' ) ?>
         </p>
         <p class="submit">
-            <a class="button" href="https://disqus.com/admin/install/wordpress/" target="_blank">Get Shortname</a>
+            <a class="button" href="https://disqus.com/admin/install/wordpress/" target="_blank">
+                <?php dsq_gettext_e( 'Get Shortname' ) ?>
+
+            </a>
         </p>
         <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-configure-partial.php'; ?>
 

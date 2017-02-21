@@ -58,7 +58,8 @@ if ( get_option( 'disqus_forum_url' ) ) {
     require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-login-partial.php';
 }
 
-?>
+require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-wpcomments-partial.php';
 
+?>
     </div>
 </div>
