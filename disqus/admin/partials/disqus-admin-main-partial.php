@@ -41,7 +41,7 @@ $site_name = esc_html( get_option( 'blogname' ) );
                 <p class="description">
                     <?php dsq_gettext_e( 'Understand your community with engagement analytics, popular content, and more.' ) ?>
                 </p>
-                <a class="button" href="https://<?php echo $shortname ?>.disqus.com/admin/moderate/" target="_blank">
+                <a class="button" href="https://<?php echo $shortname ?>.disqus.com/admin/analytics/comments/" target="_blank">
                     <?php dsq_gettext_e( 'Analyze Engagement' ) ?>
                 </a>
             </div>
@@ -52,7 +52,7 @@ $site_name = esc_html( get_option( 'blogname' ) );
                 <p class="description">
                     <?php dsq_gettext_e( 'Customize %s on your site with identity, appearance, and community options.', 'Disqus' ) ?>
                 </p>
-                <a class="button" href="https://<?php echo $shortname ?>.disqus.com/admin/moderate/" target="_blank">
+                <a class="button" href="https://<?php echo $shortname ?>.disqus.com/admin/settings/general/" target="_blank">
                     <?php dsq_gettext_e( 'Edit Settings' ) ?>
                 </a>
             </div>
