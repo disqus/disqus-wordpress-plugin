@@ -10,7 +10,7 @@
  * @package    Disqus
  * @subpackage Disqus/admin/partials
  */
-$site_name = esc_html( get_option( 'blogname' ) );
+$site_name = esc_html( get_bloginfo( 'name' ) );
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
@@ -67,7 +67,7 @@ $site_name = esc_html( get_option( 'blogname' ) );
 
             </a>
         </p>
-        <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-configure-partial.php'; ?>
+        <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-form-site-partial.php'; ?>
 
     </section>
 

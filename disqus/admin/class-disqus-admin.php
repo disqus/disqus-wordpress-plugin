@@ -139,6 +139,19 @@ class Disqus_Admin {
 
 		        add_action( 'admin_notices', 'updated_shortname_notice', 1, $normalized_shortname );
 		    }
+
+			update_option( 'disqus_sso_enabled', isset( $_POST['disqus_sso_enabled'] ) );
+
+			$sso_options = array (
+				'disqus_public_key',
+				'disqus_secret_key',
+				'disqus_sso_button'
+			);
+			foreach ($sso_options as $opt) {
+				if ( isset( $_POST[$opt] ) ) {
+					update_option( $opt, esc_js( $_POST[$opt] ) );
+				}
+			}
 		}
 
 		// Now show the admin page
