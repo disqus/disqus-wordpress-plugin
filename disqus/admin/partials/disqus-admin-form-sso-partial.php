@@ -12,7 +12,7 @@
 
 ?>
 
-<form id="ssoConfigForm" action="" method="POST">
+<form id="ssoConfigForm" action="" name="sso" method="POST">
     <table class="form-table">
         <tbody>
             <tr>
@@ -69,7 +69,7 @@
                 <td>
                     <input type="url" id="loginbutton" name="disqus_sso_button" value="<?php echo esc_attr( get_option( 'disqus_sso_button' ) ) ?>" class="regular-text" />
                     <p class="description">
-                        <?php dsq_gettext_e( 'A link to a .png, .gif, or .jpg image to shown in the comments embed as a button.' ) ?>
+                        <?php dsq_gettext_e( 'A link to a .png, .gif, or .jpg image to show as a button in %s.', 'Disqus' ) ?>
                         <a href="https://help.disqus.com/customer/portal/articles/236206#sso-login-button" target="_blank">
                             <?php dsq_gettext_e( 'Learn more' ) ?>
                         </a>
@@ -79,7 +79,7 @@
         </tbody>
     </table>
     <p class="submit">
-        <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php dsq_gettext_e( 'Save' ) ?>" />
+        <input type="submit" name="submit-sso-form" id="submit" class="button button-primary" value="<?php dsq_gettext_e( 'Save' ) ?>" />
     </p>
     <?php wp_nonce_field( 'dsq_admin_nonce', 'dsq_admin_nonce' ); ?>
 </form>

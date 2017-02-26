@@ -63,7 +63,7 @@ class Disqus_Public {
     	return $title;
 	}
 
-	private function remote_auth_s3_for_user( $user, $public_key ) {
+	private function remote_auth_s3_for_user( $user, $secret_key ) {
 		$payload_user = array();
 		if ( $user->ID ) {
 			$payload_user['id'] = $user->ID;
@@ -74,7 +74,7 @@ class Disqus_Public {
 		}
 		$payload_user = base64_encode( json_encode( $payload_user ) );
 		$time = time();
-		$hmac = hash_hmac( 'sha1', $payload_user . ' ' . $time, $public_key );
+		$hmac = hash_hmac( 'sha1', $payload_user . ' ' . $time, $secret_key );
 
 		return $payload_user . ' ' . $hmac . ' ' . $time;
 	}
@@ -92,7 +92,8 @@ class Disqus_Public {
 		);
 
 		$public_key = get_option( 'disqus_public_key' );
-		$can_enable_sso = $public_key && get_option( 'disqus_secret_key' ) && get_option( 'disqus_sso_enabled' );
+		$secret_key = get_option( 'disqus_secret_key' );
+		$can_enable_sso = $public_key && $secret_key && get_option( 'disqus_sso_enabled' );
 		if ( $can_enable_sso ) {
 			$user = wp_get_current_user();
 			$login_redirect = get_admin_url( null, 'profile.php?opener=dsq-sso-login' );
@@ -105,7 +106,7 @@ class Disqus_Public {
 				'height' => '700',
 			);
 			$embed_vars['disqusConfig']['api_key'] = $public_key;
-			$embed_vars['disqusConfig']['remote_auth_s3'] = $this->remote_auth_s3_for_user( $user,  $public_key );
+			$embed_vars['disqusConfig']['remote_auth_s3'] = $this->remote_auth_s3_for_user( $user,  $secret_key );
 		}
 
 		return $embed_vars;

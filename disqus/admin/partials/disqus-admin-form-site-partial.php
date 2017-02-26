@@ -12,7 +12,7 @@
 
 ?>
 
-<form id="advancedConfigForm" action="" method="POST">
+<form id="advancedConfigForm" name="site" action="" method="POST">
     <table class="form-table">
         <tbody>
             <tr>
@@ -34,7 +34,7 @@
         </tbody>
     </table>
     <p class="submit">
-        <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php dsq_gettext_e( 'Save' ) ?>" />
+        <input type="submit" name="submit-site-form" id="submit" class="button button-primary" value="<?php dsq_gettext_e( 'Save' ) ?>" />
     </p>
     <?php wp_nonce_field( 'dsq_admin_nonce', 'dsq_admin_nonce' ); ?>
 </form>
