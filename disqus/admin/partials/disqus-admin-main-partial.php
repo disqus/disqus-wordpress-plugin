@@ -16,11 +16,8 @@ $site_name = esc_html( get_bloginfo( 'name' ) );
 <!-- Welcome Panel -->
 <div class="welcome-panel">
     <div class="welcome-panel-content">
-        <h2>
-            <?php dsq_gettext_e( 'Welcome Back' ) ?>
-        </h2>
         <p class="about-description">
-            <?php dsq_gettext_e( 'Check out what\'s been happening on %s', $site_name ) ?>
+            <?php dsq_gettext_e( 'Check out what\'s happening on %s', $site_name ) ?>
         </p>
         <div class="welcome-panel-column-container">
             <div class="welcome-panel-column">
@@ -64,28 +61,18 @@ $site_name = esc_html( get_bloginfo( 'name' ) );
 <!-- Plugin configuration -->
 <?php if ( current_user_can( 'manage_options' ) )  { ?>
 
-<div class="card">
+<section class="dsq-configure-group">
     <h2 class="title">
         <?php dsq_gettext_e( 'Plugin Settings' ) ?>
     </h2>
-    <div class="notice notice-warning inline">
-        <p>
-            <?php dsq_gettext_e( 'Changing these values may break plugin features or cause commenting to stop working.' ) ?>
-        </p>
-    </div>
-
-    <hr />
-
-    <section>
+    <div class="card">
         <h3>
             <?php dsq_gettext_e( 'Site' ) ?>
         </h3>
         <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-form-site-partial.php'; ?>
-    </section>
 
-    <hr />
+        <hr />
 
-    <section>
         <h3>
             <?php dsq_gettext_e( 'Single Sign-on' ) ?>
         </h3>
@@ -96,8 +83,8 @@ $site_name = esc_html( get_bloginfo( 'name' ) );
             </a>
         </p>
         <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-form-sso-partial.php'; ?>
-    </section>
-</div>
+    </div>
+</section>
 
 <?php } else { ?>
 
