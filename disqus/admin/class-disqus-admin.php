@@ -123,36 +123,44 @@ class Disqus_Admin {
 	 * @since    1.0.0
 	 */
 	function dsq_render_admin_index() {
+		$post_message = null;
+
 		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && !empty( $_POST ) ) {
 
 			// Verify nonce/referrer
 			if ( !check_admin_referer( 'dsq_admin_nonce', 'dsq_admin_nonce' ) ) {
-				dsq_gettext_e('This request is not valid.');
+				dsq_gettext_e( 'This request is not valid.' );
 				exit;
 			}
 
-		    // Posting to this page implies a change in configuration. This page supports posting
-		    // of the manual configuration through the form, or via the Disqus API Callback.
-		    if ( isset( $_POST['disqus_forum_url'] ) ) {
+			// Site confirguration form
+		    if ( isset( $_REQUEST['submit-site-form'] ) ) {
 		    	$normalized_shortname = preg_replace( '/\s\s+/', '', strtolower( $_POST['disqus_forum_url'] ) );
 		        update_option( 'disqus_forum_url', $normalized_shortname );
 
-		        add_action( 'admin_notices', 'updated_shortname_notice', 1, $normalized_shortname );
+				$post_message = dsq_gettext( 'Your settings have been updated.' );
 		    }
+
+			// SSO configuration form
+			if ( isset( $_REQUEST['submit-sso-form'] ) ) {
+				update_option( 'disqus_sso_enabled', isset( $_POST['disqus_sso_enabled'] ) );
+
+				$sso_options = array (
+					'disqus_public_key',
+					'disqus_secret_key',
+					'disqus_sso_button'
+				);
+				foreach ($sso_options as $opt) {
+					if ( isset( $_POST[$opt] ) ) {
+						update_option( $opt, esc_js( $_POST[$opt] ) );
+					}
+				}
+
+				$post_message = dsq_gettext( 'Your settings have been updated.' );
+			}
 		}
 
 		// Now show the admin page
 		require_once plugin_dir_path( __FILE__ ) . 'partials/disqus-admin-partial.php';
-	}
-
-	/**
-	 * Displays an admin notice indicating the shortname config has changed
-	 *
-	 * @since    1.0.0
-	 */
-	function updated_shortname_notice($shortname) {
-		echo '<div class="updated">' .
-        	dsq_gettext_e( 'You\'ve just installed %s onto your site!', $shortname )
-    	. '</div>';
 	}
 }

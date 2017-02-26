@@ -63,8 +63,24 @@ class Disqus_Public {
     	return $title;
 	}
 
+	private function remote_auth_s3_for_user( $user, $secret_key ) {
+		$payload_user = array();
+		if ( $user->ID ) {
+			$payload_user['id'] = $user->ID;
+			$payload_user['username'] = $user->display_name;
+			$payload_user['avatar'] = get_avatar( $user->ID, 92 );
+			$payload_user['email'] = $user->user_email;
+			$payload_user['url'] = $user->user_url;
+		}
+		$payload_user = base64_encode( json_encode( $payload_user ) );
+		$time = time();
+		$hmac = hash_hmac( 'sha1', $payload_user . ' ' . $time, $secret_key );
+
+		return $payload_user . ' ' . $hmac . ' ' . $time;
+	}
+
 	private function embed_vars_for_post( $post ) {
-		return array(
+		$embed_vars = array(
 			'disqusConfig' => array(
 				'platform' => 'wordpress',
 			),
@@ -74,6 +90,26 @@ class Disqus_Public {
 			'disqusUrl' => get_permalink(),
 			'postId' => $post->ID,
 		);
+
+		$public_key = get_option( 'disqus_public_key' );
+		$secret_key = get_option( 'disqus_secret_key' );
+		$can_enable_sso = $public_key && $secret_key && get_option( 'disqus_sso_enabled' );
+		if ( $can_enable_sso ) {
+			$user = wp_get_current_user();
+			$login_redirect = get_admin_url( null, 'profile.php?opener=dsq-sso-login' );
+			$embed_vars['disqusConfig']['sso'] = array(
+				'name' => esc_js( get_bloginfo( 'name' ) ),
+				'button' => esc_js( get_option( 'disqus_sso_button' ) ),
+				'url' => wp_login_url( $login_redirect ),
+				'logout' => wp_logout_url(),
+				'width' => '800',
+				'height' => '700',
+			);
+			$embed_vars['disqusConfig']['api_key'] = $public_key;
+			$embed_vars['disqusConfig']['remote_auth_s3'] = $this->remote_auth_s3_for_user( $user,  $secret_key );
+		}
+
+		return $embed_vars;
 	}
 
 	private function count_vars() {

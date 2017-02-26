@@ -10,7 +10,7 @@
  * @subpackage Disqus/admin/partials
  */
 $shortname = strtolower( get_option( 'disqus_forum_url' ) );
-$site_name = esc_html( get_option( 'blogname' ) );
+$site_name = esc_html( get_bloginfo( 'name' ) );
 ?>
 
 <!-- Welcome Panel -->
@@ -73,8 +73,29 @@ $site_name = esc_html( get_option( 'blogname' ) );
             <?php dsq_gettext_e( 'Changing these values may break plugin features or cause commenting to stop working.' ) ?>
         </p>
     </div>
-    <section class="dsq-admin-config">
-        <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-configure-partial.php'; ?>
+
+    <hr />
+
+    <section>
+        <h3>
+            <?php dsq_gettext_e( 'Site' ) ?>
+        </h3>
+        <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-form-site-partial.php'; ?>
+    </section>
+
+    <hr />
+
+    <section>
+        <h3>
+            <?php dsq_gettext_e( 'Single Sign-on' ) ?>
+        </h3>
+        <p class="description">
+            <?php dsq_gettext_e( 'Allow users to sign in with this site\'s user accounts. This is a premium-level feature and must be enabled for your organization.')  ?>
+            <a href="https://help.disqus.com/customer/portal/articles/1148635" target="_blank">
+                <?php dsq_gettext_e( 'Learn more' ) ?>
+            </a>
+        </p>
+        <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-form-sso-partial.php'; ?>
     </section>
 </div>
 

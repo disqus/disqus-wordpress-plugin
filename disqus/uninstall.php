@@ -19,3 +19,6 @@ if ( !current_user_can( 'install_plugins' ) ) {
 
 delete_option( 'disqus_forum_url' );
 delete_option( 'disqus_public_key' );
+delete_option( 'disqus_secret_key' );
+delete_option( 'disqus_sso_enabled' );
+delete_option( 'disqus_sso_button' );
