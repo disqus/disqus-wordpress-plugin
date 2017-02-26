@@ -145,6 +145,8 @@ class Disqus_Public {
 		if ( !$this->dsq_can_load() )
 			return;
 
+		add_filter( 'comments_number', array( $this, 'dsq_comment_count_link_text' ) );
+
 		$count_vars = $this->count_vars();
 		wp_enqueue_script( $this->disqus . '_count', plugin_dir_url( __FILE__ ) . 'js/comment_count.js', array(), $this->version, true );
 
@@ -164,6 +166,15 @@ class Disqus_Public {
 		wp_localize_script( $this->disqus . '_embed', 'embedVars', $embed_vars );
 
 		return plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/disqus-public-display.php';
+	}
+
+	public function dsq_comment_count_link_text( $comment_text ) {
+		if ( !$this->dsq_can_load() )
+			return $comment_text;
+
+		global $post;
+
+		return '<span class="dsq-postid" data-dsqidentifier="' . esc_attr( $this->dsq_identifier_for_post( $post ) ) . '">' . $comment_text . '</span>';
 	}
 
 	/**

@@ -67,8 +67,11 @@ if ( get_option( 'disqus_forum_url' ) ) {
     require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-login-partial.php';
 }
 
-require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-wpcomments-partial.php';
-
 ?>
+        <section class="dsq-configure-group">
+<?php
+require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-wpcomments-partial.php';
+?>
+        </section>
     </div>
 </div>
