@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: 2017-02-21 15:50-0800\n"
-"PO-Revision-Date: 2017-02-21 15:50-0800\n"
+"Project-Id-Version: Disqus Wordpress Plugin\n"
+"POT-Creation-Date: 2017-02-26 22:26-0700\n"
+"PO-Revision-Date: 2017-03-03 13:32-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -15,29 +15,74 @@ msgstr ""
 "X-Poedit-KeywordsList: dsq_gettext_e;dsq_gettext\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/class-disqus-admin.php:130
+#: admin/class-disqus-admin.php:132
 msgid "This request is not valid."
 msgstr ""
 
-#: admin/class-disqus-admin.php:155
-#, php-format
-msgid "You've just installed %s onto your site!"
+#: admin/class-disqus-admin.php:141 admin/class-disqus-admin.php:159
+msgid "Your settings have been updated."
 msgstr ""
 
-#: admin/partials/disqus-admin-configure-partial.php:21
-msgid "Site Shortname"
+#: admin/partials/disqus-admin-form-site-partial.php:21
+msgid "Shortname"
 msgstr ""
 
-#: admin/partials/disqus-admin-configure-partial.php:27
+#: admin/partials/disqus-admin-form-site-partial.php:27
 msgid "Your site's unique identifier"
 msgstr ""
 
-#: admin/partials/disqus-admin-configure-partial.php:30
+#: admin/partials/disqus-admin-form-site-partial.php:29
 msgid "What is this?"
 msgstr ""
 
-#: admin/partials/disqus-admin-configure-partial.php:49
+#: admin/partials/disqus-admin-form-site-partial.php:37
+#: admin/partials/disqus-admin-form-sso-partial.php:82
 msgid "Save"
+msgstr ""
+
+#: admin/partials/disqus-admin-form-sso-partial.php:21
+msgid "Enable SSO"
+msgstr ""
+
+#: admin/partials/disqus-admin-form-sso-partial.php:27
+msgid ""
+"This will enable Single Sign-on for this site, if already enabled for your "
+"Disqus organization."
+msgstr ""
+
+#: admin/partials/disqus-admin-form-sso-partial.php:34
+msgid "API Public Key"
+msgstr ""
+
+#: admin/partials/disqus-admin-form-sso-partial.php:40
+msgid "The public key of your application."
+msgstr ""
+
+#: admin/partials/disqus-admin-form-sso-partial.php:42
+#: admin/partials/disqus-admin-form-sso-partial.php:58
+msgid "View your applications"
+msgstr ""
+
+#: admin/partials/disqus-admin-form-sso-partial.php:50
+msgid "API Secret Key"
+msgstr ""
+
+#: admin/partials/disqus-admin-form-sso-partial.php:56
+msgid "The secret key of your application."
+msgstr ""
+
+#: admin/partials/disqus-admin-form-sso-partial.php:66
+msgid "Custom Login Button"
+msgstr ""
+
+#: admin/partials/disqus-admin-form-sso-partial.php:72
+#, php-format
+msgid "A link to a .png, .gif, or .jpg image to show as a button in %s."
+msgstr ""
+
+#: admin/partials/disqus-admin-form-sso-partial.php:74
+#: admin/partials/disqus-admin-main-partial.php:126
+msgid "Learn more"
 msgstr ""
 
 #: admin/partials/disqus-admin-login-partial.php:19
@@ -100,65 +145,91 @@ msgid "Get Shortname"
 msgstr ""
 
 #: admin/partials/disqus-admin-main-partial.php:20
+#: admin/partials/disqus-admin-partial.php:48
 msgid "Welcome Back"
 msgstr ""
 
 #: admin/partials/disqus-admin-main-partial.php:23
 #, php-format
-msgid "Check out what's been happening on %s"
+msgid "Check out what's happening on %s"
 msgstr ""
 
 #: admin/partials/disqus-admin-main-partial.php:28
-msgid "Comments"
+#: admin/partials/disqus-admin-main-partial.php:53
+msgid "Engagement"
 msgstr ""
 
 #: admin/partials/disqus-admin-main-partial.php:31
-msgid "Read, manage, and engage with comments and people on your site."
-msgstr ""
-
-#: admin/partials/disqus-admin-main-partial.php:34
 msgid "Moderate Comments"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:39
-msgid "Analytics"
+#: admin/partials/disqus-admin-main-partial.php:34
+msgid "Read, manage, and engage with comments and people on your site."
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:42
+#: admin/partials/disqus-admin-main-partial.php:40
 msgid ""
 "Understand your community with engagement analytics, popular content, and "
 "more."
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:45
+#: admin/partials/disqus-admin-main-partial.php:43
 msgid "Analyze Engagement"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:50
+#: admin/partials/disqus-admin-main-partial.php:48
+msgid "Analytics"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:58
+msgid "Revenue"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:63
+msgid "Popular Content"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:70
 msgid "Configure"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:53
-#, php-format
-msgid ""
-"Customize %s on your site with identity, appearance, and community options."
+#: admin/partials/disqus-admin-main-partial.php:75
+msgid "Identity"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:56
-msgid "Edit Settings"
+#: admin/partials/disqus-admin-main-partial.php:80
+msgid "Community Rules"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:69
+#: admin/partials/disqus-admin-main-partial.php:85
+msgid "huh"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:100
 msgid "Plugin Settings"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:73
+#: admin/partials/disqus-admin-main-partial.php:104
 msgid ""
 "Changing these values may break plugin features or cause commenting to stop "
 "working."
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:84
+#: admin/partials/disqus-admin-main-partial.php:112
+msgid "Site"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:121
+msgid "Single Sign-on"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:124
+msgid ""
+"Allow users to sign in with this site's user accounts. This is a premium-"
+"level feature and must be enabled for your organization."
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:136
 msgid ""
 "You don't have permission to make any changes here. Please contact the site "
 "administrator to get access."

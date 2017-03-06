@@ -64,7 +64,6 @@ $site_name = esc_html( get_bloginfo( 'name' ) );
         <p class="submit">
             <a class="button" href="https://disqus.com/admin/install/wordpress/" target="_blank">
                 <?php dsq_gettext_e( 'Get Shortname' ) ?>
-
             </a>
         </p>
         <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-form-site-partial.php'; ?>

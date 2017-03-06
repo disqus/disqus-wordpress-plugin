@@ -41,18 +41,26 @@ class Disqus_Admin {
 	private $version;
 
 	/**
+	 * The unique Disqus forum shortname.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string    $shortname    The unique Disqus forum shortname.
+	 */
+	private $shortname;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
 	 * @param      string    $disqus       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $disqus, $version ) {
+	public function __construct( $disqus, $version, $shortname ) {
 
 		$this->disqus = $disqus;
 		$this->version = $version;
-
-		add_action( 'admin_menu', array( $this, 'dsq_contruct_admin_menu' ));
+		$this->shortname = $shortname;
 	}
 
 	/**
@@ -102,19 +110,47 @@ class Disqus_Admin {
 	}
 
 	/**
+	 * Builds the admin toolbar menu with the various Disqus options
+	 *
+	 * @since    1.0.0
+	 */
+	public function dsq_contruct_admin_menu() {
+		// Replace the existing WordPress comments menu item to prevent confusion
+		// about where to administer comments. The Disqus page will have a link to
+		// see WordPress comments.
+		if ( current_user_can ( 'moderate_comments' )  ) {
+			remove_menu_page( 'edit-comments.php' );
+			add_menu_page( 'Disqus', 'Disqus', 'moderate_comments', 'disqus', array( $this, 'dsq_render_admin_index' ), 'dashicons-admin-comments', 24 );
+		}
+	}
+
+	/**
 	 * Builds the admin menu with the various Disqus options
 	 *
 	 * @since    1.0.0
 	 */
-	function dsq_contruct_admin_menu() {
-		// Remove the existing Wordpress comments menu item to prevent confusion
-		// about where to administer comments. The admin will have a link to this
-		// page.
+	public function dsq_construct_admin_bar_menu( $wp_admin_bar ) {
+		// Replace the existing WordPress comments menu item to prevent confusion
+		// about where to administer comments. The Disqus page will have a link to
+		// see WordPress comments.
 		if ( current_user_can ( 'moderate_comments' )  ) {
-			remove_menu_page( 'edit-comments.php' );
-		}
+			$wp_admin_bar->remove_node( 'wp-admin-bar-comments' );
 
-        add_menu_page( 'Disqus', 'Disqus', 'moderate_comments', 'disqus', array( $this, 'dsq_render_admin_index' ), 'dashicons-admin-comments', 24 );
+			$new_node_args = array(
+				'id' => 'disqus',
+				'title' => 'Disqus',
+				'href' => 'https://disqus.com/',
+				'meta' => array(
+					'class' => 'disqus-menu-bar'
+				)
+			);
+
+			$wp_admin_bar->add_node( $new_node_args );
+		}
+	}
+
+	private function get_admin_url_for_forum( $path ) {
+		return 'https://' . $this->shortname . '.disqus.com/admin/' . $path . '/';
 	}
 
 	/**
@@ -122,7 +158,7 @@ class Disqus_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	function dsq_render_admin_index() {
+	public function dsq_render_admin_index() {
 		$post_message = null;
 
 		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && !empty( $_POST ) ) {
@@ -137,6 +173,7 @@ class Disqus_Admin {
 		    if ( isset( $_REQUEST['submit-site-form'] ) ) {
 		    	$normalized_shortname = preg_replace( '/\s\s+/', '', strtolower( $_POST['disqus_forum_url'] ) );
 		        update_option( 'disqus_forum_url', $normalized_shortname );
+				$this->shortname = $normalized_shortname;
 
 				$post_message = dsq_gettext( 'Your settings have been updated.' );
 		    }

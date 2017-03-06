@@ -9,8 +9,6 @@
  * @package    Disqus
  * @subpackage Disqus/admin/partials
  */
-$shortname = strtolower( get_option( 'disqus_forum_url' ) );
-$site_name = esc_html( get_bloginfo( 'name' ) );
 ?>
 
 <!-- Welcome Panel -->
@@ -20,83 +18,94 @@ $site_name = esc_html( get_bloginfo( 'name' ) );
             <?php dsq_gettext_e( 'Welcome Back' ) ?>
         </h2>
         <p class="about-description">
-            <?php dsq_gettext_e( 'Check out what\'s been happening on %s', $site_name ) ?>
+            <?php dsq_gettext_e( 'Check out what\'s happening on %s', esc_html( get_bloginfo( 'name' ) ) ) ?>
         </p>
         <div class="welcome-panel-column-container">
             <div class="welcome-panel-column">
-                <h3>
+				<h3>
                     <?php dsq_gettext_e( 'Comments' ) ?>
                 </h3>
-                <p class="description">
-                    <?php dsq_gettext_e( 'Read, manage, and engage with comments and people on your site.' ) ?>
-                </p>
-                <a class="button" href="https://<?php echo $shortname ?>.disqus.com/admin/moderate/" target="_blank">
-                    <?php dsq_gettext_e( 'Moderate Comments' ) ?>
+				<a class="button button-primary button-hero" href="<?php echo $this->get_admin_url_for_forum( 'moderate' ) ?>">
+                    <?php dsq_gettext_e( 'Moderate' ) ?>
                 </a>
-            </div>
+                <p class="description">
+                    <a href="<?php echo $this->get_admin_url_for_forum( 'filters/banned' ) ?>" target="_blank">
+                        <?php dsq_gettext_e( 'Manage banned users and word filters' ) ?>
+                    </a>
+                </p>
+			</div>
             <div class="welcome-panel-column">
-                <h3>
+				<h3>
                     <?php dsq_gettext_e( 'Analytics' ) ?>
                 </h3>
-                <p class="description">
-                    <?php dsq_gettext_e( 'Understand your community with engagement analytics, popular content, and more.' ) ?>
-                </p>
-                <a class="button" href="https://<?php echo $shortname ?>.disqus.com/admin/analytics/comments/" target="_blank">
-                    <?php dsq_gettext_e( 'Analyze Engagement' ) ?>
-                </a>
-            </div>
+				<ul>
+					<li>
+                        <a class="welcome-icon dashicons-megaphone" href="<?php echo $this->get_admin_url_for_forum( 'analytics/comments' ) ?>" target="_blank">
+                            <?php dsq_gettext_e( 'Engagement' ) ?>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="welcome-icon dashicons-chart-line" href="<?php echo $this->get_admin_url_for_forum( 'analytics/revenue' ) ?>" target="_blank">
+                            <?php dsq_gettext_e( 'Revenue' ) ?>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="welcome-icon dashicons-heart" href="<?php echo $this->get_admin_url_for_forum( 'analytics/content' ) ?>" target="_blank">
+                            <?php dsq_gettext_e( 'Popular Content' ) ?>
+                        </a>
+                    </li>
+				</ul>
+			</div>
             <div class="welcome-panel-column">
-                <h3>
-                    <?php dsq_gettext_e( 'Configure' ) ?>
+				<h3>
+                    <?php dsq_gettext_e( 'Settings' ) ?>
                 </h3>
-                <p class="description">
-                    <?php dsq_gettext_e( 'Customize %s on your site with identity, appearance, and community options.', 'Disqus' ) ?>
-                </p>
-                <a class="button" href="https://<?php echo $shortname ?>.disqus.com/admin/settings/general/" target="_blank">
-                    <?php dsq_gettext_e( 'Edit Settings' ) ?>
-                </a>
-            </div>
+				<ul>
+					<li>
+                        <a class="welcome-icon dashicons-admin-appearance" href="<?php echo $this->get_admin_url_for_forum( 'settings/general' ) ?>" target="_blank">
+                            <?php dsq_gettext_e( 'Identity' ) ?>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="welcome-icon dashicons-format-chat" href="<?php echo $this->get_admin_url_for_forum( 'settings/community' ) ?>" target="_blank">
+                            <?php dsq_gettext_e( 'Community Rules' ) ?>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="welcome-icon dashicons-admin-settings" href="<?php echo $this->get_admin_url_for_forum( 'settings/advanced' ) ?>" target="_blank">
+                            <?php dsq_gettext_e( 'Advanced' ) ?>
+                        </a>
+                    </li>
+				</ul>
+			</div>
         </div>
     </div>
 </div>
 
-
-<!-- Plugin configuration -->
 <?php if ( current_user_can( 'manage_options' ) )  { ?>
 
+<h2 class="title">
+    <?php dsq_gettext_e( 'Plugin Configuration' ) ?>
+</h2>
+
 <div class="card">
-    <h2 class="title">
-        <?php dsq_gettext_e( 'Plugin Settings' ) ?>
-    </h2>
-    <div class="notice notice-warning inline">
-        <p>
-            <?php dsq_gettext_e( 'Changing these values may break plugin features or cause commenting to stop working.' ) ?>
-        </p>
-    </div>
+    <h3>
+        <?php dsq_gettext_e( 'Site' ) ?>
+    </h3>
+    <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-form-site-partial.php'; ?>
+</div>
 
-    <hr />
-
-    <section>
-        <h3>
-            <?php dsq_gettext_e( 'Site' ) ?>
-        </h3>
-        <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-form-site-partial.php'; ?>
-    </section>
-
-    <hr />
-
-    <section>
-        <h3>
-            <?php dsq_gettext_e( 'Single Sign-on' ) ?>
-        </h3>
-        <p class="description">
-            <?php dsq_gettext_e( 'Allow users to sign in with this site\'s user accounts. This is a premium-level feature and must be enabled for your organization.')  ?>
-            <a href="https://help.disqus.com/customer/portal/articles/1148635" target="_blank">
-                <?php dsq_gettext_e( 'Learn more' ) ?>
-            </a>
-        </p>
-        <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-form-sso-partial.php'; ?>
-    </section>
+<div class="card">
+    <h3>
+        <?php dsq_gettext_e( 'Single Sign-on' ) ?>
+    </h3>
+    <p class="description">
+        <?php dsq_gettext_e( 'Allow users to sign in with this site\'s user accounts. This is a premium-level feature and must be enabled for your organization.')  ?>
+        <a href="https://help.disqus.com/customer/portal/articles/1148635" target="_blank">
+            <?php dsq_gettext_e( 'Learn more' ) ?>
+        </a>
+    </p>
+    <?php require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-form-sso-partial.php'; ?>
 </div>
 
 <?php } else { ?>

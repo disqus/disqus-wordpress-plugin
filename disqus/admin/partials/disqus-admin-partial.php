@@ -44,19 +44,16 @@
                 </g>
             </svg>
         </a>
-        <h2>
-            <?php dsq_gettext_e( 'Welcome Back' ) ?>
-<?php if ( null != $post_message ) { ?>
-            <div class="notice notice-success inline">
-                <p>
-                    <?php echo $post_message ?>
-                </p>
-            </div>
-<?php } ?>
-        </h2>
-<?php
 
-if ( get_option( 'disqus_forum_url' ) ) {
+<?php if ( null != $post_message ) { ?>
+        <div class="notice notice-success inline is-dismissible">
+            <p>
+                <?php echo $post_message ?>
+            </p>
+        </div>
+<?php }
+
+if ( $this->shortname ) {
 
     // This means the user has configured a shortname for this site and can view the options
     require_once plugin_dir_path( __FILE__ ) . 'disqus-admin-main-partial.php';

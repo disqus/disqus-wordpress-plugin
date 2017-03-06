@@ -57,6 +57,15 @@ class Disqus {
 	protected $version;
 
 	/**
+	 * The unique Disqus forum shortname.
+	 *
+	 * @since    1.0.0
+	 * @access   protected
+	 * @var      string    $shortname    The unique Disqus forum shortname.
+	 */
+	protected $shortname;
+
+	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -69,6 +78,7 @@ class Disqus {
 
 		$this->disqus = 'disqus';
 		$this->version = '1.0.0';
+		$this->shortname = strtolower( get_option( 'disqus_forum_url' ) );
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -148,10 +158,12 @@ class Disqus {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
-		$plugin_admin = new Disqus_Admin( $this->get_disqus_name(), $this->get_version() );
+		$plugin_admin = new Disqus_Admin( $this->get_disqus_name(), $this->get_version(), $this->get_shortname() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'dsq_contruct_admin_menu' );
+		$this->loader->add_action( 'admin_bar_menu', $plugin_admin, 'dsq_construct_admin_bar_menu', 999 );
 	}
 
 	/**
@@ -162,9 +174,15 @@ class Disqus {
 	 * @access   private
 	 */
 	private function define_public_hooks() {
-		$plugin_public = new Disqus_Public( $this->get_disqus_name(), $this->get_version() );
+		global $post;
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$plugin_public = new Disqus_Public( $this->get_disqus_name(), $this->get_version(), $this->get_shortname() );
+
+		$this->loader->add_filter('comments_number', $plugin_public, 'dsq_comments_link_template');
+		$this->loader->add_filter( 'comments_template', $plugin_public, 'dsq_comments_template' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_comment_count' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_comment_embed' );
+		$this->loader->add_action( 'show_user_profile', $plugin_public, 'dsq_close_window_template' );
 	}
 
 	/**
@@ -205,6 +223,16 @@ class Disqus {
 	 */
 	public function get_version() {
 		return $this->version;
+	}
+
+	/**
+	 * Retrieve the installed Disqus shortname.
+	 *
+	 * @since     1.0.0
+	 * @return    string    The installed shortname.
+	 */
+	public function get_shortname() {
+		return $this->shortname;
 	}
 
 	/**

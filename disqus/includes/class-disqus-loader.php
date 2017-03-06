@@ -50,33 +50,6 @@ class Disqus_Loader {
 		$this->actions = array();
 		$this->filters = array();
 
-		// TODO: Add an action to login_head that includes javascript which checks querystring for "disqus_sso=1".
-		// If so, when the user is logged in, and there's a window.parent, close the window. This is to make it
-		// compatible with SSO.
-		// https://codex.wordpress.org/Plugin_API/Action_Reference/login_head
-
-		// TODO: Move all actions into this constructor using $this->add_action()
-
-		add_action( 'show_user_profile', array( $this, 'dsq_close_window' ) );
-	}
-
-	/**
-	 * Renders a script which checks to see if the window was opened
-	 * by the Disqus embed for Single Sign-on purposes, and closes
-	 * itself.
-	 *
-	 * @since    1.0.0
-	*/
-	public function dsq_close_window() {
-?>
-		<script>
-			var win = window;
-			var isWindowed = win.opener && win.opener !== win.top;
-			var isDsqRedirect = win.location.href.indexOf('opener=dsq-sso-login') > -1;
-			if (isWindowed && isDsqRedirect)
-				window.close();
-		</script>;
-<?php
 	}
 
 	/**

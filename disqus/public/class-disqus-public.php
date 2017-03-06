@@ -47,10 +47,10 @@ class Disqus_Public {
 	 * @param      string    $disqus       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $disqus, $version ) {
+	public function __construct( $disqus, $version, $shortname ) {
 		$this->disqus = $disqus;
 		$this->version = $version;
-		$this->shortname = strtolower( get_option( 'disqus_forum_url' ) );
+		$this->shortname = $shortname;
 	}
 
 	private function dsq_identifier_for_post( $post ) {
@@ -112,74 +112,95 @@ class Disqus_Public {
 		return $embed_vars;
 	}
 
-	private function count_vars() {
-		return array(
-			'disqusShortname' => $this->shortname,
-		);
+	public function dsq_comments_link_template( $comment_text ) {
+		if ( $this->dsq_can_load() ) {
+			return require plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/disqus-public-comment-text.php';
+		} else {
+			return $comment_text;
+		}
+	}
+
+	public function dsq_comments_template() {
+		global $post;
+
+		if ( $this->dsq_embed_can_load_for_post( $post ) ) {
+
+			do_action( 'dsq_before_comments' );
+			do_action( 'dsq_enqueue_comments_script' );
+
+			return plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/disqus-public-display.php';
+		}
+	}
+
+	/**
+	 * Renders a script which checks to see if the window was opened
+	 * by the Disqus embed for Single Sign-on purposes, and closes
+	 * itself.
+	 *
+	 * @since    1.0.0
+	*/
+	public function dsq_close_window_template() {
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/disqus-public-sso-login-profile.php';
+	}
+
+	public function enqueue_comment_count() {
+		if ( $this->dsq_can_load() ) {
+
+			$count_vars = array(
+				'disqusShortname' => $this->shortname,
+			);
+
+			wp_enqueue_script( $this->disqus . '_count', plugin_dir_url( __FILE__ ) . 'js/comment_count.js', array(), $this->version, true );
+			wp_localize_script( $this->disqus . '_count', 'countVars', $count_vars );
+		}
+	}
+
+	public function enqueue_comment_embed() {
+		global $post;
+
+		if ( $this->dsq_embed_can_load_for_post( $post ) ) {
+
+			$embed_vars = $this->embed_vars_for_post( $post );
+
+			wp_enqueue_script( $this->disqus . '_embed', plugin_dir_url( __FILE__ ) . 'js/comment_embed.js', array(), $this->version, true );
+			wp_localize_script( $this->disqus . '_embed', 'embedVars', $embed_vars );
+		}
 	}
 
 	private function dsq_can_load() {
+		// Don't load any Disqus scripts if there's no shortname
 		if ( !$this->shortname )
 			return false;
 
+		// Don't load any Disqus scripts on feed pages
 		if ( is_feed() )
 			return false;
 
 		return true;
 	}
 
-	private function dsq_can_load_for_post( $post ) {
+	private function dsq_embed_can_load_for_post( $post ) {
+		// Checks if the plugin is configured properly
+		// and is a valid page.
 		if ( !$this->dsq_can_load() )
 			return false;
 
+		// Make sure we have a $post object
 		if ( !isset( $post ) )
 			return false;
 
+		// Don't load embed when post is a draft
 		if ( 'draft' == $post->post_status )
+			return false;
+
+		// Don't load embed when comments are closed on a post
+		if ( 'open' != $post->comment_status )
+			return false;
+
+		// Don't load embed if it's not a single post page
+		if ( !is_singular() )
 			return false;
 
 		return true;
 	}
-
-	private function load_comment_count() {
-		if ( !$this->dsq_can_load() )
-			return;
-
-		$count_vars = $this->count_vars();
-		wp_enqueue_script( $this->disqus . '_count', plugin_dir_url( __FILE__ ) . 'js/comment_count.js', array(), $this->version, true );
-
-		wp_localize_script( $this->disqus . '_count', 'countVars', $count_vars );
-	}
-
-	private function load_comment_embed() {
-		add_filter( 'comments_template', array( $this, 'dsq_comments_template') );
-	}
-
-	public function dsq_comments_template() {
-		global $post;
-
-		$embed_vars = $this->embed_vars_for_post( $post );
-
-		wp_enqueue_script( $this->disqus . '_embed', plugin_dir_url( __FILE__ ) . 'js/comment_embed.js', array(), $this->version, true );
-		wp_localize_script( $this->disqus . '_embed', 'embedVars', $embed_vars );
-
-		return plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/disqus-public-display.php';
-	}
-
-	/**
-	 * Register the stylesheets for the public-facing side of the site.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_scripts() {
-		global $post;
-
-		if ( !$this->dsq_can_load_for_post( $post ) )
-			return;
-
-		$this->load_comment_count();
-		$this->load_comment_embed();
-	}
-
-
 }

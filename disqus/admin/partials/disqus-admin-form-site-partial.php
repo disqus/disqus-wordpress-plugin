@@ -22,7 +22,7 @@
                     </label>
                 </th>
                 <td>
-                    <input type="text" id="shortname" name="disqus_forum_url" value="<?php echo esc_attr( get_option( 'disqus_forum_url' ) ) ?>" class="regular-text" />
+                    <input type="text" id="shortname" name="disqus_forum_url" value="<?php echo esc_attr( $this->shortname ) ?>" class="regular-text" />
                     <p class="description">
                         <?php dsq_gettext_e( 'Your site\'s unique identifier' ) ?>
                         <a href="https://help.disqus.com/customer/portal/articles/466208" target="_blank">
