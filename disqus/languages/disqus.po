@@ -211,8 +211,8 @@ msgstr ""
 
 #: admin/partials/disqus-admin-main-partial.php:104
 msgid ""
-"Changing these values may break plugin features or cause commenting to stop "
-"working."
+"Allow users to sign in with this site's user accounts. This is a premium-"
+"level feature and must be enabled for your organization."
 msgstr ""
 
 #: admin/partials/disqus-admin-main-partial.php:112
@@ -235,7 +235,11 @@ msgid ""
 "administrator to get access."
 msgstr ""
 
-#: admin/partials/disqus-admin-wpcomments-partial.php:16
+#: admin/partials/disqus-admin-partial.php:48
+msgid "Welcome Back"
+msgstr ""
+
+#: admin/partials/disqus-admin-wpcomments-partial.php:15
 msgid "WordPress Comments"
 msgstr ""
 
@@ -248,5 +252,5 @@ msgid ""
 msgstr ""
 
 #: admin/partials/disqus-admin-wpcomments-partial.php:25
-msgid "View Comments"
+msgid "View WordPress Comments"
 msgstr ""

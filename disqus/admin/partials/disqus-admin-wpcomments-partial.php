@@ -21,8 +21,8 @@
         </p>
     </div>
     <p class="submit">
-        <a class="button" href="<?php echo get_admin_url( null, 'edit-comments.php' ) ?>">
-            <?php dsq_gettext_e( 'View Comments' ) ?>
+        <a class="button button-small" href="<?php echo get_admin_url( null, 'edit-comments.php' ) ?>">
+            <?php dsq_gettext_e( 'View WordPress Comments' ) ?>
         </a>
     </p>
 </div>
