@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Disqus Wordpress Plugin\n"
-"POT-Creation-Date: 2017-02-26 22:26-0700\n"
-"PO-Revision-Date: 2017-03-03 13:32-0800\n"
+"POT-Creation-Date: 2017-03-06 16:32-0800\n"
+"PO-Revision-Date: 2017-03-06 16:32-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -15,11 +15,11 @@ msgstr ""
 "X-Poedit-KeywordsList: dsq_gettext_e;dsq_gettext\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/class-disqus-admin.php:132
+#: admin/class-disqus-admin.php:168
 msgid "This request is not valid."
 msgstr ""
 
-#: admin/class-disqus-admin.php:141 admin/class-disqus-admin.php:159
+#: admin/class-disqus-admin.php:178 admin/class-disqus-admin.php:196
 msgid "Your settings have been updated."
 msgstr ""
 
@@ -81,7 +81,7 @@ msgid "A link to a .png, .gif, or .jpg image to show as a button in %s."
 msgstr ""
 
 #: admin/partials/disqus-admin-form-sso-partial.php:74
-#: admin/partials/disqus-admin-main-partial.php:126
+#: admin/partials/disqus-admin-main-partial.php:102
 msgid "Learn more"
 msgstr ""
 
@@ -144,102 +144,80 @@ msgstr ""
 msgid "Get Shortname"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:20
-#: admin/partials/disqus-admin-partial.php:48
-msgid "Welcome Back"
-msgstr ""
-
-#: admin/partials/disqus-admin-main-partial.php:23
+#: admin/partials/disqus-admin-main-partial.php:18
 #, php-format
 msgid "Check out what's happening on %s"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:28
-#: admin/partials/disqus-admin-main-partial.php:53
-msgid "Engagement"
+#: admin/partials/disqus-admin-main-partial.php:23
+msgid "Comments"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:31
-msgid "Moderate Comments"
+#: admin/partials/disqus-admin-main-partial.php:26
+msgid "Moderate"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:34
-msgid "Read, manage, and engage with comments and people on your site."
+#: admin/partials/disqus-admin-main-partial.php:30
+msgid "Manage banned users and word filters"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:40
-msgid ""
-"Understand your community with engagement analytics, popular content, and "
-"more."
-msgstr ""
-
-#: admin/partials/disqus-admin-main-partial.php:43
-msgid "Analyze Engagement"
-msgstr ""
-
-#: admin/partials/disqus-admin-main-partial.php:48
+#: admin/partials/disqus-admin-main-partial.php:36
 msgid "Analytics"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:58
+#: admin/partials/disqus-admin-main-partial.php:41
+msgid "Engagement"
+msgstr ""
+
+#: admin/partials/disqus-admin-main-partial.php:46
 msgid "Revenue"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:63
+#: admin/partials/disqus-admin-main-partial.php:51
 msgid "Popular Content"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:70
-msgid "Configure"
+#: admin/partials/disqus-admin-main-partial.php:58
+msgid "Settings"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:75
+#: admin/partials/disqus-admin-main-partial.php:63
 msgid "Identity"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:80
+#: admin/partials/disqus-admin-main-partial.php:68
 msgid "Community Rules"
 msgstr ""
 
+#: admin/partials/disqus-admin-main-partial.php:73
+msgid "Advanced"
+msgstr ""
+
 #: admin/partials/disqus-admin-main-partial.php:85
-msgid "huh"
+msgid "Plugin Configuration"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:100
-msgid "Plugin Settings"
-msgstr ""
-
-#: admin/partials/disqus-admin-main-partial.php:104
-msgid ""
-"Allow users to sign in with this site's user accounts. This is a premium-"
-"level feature and must be enabled for your organization."
-msgstr ""
-
-#: admin/partials/disqus-admin-main-partial.php:112
+#: admin/partials/disqus-admin-main-partial.php:90
 msgid "Site"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:121
+#: admin/partials/disqus-admin-main-partial.php:97
 msgid "Single Sign-on"
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:124
+#: admin/partials/disqus-admin-main-partial.php:100
 msgid ""
 "Allow users to sign in with this site's user accounts. This is a premium-"
 "level feature and must be enabled for your organization."
 msgstr ""
 
-#: admin/partials/disqus-admin-main-partial.php:136
+#: admin/partials/disqus-admin-main-partial.php:111
 msgid ""
 "You don't have permission to make any changes here. Please contact the site "
 "administrator to get access."
 msgstr ""
 
-#: admin/partials/disqus-admin-partial.php:48
-msgid "Welcome Back"
-msgstr ""
-
-#: admin/partials/disqus-admin-wpcomments-partial.php:15
+#: admin/partials/disqus-admin-wpcomments-partial.php:16
 msgid "WordPress Comments"
 msgstr ""
 

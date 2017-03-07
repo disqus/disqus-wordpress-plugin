@@ -15,11 +15,7 @@
 <div class="welcome-panel">
     <div class="welcome-panel-content">
         <p class="about-description">
-<<<<<<< HEAD
-            <?php dsq_gettext_e( 'Check out what\'s happening on %s', esc_html( get_bloginfo( 'name' ) ) ) ?>
-=======
             <?php dsq_gettext_e( 'Check out what\'s happening on %s', $site_name ) ?>
->>>>>>> origin/master
         </p>
         <div class="welcome-panel-column-container">
             <div class="welcome-panel-column">
