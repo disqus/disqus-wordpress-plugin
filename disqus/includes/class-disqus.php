@@ -164,6 +164,12 @@ class Disqus {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'dsq_contruct_admin_menu' );
 		$this->loader->add_action( 'admin_bar_menu', $plugin_admin, 'dsq_construct_admin_bar_menu', 999 );
+		$this->loader->add_action( 'rest_api_init', $plugin_admin, 'dsq_rest_add_endpoints' );
+
+		// Add a filter to allow anonymous comments from the API. This is required because you must be logged in, even
+		// if your WordPress settings say otherwise.
+		// TODO: Only add this filter if syncing is enabled.
+		$this->loader->add_filter( 'rest_allow_anonymous_comments', $plugin_admin, 'filter_rest_allow_anonymous_comments' );
 	}
 
 	/**
