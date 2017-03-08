@@ -240,12 +240,12 @@ class Disqus_Admin {
 	 * @return   WP_REST_Response     The API response object.
 	 */
 	public function dsq_rest_sync_comment( $data ) {
-		$post_id = $data['post_id'];
+		$dsq_post_id = $data['post_id'];
 		$secret_key = get_option( 'disqus_secret_key' );
 		$access_token = get_option( 'disqus_admin_access_token' );
 
 		if ( !$secret_key ) {
-			return new WP_Error( 'api_error', 'Secret key is not set.' );
+			return $this->dsq_rest_get_error( 'Secret key is not set.' );
 		}
 
 		// TODO: Check a custom header with the Disqus API secret key, sent in the request, and compare
@@ -254,7 +254,7 @@ class Disqus_Admin {
 		$api_url = Disqus_Admin::DISQUS_API_BASE . 'posts/details.json?'
 			. 'api_secret=' . $secret_key
 			. '&access_token=' . $access_token
-			. '&post=' . (string)$post_id
+			. '&post=' . (string)$dsq_post_id
 			. '&related=thread';
 
 		$dsq_response = wp_remote_get( $api_url, array(
@@ -264,20 +264,21 @@ class Disqus_Admin {
 		) );
 
 		if ( !is_array( $dsq_response ) ) {
-			return new WP_Error( 'api_error', 'Error requesting the Disqus API.' );
+			return $this->dsq_rest_get_error( 'Unknown error requesting the Disqus API.' );
 		}
 
 		$dsq_response_data = json_decode( $dsq_response['body'] );
 
 		if ( 0 !== $dsq_response_data->code ) {
-			// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss
-			return new WP_Error( 'api_error', $dsq_response_data->response );
+			return $this->dsq_rest_get_error( $dsq_response_data->response, array(
+				// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss
+			) );
 		}
 
 		$post = $dsq_response_data->response;
 
 		if ( $this->shortname !== $post->forum ) {
-			return new WP_Error( 'api_error', 'The comment\'s forum does not match the installed forum.' );
+			return $this->dsq_rest_get_error( 'The comment\'s forum does not match the installed forum.' );
 		}
 
 		// Check to make sure we haven't synced this comment yet.
@@ -288,7 +289,7 @@ class Disqus_Admin {
 		) );
 
 		if ( !empty( $comment_query->comments ) ) {
-			return new WP_Error( 'api_error', 'This comment has already been synced.' );
+			return $this->dsq_rest_get_error( 'This comment has already been synced.' );
 		}
 
 		$wp_post_id = NULL;
@@ -318,8 +319,9 @@ class Disqus_Admin {
 		}
 
 		if ( NULL === $wp_post_id || FALSE == $wp_post_id ) {
-			// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss
-			return new WP_Error( 'api_error', 'No post found associated with the thread.' );
+			return $this->dsq_rest_get_error( 'No post found associated with the thread.', array(
+				// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss
+			) );
 		}
 
 		$parent = 0;
@@ -331,8 +333,9 @@ class Disqus_Admin {
 			) );
 
 			if ( empty( $comment_query->comments ) ) {
-				// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss
-				return new WP_Error( 'api_error', 'This comment\'s parent has not been synced yet.' );
+				return $this->dsq_rest_get_error( 'This comment\'s parent has not been synced yet.', array(
+					// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss
+				) );
 			} else {
 				$parent = $comment_query->comments[0]->$comment_ID;
 			}
@@ -343,7 +346,7 @@ class Disqus_Admin {
 		$author_email = NULL;
 		if ( isset( $post->author->email ) ) {
 			$author_email = $post->author->email;
-		} else if ($post->author->isAnonymous) {
+		} else if ( $post->author->isAnonymous ) {
 			$author_email = 'anonymized-' . md5( $post->author->name ) . '@disqus.com';
 		} else {
 			$author_email = 'user-' . $post->author->id . '@disqus.com';
@@ -362,8 +365,9 @@ class Disqus_Admin {
 
 		if ( $wp_response->is_error() ) {
 			$wp_error = $wp_response->as_error();
-			// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss
-			return new WP_Error( 'api_error', $wp_error->get_error_message() );
+			return $this->dsq_rest_get_error( $wp_error->get_error_message(), array(
+				// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss
+			) );
 		}
 
 		$wp_response_data = $wp_response->get_data();
@@ -388,6 +392,22 @@ class Disqus_Admin {
 			'message' => 'Request completed successfully',
 			'data' => $data
 		), 200 );
+	}
+
+	/**
+	 * Utility function to format REST API errors, and to optionally log them.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @param    string   $message    The error message to be returned.
+	 * @param    array    $log        The log parameters to save.
+	 * @return   WP_Error     		  The API error object.
+	 */
+	private function dsq_rest_get_error( $message, $log = NULL ) {
+		if ( NULL !== $log ) {
+			// TODO: Store the log array data somewhere
+		}
+		return new WP_Error( 'api_error', $message );
 	}
 
 	/**
