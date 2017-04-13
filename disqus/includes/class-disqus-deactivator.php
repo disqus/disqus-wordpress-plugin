@@ -29,7 +29,7 @@ class Disqus_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
+		// TODO: Call Disqus to disable syncing webhooks?
 	}
 
 }

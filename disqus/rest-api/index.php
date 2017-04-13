@@ -1,0 +1,4 @@
+<?php
+/**
+ * REST API index.
+ */
