@@ -124,7 +124,10 @@ class Disqus_Admin {
             ),
         );
 
-        $file = WP_DEBUG ? 'disqus-admin.bundle.js' : 'disqus-admin.bundle.min.js';
+        // TODO: Match language of the WordPress installation against any other localizations once they've been set up.
+        $language_code = 'en';
+
+        $file = $language_code . '.' . (WP_DEBUG ? 'disqus-admin.bundle.js' : 'disqus-admin.bundle.min.js');
         wp_enqueue_script( $this->disqus . '_admin', plugin_dir_url( __FILE__ ) . 'js/' . $file, array(), $this->version, true );
         wp_localize_script( $this->disqus . '_admin', 'DISQUS_WP', $admin_js_vars );
     }

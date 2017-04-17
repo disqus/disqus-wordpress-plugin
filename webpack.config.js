@@ -5,14 +5,12 @@ var I18nPlugin = require('i18n-webpack-plugin');
 var OPTIMIZE = process.env.NODE_ENV === 'production';
 
 var LANGUAGES = {
-    'en': {
-        extension: '',
-    },
+    'en': null,
 };
 
 var allConfigs = Object.keys(LANGUAGES).map(language => {
     var config = {
-        entry: './frontend/src/js/index' + LANGUAGES[language].extension + '.js',
+        entry: './frontend/src/js/index.js',
         resolve: {
             extensions: ['.js', '.jsx'],
             alias: {
@@ -23,7 +21,7 @@ var allConfigs = Object.keys(LANGUAGES).map(language => {
         },
         output: {
             path: path.resolve(__dirname, 'disqus/admin/js'),
-            filename: 'disqus-admin.bundle' + (OPTIMIZE ? '.min.js' : '.js'),
+            filename: language + '.disqus-admin.bundle' + (OPTIMIZE ? '.min.js' : '.js'),
         },
         module: {
             rules: [{
@@ -39,7 +37,7 @@ var allConfigs = Object.keys(LANGUAGES).map(language => {
             }],
         },
         plugins: [
-            new I18nPlugin(language),
+            new I18nPlugin(LANGUAGES[language]),
         ],
     };
 
