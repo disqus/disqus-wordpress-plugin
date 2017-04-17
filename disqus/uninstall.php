@@ -28,6 +28,6 @@ const ALL_SETTINGS = array(
 	'disqus_sync_token',
 );
 
-foreach (ALL_SETTINGS as $key) {
+foreach ( ALL_SETTINGS as $key ) {
 	delete_option( $key );
 }
