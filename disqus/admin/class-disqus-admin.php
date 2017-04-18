@@ -22,182 +22,173 @@
  */
 class Disqus_Admin {
 
-	/**
-	 * The ID of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $disqus    The ID of this plugin.
-	 */
-	private $disqus;
+    /**
+     * The ID of this plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @var      string    $disqus    The ID of this plugin.
+     */
+    private $disqus;
 
-	/**
-	 * The version of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
-	 */
-	private $version;
+    /**
+     * The version of this plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @var      string    $version    The current version of this plugin.
+     */
+    private $version;
 
-	/**
-	 * The unique Disqus forum shortname.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $shortname    The unique Disqus forum shortname.
-	 */
-	private $shortname;
+    /**
+     * The unique Disqus forum shortname.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @var      string    $shortname    The unique Disqus forum shortname.
+     */
+    private $shortname;
 
-	/**
-	 * Initialize the class and set its properties.
-	 *
-	 * @since    1.0.0
-	 * @param      string    $disqus       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
-	 */
-	public function __construct( $disqus, $version, $shortname ) {
+    /**
+     * Initialize the class and set its properties.
+     *
+     * @since    1.0.0
+     * @param      string    $disqus       The name of this plugin.
+     * @param      string    $version    The version of this plugin.
+     */
+    public function __construct( $disqus, $version, $shortname ) {
 
-		$this->disqus = $disqus;
-		$this->version = $version;
-		$this->shortname = $shortname;
-	}
+        $this->disqus = $disqus;
+        $this->version = $version;
+        $this->shortname = $shortname;
+    }
 
-	/**
-	 * Register the stylesheets for the admin area.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_styles() {
+    /**
+     * Register the stylesheets for the admin area.
+     *
+     * @since    1.0.0
+     */
+    public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Disqus_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Disqus_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+        /**
+         * This function is provided for demonstration purposes only.
+         *
+         * An instance of this class should be passed to the run() function
+         * defined in Disqus_Loader as all of the hooks are defined
+         * in that particular class.
+         *
+         * The Disqus_Loader will then create the relationship
+         * between the defined hooks and the functions defined in this
+         * class.
+         */
 
-		wp_enqueue_style( $this->disqus, plugin_dir_url( __FILE__ ) . 'css/disqus-admin.css', array(), $this->version, 'all' );
+        wp_enqueue_style( $this->disqus, plugin_dir_url( __FILE__ ) . 'css/disqus-admin.css', array(), $this->version, 'all' );
 
-	}
+    }
 
-	/**
-	 * Register the JavaScript for the admin area.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_scripts() {
+    /**
+     * Register the JavaScript for the admin area.
+     *
+     * @since    1.0.0
+     */
+    public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Disqus_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Disqus_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+        /**
+         * This function is provided for demonstration purposes only.
+         *
+         * An instance of this class should be passed to the run() function
+         * defined in Disqus_Loader as all of the hooks are defined
+         * in that particular class.
+         *
+         * The Disqus_Loader will then create the relationship
+         * between the defined hooks and the functions defined in this
+         * class.
+         */
 
-		wp_enqueue_script( $this->disqus, plugin_dir_url( __FILE__ ) . 'js/disqus-admin.js', array( 'jquery' ), $this->version, false );
+         $admin_js_vars = array(
+            'rest' => array (
+                'base' => esc_url_raw( rest_url() ) . 'disqus/v1/',
 
-	}
+                // Nonce is required so that the REST api permissions can recognize a user/check permissions.
+                'nonce' => wp_create_nonce( 'wp_rest' ),
+            ),
+            'adminUrls' => array(
+                'disqus' => get_admin_url( null, 'admin.php?page=disqus' ),
+                'editComments' => get_admin_url( null, 'edit-comments.php' ),
+            ),
+            'permissions' => array(
+                'canManageSettings' => current_user_can( 'manage_options' ),
+            ),
+            'site' => array(
+                'name' => $this->get_site_name(),
+            ),
+        );
 
-	/**
-	 * Builds the admin toolbar menu with the various Disqus options
-	 *
-	 * @since    1.0.0
-	 */
-	public function dsq_contruct_admin_menu() {
-		// Replace the existing WordPress comments menu item to prevent confusion
-		// about where to administer comments. The Disqus page will have a link to
-		// see WordPress comments.
-		if ( current_user_can ( 'moderate_comments' )  ) {
-			remove_menu_page( 'edit-comments.php' );
-			add_menu_page( 'Disqus', 'Disqus', 'moderate_comments', 'disqus', array( $this, 'dsq_render_admin_index' ), 'dashicons-admin-comments', 24 );
-		}
-	}
+        // TODO: Match language of the WordPress installation against any other localizations once they've been set up.
+        $language_code = 'en';
 
-	/**
-	 * Builds the admin menu with the various Disqus options
-	 *
-	 * @since    1.0.0
-	 */
-	public function dsq_construct_admin_bar_menu( $wp_admin_bar ) {
-		// Replace the existing WordPress comments menu item to prevent confusion
-		// about where to administer comments. The Disqus page will have a link to
-		// see WordPress comments.
-		if ( current_user_can ( 'moderate_comments' )  ) {
-			$wp_admin_bar->remove_node( 'wp-admin-bar-comments' );
+        $file = $language_code . '.' . (WP_DEBUG ? 'disqus-admin.bundle.js' : 'disqus-admin.bundle.min.js');
+        wp_enqueue_script( $this->disqus . '_admin', plugin_dir_url( __FILE__ ) . 'js/' . $file, array(), $this->version, true );
+        wp_localize_script( $this->disqus . '_admin', 'DISQUS_WP', $admin_js_vars );
+    }
 
-			$new_node_args = array(
-				'id' => 'disqus',
-				'title' => 'Disqus',
-				'href' => 'https://disqus.com/',
-				'meta' => array(
-					'class' => 'disqus-menu-bar'
-				)
-			);
+    /**
+     * Builds the admin toolbar menu with the various Disqus options
+     *
+     * @since    1.0.0
+     */
+    public function dsq_contruct_admin_menu() {
+        // Replace the existing WordPress comments menu item to prevent confusion
+        // about where to administer comments. The Disqus page will have a link to
+        // see WordPress comments.
+        if ( current_user_can( 'moderate_comments' )  ) {
+            remove_menu_page( 'edit-comments.php' );
+            add_menu_page( 'Disqus', 'Disqus', 'moderate_comments', 'disqus', array( $this, 'dsq_render_admin_index' ), 'dashicons-admin-comments', 24 );
+        }
+    }
 
-			$wp_admin_bar->add_node( $new_node_args );
-		}
-	}
+    /**
+     * Builds the admin menu with the various Disqus options
+     *
+     * @since    1.0.0
+     */
+    public function dsq_construct_admin_bar_menu( $wp_admin_bar ) {
+        // Replace the existing WordPress comments menu item to prevent confusion
+        // about where to administer comments. The Disqus page will have a link to
+        // see WordPress comments.
+        if ( current_user_can ( 'moderate_comments' )  ) {
+            $wp_admin_bar->remove_node( 'wp-admin-bar-comments' );
 
-	private function get_admin_url_for_forum( $path ) {
-		return 'https://' . $this->shortname . '.disqus.com/admin/' . $path . '/';
-	}
+            $new_node_args = array(
+                'id' => 'disqus',
+                'title' => 'Disqus',
+                'href' => 'https://disqus.com/',
+                'meta' => array(
+                    'class' => 'disqus-menu-bar'
+                )
+            );
 
-	/**
-	 * Renders the admin page view from a partial file
-	 *
-	 * @since    1.0.0
-	 */
-	public function dsq_render_admin_index() {
-		$post_message = null;
+            $wp_admin_bar->add_node( $new_node_args );
+        }
+    }
 
-		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && !empty( $_POST ) ) {
+    /**
+     * Renders the admin page view from a partial file
+     *
+     * @since    1.0.0
+     */
+    public function dsq_render_admin_index() {
+        require_once plugin_dir_path( __FILE__ ) . 'partials/disqus-admin-partial.php';
+    }
 
-			// Verify nonce/referrer
-			if ( !check_admin_referer( 'dsq_admin_nonce', 'dsq_admin_nonce' ) ) {
-				dsq_gettext_e( 'This request is not valid.' );
-				exit;
-			}
-
-			// Site confirguration form
-		    if ( isset( $_REQUEST['submit-site-form'] ) ) {
-		    	$normalized_shortname = preg_replace( '/\s\s+/', '', strtolower( $_POST['disqus_forum_url'] ) );
-		        update_option( 'disqus_forum_url', $normalized_shortname );
-				$this->shortname = $normalized_shortname;
-
-				$post_message = dsq_gettext( 'Your settings have been updated.' );
-		    }
-
-			// SSO configuration form
-			if ( isset( $_REQUEST['submit-sso-form'] ) ) {
-				update_option( 'disqus_sso_enabled', isset( $_POST['disqus_sso_enabled'] ) );
-
-				$sso_options = array (
-					'disqus_public_key',
-					'disqus_secret_key',
-					'disqus_sso_button'
-				);
-				foreach ($sso_options as $opt) {
-					if ( isset( $_POST[$opt] ) ) {
-						update_option( $opt, esc_js( $_POST[$opt] ) );
-					}
-				}
-
-				$post_message = dsq_gettext( 'Your settings have been updated.' );
-			}
-		}
-
-		// Now show the admin page
-		require_once plugin_dir_path( __FILE__ ) . 'partials/disqus-admin-partial.php';
-	}
+    /**
+     * Utility function get the site's name for display in HTML markup.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @return   string     		  The escaped name for the given site.
+     */
+    private function get_site_name() {
+        return esc_html( get_bloginfo( 'name' ) );
+    }
 }

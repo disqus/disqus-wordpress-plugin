@@ -30,3 +30,36 @@
 .welcome-panel-column .button {
     margin-bottom: 1.33em;
 }
+
+/* Placeholder spinner */
+
+.dsq-loading-container {
+    height: 130px;
+    padding-top: 120px;
+}
+
+.dsq-spinner {
+    z-index: 500;
+
+    border: 3px solid transparent;
+    border-color: transparent #c2c9d4 transparent #c2c9d4;
+
+    animation: rotate-loading 1.2s linear 0s infinite normal;
+    transform-origin: 50% 50%;
+
+    margin: auto;
+    width: 25px;
+    height: 25px;
+
+    border-radius: 28px;
+}
+
+@keyframes rotate-loading {
+    0%  {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

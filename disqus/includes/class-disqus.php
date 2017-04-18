@@ -84,6 +84,7 @@ class Disqus {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+		$this->define_rest_api_hooks();
 
 	}
 
@@ -128,6 +129,12 @@ class Disqus {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-disqus-public.php';
 
+		/**
+		 * The class responsible for defining all actions that occur on the REST API of
+		 * the site.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rest-api/class-disqus-rest-api.php';
+
 		$this->loader = new Disqus_Loader();
 
 	}
@@ -147,7 +154,6 @@ class Disqus {
 		$plugin_i18n->set_domain( $this->get_disqus_name() );
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -174,8 +180,6 @@ class Disqus {
 	 * @access   private
 	 */
 	private function define_public_hooks() {
-		global $post;
-
 		$plugin_public = new Disqus_Public( $this->get_disqus_name(), $this->get_version(), $this->get_shortname() );
 
 		$this->loader->add_filter( 'comments_number', $plugin_public, 'dsq_comments_link_template' );
@@ -183,6 +187,24 @@ class Disqus {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_comment_count' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_comment_embed' );
 		$this->loader->add_action( 'show_user_profile', $plugin_public, 'dsq_close_window_template' );
+	}
+
+	/**
+	 * Register all of the hooks related to the REST API functionality
+	 * of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_rest_api_hooks() {
+		$plugin_rest_api = new Disqus_Rest_Api( $this->get_shortname() );
+
+		$this->loader->add_action( 'rest_api_init', $plugin_rest_api, 'register_endpoints' );
+
+		// Add a filter to allow anonymous comments from the API. This is required because you must be logged in, even
+		// if your WordPress settings say otherwise.
+		// TODO: Only add this filter if syncing is enabled.
+		$this->loader->add_filter( 'rest_allow_anonymous_comments', $plugin_rest_api, 'filter_rest_allow_anonymous_comments' );
 	}
 
 	/**
