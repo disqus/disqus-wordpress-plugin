@@ -69,8 +69,8 @@ class Disqus {
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
-	 * Load the dependencies, define the locale, and set the hooks for the admin area and
-	 * the public-facing side of the site.
+	 * Load the dependencies, and set the hooks for the admin area and the public-facing
+	 * side of the site.
 	 *
 	 * @since    1.0.0
 	 */
@@ -81,7 +81,6 @@ class Disqus {
 		$this->shortname = strtolower( get_option( 'disqus_forum_url' ) );
 
 		$this->load_dependencies();
-		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 		$this->define_rest_api_hooks();
@@ -94,7 +93,6 @@ class Disqus {
 	 * Include the following files that make up the plugin:
 	 *
 	 * - Disqus_Loader. Orchestrates the hooks of the plugin.
-	 * - Disqus_i18n. Defines internationalization functionality.
 	 * - Disqus_Admin. Defines all hooks for the admin area.
 	 * - Disqus_Public. Defines all hooks for the public side of the site.
 	 *
@@ -111,12 +109,6 @@ class Disqus {
 		 * core plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-disqus-loader.php';
-
-		/**
-		 * The class responsible for defining internationalization functionality
-		 * of the plugin.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-disqus-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
@@ -137,23 +129,6 @@ class Disqus {
 
 		$this->loader = new Disqus_Loader();
 
-	}
-
-	/**
-	 * Define the locale for this plugin for internationalization.
-	 *
-	 * Uses the Disqus_i18n class in order to set the domain and to register the hook
-	 * with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function set_locale() {
-
-		$plugin_i18n = new Disqus_i18n();
-		$plugin_i18n->set_domain( $this->get_disqus_name() );
-
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 
 	/**
