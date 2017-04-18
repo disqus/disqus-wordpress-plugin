@@ -1,6 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 
-const AdminCard = props =>
+export interface AdminCardProps {
+    children?: React.ReactChildren,
+    title: string,
+}
+
+const AdminCard = (props: AdminCardProps) =>
     <div className="card">
         {props.title ?
             <h2 className="title">

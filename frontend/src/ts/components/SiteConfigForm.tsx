@@ -1,6 +1,7 @@
-import React from 'react';
+import * as React from 'react';
+import { FormProps } from './FormProps';
 
-const SiteConfigForm = props =>
+const SiteConfigForm = (props: FormProps) =>
     <form name="site" action="" method="POST" onSubmit={props.onSubmit}>
         <table className="form-table">
             <tbody>

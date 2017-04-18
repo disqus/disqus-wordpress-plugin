@@ -114,7 +114,7 @@ class Disqus_Admin {
             ),
             'adminUrls' => array(
                 'disqus' => get_admin_url( null, 'admin.php?page=disqus' ),
-                'edit-comments' => get_admin_url( null, 'edit-comments.php' ),
+                'editComments' => get_admin_url( null, 'edit-comments.php' ),
             ),
             'permissions' => array(
                 'canManageSettings' => current_user_can( 'manage_options' ),

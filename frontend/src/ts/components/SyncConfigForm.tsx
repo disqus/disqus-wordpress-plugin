@@ -1,6 +1,7 @@
-import React from 'react';
+import * as React from 'react';
+import { FormProps } from './FormProps';
 
-const SyncConfigForm = props => (
+const SyncConfigForm = (props: FormProps) => (
     <form name="sync" action="" method="POST" onSubmit={props.onSubmit}>
         <table className="form-table">
             <tbody>

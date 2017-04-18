@@ -10,30 +10,23 @@ var LANGUAGES = {
 
 var allConfigs = Object.keys(LANGUAGES).map(language => {
     var config = {
-        entry: './frontend/src/js/index.js',
-        resolve: {
-            extensions: ['.js', '.jsx'],
-            alias: {
-                'utils': path.resolve(__dirname, 'frontend/src/js/utils'),
-                'components': path.resolve(__dirname, 'frontend/src/js/components'),
-                'rest': path.resolve(__dirname, 'frontend/src/js/rest'),
-            },
-        },
+        entry: './frontend/src/ts/index.ts',
         output: {
             path: path.resolve(__dirname, 'disqus/admin/js'),
             filename: language + '.disqus-admin.bundle' + (OPTIMIZE ? '.min.js' : '.js'),
         },
+        devtool: 'source-map',
+        resolve: {
+            extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+        },
         module: {
             rules: [{
-                test: /.jsx?$/,
-                loader: 'babel-loader',
-                include: [
-                    path.resolve(__dirname, 'frontend/src'),
-                ],
-                exclude: /node_modules/,
-                query: {
-                    presets: ['es2015', 'react'],
-                },
+                test: /\.tsx?$/,
+                loader: 'awesome-typescript-loader',
+            }, {
+                enforce: 'pre',
+                test: /\.js$/,
+                loader: 'source-map-loader',
             }],
         },
         plugins: [

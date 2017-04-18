@@ -1,7 +1,11 @@
-import React from 'react';
-import { getForumAdminUrl } from 'utils';
+import * as React from 'react';
+import { getForumAdminUrl } from '../utils';
 
-const WelcomePanel = props =>
+export interface WelcomePanelProps {
+    shortname: string,
+}
+
+const WelcomePanel = (props: WelcomePanelProps) =>
     <div className="welcome-panel">
         <div className="welcome-panel-content">
             <p className="about-description">

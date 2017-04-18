@@ -1,10 +1,9 @@
-import React from 'react';
-import AdminCard from 'components/AdminCard';
-import SiteConfigForm from 'components/SiteConfigForm';
+import * as React from 'react';
+import AdminCard from './AdminCard';
+import SiteConfigForm from './SiteConfigForm';
+import { FormProps } from './FormProps';
 
-const API_BASE = window.DISQUS_WP.rest.base;
-
-const Install = props =>
+const Install = (props: FormProps) =>
     <div>
         <AdminCard title={__('Automatic Installation')}>
             <p>
@@ -13,7 +12,7 @@ const Install = props =>
             <p className="submit">
                 <a
                     className="button button-primary button-hero"
-                    href={`https://disqus.com/admin/install/platforms/wordpress/?url=${window.encodeURIComponent(API_BASE)}&token=${window.encodeURIComponent(props.adminOptions.disqus_sync_token)}`}
+                    href={`https://disqus.com/admin/install/platforms/wordpress/?url=${encodeURIComponent(props.config.rest.base)}&token=${encodeURIComponent(props.adminOptions.disqus_sync_token)}`}
                     target="_blank"
                 >
                     {__('Start Automatic Installation')}

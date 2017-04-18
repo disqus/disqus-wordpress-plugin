@@ -4631,19 +4631,16 @@ module.exports = canDefineProperty;
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.getWordpressAdminUrl = getWordpressAdminUrl;
-exports.getForumAdminUrl = getForumAdminUrl;
+Object.defineProperty(exports, "__esModule", { value: true });
 function getWordpressAdminUrl(name) {
     return window.DISQUS_WP.adminUrls[name];
 }
-
+exports.getWordpressAdminUrl = getWordpressAdminUrl;
 function getForumAdminUrl(shortname, path) {
     return "https://" + shortname + ".disqus.com/admin/" + path + "/";
 }
+exports.getForumAdminUrl = getForumAdminUrl;
+
 
 /***/ }),
 /* 34 */
@@ -6697,31 +6694,17 @@ module.exports = ReactNoopUpdateQueue;
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(10);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var AdminCard = function AdminCard(props) {
-    return _react2.default.createElement(
-        "div",
-        { className: "card" },
-        props.title ? _react2.default.createElement(
-            "h2",
-            { className: "title" },
-            props.title
-        ) : null,
-        props.children
-    );
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(10);
+var AdminCard = function (props) {
+    return React.createElement("div", { className: "card" },
+        props.title ?
+            React.createElement("h2", { className: "title" }, props.title)
+            : null,
+        props.children);
 };
-
 exports.default = AdminCard;
+
 
 /***/ }),
 /* 53 */
@@ -6729,182 +6712,48 @@ exports.default = AdminCard;
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(10);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SiteConfigForm = function SiteConfigForm(props) {
-    return _react2.default.createElement(
-        "form",
-        { name: "site", action: "", method: "POST", onSubmit: props.onSubmit },
-        _react2.default.createElement(
-            "table",
-            { className: "form-table" },
-            _react2.default.createElement(
-                "tbody",
-                null,
-                _react2.default.createElement(
-                    "tr",
-                    null,
-                    _react2.default.createElement(
-                        "th",
-                        { scope: "row" },
-                        _react2.default.createElement(
-                            "label",
-                            { htmlFor: "localShortname" },
-                            "Shortname"
-                        )
-                    ),
-                    _react2.default.createElement(
-                        "td",
-                        null,
-                        _react2.default.createElement("input", {
-                            type: "text",
-                            id: "localShortname",
-                            name: "disqus_forum_url",
-                            className: "regular-text",
-                            value: props.localShortname,
-                            onChange: props.onInputChange.bind(null, 'localShortname'),
-                            readOnly: Boolean(props.isSiteFormLocked)
-                        }),
-                        _react2.default.createElement(
-                            "p",
-                            { className: "description" },
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(10);
+var SiteConfigForm = function (props) {
+    return React.createElement("form", { name: "site", action: "", method: "POST", onSubmit: props.onSubmit },
+        React.createElement("table", { className: "form-table" },
+            React.createElement("tbody", null,
+                React.createElement("tr", null,
+                    React.createElement("th", { scope: "row" },
+                        React.createElement("label", { htmlFor: "localShortname" }, "Shortname")),
+                    React.createElement("td", null,
+                        React.createElement("input", { type: "text", id: "localShortname", name: "disqus_forum_url", className: "regular-text", value: props.localShortname, onChange: props.onInputChange.bind(null, 'localShortname'), readOnly: Boolean(props.isSiteFormLocked) }),
+                        React.createElement("p", { className: "description" },
                             "Your site's unique identifier",
                             ' ',
-                            _react2.default.createElement(
-                                "a",
-                                { href: "https://help.disqus.com/customer/portal/articles/466208", target: "_blank" },
-                                "What is this?"
-                            )
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    "tr",
-                    null,
-                    _react2.default.createElement(
-                        "th",
-                        { scope: "row" },
-                        _react2.default.createElement(
-                            "label",
-                            { htmlFor: "localPublicKey" },
-                            "API Public Key"
-                        )
-                    ),
-                    _react2.default.createElement(
-                        "td",
-                        null,
-                        _react2.default.createElement("input", {
-                            type: "text",
-                            id: "localPublicKey",
-                            name: "disqus_public_key",
-                            className: "regular-text",
-                            value: props.localPublicKey,
-                            onChange: props.onInputChange.bind(null, 'localPublicKey'),
-                            readOnly: Boolean(props.isSiteFormLocked)
-                        }),
-                        _react2.default.createElement(
-                            "p",
-                            { className: "description" },
-                            "The public key of your application (optional)."
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    "tr",
-                    null,
-                    _react2.default.createElement(
-                        "th",
-                        { scope: "row" },
-                        _react2.default.createElement(
-                            "label",
-                            { htmlFor: "localSecretKey" },
-                            "API Secret Key"
-                        )
-                    ),
-                    _react2.default.createElement(
-                        "td",
-                        null,
-                        _react2.default.createElement("input", {
-                            type: "text",
-                            id: "localSecretKey",
-                            name: "disqus_secret_key",
-                            className: "regular-text",
-                            value: props.localSecretKey,
-                            onChange: props.onInputChange.bind(null, 'localSecretKey'),
-                            readOnly: Boolean(props.isSiteFormLocked)
-                        }),
-                        _react2.default.createElement(
-                            "p",
-                            { className: "description" },
-                            "The secret key of your application (optional)."
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    "tr",
-                    null,
-                    _react2.default.createElement(
-                        "th",
-                        { scope: "row" },
-                        _react2.default.createElement(
-                            "label",
-                            { htmlFor: "localAdminAccessToken" },
-                            "API Access Token"
-                        )
-                    ),
-                    _react2.default.createElement(
-                        "td",
-                        null,
-                        _react2.default.createElement("input", {
-                            type: "text",
-                            id: "localAdminAccessToken",
-                            name: "disqus_admin_access_token",
-                            className: "regular-text",
-                            value: props.localAdminAccessToken,
-                            onChange: props.onInputChange.bind(null, 'localAdminAccessToken'),
-                            readOnly: Boolean(props.isSiteFormLocked)
-                        }),
-                        _react2.default.createElement(
-                            "p",
-                            { className: "description" },
-                            "The admin access token of your application (optional)."
-                        )
-                    )
-                )
-            )
-        ),
-        _react2.default.createElement(
-            "p",
-            { className: "submit" },
-            props.isSiteFormLocked ? _react2.default.createElement(
-                "button",
-                {
-                    className: "button",
-                    onClick: props.onToggleState.bind(null, 'isSiteFormLocked')
-                },
-                _react2.default.createElement("i", { className: "genericon genericon-lock" }),
+                            React.createElement("a", { href: "https://help.disqus.com/customer/portal/articles/466208", target: "_blank" }, "What is this?")))),
+                React.createElement("tr", null,
+                    React.createElement("th", { scope: "row" },
+                        React.createElement("label", { htmlFor: "localPublicKey" }, "API Public Key")),
+                    React.createElement("td", null,
+                        React.createElement("input", { type: "text", id: "localPublicKey", name: "disqus_public_key", className: "regular-text", value: props.localPublicKey, onChange: props.onInputChange.bind(null, 'localPublicKey'), readOnly: Boolean(props.isSiteFormLocked) }),
+                        React.createElement("p", { className: "description" }, "The public key of your application (optional)."))),
+                React.createElement("tr", null,
+                    React.createElement("th", { scope: "row" },
+                        React.createElement("label", { htmlFor: "localSecretKey" }, "API Secret Key")),
+                    React.createElement("td", null,
+                        React.createElement("input", { type: "text", id: "localSecretKey", name: "disqus_secret_key", className: "regular-text", value: props.localSecretKey, onChange: props.onInputChange.bind(null, 'localSecretKey'), readOnly: Boolean(props.isSiteFormLocked) }),
+                        React.createElement("p", { className: "description" }, "The secret key of your application (optional)."))),
+                React.createElement("tr", null,
+                    React.createElement("th", { scope: "row" },
+                        React.createElement("label", { htmlFor: "localAdminAccessToken" }, "API Access Token")),
+                    React.createElement("td", null,
+                        React.createElement("input", { type: "text", id: "localAdminAccessToken", name: "disqus_admin_access_token", className: "regular-text", value: props.localAdminAccessToken, onChange: props.onInputChange.bind(null, 'localAdminAccessToken'), readOnly: Boolean(props.isSiteFormLocked) }),
+                        React.createElement("p", { className: "description" }, "The admin access token of your application (optional)."))))),
+        React.createElement("p", { className: "submit" }, props.isSiteFormLocked ?
+            React.createElement("button", { className: "button", onClick: props.onToggleState.bind(null, 'isSiteFormLocked') },
+                React.createElement("i", { className: "genericon genericon-lock" }),
                 ' ',
-                "Update Manually"
-            ) : _react2.default.createElement("input", {
-                type: "submit",
-                name: "submit-site-form",
-                className: "button button-primary",
-                value: "Save"
-            })
-        )
-    );
+                "Update Manually") :
+            React.createElement("input", { type: "submit", name: "submit-site-form", className: "button button-primary", value: "Save" })));
 };
-
 exports.default = SiteConfigForm;
+
 
 /***/ }),
 /* 54 */
@@ -10214,23 +10063,15 @@ module.exports = getIteratorFn;
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(10);
+var ReactDOM = __webpack_require__(110);
+var Main_1 = __webpack_require__(88);
+var WIN = window;
+var container = WIN.document.getElementById('disqus-admin');
+if (container)
+    ReactDOM.render(React.createElement(Main_1.default, { config: WIN.DISQUS_WP }), container);
 
-var _react = __webpack_require__(10);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(110);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _Main = __webpack_require__(88);
-
-var _Main2 = _interopRequireDefault(_Main);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var container = window.document.getElementById('disqus-admin');
-if (container) _reactDom2.default.render(_react2.default.createElement(_Main2.default, null), container);
 
 /***/ }),
 /* 85 */
@@ -10238,108 +10079,48 @@ if (container) _reactDom2.default.render(_react2.default.createElement(_Main2.de
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(10);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _utils = __webpack_require__(33);
-
-var _AdminCard = __webpack_require__(52);
-
-var _AdminCard2 = _interopRequireDefault(_AdminCard);
-
-var _SiteConfigForm = __webpack_require__(53);
-
-var _SiteConfigForm2 = _interopRequireDefault(_SiteConfigForm);
-
-var _SSOConfigForm = __webpack_require__(90);
-
-var _SSOConfigForm2 = _interopRequireDefault(_SSOConfigForm);
-
-var _SyncConfigForm = __webpack_require__(91);
-
-var _SyncConfigForm2 = _interopRequireDefault(_SyncConfigForm);
-
-var _WelcomePanel = __webpack_require__(92);
-
-var _WelcomePanel2 = _interopRequireDefault(_WelcomePanel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Admin = function Admin(props) {
-    return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(_WelcomePanel2.default, { shortname: props.adminOptions.disqus_forum_url }),
-        _react2.default.createElement(
-            'h2',
-            { className: 'title' },
-            "Plugin Settings"
-        ),
-        _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement(
-                _AdminCard2.default,
-                { title: "Site Configuration" },
-                _react2.default.createElement(
-                    'p',
-                    { className: 'description' },
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(10);
+var utils_1 = __webpack_require__(33);
+var AdminCard_1 = __webpack_require__(52);
+var SiteConfigForm_1 = __webpack_require__(53);
+var SSOConfigForm_1 = __webpack_require__(90);
+var SyncConfigForm_1 = __webpack_require__(91);
+var WelcomePanel_1 = __webpack_require__(92);
+var Admin = function (props) {
+    return React.createElement("div", null,
+        React.createElement(WelcomePanel_1.default, { shortname: props.adminOptions.disqus_forum_url }),
+        React.createElement("h2", { className: "title" }, "Plugin Settings"),
+        React.createElement("div", null,
+            React.createElement(AdminCard_1.default, { title: "Site Configuration" },
+                React.createElement("p", { className: "description" },
                     "Your site configuration comes from Disqus. Changing these values may break your installation.",
                     ' ',
-                    _react2.default.createElement(
-                        'a',
-                        {
-                            href: (0, _utils.getForumAdminUrl)(props.adminOptions.disqus_forum_url, 'install/platforms/wordpress'),
-                            target: '_blank'
-                        },
-                        "WordPress install instructions"
-                    )
-                ),
-                _react2.default.createElement(_SiteConfigForm2.default, props)
-            ),
-            _react2.default.createElement(
-                _AdminCard2.default,
-                { title: "Single Sign-on" },
-                _react2.default.createElement(
-                    'p',
-                    { className: 'description' },
+                    React.createElement("a", { href: utils_1.getForumAdminUrl(props.adminOptions.disqus_forum_url, 'install/platforms/wordpress'), target: "_blank" }, "WordPress install instructions")),
+                React.createElement(SiteConfigForm_1.default, __assign({}, props))),
+            React.createElement(AdminCard_1.default, { title: "Single Sign-on" },
+                React.createElement("p", { className: "description" },
                     "Allow users to sign in with this site's user accounts. This is a premium-level feature and must be enabled for your organization.",
                     ' ',
-                    _react2.default.createElement(
-                        'a',
-                        { href: 'https://disqus.com/api/applications/', target: '_blank' },
-                        "Learn More"
-                    )
-                ),
-                _react2.default.createElement(_SSOConfigForm2.default, props)
-            ),
-            _react2.default.createElement(
-                _AdminCard2.default,
-                { title: "WordPress Comments" },
-                _react2.default.createElement(
-                    'p',
-                    { className: 'description' },
+                    React.createElement("a", { href: "https://disqus.com/api/applications/", target: "_blank" }, "Learn More")),
+                React.createElement(SSOConfigForm_1.default, __assign({}, props))),
+            React.createElement(AdminCard_1.default, { title: "WordPress Comments" },
+                React.createElement("p", { className: "description" },
                     "Disqus has replaced the default WordPress commenting system. You may access and edit the comments in your database, but any actions performed there will not be reflected in Disqus.",
                     ' ',
-                    _react2.default.createElement(
-                        'a',
-                        { href: (0, _utils.getWordpressAdminUrl)('edit-comments') },
-                        "View WordPress Comments"
-                    )
-                ),
-                _react2.default.createElement(_SyncConfigForm2.default, props)
-            )
-        )
-    );
+                    React.createElement("a", { href: utils_1.getWordpressAdminUrl('edit-comments') }, "View WordPress Comments")),
+                React.createElement(SyncConfigForm_1.default, __assign({}, props)))));
 };
-
 exports.default = Admin;
+
 
 /***/ }),
 /* 86 */
@@ -10347,76 +10128,34 @@ exports.default = Admin;
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(10);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _AdminCard = __webpack_require__(52);
-
-var _AdminCard2 = _interopRequireDefault(_AdminCard);
-
-var _SiteConfigForm = __webpack_require__(53);
-
-var _SiteConfigForm2 = _interopRequireDefault(_SiteConfigForm);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var API_BASE = window.DISQUS_WP.rest.base;
-
-var Install = function Install(props) {
-    return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-            _AdminCard2.default,
-            { title: "Automatic Installation" },
-            _react2.default.createElement(
-                'p',
-                null,
-                "Visit the Disqus installation page to continue. You will be prompted to create an account or log in, as well as create a new site or choose an existing one."
-            ),
-            _react2.default.createElement(
-                'p',
-                { className: 'submit' },
-                _react2.default.createElement(
-                    'a',
-                    {
-                        className: 'button button-primary button-hero',
-                        href: 'https://disqus.com/admin/install/platforms/wordpress/?url=' + window.encodeURIComponent(API_BASE) + '&token=' + window.encodeURIComponent(props.adminOptions.disqus_sync_token),
-                        target: '_blank'
-                    },
-                    "Start Automatic Installation"
-                )
-            )
-        ),
-        _react2.default.createElement(
-            _AdminCard2.default,
-            { title: "Manual Installation" },
-            _react2.default.createElement(
-                'p',
-                { className: 'description' },
-                "You may install Disqus manually if you're not able to use the automatic installer."
-            ),
-            _react2.default.createElement(
-                'p',
-                { className: 'submit' },
-                _react2.default.createElement(
-                    'button',
-                    { className: 'button', onClick: props.onToggleState.bind(null, 'isSiteFormLocked') },
-                    props.isSiteFormLocked ? "Show manual installation" : "Hide manual installation"
-                )
-            ),
-            props.isSiteFormLocked ? null : _react2.default.createElement(_SiteConfigForm2.default, props)
-        )
-    );
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
 };
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(10);
+var AdminCard_1 = __webpack_require__(52);
+var SiteConfigForm_1 = __webpack_require__(53);
+var Install = function (props) {
+    return React.createElement("div", null,
+        React.createElement(AdminCard_1.default, { title: "Automatic Installation" },
+            React.createElement("p", null, "Visit the Disqus installation page to continue. You will be prompted to create an account or log in, as well as create a new site or choose an existing one."),
+            React.createElement("p", { className: "submit" },
+                React.createElement("a", { className: "button button-primary button-hero", href: "https://disqus.com/admin/install/platforms/wordpress/?url=" + encodeURIComponent(props.config.rest.base) + "&token=" + encodeURIComponent(props.adminOptions.disqus_sync_token), target: "_blank" }, "Start Automatic Installation"))),
+        React.createElement(AdminCard_1.default, { title: "Manual Installation" },
+            React.createElement("p", { className: "description" }, "You may install Disqus manually if you're not able to use the automatic installer."),
+            React.createElement("p", { className: "submit" },
+                React.createElement("button", { className: "button", onClick: props.onToggleState.bind(null, 'isSiteFormLocked') }, props.isSiteFormLocked ? "Show manual installation" : "Hide manual installation")),
+            props.isSiteFormLocked ?
+                null :
+                React.createElement(SiteConfigForm_1.default, __assign({}, props))));
+};
 exports.default = Install;
+
 
 /***/ }),
 /* 87 */
@@ -10424,26 +10163,14 @@ exports.default = Install;
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(10);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Loading = function Loading() {
-    return _react2.default.createElement(
-        "div",
-        { className: "dsq-loading-container" },
-        _react2.default.createElement("div", { className: "dsq-spinner" })
-    );
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(10);
+var Loading = function () {
+    return React.createElement("div", { className: "dsq-loading-container" },
+        React.createElement("div", { className: "dsq-spinner" }));
 };
-
 exports.default = Loading;
+
 
 /***/ }),
 /* 88 */
@@ -10451,58 +10178,38 @@ exports.default = Loading;
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(10);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _utils = __webpack_require__(33);
-
-var _rest = __webpack_require__(94);
-
-var _Admin = __webpack_require__(85);
-
-var _Admin2 = _interopRequireDefault(_Admin);
-
-var _Install = __webpack_require__(86);
-
-var _Install2 = _interopRequireDefault(_Install);
-
-var _Loading = __webpack_require__(87);
-
-var _Loading2 = _interopRequireDefault(_Loading);
-
-var _Message = __webpack_require__(89);
-
-var _Message2 = _interopRequireDefault(_Message);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Main = function (_React$Component) {
-    _inherits(Main, _React$Component);
-
-    function Main() {
-        _classCallCheck(this, Main);
-
-        var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this));
-
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(10);
+var utils_1 = __webpack_require__(33);
+var rest_1 = __webpack_require__(94);
+var Admin_1 = __webpack_require__(85);
+var Install_1 = __webpack_require__(86);
+var Loading_1 = __webpack_require__(87);
+var Message_1 = __webpack_require__(89);
+var Main = (function (_super) {
+    __extends(Main, _super);
+    function Main(props) {
+        var _this = _super.call(this, props) || this;
         _this.state = {
+            config: props.config,
             adminOptions: null,
             localShortname: '',
             localPublicKey: '',
@@ -10512,140 +10219,100 @@ var Main = function (_React$Component) {
             localSSOEnabled: false,
             localManualSync: false,
             message: null,
-            isSiteFormLocked: true
+            isSiteFormLocked: true,
         };
         return _this;
     }
-
-    _createClass(Main, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            (0, _rest.restGet)('settings', this.handleAdminOptionsResponse.bind(this));
+    Main.prototype.componentDidMount = function () {
+        rest_1.restGet('settings', this.handleAdminOptionsResponse.bind(this));
+    };
+    Main.prototype.saveOptions = function (data) {
+        var _this = this;
+        rest_1.restPut('settings', data, function (response) {
+            _this.handleAdminOptionsResponse(response);
+            _this.addMessage("Saved changes successfully.", 'success');
+        });
+    };
+    Main.prototype.handleAdminOptionsResponse = function (response) {
+        if (!response)
+            return;
+        if (response.code !== 'OK') {
+            this.addMessage(response.message, 'error');
+            return;
         }
-    }, {
-        key: 'saveOptions',
-        value: function saveOptions(data) {
-            var _this2 = this;
-
-            (0, _rest.restPut)('settings', data, function (response) {
-                _this2.handleAdminOptionsResponse(response);
-                _this2.addMessage("Saved changes successfully.");
-            });
-        }
-    }, {
-        key: 'handleAdminOptionsResponse',
-        value: function handleAdminOptionsResponse(response) {
-            if (!response) return;
-
-            if (response.code !== 'OK') {
-                this.addMessage(response.message, 'error');
-                return;
+        var adminOptions = response.data || {};
+        this.setState({
+            adminOptions: adminOptions,
+            localShortname: adminOptions.disqus_forum_url || '',
+            localPublicKey: adminOptions.disqus_public_key || '',
+            localSecretKey: adminOptions.disqus_secret_key || '',
+            localAdminAccessToken: adminOptions.disqus_admin_access_token || '',
+            localSSOButton: adminOptions.disqus_sso_button || '',
+            localSSOEnabled: adminOptions.disqus_sso_enabled || false,
+            localManualSync: adminOptions.disqus_manual_sync || false,
+        });
+    };
+    Main.prototype.handleInputChanged = function (stateKey, evt) {
+        var isCheckbox = evt.currentTarget.type === 'checkbox';
+        this.setState((_a = {},
+            _a[stateKey] = isCheckbox ? evt.currentTarget.checked : evt.currentTarget.value,
+            _a));
+        var _a;
+    };
+    Main.prototype.handleSubmitForm = function (evt) {
+        var _this = this;
+        evt.preventDefault();
+        var fields = {};
+        Object.keys(this.state).forEach(function (currentIdKey) {
+            if (currentIdKey in evt.currentTarget.elements) {
+                var currentField = evt.currentTarget.elements.namedItem(currentIdKey);
+                fields = Object.assign({}, fields, (_a = {}, _a[currentField.name] = _this.state[currentIdKey], _a));
             }
-
-            var adminOptions = response.data || {};
-            this.setState({
-                adminOptions: adminOptions,
-                localShortname: adminOptions.disqus_forum_url || '',
-                localPublicKey: adminOptions.disqus_public_key || '',
-                localSecretKey: adminOptions.disqus_secret_key || '',
-                localAdminAccessToken: adminOptions.disqus_admin_access_token || '',
-                localSSOButton: adminOptions.disqus_sso_button || '',
-                localSSOEnabled: adminOptions.disqus_sso_enabled || false,
-                localManualSync: adminOptions.disqus_manual_sync || false
-            });
+            var _a;
+        });
+        this.saveOptions(fields);
+    };
+    Main.prototype.addMessage = function (messageText, type) {
+        this.setState({
+            message: {
+                text: messageText,
+                type: type,
+            },
+        });
+    };
+    Main.prototype.handleToggleState = function (stateKey) {
+        this.setState((_a = {},
+            _a[stateKey] = !this.state[stateKey],
+            _a));
+        var _a;
+    };
+    Main.prototype.renderMainView = function () {
+        if (!this.props.config.permissions.canManageSettings) {
+            return "You don't have permission to make any changes here. Please contact the site administrator to get access.";
         }
-    }, {
-        key: 'handleInputChanged',
-        value: function handleInputChanged(key, evt) {
-            var isCheckbox = evt.target.type === 'checkbox';
-            this.setState(_defineProperty({}, key, isCheckbox ? evt.target.checked : evt.target.value));
+        else if (!this.state.adminOptions) {
+            return React.createElement(Loading_1.default, null);
         }
-    }, {
-        key: 'handleSubmitForm',
-        value: function handleSubmitForm(evt) {
-            var _this3 = this;
-
-            evt.preventDefault();
-
-            var fields = {};
-            Object.keys(this.state).forEach(function (currentIdKey) {
-                if (currentIdKey in evt.target.elements) fields[evt.target.elements[currentIdKey].name] = _this3.state[currentIdKey];
-            });
-
-            this.saveOptions(fields);
+        else if (!this.state.adminOptions.disqus_forum_url) {
+            return (React.createElement(Install_1.default, __assign({}, this.state, { onInputChange: this.handleInputChanged.bind(this), onSubmit: this.handleSubmitForm.bind(this), onToggleState: this.handleToggleState.bind(this) })));
         }
-    }, {
-        key: 'addMessage',
-        value: function addMessage(messageText, type) {
-            this.setState({
-                message: {
-                    text: messageText,
-                    type: type
-                }
-            });
-        }
-    }, {
-        key: 'handleToggleState',
-        value: function handleToggleState(stateKey) {
-            this.setState(_defineProperty({}, stateKey, !this.state[stateKey]));
-        }
-    }, {
-        key: 'renderMainView',
-        value: function renderMainView() {
-            if (!window.DISQUS_WP.permissions.canManageSettings) {
-                return "You don't have permission to make any changes here. Please contact the site administrator to get access.";
-            } else if (!this.state.adminOptions) {
-                return _react2.default.createElement(_Loading2.default, null);
-            } else if (!this.state.adminOptions.disqus_forum_url) {
-                return _react2.default.createElement(_Install2.default, _extends({}, this.state, {
-                    onInputChange: this.handleInputChanged.bind(this),
-                    onSubmit: this.handleSubmitForm.bind(this),
-                    onToggleState: this.handleToggleState.bind(this)
-                }));
-            }
-
-            return _react2.default.createElement(_Admin2.default, _extends({}, this.state, {
-                onInputChange: this.handleInputChanged.bind(this),
-                onSubmit: this.handleSubmitForm.bind(this),
-                onToggleState: this.handleToggleState.bind(this)
-            }));
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                { className: 'dsq-admin-wrapper' },
-                _react2.default.createElement(
-                    'div',
-                    { className: 'wrap' },
-                    _react2.default.createElement(
-                        'a',
-                        { href: (0, _utils.getWordpressAdminUrl)('disqus'), className: 'disqus-logo' },
-                        _react2.default.createElement('img', {
-                            src: 'https://a.disquscdn.com/dotcom/d-2407bda/img/brand/disqus-logo-blue-white.svg',
-                            width: 102
-                        })
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'wrap' },
-                    this.state.message ? _react2.default.createElement(
-                        _Message2.default,
-                        { type: this.state.message.type },
-                        this.state.message.text
-                    ) : null,
-                    this.renderMainView()
-                )
-            );
-        }
-    }]);
-
+        return (React.createElement(Admin_1.default, __assign({}, this.state, { onInputChange: this.handleInputChanged.bind(this), onSubmit: this.handleSubmitForm.bind(this), onToggleState: this.handleToggleState.bind(this) })));
+    };
+    Main.prototype.render = function () {
+        return (React.createElement("div", { className: "dsq-admin-wrapper" },
+            React.createElement("div", { className: "wrap" },
+                React.createElement("a", { href: utils_1.getWordpressAdminUrl('disqus'), className: "disqus-logo" },
+                    React.createElement("img", { src: "https://a.disquscdn.com/dotcom/d-2407bda/img/brand/disqus-logo-blue-white.svg", width: 102 }))),
+            React.createElement("div", { className: "wrap" },
+                this.state.message ?
+                    React.createElement(Message_1.default, __assign({}, this.state.message))
+                    : null,
+                this.renderMainView())));
+    };
     return Main;
-}(_react2.default.Component);
-
+}(React.Component));
 exports.default = Main;
+
 
 /***/ }),
 /* 89 */
@@ -10653,30 +10320,14 @@ exports.default = Main;
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(10);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Message = function Message(props) {
-    return _react2.default.createElement(
-        'div',
-        { className: 'notice notice-' + props.type + ' inline is-dismissible' },
-        _react2.default.createElement(
-            'p',
-            null,
-            props.children
-        )
-    );
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(10);
+var Message = function (props) {
+    return React.createElement("div", { className: "notice notice-" + props.type + " inline is-dismissible" },
+        React.createElement("p", null, props.text));
 };
-
 exports.default = Message;
+
 
 /***/ }),
 /* 90 */
@@ -10684,111 +10335,32 @@ exports.default = Message;
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(10);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SSOConfigForm = function SSOConfigForm(props) {
-    return _react2.default.createElement(
-        "form",
-        { name: "sso", action: "", method: "POST", onSubmit: props.onSubmit },
-        _react2.default.createElement(
-            "table",
-            { className: "form-table" },
-            _react2.default.createElement(
-                "tbody",
-                null,
-                _react2.default.createElement(
-                    "tr",
-                    null,
-                    _react2.default.createElement(
-                        "th",
-                        { scope: "row" },
-                        _react2.default.createElement(
-                            "label",
-                            { htmlFor: "disqus_sso_enabled" },
-                            "Enable SSO"
-                        )
-                    ),
-                    _react2.default.createElement(
-                        "td",
-                        null,
-                        _react2.default.createElement("input", {
-                            type: "checkbox",
-                            id: "localSSOEnabled",
-                            name: "disqus_sso_enabled",
-                            checked: Boolean(props.localSSOEnabled),
-                            onChange: props.onInputChange.bind(null, 'localSSOEnabled')
-                        }),
-                        _react2.default.createElement(
-                            "p",
-                            { className: "description" },
-                            "This will enable Single Sign-on for this site, if already enabled for your Disqus organization."
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    "tr",
-                    null,
-                    _react2.default.createElement(
-                        "th",
-                        { scope: "row" },
-                        _react2.default.createElement(
-                            "label",
-                            { htmlFor: "disqus_sso_button" },
-                            "Custom Login Button"
-                        )
-                    ),
-                    _react2.default.createElement(
-                        "td",
-                        null,
-                        _react2.default.createElement("input", {
-                            type: "url",
-                            id: "localSSOButton",
-                            name: "disqus_sso_button",
-                            className: "regular-text",
-                            value: props.localSSOButton,
-                            onChange: props.onInputChange.bind(null, 'localSSOButton')
-                        }),
-                        _react2.default.createElement(
-                            "p",
-                            { className: "description" },
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(10);
+var SSOConfigForm = function (props) {
+    return React.createElement("form", { name: "sso", action: "", method: "POST", onSubmit: props.onSubmit },
+        React.createElement("table", { className: "form-table" },
+            React.createElement("tbody", null,
+                React.createElement("tr", null,
+                    React.createElement("th", { scope: "row" },
+                        React.createElement("label", { htmlFor: "disqus_sso_enabled" }, "Enable SSO")),
+                    React.createElement("td", null,
+                        React.createElement("input", { type: "checkbox", id: "localSSOEnabled", name: "disqus_sso_enabled", checked: Boolean(props.localSSOEnabled), onChange: props.onInputChange.bind(null, 'localSSOEnabled') }),
+                        React.createElement("p", { className: "description" }, "This will enable Single Sign-on for this site, if already enabled for your Disqus organization."))),
+                React.createElement("tr", null,
+                    React.createElement("th", { scope: "row" },
+                        React.createElement("label", { htmlFor: "disqus_sso_button" }, "Custom Login Button")),
+                    React.createElement("td", null,
+                        React.createElement("input", { type: "url", id: "localSSOButton", name: "disqus_sso_button", className: "regular-text", value: props.localSSOButton, onChange: props.onInputChange.bind(null, 'localSSOButton') }),
+                        React.createElement("p", { className: "description" },
                             "A link to a .png, .gif, or .jpg image to show as a button in Disqus.",
                             ' ',
-                            _react2.default.createElement(
-                                "a",
-                                {
-                                    href: "https://help.disqus.com/customer/portal/articles/236206#sso-login-button",
-                                    target: "_blank"
-                                },
-                                "Learn More"
-                            )
-                        )
-                    )
-                )
-            )
-        ),
-        _react2.default.createElement(
-            "p",
-            { className: "submit" },
-            _react2.default.createElement("input", {
-                type: "submit",
-                name: "submit-application-form",
-                className: "button button-primary",
-                value: "Save"
-            })
-        )
-    );
+                            React.createElement("a", { href: "https://help.disqus.com/customer/portal/articles/236206#sso-login-button", target: "_blank" }, "Learn More")))))),
+        React.createElement("p", { className: "submit" },
+            React.createElement("input", { type: "submit", name: "submit-application-form", className: "button button-primary", value: "Save" })));
 };
-
 exports.default = SSOConfigForm;
+
 
 /***/ }),
 /* 91 */
@@ -10796,72 +10368,21 @@ exports.default = SSOConfigForm;
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(10);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SyncConfigForm = function SyncConfigForm(props) {
-    return _react2.default.createElement(
-        "form",
-        { name: "sync", action: "", method: "POST", onSubmit: props.onSubmit },
-        _react2.default.createElement(
-            "table",
-            { className: "form-table" },
-            _react2.default.createElement(
-                "tbody",
-                null,
-                _react2.default.createElement(
-                    "tr",
-                    null,
-                    _react2.default.createElement(
-                        "th",
-                        { scope: "row" },
-                        _react2.default.createElement(
-                            "label",
-                            { htmlFor: "localManualSync" },
-                            "Disable Automatic Syncing"
-                        )
-                    ),
-                    _react2.default.createElement(
-                        "td",
-                        null,
-                        _react2.default.createElement("input", {
-                            type: "checkbox",
-                            id: "localManualSync",
-                            name: "disqus_manual_sync",
-                            checked: Boolean(props.localManualSync),
-                            onChange: props.onInputChange.bind(null, 'localManualSync')
-                        }),
-                        _react2.default.createElement(
-                            "p",
-                            { className: "description" },
-                            'Enabling this will stop comments from being saved to your local WordPress database.'
-                        )
-                    )
-                )
-            )
-        ),
-        _react2.default.createElement(
-            "p",
-            { className: "submit" },
-            _react2.default.createElement("input", {
-                type: "submit",
-                name: "submit-application-form",
-                className: "button button-primary",
-                value: "Save"
-            })
-        )
-    );
-};
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(10);
+var SyncConfigForm = function (props) { return (React.createElement("form", { name: "sync", action: "", method: "POST", onSubmit: props.onSubmit },
+    React.createElement("table", { className: "form-table" },
+        React.createElement("tbody", null,
+            React.createElement("tr", null,
+                React.createElement("th", { scope: "row" },
+                    React.createElement("label", { htmlFor: "localManualSync" }, "Disable Automatic Syncing")),
+                React.createElement("td", null,
+                    React.createElement("input", { type: "checkbox", id: "localManualSync", name: "disqus_manual_sync", checked: Boolean(props.localManualSync), onChange: props.onInputChange.bind(null, 'localManualSync') }),
+                    React.createElement("p", { className: "description" }, 'Enabling this will stop comments from being saved to your local WordPress database.'))))),
+    React.createElement("p", { className: "submit" },
+        React.createElement("input", { type: "submit", name: "submit-application-form", className: "button button-primary", value: "Save" })))); };
 exports.default = SyncConfigForm;
+
 
 /***/ }),
 /* 92 */
@@ -10869,170 +10390,40 @@ exports.default = SyncConfigForm;
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(10);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _utils = __webpack_require__(33);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var WelcomePanel = function WelcomePanel(props) {
-    return _react2.default.createElement(
-        'div',
-        { className: 'welcome-panel' },
-        _react2.default.createElement(
-            'div',
-            { className: 'welcome-panel-content' },
-            _react2.default.createElement(
-                'p',
-                { className: 'about-description' },
-                "Check out what's new"
-            ),
-            _react2.default.createElement(
-                'div',
-                { className: 'welcome-panel-column-container' },
-                _react2.default.createElement(
-                    'div',
-                    { className: 'welcome-panel-column' },
-                    _react2.default.createElement(
-                        'h3',
-                        null,
-                        "Comments"
-                    ),
-                    _react2.default.createElement(
-                        'a',
-                        {
-                            className: 'button button-primary button-hero',
-                            href: (0, _utils.getForumAdminUrl)(props.shortname, 'moderate')
-                        },
-                        "Moderate"
-                    ),
-                    _react2.default.createElement(
-                        'p',
-                        { className: 'description' },
-                        _react2.default.createElement(
-                            'a',
-                            { href: (0, _utils.getForumAdminUrl)(props.shortname, 'filters/banned'), target: '_blank' },
-                            "Manage banned users and word filters"
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'welcome-panel-column' },
-                    _react2.default.createElement(
-                        'h3',
-                        null,
-                        "Analytics"
-                    ),
-                    _react2.default.createElement(
-                        'ul',
-                        null,
-                        _react2.default.createElement(
-                            'li',
-                            null,
-                            _react2.default.createElement(
-                                'a',
-                                {
-                                    className: 'welcome-icon dashicons-megaphone',
-                                    href: (0, _utils.getForumAdminUrl)(props.shortname, 'analytics/comments'),
-                                    target: '_blank'
-                                },
-                                "Engagement"
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'li',
-                            null,
-                            _react2.default.createElement(
-                                'a',
-                                {
-                                    className: 'welcome-icon dashicons-chart-line',
-                                    href: (0, _utils.getForumAdminUrl)(props.shortname, 'analytics/revenue'),
-                                    target: '_blank'
-                                },
-                                "Revenue"
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'li',
-                            null,
-                            _react2.default.createElement(
-                                'a',
-                                {
-                                    className: 'welcome-icon dashicons-heart',
-                                    href: (0, _utils.getForumAdminUrl)(props.shortname, 'analytics/content'),
-                                    target: '_blank'
-                                },
-                                "Popular Content"
-                            )
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'welcome-panel-column' },
-                    _react2.default.createElement(
-                        'h3',
-                        null,
-                        "Settings"
-                    ),
-                    _react2.default.createElement(
-                        'ul',
-                        null,
-                        _react2.default.createElement(
-                            'li',
-                            null,
-                            _react2.default.createElement(
-                                'a',
-                                {
-                                    className: 'welcome-icon dashicons-admin-appearance',
-                                    href: (0, _utils.getForumAdminUrl)(props.shortname, 'settings/general'),
-                                    target: '_blank'
-                                },
-                                "Identity"
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'li',
-                            null,
-                            _react2.default.createElement(
-                                'a',
-                                {
-                                    className: 'welcome-icon dashicons-format-chat',
-                                    href: (0, _utils.getForumAdminUrl)(props.shortname, 'settings/community'),
-                                    target: '_blank'
-                                },
-                                "Community Rules"
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'li',
-                            null,
-                            _react2.default.createElement(
-                                'a',
-                                {
-                                    className: 'welcome-icon dashicons-admin-settings',
-                                    href: (0, _utils.getForumAdminUrl)(props.shortname, 'settings/advanced'),
-                                    target: '_blank'
-                                },
-                                "Advanced"
-                            )
-                        )
-                    )
-                )
-            )
-        )
-    );
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(10);
+var utils_1 = __webpack_require__(33);
+var WelcomePanel = function (props) {
+    return React.createElement("div", { className: "welcome-panel" },
+        React.createElement("div", { className: "welcome-panel-content" },
+            React.createElement("p", { className: "about-description" }, "Check out what's new"),
+            React.createElement("div", { className: "welcome-panel-column-container" },
+                React.createElement("div", { className: "welcome-panel-column" },
+                    React.createElement("h3", null, "Comments"),
+                    React.createElement("a", { className: "button button-primary button-hero", href: utils_1.getForumAdminUrl(props.shortname, 'moderate') }, "Moderate"),
+                    React.createElement("p", { className: "description" },
+                        React.createElement("a", { href: utils_1.getForumAdminUrl(props.shortname, 'filters/banned'), target: "_blank" }, "Manage banned users and word filters"))),
+                React.createElement("div", { className: "welcome-panel-column" },
+                    React.createElement("h3", null, "Analytics"),
+                    React.createElement("ul", null,
+                        React.createElement("li", null,
+                            React.createElement("a", { className: "welcome-icon dashicons-megaphone", href: utils_1.getForumAdminUrl(props.shortname, 'analytics/comments'), target: "_blank" }, "Engagement")),
+                        React.createElement("li", null,
+                            React.createElement("a", { className: "welcome-icon dashicons-chart-line", href: utils_1.getForumAdminUrl(props.shortname, 'analytics/revenue'), target: "_blank" }, "Revenue")),
+                        React.createElement("li", null,
+                            React.createElement("a", { className: "welcome-icon dashicons-heart", href: utils_1.getForumAdminUrl(props.shortname, 'analytics/content'), target: "_blank" }, "Popular Content")))),
+                React.createElement("div", { className: "welcome-panel-column" },
+                    React.createElement("h3", null, "Settings"),
+                    React.createElement("ul", null,
+                        React.createElement("li", null,
+                            React.createElement("a", { className: "welcome-icon dashicons-admin-appearance", href: utils_1.getForumAdminUrl(props.shortname, 'settings/general'), target: "_blank" }, "Identity")),
+                        React.createElement("li", null,
+                            React.createElement("a", { className: "welcome-icon dashicons-format-chat", href: utils_1.getForumAdminUrl(props.shortname, 'settings/community'), target: "_blank" }, "Community Rules")),
+                        React.createElement("li", null,
+                            React.createElement("a", { className: "welcome-icon dashicons-admin-settings", href: utils_1.getForumAdminUrl(props.shortname, 'settings/advanced'), target: "_blank" }, "Advanced")))))));
 };
-
 exports.default = WelcomePanel;
+
 
 /***/ }),
 /* 93 */
@@ -11040,8 +10431,9 @@ exports.default = WelcomePanel;
 
 "use strict";
 
-
+Object.defineProperty(exports, "__esModule", { value: true });
 __webpack_require__(84);
+
 
 /***/ }),
 /* 94 */
@@ -11049,45 +10441,42 @@ __webpack_require__(84);
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.restGet = restGet;
-exports.restPut = restPut;
-var REST_OPTIONS = window.DISQUS_WP.rest;
-
-var makeApiRequest = function makeApiRequest(method, url, data, onLoad) {
-    var XHR = new window.XMLHttpRequest();
+Object.defineProperty(exports, "__esModule", { value: true });
+var WIN = window;
+var REST_OPTIONS = WIN.DISQUS_WP.rest;
+var makeApiRequest = function (method, url, data, onLoad) {
+    var XHR = new XMLHttpRequest();
     XHR.open(method, url);
     XHR.setRequestHeader('Content-type', 'application/json');
     XHR.setRequestHeader('X-WP-Nonce', REST_OPTIONS.nonce);
     XHR.addEventListener('load', onLoad);
     XHR.send(data);
 };
-
-var handleResponse = function handleResponse(text, callback) {
+var handleResponse = function (text, callback) {
     var jsonObject = null;
     try {
         jsonObject = JSON.parse(text);
-    } catch (error) {
+    }
+    catch (error) {
         // Continue
     }
-
     callback.call(null, jsonObject);
 };
-
 function restGet(path, onLoad) {
-    makeApiRequest('GET', '' + REST_OPTIONS.base + path, null, function (xhr) {
+    makeApiRequest('GET', "" + REST_OPTIONS.base + path, null, function (xhr) {
         handleResponse(xhr.target.responseText, onLoad);
     });
-};
-
+}
+exports.restGet = restGet;
+;
 function restPut(path, data, onLoad) {
-    makeApiRequest('PUT', '' + REST_OPTIONS.base + path, JSON.stringify(data), function (xhr) {
+    makeApiRequest('PUT', "" + REST_OPTIONS.base + path, JSON.stringify(data), function (xhr) {
         handleResponse(xhr.target.responseText, onLoad);
     });
-};
+}
+exports.restPut = restPut;
+;
+
 
 /***/ }),
 /* 95 */
@@ -23068,3 +22457,4 @@ module.exports = traverseAllChildren;
 
 /***/ })
 /******/ ]);
+//# sourceMappingURL=en.disqus-admin.bundle.js.map

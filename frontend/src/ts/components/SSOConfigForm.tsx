@@ -1,6 +1,7 @@
-import React from 'react';
+import * as React from 'react';
+import { FormProps } from './FormProps';
 
-const SSOConfigForm = props =>
+const SSOConfigForm = (props: FormProps) =>
     <form name="sso" action="" method="POST" onSubmit={props.onSubmit}>
         <table className="form-table">
             <tbody>

@@ -1,12 +1,13 @@
-import React from 'react';
-import { getForumAdminUrl, getWordpressAdminUrl } from 'utils';
-import AdminCard from 'components/AdminCard';
-import SiteConfigForm from 'components/SiteConfigForm';
-import SSOConfigForm from 'components/SSOConfigForm';
-import SyncConfigForm from 'components/SyncConfigForm';
-import WelcomePanel from 'components/WelcomePanel';
+import * as React from 'react';
+import { getForumAdminUrl, getWordpressAdminUrl } from '../utils';
+import AdminCard from './AdminCard';
+import SiteConfigForm from './SiteConfigForm';
+import SSOConfigForm from './SSOConfigForm';
+import SyncConfigForm from './SyncConfigForm';
+import WelcomePanel from './WelcomePanel';
+import { FormProps } from './FormProps';
 
-const Admin = props =>
+const Admin = (props: FormProps) =>
     <div>
         <WelcomePanel shortname={props.adminOptions.disqus_forum_url} />
         <h2 className="title">
