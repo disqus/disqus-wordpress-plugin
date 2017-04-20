@@ -39,7 +39,7 @@ class Disqus_Rest_Api {
 	 * @param      string    $disqus       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( string $shortname ) {
+	public function __construct( $shortname ) {
 		$this->shortname = $shortname;
 	}
 
