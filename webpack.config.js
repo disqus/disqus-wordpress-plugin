@@ -34,8 +34,16 @@ var allConfigs = Object.keys(LANGUAGES).map(language => {
         ],
     };
 
-    if (OPTIMIZE)
+    if (OPTIMIZE) {
         config.plugins.push(new webpack.optimize.UglifyJsPlugin());
+
+        // Tells React to use production build: https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
+        config.plugins.push(new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify('production'),
+            },
+        }));
+    }
 
     return config;
 });

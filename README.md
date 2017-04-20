@@ -26,21 +26,19 @@ The Boilerplate can be installed directly into your plugins folder "as-is". You 
 
 Note that this will activate the source code of the Boilerplate, but because the Boilerplate has no real functionality so no menu  items, meta boxes, or custom post types will be added.
 
+## Testing
+
+There's a Docker configuration to bootstrap a local WordPress installation. To start it:
+
+- From the root directory, run `$ make run`
+- Install wordpress with the default values by running `$ make install`.
+- Activate the Disqus plugin using `$ make activate`
+- Alternatively you can now complete configuration by going to http://localhost:8888/wp-admin/install.php
+- Otherwise you can continue to http://localhost:8888/
+
 ## WordPress.org Preparation
 
 The original launch of this version of the boilerplate included the folder structure needed for using your plugin on the WordPress.org. That folder structure has been moved to its own repo here: https://github.com/DevinVinson/Plugin-Directory-Boilerplate
-
-## Recommended Tools
-
-### i18n Tools
-
-The WordPress Plugin Boilerplate uses a variable to store the text domain used when internationalizing strings throughout the Boilerplate. To take advantage of this method, there are tools that are recommended for providing correct, translatable files:
-
-* [Poedit](http://www.poedit.net/)
-* [makepot](http://i18n.svn.wordpress.org/tools/trunk/)
-* [i18n](https://github.com/grappler/i18n)
-
-Any of the above tools should provide you with the proper tooling to internationalize the plugin.
 
 ## License
 

@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+    db:
+        image: mysql:5.7
+        volumes:
+            - db_data:/var/lib/mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: wordpress
+            MYSQL_DATABASE: wordpress
+            MYSQL_USER: wordpress
+            MYSQL_PASSWORD: wordpress
+
+    wordpress:
+        build: .
+        depends_on:
+            - db
+        ports:
+            - '8888:80'
+        restart: always
+        volumes:
+            # Maps the Disqus plugin folder locally to the container filesystem
+            - ./disqus:/var/www/html/wp-content/plugins/disqus
+        environment:
+            WORDPRESS_DB_HOST: db:3306
+            WORDPRESS_DB_PASSWORD: wordpress
+            WORDPRESS_DEBUG: debug
+
+volumes:
+    db_data:

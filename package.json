@@ -7,7 +7,7 @@
     "build": "npm run build:dev && npm run build:dist",
     "build:dev": "webpack --progress --colors",
     "build:dist": "NODE_ENV=production webpack --progress --colors",
-    "start": "webpack-dev-server --hot --progress --colors"
+    "start": "webpack --progress --colors --watch"
   },
   "author": "",
   "license": "ISC",
@@ -23,8 +23,7 @@
     "i18n-webpack-plugin": "^0.3.0",
     "source-map-loader": "^0.2.1",
     "typescript": "^2.2.2",
-    "webpack": "^2.3.3",
-    "webpack-dev-server": "^2.4.2"
+    "webpack": "^2.3.3"
   },
   "dependencies": {
     "@types/react": "^15.0.22",
