@@ -1,5 +1,6 @@
 run:
-	docker-compose up --build
+	docker-compose up --build -d
+	yarn run start
 
 reset:
 	docker-compose down --volumes
@@ -15,4 +16,4 @@ activate:
 	docker exec disquswordpressplugin_wordpress_1 wp plugin activate disqus
 
 js:
-	npm run start
+	yarn run build
