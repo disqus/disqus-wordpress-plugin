@@ -1,8 +1,9 @@
-import *  as React from 'react';
+import * as React from 'react';
 
-const Loading = () =>
+const Loading = () => (
     <div className="dsq-loading-container">
         <div className="dsq-spinner" />
-    </div>;
+    </div>
+);
 
 export default Loading;

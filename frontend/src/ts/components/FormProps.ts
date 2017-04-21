@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { MainState } from './Main';
+import { IAdminState } from '../reducers/AdminState';
 
-export interface FormProps extends MainState {
-    onToggleState(stateKey: string): void,
-    onInputChange(stateKey: string, event: React.SyntheticEvent<HTMLInputElement>): void,
-    onSubmit(event: React.SyntheticEvent<HTMLFormElement>): void,
+export interface IFormProps {
+    data: IAdminState;
+    onToggleState(stateKey: string): void;
+    onInputChange(stateKey: string, event: React.SyntheticEvent<HTMLInputElement>): void;
+    onSubmit(event: React.SyntheticEvent<HTMLFormElement>): void;
 }

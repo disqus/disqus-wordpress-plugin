@@ -107,7 +107,7 @@ class Disqus_Admin {
 
          $admin_js_vars = array(
             'rest' => array (
-                'base' => esc_url_raw( rest_url() ) . 'disqus/v1/',
+                'base' => esc_url_raw( rest_url( 'disqus/v1/' ) ),
 
                 // Nonce is required so that the REST api permissions can recognize a user/check permissions.
                 'nonce' => wp_create_nonce( 'wp_rest' ),

@@ -1,13 +1,10 @@
 import * as React from 'react';
+import { IMessage } from '../reducers/AdminState';
 
-export interface MessageProps {
-    text: string,
-    type: string,
-}
-
-const Message = (props: MessageProps) =>
+const Message = (props: IMessage) => (
     <div className={`notice notice-${props.type} inline is-dismissible`}>
         <p>{props.text}</p>
-    </div>;
+    </div>
+);
 
 export default Message;

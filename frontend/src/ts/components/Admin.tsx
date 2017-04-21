@@ -1,15 +1,20 @@
 import * as React from 'react';
+import * as ReactRedux from 'react-redux';
+import * as Redux from 'redux';
+import {
+    SiteConfigContainer,
+    SSOConfigContainer,
+    SyncConfigContainer,
+} from '../containers';
+import { IAdminState } from '../reducers/AdminState';
 import { getForumAdminUrl, getWordpressAdminUrl } from '../utils';
 import AdminCard from './AdminCard';
-import SiteConfigForm from './SiteConfigForm';
-import SSOConfigForm from './SSOConfigForm';
-import SyncConfigForm from './SyncConfigForm';
 import WelcomePanel from './WelcomePanel';
-import { FormProps } from './FormProps';
 
-const Admin = (props: FormProps) =>
+/* tslint:disable:max-line-length */
+const Admin = (props: IAdminState) => (
     <div>
-        <WelcomePanel shortname={props.adminOptions.disqus_forum_url} />
+        <WelcomePanel shortname={props.data.adminOptions.disqus_forum_url} />
         <h2 className="title">
             {__('Plugin Settings')}
         </h2>
@@ -19,13 +24,13 @@ const Admin = (props: FormProps) =>
                     {__('Your site configuration comes from Disqus. Changing these values may break your installation.')}
                     {' '}
                     <a
-                        href={getForumAdminUrl(props.adminOptions.disqus_forum_url, 'install/platforms/wordpress')}
+                        href={getForumAdminUrl(props.data.adminOptions.disqus_forum_url, 'install/platforms/wordpress')}
                         target="_blank"
                     >
                         {__('WordPress install instructions')}
                     </a>
                 </p>
-                <SiteConfigForm {...props} />
+                <SiteConfigContainer />
             </AdminCard>
             <AdminCard title={__('Single Sign-on')}>
                 <p className="description">
@@ -35,19 +40,21 @@ const Admin = (props: FormProps) =>
                         {__('Learn More')}
                     </a>
                 </p>
-                <SSOConfigForm {...props} />
+                <SSOConfigContainer />
             </AdminCard>
             <AdminCard title={__('WordPress Comments')}>
                 <p className="description">
                     {__('Disqus has replaced the default WordPress commenting system. You may access and edit the comments in your database, but any actions performed there will not be reflected in Disqus.')}
                     {' '}
-                    <a href={getWordpressAdminUrl('edit-comments')}>
+                    <a href={getWordpressAdminUrl('editComments')}>
                         {__('View WordPress Comments')}
                     </a>
                 </p>
-                <SyncConfigForm {...props} />
+                <SyncConfigContainer />
             </AdminCard>
         </div>
-    </div>;
+    </div>
+);
+/* tslint:enable:max-line-length */
 
 export default Admin;

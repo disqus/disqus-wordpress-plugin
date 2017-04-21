@@ -1,15 +1,15 @@
-import { DisqusWordpressWindow } from './plugin';
+import { IAdminOptions, IDisqusWordpressWindow } from './reducers/AdminState';
 
-const WIN = window as DisqusWordpressWindow;
+const WIN = window as IDisqusWordpressWindow;
 const REST_OPTIONS = WIN.DISQUS_WP.rest;
 
-export interface RestResponse<T> {
-    code: string,
-    data: T,
-    message: string,
+export interface IRestResponse<T> {
+    code: string;
+    data: T;
+    message: string;
 }
 
-const makeApiRequest = function (method: string, url: string, data: any, onLoad: EventListenerOrEventListenerObject) {
+const makeApiRequest = (method: string, url: string, data: any, onLoad: EventListenerOrEventListenerObject) => {
     const XHR = new XMLHttpRequest();
     XHR.open(method, url);
     XHR.setRequestHeader('Content-type', 'application/json');
@@ -18,7 +18,7 @@ const makeApiRequest = function (method: string, url: string, data: any, onLoad:
     XHR.send(data);
 };
 
-const handleResponse = (text: string, callback: Function) => {
+const handleResponse = (text: string, callback: (response: IRestResponse<IAdminOptions>) => void) => {
     let jsonObject = null;
     try {
         jsonObject = JSON.parse(text);
@@ -29,14 +29,14 @@ const handleResponse = (text: string, callback: Function) => {
     callback.call(null, jsonObject);
 };
 
-export function restGet(path: string, onLoad: Function) {
+export function restGet(path: string, onLoad: (response: IRestResponse<IAdminOptions>) => void) {
     makeApiRequest('GET', `${REST_OPTIONS.base}${path}`, null, (xhr: Event) => {
-        handleResponse((<XMLHttpRequest>xhr.target).responseText, onLoad);
+        handleResponse((xhr.target as XMLHttpRequest).responseText, onLoad);
     });
-};
+}
 
-export function restPut(path: string, data: any, onLoad: Function) {
+export function restPut(path: string, data: any, onLoad: (response: IRestResponse<IAdminOptions>) => void) {
     makeApiRequest('PUT', `${REST_OPTIONS.base}${path}`, JSON.stringify(data), (xhr: Event) => {
-        handleResponse((<XMLHttpRequest>xhr.target).responseText, onLoad);
+        handleResponse((xhr.target as XMLHttpRequest).responseText, onLoad);
     });
-};
+}

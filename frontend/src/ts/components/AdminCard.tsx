@@ -1,18 +1,15 @@
 import * as React from 'react';
 
-export interface AdminCardProps {
-    children?: React.ReactChildren,
-    title: string,
+export interface IAdminCardProps {
+    children?: React.ReactChildren;
+    title: string;
 }
 
-const AdminCard = (props: AdminCardProps) =>
+const AdminCard = (props: IAdminCardProps) => (
     <div className="card">
-        {props.title ?
-            <h2 className="title">
-                {props.title}
-            </h2>
-        : null}
+        {props.title ? <h2 className="title">{props.title}</h2> : null}
         {props.children}
-    </div>;
+    </div>
+);
 
 export default AdminCard;

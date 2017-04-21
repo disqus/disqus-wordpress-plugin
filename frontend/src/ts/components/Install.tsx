@@ -1,22 +1,60 @@
 import * as React from 'react';
+import * as ReactRedux from 'react-redux';
+import { SiteConfigContainer } from '../containers';
+import { IAdminState } from '../reducers/AdminState';
+import { IDisqusWordpressWindow } from '../reducers/AdminState';
+import { appendQueryToUrl } from '../utils';
 import AdminCard from './AdminCard';
-import SiteConfigForm from './SiteConfigForm';
-import { FormProps } from './FormProps';
+import { IFormProps } from './FormProps';
 
-const Install = (props: FormProps) =>
+const WIN = window as IDisqusWordpressWindow;
+const REST_OPTIONS = WIN.DISQUS_WP.rest;
+
+/* tslint:disable:max-line-length */
+const Install = (props: IFormProps) => (
     <div>
         <AdminCard title={__('Automatic Installation')}>
             <p>
-                {__('Visit the Disqus installation page to continue. You will be prompted to create an account or log in, as well as create a new site or choose an existing one.')}
+                {__('Start the registration process and choose the WordPress platform when prompted.')}
             </p>
+            <table className="form-table">
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <label htmlFor="configKey">{__('Install Key')}</label>
+                        </th>
+                        <td>
+                            <input
+                                id="configKey"
+                                type="text"
+                                value={appendQueryToUrl(`${REST_OPTIONS.base}settings`, `secret=${props.data.adminOptions.disqus_sync_token}`)}
+                                className="regular-text"
+                                readOnly={true}
+                            />
+                            <p className="description">
+                                {__('Copy and paste this key in the WordPress installation instructions.')}
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             <p className="submit">
                 <a
-                    className="button button-primary button-hero"
-                    href={`https://disqus.com/admin/install/platforms/wordpress/?url=${encodeURIComponent(props.config.rest.base)}&token=${encodeURIComponent(props.adminOptions.disqus_sync_token)}`}
+                    className="button button-primary"
+                    href="https://disqus.com/profile/login/?next=/admin/create/"
                     target="_blank"
                 >
-                    {__('Start Automatic Installation')}
+                    {__('Start Installation')}
                 </a>
+                <br />
+                <br />
+                <em>
+                    {__('Already have a site registered?')}
+                    {' '}
+                    <a href="https://disqus.com/admin/install/platforms/wordpress/">
+                        Go to WordPress installation page
+                    </a>.
+                </em>
             </p>
         </AdminCard>
         <AdminCard title={__('Manual Installation')}>
@@ -25,14 +63,13 @@ const Install = (props: FormProps) =>
             </p>
             <p className="submit">
                 <button className="button" onClick={props.onToggleState.bind(null, 'isSiteFormLocked')}>
-                    {props.isSiteFormLocked ? __('Show manual installation') : __('Hide manual installation')}
+                    {props.data.isSiteFormLocked ? __('Show manual installation') : __('Hide manual installation')}
                 </button>
             </p>
-            {props.isSiteFormLocked ?
-                null :
-                <SiteConfigForm {...props} />
-            }
+            {props.data.isSiteFormLocked ? null : <SiteConfigContainer />}
         </AdminCard>
-    </div>;
+    </div>
+);
+/* tslint:enable:max-line-length */
 
 export default Install;

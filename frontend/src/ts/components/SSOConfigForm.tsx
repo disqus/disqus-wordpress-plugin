@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { FormProps } from './FormProps';
+import { IFormProps } from './FormProps';
 
-const SSOConfigForm = (props: FormProps) =>
+/* tslint:disable:max-line-length */
+const SSOConfigForm = (props: IFormProps) => (
     <form name="sso" action="" method="POST" onSubmit={props.onSubmit}>
         <table className="form-table">
             <tbody>
@@ -14,10 +15,10 @@ const SSOConfigForm = (props: FormProps) =>
                     <td>
                         <input
                             type="checkbox"
-                            id="localSSOEnabled"
+                            id="disqus_sso_enabled"
                             name="disqus_sso_enabled"
-                            checked={Boolean(props.localSSOEnabled)}
-                            onChange={props.onInputChange.bind(null, 'localSSOEnabled')}
+                            checked={Boolean(props.data.localAdminOptions.disqus_sso_enabled)}
+                            onChange={props.onInputChange.bind(null, 'disqus_sso_enabled')}
                         />
                         <p className="description">
                             {__('This will enable Single Sign-on for this site, if already enabled for your Disqus organization.')}
@@ -33,11 +34,11 @@ const SSOConfigForm = (props: FormProps) =>
                     <td>
                         <input
                             type="url"
-                            id="localSSOButton"
+                            id="disqus_sso_button"
                             name="disqus_sso_button"
                             className="regular-text"
-                            value={props.localSSOButton}
-                            onChange={props.onInputChange.bind(null, 'localSSOButton')}
+                            value={props.data.localAdminOptions.disqus_sso_button || ''}
+                            onChange={props.onInputChange.bind(null, 'disqus_sso_button')}
                         />
                         <p className="description">
                             {__('A link to a .png, .gif, or .jpg image to show as a button in Disqus.')}
@@ -59,8 +60,10 @@ const SSOConfigForm = (props: FormProps) =>
                 name="submit-application-form"
                 className="button button-primary"
                 value={__('Save')}
-                />
+            />
         </p>
-    </form>;
+    </form>
+);
+/* tslint:enable:max-line-length */
 
 export default SSOConfigForm;

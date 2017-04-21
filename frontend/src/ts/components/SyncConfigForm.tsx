@@ -1,23 +1,23 @@
 import * as React from 'react';
-import { FormProps } from './FormProps';
+import { IFormProps } from './FormProps';
 
-const SyncConfigForm = (props: FormProps) => (
+const SyncConfigForm = (props: IFormProps) => (
     <form name="sync" action="" method="POST" onSubmit={props.onSubmit}>
         <table className="form-table">
             <tbody>
                 <tr>
                     <th scope="row">
-                        <label htmlFor="localManualSync">
+                        <label htmlFor="disqus_manual_sync">
                             {__('Disable Automatic Syncing')}
                         </label>
                     </th>
                     <td>
                         <input
                             type="checkbox"
-                            id="localManualSync"
+                            id="disqus_manual_sync"
                             name="disqus_manual_sync"
-                            checked={Boolean(props.localManualSync)}
-                            onChange={props.onInputChange.bind(null, 'localManualSync')}
+                            checked={Boolean(props.data.localAdminOptions.disqus_manual_sync)}
+                            onChange={props.onInputChange.bind(null, 'disqus_manual_sync')}
                         />
                         <p className="description">
                             {'Enabling this will stop comments from being saved to your local WordPress database.'}
