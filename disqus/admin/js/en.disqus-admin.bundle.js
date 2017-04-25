@@ -4731,18 +4731,10 @@ module.exports = canDefineProperty;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FETCH_ADMIN_OPTIONS = 'FETCH_ADMIN_OPTIONS';
 exports.UPDATE_ADMIN_OPTIONS = 'UPDATE_ADMIN_OPTIONS';
 exports.TOGGLE_LOCAL_OPTION = 'TOGGLE_LOCAL_OPTION';
 exports.UPDATE_LOCAL_OPTION = 'UPDATE_LOCAL_OPTION';
 exports.SET_MESSAGE = 'SET_MESSAGE';
-function fetchAdminOptionsAction() {
-    return {
-        data: null,
-        type: exports.FETCH_ADMIN_OPTIONS,
-    };
-}
-exports.fetchAdminOptionsAction = fetchAdminOptionsAction;
 function updateAdminOptionsAction(data) {
     return {
         data: data,
