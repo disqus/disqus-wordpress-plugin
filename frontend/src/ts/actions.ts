@@ -5,18 +5,10 @@ export interface IAction {
     data: any;
 }
 
-export const FETCH_ADMIN_OPTIONS: string = 'FETCH_ADMIN_OPTIONS';
 export const UPDATE_ADMIN_OPTIONS: string = 'UPDATE_ADMIN_OPTIONS';
 export const TOGGLE_LOCAL_OPTION: string = 'TOGGLE_LOCAL_OPTION';
 export const UPDATE_LOCAL_OPTION: string = 'UPDATE_LOCAL_OPTION';
 export const SET_MESSAGE: string = 'SET_MESSAGE';
-
-export function fetchAdminOptionsAction(): IAction {
-    return {
-        data: null,
-        type: FETCH_ADMIN_OPTIONS,
-    };
-}
 
 export function updateAdminOptionsAction(data: any): IAction {
     return {
