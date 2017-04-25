@@ -21,7 +21,7 @@ services:
         restart: always
         volumes:
             # Maps the Disqus plugin folder locally to the container filesystem
-            - ./disqus:/var/www/html/wp-content/plugins/disqus
+            - "./disqus:/var/www/html/wp-content/plugins/disqus"
         environment:
             WORDPRESS_DB_HOST: db:3306
             WORDPRESS_DB_PASSWORD: wordpress
