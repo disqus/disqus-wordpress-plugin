@@ -301,6 +301,10 @@ class Disqus_Rest_Api {
 				$settings[$key] = esc_attr( $settings[$key] );
 		}
 
+		// Add additional non-database options here
+		$settings['disqus_installed'] = trim( $settings['disqus_forum_url'] ) !== '';
+		$settings['disqus_sync_activated'] = FALSE; // TODO: Figure out criteria to say true/false.
+
 		return $this->rest_get_response( $settings );
 	}
 
@@ -351,6 +355,11 @@ class Disqus_Rest_Api {
 				'disqus_sync_token' => array(
 					'description' => 'The shared secret token for data sync between Disqus and the plugin.',
 					'type' => 'string',
+					'readonly' => true,
+				),
+				'disqus_sync_activated' => array(
+					'description' => 'Whether the webhook link has been established with Disqus.',
+					'type' => 'boolean',
 					'readonly' => true,
 				),
 				'disqus_installed' => array(
