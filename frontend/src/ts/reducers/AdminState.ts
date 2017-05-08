@@ -1,3 +1,6 @@
+import { Record } from 'immutable';
+import AdminOptions, { IAdminOptions } from './AdminOptions';
+
 export interface IMessage {
     text: string;
     type: string;
@@ -22,18 +25,6 @@ export interface IWordpressSite {
     name: string;
 }
 
-export interface IAdminOptions {
-    disqus_forum_url?: string;
-    disqus_public_key?: string;
-    disqus_secret_key?: string;
-    disqus_admin_access_token?: string;
-    disqus_sso_button?: string;
-    disqus_sso_enabled?: boolean;
-    disqus_manual_sync?: boolean;
-    disqus_sync_token?: string;
-    [key: string]: any;
-}
-
 export interface IAdminConfigData {
     permissions: IAdminPermissions;
     rest: IRestOptions;
@@ -46,23 +37,39 @@ export interface IDisqusWordpressWindow extends Window {
 }
 
 export interface IAdminState {
-    config: IAdminConfigData;
-    adminOptions: IAdminOptions;
-    localAdminOptions: IAdminOptions;
-    message: IMessage;
-    isSiteFormLocked: boolean;
+    adminOptions?: IAdminOptions;
+    config?: IAdminConfigData;
+    isBusy?: boolean;
+    isSiteFormLocked?: boolean;
+    localAdminOptions?: IAdminOptions;
+    message?: IMessage;
     [key: string]: any;
 }
 
-export default class AdminState implements IAdminState {
+export default class AdminState extends Record({
+    adminOptions: null,
+    config: null,
+    isBusy: false,
+    isSiteFormLocked: true,
+    localAdminOptions: null,
+    message: null,
+}) implements IAdminState {
+    public adminOptions: AdminOptions;
     public config: IAdminConfigData;
-    public adminOptions: IAdminOptions;
-    public localAdminOptions: IAdminOptions;
-    public message: IMessage;
+    public isBusy: boolean;
     public isSiteFormLocked: boolean;
+    public localAdminOptions: AdminOptions;
+    public message: IMessage;
 
     constructor(config: IAdminConfigData) {
-        this.config = config;
-        this.isSiteFormLocked = true;
+        super({
+            config,
+            adminOptions: new AdminOptions(),
+            localAdminOptions: new AdminOptions(),
+        });
+    }
+
+    public with(values: IAdminState) {
+        return this.merge(values) as this;
     }
 }

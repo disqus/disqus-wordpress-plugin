@@ -4,10 +4,10 @@ import { IFormProps } from './FormProps';
 const getSubmitButton = (props: IFormProps): React.ReactNode => {
     return props.data.isSiteFormLocked ? (
         <button
-            className="button"
+            className="button button-link"
             onClick={props.onToggleState.bind(null, 'isSiteFormLocked')}
         >
-            <i className="genericon genericon-lock" />{' '}{__('Update Manually')}
+            <span className="dashicons dashicons-lock" />{' '}{__('Unlock')}
         </button>
     ) : (
         <input
@@ -33,7 +33,7 @@ const SiteConfigForm = (props: IFormProps) => (
                             id="disqus_forum_url"
                             name="disqus_forum_url"
                             className="regular-text"
-                            value={props.data.localAdminOptions.disqus_forum_url || ''}
+                            value={props.data.localAdminOptions.get('disqus_forum_url') || ''}
                             onChange={props.onInputChange.bind(null, 'disqus_forum_url')}
                             readOnly={Boolean(props.data.isSiteFormLocked)}
                         />
@@ -56,7 +56,7 @@ const SiteConfigForm = (props: IFormProps) => (
                             id="disqus_public_key"
                             name="disqus_public_key"
                             className="regular-text"
-                            value={props.data.localAdminOptions.disqus_public_key || ''}
+                            value={props.data.localAdminOptions.get('disqus_public_key') || ''}
                             onChange={props.onInputChange.bind(null, 'disqus_public_key')}
                             readOnly={Boolean(props.data.isSiteFormLocked)}
                         />
@@ -75,7 +75,7 @@ const SiteConfigForm = (props: IFormProps) => (
                             id="disqus_secret_key"
                             name="disqus_secret_key"
                             className="regular-text"
-                            value={props.data.localAdminOptions.disqus_secret_key || ''}
+                            value={props.data.localAdminOptions.get('disqus_secret_key') || ''}
                             onChange={props.onInputChange.bind(null, 'disqus_secret_key')}
                             readOnly={Boolean(props.data.isSiteFormLocked)}
                         />
@@ -94,7 +94,7 @@ const SiteConfigForm = (props: IFormProps) => (
                             id="disqus_admin_access_token"
                             name="disqus_admin_access_token"
                             className="regular-text"
-                            value={props.data.localAdminOptions.disqus_admin_access_token || ''}
+                            value={props.data.localAdminOptions.get('disqus_admin_access_token') || ''}
                             onChange={props.onInputChange.bind(null, 'disqus_admin_access_token')}
                             readOnly={Boolean(props.data.isSiteFormLocked)}
                         />

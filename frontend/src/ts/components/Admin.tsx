@@ -5,14 +5,16 @@ import {
     SiteConfigContainer,
     SSOConfigContainer,
     SyncConfigContainer,
+    SyncEnableButtonContainer,
 } from '../containers';
 import { IAdminState } from '../reducers/AdminState';
 import { getForumAdminUrl, getWordpressAdminUrl } from '../utils';
 import AdminCard from './AdminCard';
+import { IFormProps } from './FormProps';
 import WelcomePanel from './WelcomePanel';
 
 /* tslint:disable:max-line-length */
-const Admin = (props: IAdminState) => (
+const Admin = (props: IFormProps) => (
     <div>
         <WelcomePanel shortname={props.data.adminOptions.disqus_forum_url} />
         <h2 className="title">
@@ -50,7 +52,7 @@ const Admin = (props: IAdminState) => (
                         {__('View WordPress Comments')}
                     </a>
                 </p>
-                <SyncConfigContainer />
+                {props.data.adminOptions.disqus_sync_activated ? <SyncConfigContainer /> : <SyncEnableButtonContainer />}
             </AdminCard>
         </div>
     </div>

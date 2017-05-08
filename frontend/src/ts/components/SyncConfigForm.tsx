@@ -16,7 +16,7 @@ const SyncConfigForm = (props: IFormProps) => (
                             type="checkbox"
                             id="disqus_manual_sync"
                             name="disqus_manual_sync"
-                            checked={Boolean(props.data.localAdminOptions.disqus_manual_sync)}
+                            checked={Boolean(props.data.localAdminOptions.get('disqus_manual_sync'))}
                             onChange={props.onInputChange.bind(null, 'disqus_manual_sync')}
                         />
                         <p className="description">

@@ -3,7 +3,7 @@ import * as ReactRedux from 'react-redux';
 import * as Redux from 'redux';
 import {
     setMessageAction,
-    toggleLocalOptionAction,
+    toggleValueAction,
     updateAdminOptionsAction,
     updateLocalOptionAction,
 } from './actions';
@@ -12,7 +12,9 @@ import Main from './components/Main';
 import SiteConfigForm from './components/SiteConfigForm';
 import SSOConfigForm from './components/SSOConfigForm';
 import SyncConfigForm from './components/SyncConfigForm';
-import { IAdminOptions, IAdminState } from './reducers/AdminState';
+import SyncEnableButton from './components/SyncEnableButton';
+import { IAdminOptions } from './reducers/AdminOptions';
+import AdminState from './reducers/AdminState';
 import { IRestResponse, restGet, restPut } from './rest';
 
 const UPDATABLE_FIELDS: string[] = [
@@ -26,7 +28,7 @@ const UPDATABLE_FIELDS: string[] = [
     'disqus_sync_token',
 ];
 
-const mapStateToProps = (state: IAdminState) => {
+const mapStateToProps = (state: AdminState) => {
     return {
         data: state,
     };
@@ -51,7 +53,7 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                     const currentField: Element | HTMLCollection = event.currentTarget.elements.namedItem(currentIdKey);
                     const currentInputElement = currentField as HTMLInputElement;
                     return (Object as any).assign({
-                        [previousValue[currentInputElement.name]]: currentInputElement.value,
+                        [currentInputElement.name]: currentInputElement.value,
                     }, previousValue);
                 }
                 return previousValue;
@@ -71,7 +73,7 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
             });
         },
         onToggleState: (key: string) => {
-            dispatch(toggleLocalOptionAction(key));
+            dispatch(toggleValueAction(key));
         },
     };
 };
@@ -100,3 +102,8 @@ export const SyncConfigContainer = ReactRedux.connect(
     mapStateToProps,
     mapDispatchToProps,
 )(SyncConfigForm);
+
+export const SyncEnableButtonContainer = ReactRedux.connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(SyncEnableButton);

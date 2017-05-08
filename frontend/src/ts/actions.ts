@@ -6,7 +6,8 @@ export interface IAction {
 }
 
 export const UPDATE_ADMIN_OPTIONS: string = 'UPDATE_ADMIN_OPTIONS';
-export const TOGGLE_LOCAL_OPTION: string = 'TOGGLE_LOCAL_OPTION';
+export const TOGGLE_VALUE: string = 'TOGGLE_VALUE';
+export const SET_VALUE: string = 'SET_VALUE';
 export const UPDATE_LOCAL_OPTION: string = 'UPDATE_LOCAL_OPTION';
 export const SET_MESSAGE: string = 'SET_MESSAGE';
 
@@ -17,20 +18,28 @@ export function updateAdminOptionsAction(data: any): IAction {
     };
 }
 
-export function toggleLocalOptionAction(key: string): IAction {
-    return {
-        data: key,
-        type: TOGGLE_LOCAL_OPTION,
-    };
-}
-
 export function updateLocalOptionAction(key: string, newValue: string): IAction {
     return {
         data: {
-            key,
-            newValue,
+            [key]: newValue,
         },
         type: UPDATE_LOCAL_OPTION,
+    };
+}
+
+export function toggleValueAction(key: string): IAction {
+    return {
+        data: key,
+        type: TOGGLE_VALUE,
+    };
+}
+
+export function setValueAction(key: string, newValue: any): IAction {
+    return {
+        data: {
+            [key]: newValue,
+        },
+        type: SET_VALUE,
     };
 }
 

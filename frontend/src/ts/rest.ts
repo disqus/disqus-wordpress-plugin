@@ -1,4 +1,5 @@
-import { IAdminOptions, IDisqusWordpressWindow } from './reducers/AdminState';
+import AdminOptions, { IAdminOptions } from './reducers/AdminOptions';
+import { IDisqusWordpressWindow } from './reducers/AdminState';
 
 const WIN = window as IDisqusWordpressWindow;
 const REST_OPTIONS = WIN.DISQUS_WP.rest;

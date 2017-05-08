@@ -4,6 +4,7 @@ import { SiteConfigContainer } from '../containers';
 import { IAdminState } from '../reducers/AdminState';
 import { IDisqusWordpressWindow } from '../reducers/AdminState';
 import { appendQueryToUrl } from '../utils';
+import { getWordpressAdminUrl } from '../utils';
 import AdminCard from './AdminCard';
 import { IFormProps } from './FormProps';
 
@@ -27,7 +28,7 @@ const Install = (props: IFormProps) => (
                             <input
                                 id="configKey"
                                 type="text"
-                                value={appendQueryToUrl(`${REST_OPTIONS.base}settings`, `secret=${props.data.adminOptions.disqus_sync_token}`)}
+                                value={appendQueryToUrl(`${REST_OPTIONS.base}settings`, `secret=${props.data.adminOptions.get('disqus_sync_token', '')}`)}
                                 className="regular-text"
                                 readOnly={true}
                             />
@@ -58,7 +59,7 @@ const Install = (props: IFormProps) => (
             </p>
         </AdminCard>
         <AdminCard title={__('Manual Installation')}>
-            <p className="description">
+            <p>
                 {__('You may install Disqus manually if you\'re not able to use the automatic installer.')}
             </p>
             <p className="submit">
@@ -67,6 +68,15 @@ const Install = (props: IFormProps) => (
                 </button>
             </p>
             {props.data.isSiteFormLocked ? null : <SiteConfigContainer />}
+        </AdminCard>
+        <AdminCard title={__('WordPress Comments')}>
+            <p className="description">
+                {__('Disqus has replaced the default WordPress commenting system. You may access and edit the comments in your database, but any actions performed there will not be reflected in Disqus.')}
+                {' '}
+                <a href={getWordpressAdminUrl('editComments')}>
+                    {__('View WordPress Comments')}
+                </a>
+            </p>
         </AdminCard>
     </div>
 );

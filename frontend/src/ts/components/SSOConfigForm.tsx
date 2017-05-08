@@ -17,7 +17,7 @@ const SSOConfigForm = (props: IFormProps) => (
                             type="checkbox"
                             id="disqus_sso_enabled"
                             name="disqus_sso_enabled"
-                            checked={Boolean(props.data.localAdminOptions.disqus_sso_enabled)}
+                            checked={Boolean(props.data.localAdminOptions.get('disqus_sso_enabled'))}
                             onChange={props.onInputChange.bind(null, 'disqus_sso_enabled')}
                         />
                         <p className="description">
@@ -37,7 +37,7 @@ const SSOConfigForm = (props: IFormProps) => (
                             id="disqus_sso_button"
                             name="disqus_sso_button"
                             className="regular-text"
-                            value={props.data.localAdminOptions.disqus_sso_button || ''}
+                            value={props.data.localAdminOptions.get('disqus_sso_button') || ''}
                             onChange={props.onInputChange.bind(null, 'disqus_sso_button')}
                         />
                         <p className="description">
