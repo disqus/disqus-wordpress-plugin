@@ -113,8 +113,13 @@ class Disqus_Public {
 	}
 
 	public function dsq_comments_link_template( $comment_text ) {
+		global $post;
+
 		if ( $this->dsq_can_load() ) {
-			return require plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/disqus-public-comment-text.php';
+			$disqus_identifier = esc_attr( $this->dsq_identifier_for_post( $post ) );
+			return '<span class="dsq-postid" data-dsqidentifier="' . $disqus_identifier . '">'
+						. $comment_text .
+				   '</span>';
 		} else {
 			return $comment_text;
 		}
