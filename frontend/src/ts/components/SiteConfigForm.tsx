@@ -7,7 +7,7 @@ const getSubmitButton = (props: IFormProps): React.ReactNode => {
             className="button button-link"
             onClick={props.onToggleState.bind(null, 'isSiteFormLocked')}
         >
-            <span className="dashicons dashicons-lock" />{' '}{__('Unlock')}
+            <span className="dashicons dashicons-lock" />{' '}{__('Click to make changes')}
         </button>
     ) : (
         <input

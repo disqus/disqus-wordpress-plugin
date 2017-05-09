@@ -63,8 +63,10 @@ const Install = (props: IFormProps) => (
                 {__('You may install Disqus manually if you\'re not able to use the automatic installer.')}
             </p>
             <p className="submit">
-                <button className="button" onClick={props.onToggleState.bind(null, 'isSiteFormLocked')}>
-                    {props.data.isSiteFormLocked ? __('Show manual installation') : __('Hide manual installation')}
+                <button className="button button-link" onClick={props.onToggleState.bind(null, 'isSiteFormLocked')}>
+                    <span className={`dashicons dashicons-arrow-${props.data.isSiteFormLocked ? 'right' : 'down'}`} />
+                    {' '}
+                    {props.data.isSiteFormLocked ? __('Show manual configuration') : __('Hide manual configuration')}
                 </button>
             </p>
             {props.data.isSiteFormLocked ? null : <SiteConfigContainer />}

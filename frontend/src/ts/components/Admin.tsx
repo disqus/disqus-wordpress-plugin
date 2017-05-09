@@ -13,6 +13,39 @@ import AdminCard from './AdminCard';
 import { IFormProps } from './FormProps';
 import WelcomePanel from './WelcomePanel';
 
+const getSSOContainer = (props: IFormProps) => {
+    const adminOptions = props.data.adminOptions;
+    if (!adminOptions.disqus_public_key || !adminOptions.disqus_secret_key) {
+        return (
+            <div className="notice notice-warning">
+                <p>
+                    <span className="dashicons dashicons-warning" />
+                    {' '}
+                    {__('You must have an API Public Key and API Secret Key configured to enable this feature.')}
+                </p>
+            </div>
+        );
+    }
+    return <SSOConfigContainer />;
+};
+
+const getSyncContainer = (props: IFormProps) => {
+    const adminOptions = props.data.adminOptions;
+    if (!adminOptions.disqus_secret_key) {
+        return (
+            <div className="notice notice-warning">
+                <p>
+                    <span className="dashicons dashicons-warning" />
+                    {' '}
+                    {__('You must have an API Secret Key and API Access Token configured to enable this feature.')}
+                </p>
+            </div>
+        );
+    }
+
+    return adminOptions.disqus_sync_activated ? <SyncConfigContainer /> : <SyncEnableButtonContainer />;
+};
+
 /* tslint:disable:max-line-length */
 const Admin = (props: IFormProps) => (
     <div>
@@ -42,17 +75,28 @@ const Admin = (props: IFormProps) => (
                         {__('Learn More')}
                     </a>
                 </p>
-                <SSOConfigContainer />
+                {getSSOContainer(props)}
             </AdminCard>
             <AdminCard title={__('WordPress Comments')}>
                 <p className="description">
                     {__('Disqus has replaced the default WordPress commenting system. You may access and edit the comments in your database, but any actions performed there will not be reflected in Disqus.')}
-                    {' '}
-                    <a href={getWordpressAdminUrl('editComments')}>
+                </p>
+                <p className="submit">
+                    <a
+                        href={getWordpressAdminUrl('editComments')}
+                        className="button"
+                    >
                         {__('View WordPress Comments')}
                     </a>
                 </p>
-                {props.data.adminOptions.disqus_sync_activated ? <SyncConfigContainer /> : <SyncEnableButtonContainer />}
+                <hr />
+                <h3>
+                    {__('Syncing')}
+                </h3>
+                <p className="description">
+                    {__('Syncing may be enabled between WordPress and Disqus, which will copy comments created in Disqus to your local WordPress database for backup purposes.')}
+                </p>
+                {getSyncContainer(props)}
             </AdminCard>
         </div>
     </div>

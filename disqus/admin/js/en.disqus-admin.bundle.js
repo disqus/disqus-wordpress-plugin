@@ -11220,6 +11220,28 @@ var containers_1 = __webpack_require__(26);
 var utils_1 = __webpack_require__(27);
 var AdminCard_1 = __webpack_require__(56);
 var WelcomePanel_1 = __webpack_require__(111);
+var getSSOContainer = function (props) {
+    var adminOptions = props.data.adminOptions;
+    if (!adminOptions.disqus_public_key || !adminOptions.disqus_secret_key) {
+        return (React.createElement("div", { className: "notice notice-warning" },
+            React.createElement("p", null,
+                React.createElement("span", { className: "dashicons dashicons-warning" }),
+                ' ',
+                "You must have an API Public Key and API Secret Key configured to enable this feature.")));
+    }
+    return React.createElement(containers_1.SSOConfigContainer, null);
+};
+var getSyncContainer = function (props) {
+    var adminOptions = props.data.adminOptions;
+    if (!adminOptions.disqus_secret_key) {
+        return (React.createElement("div", { className: "notice notice-warning" },
+            React.createElement("p", null,
+                React.createElement("span", { className: "dashicons dashicons-warning" }),
+                ' ',
+                "You must have an API Secret Key and API Access Token configured to enable this feature.")));
+    }
+    return adminOptions.disqus_sync_activated ? React.createElement(containers_1.SyncConfigContainer, null) : React.createElement(containers_1.SyncEnableButtonContainer, null);
+};
 /* tslint:disable:max-line-length */
 var Admin = function (props) { return (React.createElement("div", null,
     React.createElement(WelcomePanel_1.default, { shortname: props.data.adminOptions.disqus_forum_url }),
@@ -11236,13 +11258,15 @@ var Admin = function (props) { return (React.createElement("div", null,
                 "Allow users to sign in with this site's user accounts. This is a premium-level feature and must be enabled for your organization.",
                 ' ',
                 React.createElement("a", { href: "https://disqus.com/api/applications/", target: "_blank" }, "Learn More")),
-            React.createElement(containers_1.SSOConfigContainer, null)),
+            getSSOContainer(props)),
         React.createElement(AdminCard_1.default, { title: "WordPress Comments" },
-            React.createElement("p", { className: "description" },
-                "Disqus has replaced the default WordPress commenting system. You may access and edit the comments in your database, but any actions performed there will not be reflected in Disqus.",
-                ' ',
-                React.createElement("a", { href: utils_1.getWordpressAdminUrl('editComments') }, "View WordPress Comments")),
-            props.data.adminOptions.disqus_sync_activated ? React.createElement(containers_1.SyncConfigContainer, null) : React.createElement(containers_1.SyncEnableButtonContainer, null))))); };
+            React.createElement("p", { className: "description" }, "Disqus has replaced the default WordPress commenting system. You may access and edit the comments in your database, but any actions performed there will not be reflected in Disqus."),
+            React.createElement("p", { className: "submit" },
+                React.createElement("a", { href: utils_1.getWordpressAdminUrl('editComments'), className: "button" }, "View WordPress Comments")),
+            React.createElement("hr", null),
+            React.createElement("h3", null, "Syncing"),
+            React.createElement("p", { className: "description" }, "Syncing may be enabled between WordPress and Disqus, which will copy comments created in Disqus to your local WordPress database for backup purposes."),
+            getSyncContainer(props))))); };
 /* tslint:enable:max-line-length */
 exports.default = Admin;
 
@@ -11285,7 +11309,10 @@ var Install = function (props) { return (React.createElement("div", null,
     React.createElement(AdminCard_1.default, { title: "Manual Installation" },
         React.createElement("p", null, "You may install Disqus manually if you're not able to use the automatic installer."),
         React.createElement("p", { className: "submit" },
-            React.createElement("button", { className: "button", onClick: props.onToggleState.bind(null, 'isSiteFormLocked') }, props.data.isSiteFormLocked ? "Show manual installation" : "Hide manual installation")),
+            React.createElement("button", { className: "button button-link", onClick: props.onToggleState.bind(null, 'isSiteFormLocked') },
+                React.createElement("span", { className: "dashicons dashicons-arrow-" + (props.data.isSiteFormLocked ? 'right' : 'down') }),
+                ' ',
+                props.data.isSiteFormLocked ? "Show manual configuration" : "Hide manual configuration")),
         props.data.isSiteFormLocked ? null : React.createElement(containers_1.SiteConfigContainer, null)),
     React.createElement(AdminCard_1.default, { title: "WordPress Comments" },
         React.createElement("p", { className: "description" },
@@ -11409,7 +11436,7 @@ var getSubmitButton = function (props) {
     return props.data.isSiteFormLocked ? (React.createElement("button", { className: "button button-link", onClick: props.onToggleState.bind(null, 'isSiteFormLocked') },
         React.createElement("span", { className: "dashicons dashicons-lock" }),
         ' ',
-        "Unlock")) : (React.createElement("input", { type: "submit", name: "submit-site-form", className: "button button-primary", value: "Save" }));
+        "Click to make changes")) : (React.createElement("input", { type: "submit", name: "submit-site-form", className: "button button-primary", value: "Save" }));
 };
 var SiteConfigForm = function (props) { return (React.createElement("form", { name: "site", action: "", method: "POST", onSubmit: props.onSubmit },
     React.createElement("table", { className: "form-table" },
