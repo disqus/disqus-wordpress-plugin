@@ -90,13 +90,14 @@ const SiteConfigForm = (props: IFormProps) => (
                     </th>
                     <td>
                         <input
-                            type="text"
+                            type="password"
                             id="disqus_admin_access_token"
                             name="disqus_admin_access_token"
                             className="regular-text"
                             value={props.data.localAdminOptions.get('disqus_admin_access_token') || ''}
                             onChange={props.onInputChange.bind(null, 'disqus_admin_access_token')}
                             readOnly={Boolean(props.data.isSiteFormLocked)}
+                            autoComplete="new-password"
                         />
                         <p className="description">
                             {__('The admin access token of your application (optional).')}
