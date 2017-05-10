@@ -52,13 +52,14 @@ const SiteConfigForm = (props: IFormProps) => (
                     </th>
                     <td>
                         <input
-                            type="text"
+                            type={props.data.isSiteFormLocked ? 'password' : 'text'}
                             id="disqus_public_key"
                             name="disqus_public_key"
                             className="regular-text"
                             value={props.data.localAdminOptions.get('disqus_public_key') || ''}
                             onChange={props.onInputChange.bind(null, 'disqus_public_key')}
                             readOnly={Boolean(props.data.isSiteFormLocked)}
+                            autoComplete="new-password"
                         />
                         <p className="description">
                             {__('The public key of your application (optional).')}
@@ -71,13 +72,14 @@ const SiteConfigForm = (props: IFormProps) => (
                     </th>
                     <td>
                         <input
-                            type="text"
+                            type={props.data.isSiteFormLocked ? 'password' : 'text'}
                             id="disqus_secret_key"
                             name="disqus_secret_key"
                             className="regular-text"
                             value={props.data.localAdminOptions.get('disqus_secret_key') || ''}
                             onChange={props.onInputChange.bind(null, 'disqus_secret_key')}
                             readOnly={Boolean(props.data.isSiteFormLocked)}
+                            autoComplete="new-password"
                         />
                         <p className="description">
                             {__('The secret key of your application (optional).')}
@@ -90,7 +92,7 @@ const SiteConfigForm = (props: IFormProps) => (
                     </th>
                     <td>
                         <input
-                            type="password"
+                            type={props.data.isSiteFormLocked ? 'password' : 'text'}
                             id="disqus_admin_access_token"
                             name="disqus_admin_access_token"
                             className="regular-text"
