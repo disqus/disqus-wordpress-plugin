@@ -74,8 +74,12 @@ const Install = (props: IFormProps) => (
         <AdminCard title={__('WordPress Comments')}>
             <p className="description">
                 {__('Disqus has replaced the default WordPress commenting system. You may access and edit the comments in your database, but any actions performed there will not be reflected in Disqus.')}
-                {' '}
-                <a href={getWordpressAdminUrl('editComments')}>
+            </p>
+            <p className="submit">
+                <a
+                    href={getWordpressAdminUrl('editComments')}
+                    className="button"
+                >
                     {__('View WordPress Comments')}
                 </a>
             </p>
