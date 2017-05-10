@@ -17,9 +17,7 @@ const adminApp = (state: AdminState = initialState, action: IAction): AdminState
             });
             break;
         case actions.SET_MESSAGE:
-            state = state.with({
-                message: action.data,
-            });
+            state = state.set('message', action.data);
             break;
         case actions.SET_VALUE:
             state = state.with(action.data);

@@ -42,7 +42,11 @@ export default class AdminOptions extends Record({
         super(options);
     }
 
-    public with(values: IAdminOptions) {
+    public set(key: string, value: any): AdminOptions {
+        return super.set(key, value) as this;
+    }
+
+    public with(values: IAdminOptions): AdminOptions {
         return this.merge(values) as this;
     }
 }

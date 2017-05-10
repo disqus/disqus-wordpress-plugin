@@ -69,7 +69,11 @@ export default class AdminState extends Record({
         });
     }
 
-    public with(values: IAdminState) {
+    public set(key: string, value: any): AdminState {
+        return super.set(key, value) as this;
+    }
+
+    public with(values: IAdminState): AdminState {
         return this.merge(values) as this;
     }
 }
