@@ -11233,7 +11233,7 @@ var getSSOContainer = function (props) {
 };
 var getSyncContainer = function (props) {
     var adminOptions = props.data.adminOptions;
-    if (!adminOptions.disqus_secret_key) {
+    if (!adminOptions.disqus_secret_key || !adminOptions.disqus_admin_access_token) {
         return (React.createElement("div", { className: "notice notice-warning" },
             React.createElement("p", null,
                 React.createElement("span", { className: "dashicons dashicons-warning" }),
@@ -11315,10 +11315,9 @@ var Install = function (props) { return (React.createElement("div", null,
                 props.data.isSiteFormLocked ? "Show manual configuration" : "Hide manual configuration")),
         props.data.isSiteFormLocked ? null : React.createElement(containers_1.SiteConfigContainer, null)),
     React.createElement(AdminCard_1.default, { title: "WordPress Comments" },
-        React.createElement("p", { className: "description" },
-            "Disqus has replaced the default WordPress commenting system. You may access and edit the comments in your database, but any actions performed there will not be reflected in Disqus.",
-            ' ',
-            React.createElement("a", { href: utils_2.getWordpressAdminUrl('editComments') }, "View WordPress Comments"))))); };
+        React.createElement("p", { className: "description" }, "Disqus has replaced the default WordPress commenting system. You may access and edit the comments in your database, but any actions performed there will not be reflected in Disqus."),
+        React.createElement("p", { className: "submit" },
+            React.createElement("a", { href: utils_2.getWordpressAdminUrl('editComments'), className: "button" }, "View WordPress Comments"))))); };
 /* tslint:enable:max-line-length */
 exports.default = Install;
 
@@ -11466,7 +11465,7 @@ var SiteConfigForm = function (props) { return (React.createElement("form", { na
                 React.createElement("th", { scope: "row" },
                     React.createElement("label", { htmlFor: "disqus_admin_access_token" }, "API Access Token")),
                 React.createElement("td", null,
-                    React.createElement("input", { type: "text", id: "disqus_admin_access_token", name: "disqus_admin_access_token", className: "regular-text", value: props.data.localAdminOptions.get('disqus_admin_access_token') || '', onChange: props.onInputChange.bind(null, 'disqus_admin_access_token'), readOnly: Boolean(props.data.isSiteFormLocked) }),
+                    React.createElement("input", { type: "password", id: "disqus_admin_access_token", name: "disqus_admin_access_token", className: "regular-text", value: props.data.localAdminOptions.get('disqus_admin_access_token') || '', onChange: props.onInputChange.bind(null, 'disqus_admin_access_token'), readOnly: Boolean(props.data.isSiteFormLocked), autoComplete: "new-password" }),
                     React.createElement("p", { className: "description" }, "The admin access token of your application (optional)."))))),
     React.createElement("p", { className: "submit" }, getSubmitButton(props)))); };
 exports.default = SiteConfigForm;
@@ -11585,6 +11584,9 @@ var AdminState = (function (_super) {
             localAdminOptions: new AdminOptions_1.default(),
         }) || this;
     }
+    AdminState.prototype.set = function (key, value) {
+        return _super.prototype.set.call(this, key, value);
+    };
     AdminState.prototype.with = function (values) {
         return this.merge(values);
     };
@@ -11621,9 +11623,7 @@ var adminApp = function (state, action) {
             });
             break;
         case actions.SET_MESSAGE:
-            state = state.with({
-                message: action.data,
-            });
+            state = state.set('message', action.data);
             break;
         case actions.SET_VALUE:
             state = state.with(action.data);
@@ -29961,6 +29961,9 @@ var AdminOptions = (function (_super) {
     function AdminOptions(options) {
         return _super.call(this, options) || this;
     }
+    AdminOptions.prototype.set = function (key, value) {
+        return _super.prototype.set.call(this, key, value);
+    };
     AdminOptions.prototype.with = function (values) {
         return this.merge(values);
     };
