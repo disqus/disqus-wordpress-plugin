@@ -31,7 +31,7 @@ const getSSOContainer = (props: IFormProps) => {
 
 const getSyncContainer = (props: IFormProps) => {
     const adminOptions = props.data.adminOptions;
-    if (!adminOptions.disqus_secret_key) {
+    if (!adminOptions.disqus_secret_key || !adminOptions.disqus_admin_access_token) {
         return (
             <div className="notice notice-warning">
                 <p>
