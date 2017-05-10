@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ryanvalentin/disqus-wordpress-minimal.svg?branch=master)](https://travis-ci.org/ryanvalentin/disqus-wordpress-minimal)
+[![Build Status](https://travis-ci.org/ryanvalentin/disqus-wordpress-plugin.svg?branch=master)](https://travis-ci.org/ryanvalentin/disqus-wordpress-plugin)
 
 # WordPress Plugin Boilerplate
 
