@@ -147,7 +147,7 @@ class Disqus_Rest_Api {
 		$api_url = Disqus_Rest_Api::DISQUS_API_BASE . 'posts/details.json?'
 			. 'api_secret=' . $secret_key
 			. '&access_token=' . $access_token
-			. '&post=' . ( string ) $dsq_post_id
+			. '&post=' . (string) $dsq_post_id
 			. '&related=thread';
 
 		$dsq_response = wp_remote_get( $api_url, array(
@@ -221,7 +221,7 @@ class Disqus_Rest_Api {
 		if ( null !== $post->parent ) {
 			$parent_comment_query = new WP_Comment_Query( array(
 				'meta_key' => 'dsq_post_id',
-				'meta_value' => ( string ) $post->parent,
+				'meta_value' => (string) $post->parent,
 				'number' => 1,
 			) );
 
@@ -249,9 +249,9 @@ class Disqus_Rest_Api {
 		$wp_request->set_param( 'author_email', $author_email );
 		$wp_request->set_param( 'author_name', $post->author->name );
 		$wp_request->set_param( 'author_url', $post->author->url );
-		// $wp_request->set_param( 'date_gmt', $post->createdAt );.
+		// you can also set ( 'date_gmt', $post->createdAt ).
 		$wp_request->set_param( 'content', $post->raw_message );
-		$wp_request->set_param( 'post', (int)$wp_post_id );
+		$wp_request->set_param( 'post', (int) $wp_post_id );
 		$wp_request->set_param( 'parent', $parent );
 
 		$wp_response = rest_do_request( $wp_request );
@@ -276,8 +276,8 @@ class Disqus_Rest_Api {
 	 * it to the local comments database.
 	 *
 	 * @since    1.0.0
-	 * @param    WP_REST_Request    $request        The request object.
-	 * @return   WP_REST_Response     				The API response object.
+	 * @param    WP_REST_Request $request    The request object.
+	 * @return   WP_REST_Response     		 The API response object.
 	 */
 	public function rest_settings( WP_REST_Request $request ) {
 		$settings = array();
@@ -286,16 +286,16 @@ class Disqus_Rest_Api {
 		$json = $request->get_json_params();
 		$schema = $this->dsq_get_settings_schema();
 
-		foreach ( $schema['properties'] as $key => $schemaValue ) {
-			$should_update_param = $should_update && isset( $json[$key] ) && $schemaValue['readonly'] === false;
+		foreach ( $schema['properties'] as $key => $schema_value ) {
+			$should_update_param = $should_update && isset( $json[ $key ] ) && $schema_value['readonly'] === false;
 			if ( $should_update_param ) {
-				update_option( $key, $json[$key] );
+				update_option( $key, $json[ $key ] );
 			}
-			$settings[$key] = get_option( $key, null );
+			$settings[ $key ] = get_option( $key, null );
 
 			// Escape only values that have been set, otherwise esc_attr() will change null to an empty string.
-			if ( null !== $settings[$key] )
-				$settings[$key] = esc_attr( $settings[$key] );
+			if ( null !== $settings[ $key ] )
+				$settings[ $key ] = esc_attr( $settings[ $key ] );
 		}
 
 		// Add additional non-database options here.
@@ -305,6 +305,13 @@ class Disqus_Rest_Api {
 		return $this->rest_get_response( $settings );
 	}
 
+	/**
+	 * Returns the schema for the Disqus admin settings REST endpoint.
+	 *
+	 * @since     1.0.0
+	 * @access    private
+	 * @return    array    The REST schema.
+	 */
 	private function dsq_get_settings_schema() {
 		return array(
 			// This tells the spec of JSON Schema we are using which is draft 4.
