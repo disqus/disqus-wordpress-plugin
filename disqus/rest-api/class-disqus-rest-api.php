@@ -7,14 +7,14 @@
  * @since      1.0.0
  *
  * @package    Disqus
- * @subpackage Disqus/admin
+ * @subpackage Disqus/rest-api
  */
 
 /**
  * Defines the REST API endpoints for the plugin
  *
  * @package    Disqus
- * @subpackage Disqus/admin
+ * @subpackage Disqus/rest-api
  * @author     Ryan Valentin <ryan@disqus.com>
  */
 class Disqus_Rest_Api {

@@ -18,5 +18,8 @@
     "require": {
         "php": ">=5.6.3",
         "composer/installers": "v1.2.0"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.0"
     }
 }

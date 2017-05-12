@@ -13,7 +13,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-if ( !current_user_can( 'install_plugins' ) ) {
+if ( ! current_user_can( 'install_plugins' ) ) {
 	exit;
 }
 

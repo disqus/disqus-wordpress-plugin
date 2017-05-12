@@ -6,6 +6,9 @@
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
 	>
+	<php>
+		<env name="DISQUS_PLUGIN" value="disqus/disqus.php"/>
+	</php>
 	<testsuites>
 		<testsuite>
 			<directory prefix="test-" suffix=".php">./tests/</directory>

@@ -5,6 +5,21 @@
 	<rule ref="WordPress-Core" />
 	<rule ref="WordPress-Docs" />
 
+	<rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+	<rule ref="Generic.WhiteSpace.ScopeIndent">
+		<properties>
+			<property name="indent" value="4"/>
+			<property name="tabIndent" value="false"/>
+		</properties>
+	</rule>
+
+	<rule ref="Generic.Files.LineLength">
+		<properties>
+			<property name="lineLimit" value="120"/>
+		</properties>
+	</rule>
+
+
 	<exclude-pattern>*/node_modules/*</exclude-pattern>
 	<exclude-pattern>*/vendor/*</exclude-pattern>
 </ruleset>
