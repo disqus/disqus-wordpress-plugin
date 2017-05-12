@@ -107,7 +107,7 @@ class Disqus_Rest_Api {
 		return new WP_REST_Response( array(
 			'code' => 'OK',
 			'message' => 'Request completed successfully',
-			'data' => $data
+			'data' => $data,
 		), 200 );
 	}
 
@@ -117,10 +117,10 @@ class Disqus_Rest_Api {
 	 * @since    1.0.0
 	 * @access   private
 	 * @param    string $message    The error message to be returned.
-	 * @param    array $log         The log parameters to save.
+	 * @param    array  $log        The log parameters to save.
 	 * @return   WP_Error     		The API error object.
 	 */
-	private function rest_get_error( string $message, array $log = null ) {
+	private function rest_get_error( $message, array $log = null ) {
 		if ( null !== $log ) {
 			// TODO: Store the log array data somewhere?
 		}
@@ -144,13 +144,10 @@ class Disqus_Rest_Api {
 			return $this->rest_get_error( 'Secret key is not set.' );
 		}
 
-		// TODO: Check a custom header with the Disqus API secret key, sent in the request, and compare
-		// to what's stored in the WP database.
-
 		$api_url = Disqus_Rest_Api::DISQUS_API_BASE . 'posts/details.json?'
 			. 'api_secret=' . $secret_key
 			. '&access_token=' . $access_token
-			. '&post=' . (string)$dsq_post_id
+			. '&post=' . ( string ) $dsq_post_id
 			. '&related=thread';
 
 		$dsq_response = wp_remote_get( $api_url, array(
