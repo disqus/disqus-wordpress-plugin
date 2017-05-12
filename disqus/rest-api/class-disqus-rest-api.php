@@ -152,8 +152,8 @@ class Disqus_Rest_Api {
 
 		$dsq_response = wp_remote_get( $api_url, array(
 			'headers' => array(
-				'Referer' => '' // Unset referer so we can use secret key.
-			)
+				'Referer' => '', // Unset referer so we can use secret key.
+			),
 		) );
 
 		if ( ! is_array( $dsq_response ) ) {
@@ -178,7 +178,7 @@ class Disqus_Rest_Api {
 		$comment_query = new WP_Comment_Query( array(
 			'meta_key' => 'dsq_post_id',
 			'meta_value' => $post->id,
-			'number' => 1
+			'number' => 1,
 		) );
 
 		if ( ! empty( $comment_query->comments ) ) {
@@ -190,7 +190,7 @@ class Disqus_Rest_Api {
 		// Look up posts with the Disqus thread ID meta field.
 		$post_query = new WP_Query( array(
 			'meta_key' => 'dsq_thread_id',
-			'meta_value' => $post->thread->id
+			'meta_value' => $post->thread->id,
 		) );
 
 		if ( $post_query->have_posts() ) {
@@ -221,8 +221,8 @@ class Disqus_Rest_Api {
 		if ( null !== $post->parent ) {
 			$parent_comment_query = new WP_Comment_Query( array(
 				'meta_key' => 'dsq_post_id',
-				'meta_value' => (string)$post->parent,
-				'number' => 1
+				'meta_value' => ( string ) $post->parent,
+				'number' => 1,
 			) );
 
 			if ( empty( $comment_query->comments ) ) {
@@ -239,7 +239,7 @@ class Disqus_Rest_Api {
 		$author_email = null;
 		if ( isset( $post->author->email ) ) {
 			$author_email = $post->author->email;
-		} else if ( $post->author->isAnonymous ) {
+		} elseif ( $post->author->isAnonymous ) {
 			$author_email = 'anonymized-' . md5( $post->author->name ) . '@disqus.com';
 		} else {
 			$author_email = 'user-' . $post->author->id . '@disqus.com';
@@ -249,7 +249,7 @@ class Disqus_Rest_Api {
 		$wp_request->set_param( 'author_email', $author_email );
 		$wp_request->set_param( 'author_name', $post->author->name );
 		$wp_request->set_param( 'author_url', $post->author->url );
-		$wp_request->set_param( 'date_gmt', $post->createdAt );
+		// $wp_request->set_param( 'date_gmt', $post->createdAt );.
 		$wp_request->set_param( 'content', $post->raw_message );
 		$wp_request->set_param( 'post', (int)$wp_post_id );
 		$wp_request->set_param( 'parent', $parent );

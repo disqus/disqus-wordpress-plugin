@@ -8,6 +8,7 @@
  * @package    Disqus
  * @subpackage Disqus/public/partials
  */
+
 ?>
 
 <div id="disqus_thread"></div>
