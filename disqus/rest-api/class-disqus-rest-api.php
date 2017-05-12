@@ -287,15 +287,16 @@ class Disqus_Rest_Api {
 		$schema = $this->dsq_get_settings_schema();
 
 		foreach ( $schema['properties'] as $key => $schema_value ) {
-			$should_update_param = $should_update && isset( $json[ $key ] ) && $schema_value['readonly'] === false;
+			$should_update_param = $should_update && isset( $json[ $key ] ) && false === $schema_value['readonly'];
 			if ( $should_update_param ) {
 				update_option( $key, $json[ $key ] );
 			}
 			$settings[ $key ] = get_option( $key, null );
 
 			// Escape only values that have been set, otherwise esc_attr() will change null to an empty string.
-			if ( null !== $settings[ $key ] )
+			if ( null !== $settings[ $key ] ) {
 				$settings[ $key ] = esc_attr( $settings[ $key ] );
+			}
 		}
 
 		// Add additional non-database options here.
@@ -375,4 +376,3 @@ class Disqus_Rest_Api {
 		);
 	}
 }
-?>
