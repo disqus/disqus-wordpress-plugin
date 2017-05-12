@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -53,8 +52,9 @@ class Disqus_Admin {
      * Initialize the class and set its properties.
      *
      * @since    1.0.0
-     * @param      string    $disqus       The name of this plugin.
-     * @param      string    $version    The version of this plugin.
+     * @param    string    $disqus       The name of this plugin.
+     * @param    string    $version      The version of this plugin.
+     * @param    string    $shortname    The configured Disqus shortname.
      */
     public function __construct( $disqus, $version, $shortname ) {
 
@@ -82,7 +82,12 @@ class Disqus_Admin {
          * class.
          */
 
-        wp_enqueue_style( $this->disqus, plugin_dir_url( __FILE__ ) . 'css/disqus-admin.css', array(), $this->version, 'all' );
+        wp_enqueue_style(
+            $this->disqus, plugin_dir_url( __FILE__ ) . 'css/disqus-admin.css',
+            array(),
+            $this->version,
+            'all'
+        );
 
     }
 
@@ -128,7 +133,13 @@ class Disqus_Admin {
         $language_code = 'en';
 
         $file = $language_code . '.' . (WP_DEBUG ? 'disqus-admin.bundle.js' : 'disqus-admin.bundle.min.js');
-        wp_enqueue_script( $this->disqus . '_admin', plugin_dir_url( __FILE__ ) . 'js/' . $file, array(), $this->version, true );
+        wp_enqueue_script(
+            $this->disqus . '_admin',
+            plugin_dir_url( __FILE__ ) . 'js/' . $file,
+            array(),
+            $this->version,
+            true
+        );
         wp_localize_script( $this->disqus . '_admin', 'DISQUS_WP', $admin_js_vars );
     }
 
@@ -143,7 +154,15 @@ class Disqus_Admin {
         // see WordPress comments.
         if ( current_user_can( 'moderate_comments' )  ) {
             remove_menu_page( 'edit-comments.php' );
-            add_menu_page( 'Disqus', 'Disqus', 'moderate_comments', 'disqus', array( $this, 'dsq_render_admin_index' ), 'dashicons-admin-comments', 24 );
+            add_menu_page(
+                'Disqus',
+                'Disqus',
+                'moderate_comments',
+                'disqus',
+                array( $this, 'dsq_render_admin_index' ),
+                'dashicons-admin-comments',
+                24
+            );
         }
     }
 

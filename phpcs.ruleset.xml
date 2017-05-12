@@ -1,17 +1,14 @@
 <?xml version="1.0"?>
-<ruleset name="WordPress Coding Standards for Plugins">
-	<description>Generally-applicable sniffs for WordPress plugins</description>
+<ruleset name="Disqus Wordpress Plugin">
+	<description>Same as for WordPress plugins with some small changes</description>
 
-	<rule ref="WordPress-Core" />
-	<rule ref="WordPress-Docs" />
-
-	<rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
-	<rule ref="Generic.WhiteSpace.ScopeIndent">
-		<properties>
-			<property name="indent" value="4"/>
-			<property name="tabIndent" value="false"/>
-		</properties>
+	<rule ref="WordPress-Core">
+		<exclude name="Generic.Files.LineLength"/>
+        <exclude name="Generic.WhiteSpace.ScopeIndent"/>
+        <exclude name="Generic.WhiteSpace.DisallowSpaceIndent"/>
+        <exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
 	</rule>
+	<rule ref="WordPress-Docs" />
 
 	<rule ref="Generic.Files.LineLength">
 		<properties>
