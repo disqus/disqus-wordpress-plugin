@@ -236,8 +236,8 @@ class Disqus {
 	 * Formats the unique disqus_identifier for a given post.
 	 *
 	 * @since     1.0.0
-	 * @param     string    $post       The wordpress post object.
-	 * @return    string    The unique disqus_identifier.
+	 * @param     string $post    The wordpress post object.
+	 * @return    string    	  The unique disqus_identifier.
 	 */
 	public function dsq_identifier_for_post( $post ) {
 		return $post->ID . ' ' . $post->guid;
@@ -247,8 +247,8 @@ class Disqus {
 	 * Formats the title for a given post.
 	 *
 	 * @since     1.0.0
-	 * @param     string    $post       The wordpress post object.
-	 * @return    string    The formatted disqus_title.
+	 * @param     string $post    The wordpress post object.
+	 * @return    string          The formatted disqus_title.
 	 */
 	public function dsq_title_for_post( $post ) {
 		$title = get_the_title( $post );

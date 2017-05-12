@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Markup which will replace the WordPress comments section on a given page.
  *
@@ -9,7 +8,6 @@
  * @package    Disqus
  * @subpackage Disqus/public/partials
  */
-
 ?>
 
 <div id="disqus_thread"></div>

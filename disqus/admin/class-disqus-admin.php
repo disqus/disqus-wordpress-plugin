@@ -26,7 +26,7 @@ class Disqus_Admin {
      *
      * @since    1.0.0
      * @access   private
-     * @var      string    $disqus    The ID of this plugin.
+     * @var      string $disqus    The ID of this plugin.
      */
     private $disqus;
 
@@ -35,7 +35,7 @@ class Disqus_Admin {
      *
      * @since    1.0.0
      * @access   private
-     * @var      string    $version    The current version of this plugin.
+     * @var      string $version    The current version of this plugin.
      */
     private $version;
 
@@ -44,7 +44,7 @@ class Disqus_Admin {
      *
      * @since    1.0.0
      * @access   private
-     * @var      string    $shortname    The unique Disqus forum shortname.
+     * @var      string $shortname    The unique Disqus forum shortname.
      */
     private $shortname;
 
@@ -152,7 +152,7 @@ class Disqus_Admin {
         // Replace the existing WordPress comments menu item to prevent confusion
         // about where to administer comments. The Disqus page will have a link to
         // see WordPress comments.
-        if ( current_user_can( 'moderate_comments' )  ) {
+        if ( current_user_can( 'moderate_comments' ) ) {
             remove_menu_page( 'edit-comments.php' );
             add_menu_page(
                 'Disqus',
@@ -170,13 +170,13 @@ class Disqus_Admin {
      * Builds the admin menu with the various Disqus options
      *
      * @since    1.0.0
-     * @param    WP_Admin_Bar    $wp_admin_bar       Instance of the WP_Admin_Bar.
+     * @param    WP_Admin_Bar $wp_admin_bar    Instance of the WP_Admin_Bar.
      */
     public function dsq_construct_admin_bar_menu( $wp_admin_bar ) {
         // Replace the existing WordPress comments menu item to prevent confusion
         // about where to administer comments. The Disqus page will have a link to
         // see WordPress comments.
-        if ( current_user_can ( 'moderate_comments' )  ) {
+        if ( current_user_can( 'moderate_comments' ) ) {
             $wp_admin_bar->remove_node( 'wp-admin-bar-comments' );
 
             $new_node_args = array(
@@ -206,7 +206,7 @@ class Disqus_Admin {
      *
      * @since    1.0.0
      * @access   private
-     * @return   string     		  The escaped name for the given site.
+     * @return   string    The escaped name for the given site.
      */
     private function get_site_name() {
         return esc_html( get_bloginfo( 'name' ) );

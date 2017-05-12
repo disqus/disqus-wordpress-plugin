@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The REST API-specific functionality of the plugin.
  *
@@ -36,8 +35,7 @@ class Disqus_Rest_Api {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $disqus       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param    string $shortname    The configured Disqus shortname.
 	 */
 	public function __construct( $shortname ) {
 		$this->shortname = $shortname;
@@ -47,19 +45,21 @@ class Disqus_Rest_Api {
 	 * When added as a filter, allows anonymous comments from the REST API.
 	 * This is required for syncing.
 	 *
-	 * @since    1.0.0
+	 * @since     1.0.0
+	 * @return    boolean    Whether to allow anonymous comments.
 	 */
 	public function filter_rest_allow_anonymous_comments() {
 		return true;
 	}
 
 	/**
-	 * Callback to ensure user has manage_options permissions
+	 * Callback to ensure user has manage_options permissions.
 	 *
-	 * @since    1.0.0
+	 * @since     1.0.0
+	 * @return    boolean    Whether the user has permission to the admin REST API.
 	 */
 	public function rest_admin_only_permission_callback() {
-		// TODO: Check for Disqus server permissions
+		// TODO: Check for Disqus server permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return $this->rest_get_error( 'You must be logged in and have admin permissions for this resource.' );
 		}
@@ -80,9 +80,9 @@ class Disqus_Rest_Api {
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_numeric( $param );
 					},
-					'required' => true
-				)
-			)
+					'required' => true,
+				),
+			),
 		) );
 
 		register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'settings', array(
@@ -100,8 +100,8 @@ class Disqus_Rest_Api {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @param    array    $data       The request data to be returned.
-	 * @return   WP_REST_Response     The API response object.
+	 * @param    array $data         The request data to be returned.
+	 * @return   WP_REST_Response    The API response object.
 	 */
 	private function rest_get_response( array $data ) {
 		return new WP_REST_Response( array(
@@ -116,12 +116,12 @@ class Disqus_Rest_Api {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @param    string   $message    The error message to be returned.
-	 * @param    array    $log        The log parameters to save.
-	 * @return   WP_Error     		  The API error object.
+	 * @param    string $message    The error message to be returned.
+	 * @param    array $log         The log parameters to save.
+	 * @return   WP_Error     		The API error object.
 	 */
-	private function rest_get_error( string $message, array $log = NULL ) {
-		if ( NULL !== $log ) {
+	private function rest_get_error( string $message, array $log = null ) {
+		if ( null !== $log ) {
 			// TODO: Store the log array data somewhere?
 		}
 		return new WP_Error( 'api_error', $message );
@@ -132,15 +132,15 @@ class Disqus_Rest_Api {
 	 * it to the local comments database.
 	 *
 	 * @since    1.0.0
-	 * @param    array    $data       The request POST data.
-	 * @return   WP_REST_Response     The API response object.
+	 * @param    array $data         The request POST data.
+	 * @return   WP_REST_Response    The API response object.
 	 */
 	public function rest_comments_sync( array $data ) {
 		$dsq_post_id = $data['post_id'];
 		$secret_key = get_option( 'disqus_secret_key' );
 		$access_token = get_option( 'disqus_admin_access_token' );
 
-		if ( !$secret_key ) {
+		if ( ! $secret_key ) {
 			return $this->rest_get_error( 'Secret key is not set.' );
 		}
 
@@ -159,7 +159,7 @@ class Disqus_Rest_Api {
 			)
 		) );
 
-		if ( !is_array( $dsq_response ) ) {
+		if ( ! is_array( $dsq_response ) ) {
 			return $this->rest_get_error( 'Unknown error requesting the Disqus API.' );
 		}
 
@@ -167,7 +167,7 @@ class Disqus_Rest_Api {
 
 		if ( 0 !== $dsq_response_data->code ) {
 			return $this->rest_get_error( $dsq_response_data->response, array(
-				// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss
+				// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss.
 			) );
 		}
 
@@ -184,13 +184,13 @@ class Disqus_Rest_Api {
 			'number' => 1
 		) );
 
-		if ( !empty( $comment_query->comments ) ) {
+		if ( ! empty( $comment_query->comments ) ) {
 			return $this->rest_get_error( 'This comment has already been synced.' );
 		}
 
-		$wp_post_id = NULL;
+		$wp_post_id = null;
 
-		// Look up posts with the Disqus thread ID meta field
+		// Look up posts with the Disqus thread ID meta field.
 		$post_query = new WP_Query( array(
 			'meta_key' => 'dsq_thread_id',
 			'meta_value' => $post->thread->id
@@ -201,27 +201,27 @@ class Disqus_Rest_Api {
 			wp_reset_postdata();
 		}
 
-		// If that doesn't exist, get the  and update the matching post metadata
-		if ( NULL === $wp_post_id || FALSE === $wp_post_id ) {
+		// If that doesn't exist, get the  and update the matching post metadata.
+		if ( null === $wp_post_id || false === $wp_post_id ) {
 			$identifiers = $post->thread->identifiers;
-			$first_identifier = count( $identifiers ) > 0 ? $identifiers[0] : NULL;
+			$first_identifier = count( $identifiers ) > 0 ? $identifiers[0] : null;
 
-			if ( NULL !== $first_identifier ) {
+			if ( null !== $first_identifier ) {
 				$wp_post_id = explode( ' ', $first_identifier, 2 )[0];
 			}
 
-			// Keep the post's thread ID meta up to date
+			// Keep the post's thread ID meta up to date.
 			update_post_meta( $wp_post_id, 'dsq_thread_id', $post->thread->id );
 		}
 
-		if ( NULL === $wp_post_id || FALSE == $wp_post_id ) {
+		if ( null === $wp_post_id || false == $wp_post_id ) {
 			return $this->rest_get_error( 'No post found associated with the thread.', array(
-				// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss
+				// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss.
 			) );
 		}
 
 		$parent = 0;
-		if ( NULL !== $post->parent ) {
+		if ( null !== $post->parent ) {
 			$parent_comment_query = new WP_Comment_Query( array(
 				'meta_key' => 'dsq_post_id',
 				'meta_value' => (string)$post->parent,
@@ -230,7 +230,7 @@ class Disqus_Rest_Api {
 
 			if ( empty( $comment_query->comments ) ) {
 				return $this->rest_get_error( 'This comment\'s parent has not been synced yet.', array(
-					// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss
+					// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss.
 				) );
 			} else {
 				$parent = $comment_query->comments[0]->$comment_ID;
@@ -239,7 +239,7 @@ class Disqus_Rest_Api {
 
 		// Email is a special permission for Disqus API applications and won't be present
 		// if the user has not set the permission for their API application.
-		$author_email = NULL;
+		$author_email = null;
 		if ( isset( $post->author->email ) ) {
 			$author_email = $post->author->email;
 		} else if ( $post->author->isAnonymous ) {
@@ -262,13 +262,13 @@ class Disqus_Rest_Api {
 		if ( $wp_response->is_error() ) {
 			$wp_error = $wp_response->as_error();
 			return $this->rest_get_error( $wp_error->get_error_message(), array(
-				// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss
+				// TODO: Log these errors somewhere and provide a method in the admin to retry/dismiss.
 			) );
 		}
 
 		$wp_response_data = $wp_response->get_data();
 
-		// Add Disqus post ID as meta to local comment to avoid duplicates
+		// Add Disqus post ID as meta to local comment to avoid duplicates.
 		add_comment_meta( $wp_response_data['id'], 'dsq_post_id', $post->id );
 
 		return $this->rest_get_response( $wp_response_data );
@@ -294,16 +294,16 @@ class Disqus_Rest_Api {
 			if ( $should_update_param ) {
 				update_option( $key, $json[$key] );
 			}
-			$settings[$key] = get_option( $key, NULL );
+			$settings[$key] = get_option( $key, null );
 
-			// Escape only values that have been set, otherwise esc_attr() will change NULL to an empty string.
-			if ( NULL !== $settings[$key] )
+			// Escape only values that have been set, otherwise esc_attr() will change null to an empty string.
+			if ( null !== $settings[$key] )
 				$settings[$key] = esc_attr( $settings[$key] );
 		}
 
-		// Add additional non-database options here
+		// Add additional non-database options here.
 		$settings['disqus_installed'] = trim( $settings['disqus_forum_url'] ) !== '';
-		$settings['disqus_sync_activated'] = FALSE; // TODO: Figure out criteria to say true/false.
+		$settings['disqus_sync_activated'] = false; // TODO: Figure out criteria to say true/false.
 
 		return $this->rest_get_response( $settings );
 	}

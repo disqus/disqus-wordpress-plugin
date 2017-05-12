@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Markup rendered as part of a user's own profile page which will check
  * a query param to determine if it was opened in a child window, as in
@@ -13,7 +12,6 @@
  * @package    Disqus
  * @subpackage Disqus/public/partials
  */
-
 ?>
 
 <script>

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The public-facing functionality of the plugin.
  *
@@ -27,7 +26,7 @@ class Disqus_Public {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $disqus    The ID of this plugin.
+	 * @var      string $disqus    The ID of this plugin.
 	 */
 	private $disqus;
 
@@ -36,16 +35,26 @@ class Disqus_Public {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @var      string $version    The current version of this plugin.
 	 */
 	private $version;
+
+	/**
+     * The unique Disqus forum shortname.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @var      string $shortname    The unique Disqus forum shortname.
+     */
+    private $shortname;
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $disqus       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param    string $disqus       The name of the plugin.
+	 * @param    string $version      The version of this plugin.
+	 * @param    string $shortname    The configured Disqus shortname.
 	 */
 	public function __construct( $disqus, $version, $shortname ) {
 		$this->disqus = $disqus;
@@ -53,16 +62,41 @@ class Disqus_Public {
 		$this->shortname = $shortname;
 	}
 
+	/**
+	 * Returns the Disqus identifier for a given post.
+	 *
+	 * @since     1.0.0
+	 * @access    private
+	 * @var       WP_Post $post    The WordPress post to create the title for.
+	 * @return    string           The formatted identifier to be passed to Disqus.
+	*/
 	private function dsq_identifier_for_post( $post ) {
 		return $post->ID . ' ' . $post->guid;
 	}
 
+	/**
+	 * Returns the Disqus title for a given post.
+	 *
+	 * @since     1.0.0
+	 * @access    private
+	 * @var       WP_Post $post    The WordPress post to create the title for.
+	 * @return    string           The cleaned title to be passed to Disqus.
+	*/
 	private function dsq_title_for_post( $post ) {
 		$title = get_the_title( $post );
     	$title = strip_tags( $title, '<b><u><i><h1><h2><h3><code><blockquote><br><hr>' );
     	return $title;
 	}
 
+	/**
+	 * Returns the signed payload to authenticate an SSO user in Disqus.
+	 *
+	 * @since     1.0.0
+	 * @access    private
+	 * @var       WP_User $user          The WordPress user to authenticate.
+	 * @var       string  $secret_key    The Disqus API Secret Key.
+	 * @return    array                  The signed payload to authenticate a user with Single Sign-On.
+	*/
 	private function remote_auth_s3_for_user( $user, $secret_key ) {
 		$payload_user = array();
 		if ( $user->ID ) {
@@ -79,6 +113,14 @@ class Disqus_Public {
 		return $payload_user . ' ' . $hmac . ' ' . $time;
 	}
 
+	/**
+	 * Returns the Disqus comments embed configuration.
+	 *
+	 * @since     1.0.0
+	 * @access    private
+	 * @var       WP_Post $post    The WordPress post to create the configuration for.
+	 * @return    array            The embed configuration to localize the comments embed script with.
+	*/
 	private function embed_vars_for_post( $post ) {
 		$embed_vars = array(
 			'disqusConfig' => array(
@@ -112,6 +154,13 @@ class Disqus_Public {
 		return $embed_vars;
 	}
 
+	/**
+	 * Determines if Disqus is configured and can load on a given page.
+	 *
+	 * @since     1.0.0
+	 * @var       string $comment_text    The default comment text.
+	 * @return    string                  The new comment text.
+	*/
 	public function dsq_comments_link_template( $comment_text ) {
 		global $post;
 
@@ -125,6 +174,12 @@ class Disqus_Public {
 		}
 	}
 
+	/**
+	 * Returns the Disqus embed comments template
+	 *
+	 * @since     1.0.0
+	 * @return    string    The new comment text.
+	*/
 	public function dsq_comments_template() {
 		global $post;
 
@@ -148,6 +203,11 @@ class Disqus_Public {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/disqus-public-sso-login-profile.php';
 	}
 
+	/**
+	 * Enqueues javascript files for displaying comment counts.
+	 *
+	 * @since    1.0.0
+	*/
 	public function enqueue_comment_count() {
 		if ( $this->dsq_can_load() ) {
 
@@ -160,6 +220,11 @@ class Disqus_Public {
 		}
 	}
 
+	/**
+	 * Enqueues javascript files for displaying the comment embed.
+	 *
+	 * @since    1.0.0
+	*/
 	public function enqueue_comment_embed() {
 		global $post;
 
@@ -172,38 +237,52 @@ class Disqus_Public {
 		}
 	}
 
+	/**
+	 * Determines if Disqus is configured and can load on a given page.
+	 *
+	 * @since     1.0.0
+	 * @access    private
+	 * @return    boolean    Whether Disqus is configured properly and can load on the current page.
+	*/
 	private function dsq_can_load() {
-		// Don't load any Disqus scripts if there's no shortname
-		if ( !$this->shortname )
+		// Don't load any Disqus scripts if there's no shortname.
+		if ( ! $this->shortname )
 			return false;
 
-		// Don't load any Disqus scripts on feed pages
+		// Don't load any Disqus scripts on feed pages.
 		if ( is_feed() )
 			return false;
 
 		return true;
 	}
 
+	/**
+	 * Determines if Disqus is configured and can the comments embed on a given page.
+	 *
+	 * @since     1.0.0
+	 * @access    private
+	 * @return    boolean    Whether Disqus is configured properly and can load on the current page.
+	*/
 	private function dsq_embed_can_load_for_post( $post ) {
 		// Checks if the plugin is configured properly
 		// and is a valid page.
-		if ( !$this->dsq_can_load() )
+		if ( ! $this->dsq_can_load() )
 			return false;
 
-		// Make sure we have a $post object
-		if ( !isset( $post ) )
+		// Make sure we have a $post object.
+		if ( ! isset( $post ) )
 			return false;
 
-		// Don't load embed when post is a draft
+		// Don't load embed when post is a draft.
 		if ( 'draft' == $post->post_status )
 			return false;
 
-		// Don't load embed when comments are closed on a post
+		// Don't load embed when comments are closed on a post.
 		if ( 'open' != $post->comment_status )
 			return false;
 
-		// Don't load embed if it's not a single post page
-		if ( !is_singular() )
+		// Don't load embed if it's not a single post page.
+		if ( ! is_singular() )
 			return false;
 
 		return true;
