@@ -52,9 +52,9 @@ class Disqus_Admin {
      * Initialize the class and set its properties.
      *
      * @since    1.0.0
-     * @param    string    $disqus       The name of this plugin.
-     * @param    string    $version      The version of this plugin.
-     * @param    string    $shortname    The configured Disqus shortname.
+     * @param    string $disqus       The name of this plugin.
+     * @param    string $version      The version of this plugin.
+     * @param    string $shortname    The configured Disqus shortname.
      */
     public function __construct( $disqus, $version, $shortname ) {
 
@@ -111,7 +111,7 @@ class Disqus_Admin {
          */
 
          $admin_js_vars = array(
-            'rest' => array (
+            'rest' => array(
                 'base' => esc_url_raw( rest_url( 'disqus/v1/' ) ),
 
                 // Nonce is required so that the REST api permissions can recognize a user/check permissions.
@@ -132,7 +132,7 @@ class Disqus_Admin {
         // TODO: Match language of the WordPress installation against any other localizations once they've been set up.
         $language_code = 'en';
 
-        $file = $language_code . '.' . (WP_DEBUG ? 'disqus-admin.bundle.js' : 'disqus-admin.bundle.min.js');
+        $file = $language_code . '.' . ( WP_DEBUG ? 'disqus-admin.bundle.js' : 'disqus-admin.bundle.min.js' );
         wp_enqueue_script(
             $this->disqus . '_admin',
             plugin_dir_url( __FILE__ ) . 'js/' . $file,
@@ -170,6 +170,7 @@ class Disqus_Admin {
      * Builds the admin menu with the various Disqus options
      *
      * @since    1.0.0
+     * @param    WP_Admin_Bar    $wp_admin_bar       Instance of the WP_Admin_Bar.
      */
     public function dsq_construct_admin_bar_menu( $wp_admin_bar ) {
         // Replace the existing WordPress comments menu item to prevent confusion
@@ -183,8 +184,8 @@ class Disqus_Admin {
                 'title' => 'Disqus',
                 'href' => 'https://disqus.com/',
                 'meta' => array(
-                    'class' => 'disqus-menu-bar'
-                )
+                    'class' => 'disqus-menu-bar',
+                ),
             );
 
             $wp_admin_bar->add_node( $new_node_args );
