@@ -7,5 +7,5 @@
  *
  * @package    Disqus
  * @subpackage Disqus/admin
+ *
  */
-
