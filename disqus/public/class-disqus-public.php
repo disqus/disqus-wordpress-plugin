@@ -263,7 +263,8 @@ class Disqus_Public {
 	 *
 	 * @since     1.0.0
 	 * @access    private
-	 * @return    boolean    Whether Disqus is configured properly and can load on the current page.
+	 * @param     WP_Post $post    The WordPress post used to determine if Disqus can be loaded.
+	 * @return    boolean          Whether Disqus is configured properly and can load on the current page.
 	 */
 	private function dsq_embed_can_load_for_post( $post ) {
 		// Checks if the plugin is configured properly

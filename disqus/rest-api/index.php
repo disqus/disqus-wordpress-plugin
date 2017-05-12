@@ -7,5 +7,4 @@
  *
  * @package    Disqus
  * @subpackage Disqus/rest-api
- *
  */

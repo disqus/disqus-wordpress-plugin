@@ -7,7 +7,6 @@
  *
  * @package    Disqus
  * @subpackage Disqus/public/partials
- *
  */
 ?>
 
