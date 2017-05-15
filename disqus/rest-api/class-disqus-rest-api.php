@@ -304,7 +304,7 @@ class Disqus_Rest_Api {
 			case 'application/json':
 				return $request->get_json_params();
 			case 'application/x-www-form-urlencoded':
-				return $request->get_body_params();
+				return $request->get_params();
 			default:
 				return null;
 		}
