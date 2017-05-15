@@ -61,7 +61,7 @@ class Disqus_Rest_Api {
 	public function rest_admin_only_permission_callback() {
 		// TODO: Check for Disqus server permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			return $this->rest_get_error( 'You must be logged in and have admin permissions for this resource.' );
+			return $this->rest_get_error( 'You must be logged in and have admin permissions for this resource.', 401 );
 		}
 		return true;
 	}
@@ -116,15 +116,12 @@ class Disqus_Rest_Api {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @param    string $message    The error message to be returned.
-	 * @param    array  $log        The log parameters to save.
-	 * @return   WP_Error     		The API error object.
+	 * @param    string $message     The error message to be returned.
+	 * @param    int $status_code    The http status code of the error.
+	 * @return   WP_Error     		 The API error object.
 	 */
-	private function rest_get_error( $message, array $log = null ) {
-		if ( null !== $log ) {
-			// TODO: Store the log array data somewhere?
-		}
-		return new WP_Error( 'api_error', $message );
+	private function rest_get_error( $message, int $status_code = 500 ) {
+		return new WP_Error( 'api_error', $message, array( 'status' => $status_code ) );
 	}
 
     /**
