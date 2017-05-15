@@ -29,7 +29,7 @@ class Test_REST_API extends WP_UnitTestCase {
      */
     public function test_custom_routes_registered() {
         $routes = $this->server->get_routes();
-        $this->assertArrayHasKey( Test_REST_API::REST_NAMESPACE, $routes, 'Custom route not registered, array was ' . serialize( $routes ) );
+        $this->assertArrayHasKey( Test_REST_API::REST_NAMESPACE, $routes, 'Custom route not registered' );
     }
 
     /**
