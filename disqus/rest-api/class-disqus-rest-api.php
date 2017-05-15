@@ -116,16 +116,16 @@ class Disqus_Rest_Api {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @param    string $message     The error message to be returned.
-	 * @param    int $status_code    The http status code of the error.
-	 * @return   WP_Error     		 The API error object.
+	 * @param    string $message        The error message to be returned.
+	 * @param    int    $status_code    The http status code of the error.
+	 * @return   WP_Error     		    The API error object.
 	 */
 	private function rest_get_error( $message, $status_code = 500 ) {
 		return new WP_Error(
 			'api_error',
 			$message,
 			array(
-				'status' => $status_code ,
+				'status' => $status_code,
 			)
 		);
 	}
