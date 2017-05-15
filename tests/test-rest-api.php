@@ -63,7 +63,9 @@ class Test_REST_API extends WP_UnitTestCase {
      * Check that we can fetch the Disqus plugin settings as a WordPress admin.
      */
     public function test_admin_fetch_settings() {
-        $this->assertTrue( true );
+        $request = new WP_REST_Request( 'GET', '/disqus/v1/settings' );
+        $response = $this->server->dispatch( $request );
+        $this->assertEquals( 200, $response->get_status() );
     }
 
     /**
