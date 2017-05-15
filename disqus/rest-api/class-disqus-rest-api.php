@@ -284,10 +284,30 @@ class Disqus_Rest_Api {
 	 */
 	public function rest_settings( WP_REST_Request $request ) {
 		$should_update = 'PUT' === $request->get_method();
-		$new_settings = $should_update ? $request->get_json_params() : null;
+		$new_settings = $should_update ? $this->get_request_data( $request ): null;
 		$updated_settings = $this->get_or_update_settings( $new_settings );
 
 		return $this->rest_get_response( $updated_settings );
+	}
+
+	/**
+	 * Parses and returns body content for either form-url-encoded or json data.
+	 *
+	 * @since    1.0.0
+	 * @param    WP_REST_Request $request    The request object.
+	 * @return   array     		 Array of parsed request data.
+	 */
+	private function get_request_data( WP_REST_Request $request ) {
+		$content_type = $request->get_content_type();
+
+		switch ( $content_type['value'] ) {
+			case 'application/json':
+				return $request->get_json_params();
+			case 'application/x-www-form-urlencoded':
+				return $request->get_body_params();
+			default:
+				return null;
+		}
 	}
 
 	/**
