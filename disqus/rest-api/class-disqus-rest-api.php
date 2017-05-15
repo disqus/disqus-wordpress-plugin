@@ -280,16 +280,31 @@ class Disqus_Rest_Api {
 	 * @return   WP_REST_Response     		 The API response object.
 	 */
 	public function rest_settings( WP_REST_Request $request ) {
-		$settings = array();
-
 		$should_update = 'PUT' === $request->get_method();
-		$json = $request->get_json_params();
-		$schema = $this->dsq_get_settings_schema();
+		$new_settings = $should_update ? $request->get_json_params() : null;
+		$updated_settings = $this->get_or_update_settings( $new_settings );
 
+		return $this->rest_get_response( $updated_settings );
+	}
+
+	/**
+	 * Fetches all available plugin options and updates any values if passed, and returns updated array.
+	 *
+	 * @since     1.0.0
+	 * @param     array $new_settings    Any options to be updated.
+	 * @access    private
+	 * @return    array    The current settings array.
+	 */
+	private function get_or_update_settings( $new_settings = null ) {
+		$settings = array();
+		$schema = $this->dsq_get_settings_schema();
+		$should_update = is_array( $new_settings );
+
+		// Loops through properties in our schema to check the value and update if needed.
 		foreach ( $schema['properties'] as $key => $schema_value ) {
-			$should_update_param = $should_update && isset( $json[ $key ] ) && false === $schema_value['readonly'];
+			$should_update_param = $should_update && isset( $new_settings[ $key ] ) && false === $schema_value['readonly'];
 			if ( $should_update_param ) {
-				update_option( $key, $json[ $key ] );
+				update_option( $key, $new_settings[ $key ] );
 			}
 			$settings[ $key ] = get_option( $key, null );
 
@@ -303,7 +318,7 @@ class Disqus_Rest_Api {
 		$settings['disqus_installed'] = trim( $settings['disqus_forum_url'] ) !== '';
 		$settings['disqus_sync_activated'] = false; // TODO: Figure out criteria to say true/false.
 
-		return $this->rest_get_response( $settings );
+		return $settings;
 	}
 
 	/**
