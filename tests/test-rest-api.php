@@ -93,8 +93,12 @@ class Test_REST_API extends WP_UnitTestCase {
     public function test_admin_update_settings() {
         wp_set_current_user( $this->admin_user_id );
 
+        $body = array(
+            'disqus_forum_url' => 'bobross',
+        );
+
         $request = new WP_REST_Request( 'PUT', '/disqus/v1/settings' );
-        $request->set_param( 'disqus_forum_url', 'bobross' );
+        $request->set_body_params( $body );
 
         $response = $this->server->dispatch( $request );
         $response_data = $response->get_data();
