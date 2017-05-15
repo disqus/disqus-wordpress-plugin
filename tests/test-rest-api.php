@@ -14,8 +14,25 @@ class Test_REST_API extends WP_UnitTestCase {
      */
     protected $server;
 
+    /**
+     * User ID for 'administrator' role.
+     *
+     * @var int
+     */
+    private $admin_user_id;
+
+    /**
+     * User ID for 'subscriber' role, has the fewest permissions.
+     *
+     * @var int
+     */
+    private $subscriber_user_id;
+
     public function setUp() {
         parent::setUp();
+
+        $this->admin_user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+        $this->subscriber_user_id = $this->factory->user->create( array( 'role' => 'subscriber' ) );
 
         global $wp_rest_server;
 
@@ -63,8 +80,7 @@ class Test_REST_API extends WP_UnitTestCase {
      * Check that we can fetch the Disqus plugin settings as a WordPress admin.
      */
     public function test_admin_fetch_settings() {
-        $user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
-        wp_set_current_user( $user_id );
+        wp_set_current_user( $this->admin_user_id );
 
         $request = new WP_REST_Request( 'GET', '/disqus/v1/settings' );
         $response = $this->server->dispatch( $request );
@@ -75,21 +91,38 @@ class Test_REST_API extends WP_UnitTestCase {
      * Check that we can update the Disqus plugin settings as a WordPress admin.
      */
     public function test_admin_update_settings() {
-        $this->assertTrue( true );
+        wp_set_current_user( $this->admin_user_id );
+
+        $request = new WP_REST_Request( 'PUT', '/disqus/v1/settings' );
+        $request->set_param( 'disqus_forum_url', 'bobross' );
+
+        $response = $this->server->dispatch( $request );
+        $response_data = $response->get_data();
+
+        $this->assertEquals( 200, $response->get_status() );
+        $this->assertEquals( 'bobross', $response_data['data']['disqus_forum_url'] );
     }
 
     /**
      * Check that we can't fetch or update settings without authentication.
      */
     public function test_no_authentication_settings() {
-        $this->assertTrue( true );
+        wp_set_current_user( null );
+
+        $request = new WP_REST_Request( 'GET', '/disqus/v1/settings' );
+        $response = $this->server->dispatch( $request );
+        $this->assertEquals( 401, $response->get_status() );
     }
 
     /**
      * Check that we can't fetch or update settings without admin authentication.
      */
     public function test_lower_permission_settings() {
-        $this->assertTrue( true );
+        wp_set_current_user( $this->subscriber_user_id );
+
+        $request = new WP_REST_Request( 'GET', '/disqus/v1/settings' );
+        $response = $this->server->dispatch( $request );
+        $this->assertEquals( 401, $response->get_status() );
     }
 
     /**
