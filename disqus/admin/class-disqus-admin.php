@@ -243,7 +243,8 @@ class Disqus_Admin {
      *
      * @since    1.0.0
      * @access   private
-     * @return   string    The fully-qualified admin URL for the given path.
+     * @param    string $path    The path of the admin page to route to.
+     * @return   string          The fully-qualified admin URL for the given path.
      */
     private function get_disqus_admin_url( $path = '' ) {
         return 'https://' . $this->shortname . 'disqus.com/admin/' . ( strlen( $path ) ? $path . '/' : '');

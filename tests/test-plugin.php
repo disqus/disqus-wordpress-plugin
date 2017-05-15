@@ -3,7 +3,7 @@
  * Basic plugin tests.
  */
 
-class PluginTest extends WP_UnitTestCase {
+class Test_Plugin extends WP_UnitTestCase {
 
     /**
      * Check that activation doesn't break.
