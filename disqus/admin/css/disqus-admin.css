@@ -3,7 +3,12 @@
  * included in this file.
  */
 
- .dsq-admin-header {
+#wpadminbar #wp-admin-bar-disqus .ab-icon:before {
+    content: "\f101";
+    top: 3px;
+}
+
+.dsq-admin-header {
     background: #494e58;
     height: 100px;
     position: absolute;
@@ -11,7 +16,7 @@
     left: -20px;
     right: -20px;
     color: white;
- }
+}
 
 .dsq-admin-wrapper {
     margin-top: 20px;

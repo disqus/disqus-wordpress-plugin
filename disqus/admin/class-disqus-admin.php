@@ -149,21 +149,24 @@ class Disqus_Admin {
      * @since    1.0.0
      */
     public function dsq_contruct_admin_menu() {
+        if ( ! current_user_can( 'moderate_comments' ) ) {
+            return;
+        }
+
         // Replace the existing WordPress comments menu item to prevent confusion
         // about where to administer comments. The Disqus page will have a link to
         // see WordPress comments.
-        if ( current_user_can( 'moderate_comments' ) ) {
-            remove_menu_page( 'edit-comments.php' );
-            add_menu_page(
-                'Disqus',
-                'Disqus',
-                'moderate_comments',
-                'disqus',
-                array( $this, 'dsq_render_admin_index' ),
-                'dashicons-admin-comments',
-                24
-            );
-        }
+        remove_menu_page( 'edit-comments.php' );
+
+        add_menu_page(
+            'Disqus',
+            'Disqus',
+            'moderate_comments',
+            'disqus',
+            array( $this, 'dsq_render_admin_index' ),
+            'dashicons-admin-comments',
+            24
+        );
     }
 
     /**
@@ -172,24 +175,58 @@ class Disqus_Admin {
      * @since    1.0.0
      * @param    WP_Admin_Bar $wp_admin_bar    Instance of the WP_Admin_Bar.
      */
-    public function dsq_construct_admin_bar_menu( $wp_admin_bar ) {
+    public function dsq_construct_admin_bar( $wp_admin_bar ) {
+        if ( ! current_user_can( 'moderate_comments' ) ) {
+            return;
+        }
+
         // Replace the existing WordPress comments menu item to prevent confusion
         // about where to administer comments. The Disqus page will have a link to
         // see WordPress comments.
-        if ( current_user_can( 'moderate_comments' ) ) {
-            $wp_admin_bar->remove_node( 'wp-admin-bar-comments' );
+        $wp_admin_bar->remove_node( 'comments' );
 
-            $new_node_args = array(
-                'id' => 'disqus',
-                'title' => 'Disqus',
-                'href' => 'https://disqus.com/',
-                'meta' => array(
-                    'class' => 'disqus-menu-bar',
-                ),
-            );
+        $disqus_node_args = array(
+            'id' => 'disqus',
+            'title' => '<span class="ab-icon"></span>Disqus',
+            'href' => admin_url( 'admin.php?page=disqus' ),
+            'meta' => array(
+                'class' => 'disqus-menu-bar',
+            ),
+        );
 
-            $wp_admin_bar->add_node( $new_node_args );
-        }
+        $disqus_moderate_node_args = array(
+            'parent' => 'disqus',
+            'id' => 'disqus_moderate',
+            'title' => 'Moderate',
+            'href' => $this->get_disqus_admin_url( 'moderate' ),
+        );
+
+        $disqus_analytics_node_args = array(
+            'parent' => 'disqus',
+            'id' => 'disqus_analytics',
+            'title' => 'Analytics',
+            'href' => $this->get_disqus_admin_url( 'analytics/comments' ),
+        );
+
+        $disqus_settings_node_args = array(
+            'parent' => 'disqus',
+            'id' => 'disqus_settings',
+            'title' => 'Settings',
+            'href' => $this->get_disqus_admin_url( 'settings/general' ),
+        );
+
+        $disqus_configure_node_args = array(
+            'parent' => 'disqus',
+            'id' => 'disqus_plugin_configure',
+            'title' => 'Configure Plugin',
+            'href' => admin_url( 'admin.php?page=disqus' ),
+        );
+
+        $wp_admin_bar->add_node( $disqus_node_args );
+        $wp_admin_bar->add_node( $disqus_moderate_node_args );
+        $wp_admin_bar->add_node( $disqus_analytics_node_args );
+        $wp_admin_bar->add_node( $disqus_settings_node_args );
+        $wp_admin_bar->add_node( $disqus_configure_node_args );
     }
 
     /**
@@ -199,6 +236,17 @@ class Disqus_Admin {
      */
     public function dsq_render_admin_index() {
         require_once plugin_dir_path( __FILE__ ) . 'partials/disqus-admin-partial.php';
+    }
+
+    /**
+     * Utility function get the admin URL with site's shortname.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @return   string    The fully-qualified admin URL for the given path.
+     */
+    private function get_disqus_admin_url( $path = '' ) {
+        return 'https://' . $this->shortname . 'disqus.com/admin/' . ( strlen( $path ) ? $path . '/' : '');
     }
 
     /**
