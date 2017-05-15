@@ -16,6 +16,9 @@ class PluginTest extends WP_UnitTestCase {
      * Check that the Disqus link is in the admin menu.
      */
      function test_disqus_admin_menu() {
+        $user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+        wp_set_current_user( $user_id );
+
         global $menu;
 
         var_dump($menu);
