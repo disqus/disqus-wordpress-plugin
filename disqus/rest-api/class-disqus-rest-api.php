@@ -120,8 +120,14 @@ class Disqus_Rest_Api {
 	 * @param    int $status_code    The http status code of the error.
 	 * @return   WP_Error     		 The API error object.
 	 */
-	private function rest_get_error( $message, int $status_code = 500 ) {
-		return new WP_Error( 'api_error', $message, array( 'status' => $status_code ) );
+	private function rest_get_error( $message, $status_code = 500 ) {
+		return new WP_Error(
+			'api_error',
+			$message,
+			array(
+				'status' => $status_code ,
+			)
+		);
 	}
 
     /**
