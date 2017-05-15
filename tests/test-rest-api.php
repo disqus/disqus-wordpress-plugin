@@ -99,6 +99,8 @@ class Test_REST_API extends WP_UnitTestCase {
         $response = $this->server->dispatch( $request );
         $response_data = $response->get_data();
 
+        var_dump($response_data);
+
         $this->assertEquals( 200, $response->get_status() );
         $this->assertEquals( 'bobross', $response_data['data']['disqus_forum_url'] );
     }
