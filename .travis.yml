@@ -17,12 +17,13 @@ php:
 
 env:
   - WP_VERSION=latest WP_MULTISITE=0
-  - WP_VERSION=latest WP_MULTISITE=1
 
 matrix:
   include:
     - php: 5.6
       env: WP_VERSION=4.4 WP_MULTISITE=0
+    - php: 5.6
+      env: WP_VERSION=latest WP_MULTISITE=1
 
 before_script:
   - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
@@ -50,7 +51,7 @@ script:
 deploy:
   provider: script
   skip_cleanup: true
-  script: ./bin/deploy.sh
+  script: bin/deploy.sh
   on:
     branch: master
     php: 7.1
