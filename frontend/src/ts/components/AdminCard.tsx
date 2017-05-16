@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export interface IAdminCardProps {
-    children?: Element[];
+    children?: any;
     title: string;
 }
 
