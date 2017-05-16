@@ -135,7 +135,7 @@ class Disqus_Admin {
         $file = $language_code . '.' . ( WP_DEBUG ? 'disqus-admin.bundle.js' : 'disqus-admin.bundle.min.js' );
         wp_enqueue_script(
             $this->disqus . '_admin',
-            plugin_dir_url( __FILE__ ) . 'js/' . $file,
+            plugin_dir_url( __FILE__ ) . 'bundles/js/' . $file,
             array(),
             $this->version,
             true

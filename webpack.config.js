@@ -12,7 +12,7 @@ var allConfigs = Object.keys(LANGUAGES).map(language => {
     var config = {
         entry: './frontend/src/ts/index.ts',
         output: {
-            path: path.resolve(__dirname, 'disqus/admin/js'),
+            path: path.resolve(__dirname, 'disqus/admin/bundles/js'),
             filename: language + '.disqus-admin.bundle' + (OPTIMIZE ? '.min.js' : '.js'),
         },
         devtool: 'source-map',
