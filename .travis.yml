@@ -51,7 +51,7 @@ script:
 deploy:
   provider: script
   skip_cleanup: true
-  script: bin/deploy.sh
+  script: sh bin/deploy.sh
   on:
     branch: master
     php: 7.1
