@@ -3,7 +3,7 @@
  * Fired during plugin activation
  *
  * @link       https://disqus.com
- * @since      3.0.0
+ * @since      3.0
  *
  * @package    Disqus
  * @subpackage Disqus/includes
@@ -14,7 +14,7 @@
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
- * @since      3.0.0
+ * @since      3.0
  * @package    Disqus
  * @subpackage Disqus/includes
  * @author     Ryan Valentin <ryan@disqus.com>
@@ -26,7 +26,7 @@ class Disqus_Activator {
 	 *
 	 * Long Description.
 	 *
-	 * @since    3.0.0
+	 * @since    3.0
 	 */
 	public static function activate() {
 		// Create a shared secret token that will be used for install/syncing with Disqus.

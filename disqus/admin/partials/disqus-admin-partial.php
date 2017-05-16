@@ -5,7 +5,7 @@
  * This file is used to markup the admin-facing aspects of the plugin.
  *
  * @link       https://disqus.com
- * @since      3.0.0
+ * @since      3.0
  *
  * @package    Disqus
  * @subpackage Disqus/admin/partials

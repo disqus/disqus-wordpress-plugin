@@ -3,7 +3,7 @@
  * The admin-specific functionality of the plugin.
  *
  * @link       https://disqus.com
- * @since      3.0.0
+ * @since      3.0
  *
  * @package    Disqus
  * @subpackage Disqus/admin
@@ -24,7 +24,7 @@ class Disqus_Admin {
     /**
      * The ID of this plugin.
      *
-     * @since    3.0.0
+     * @since    3.0
      * @access   private
      * @var      string $disqus    The ID of this plugin.
      */
@@ -33,7 +33,7 @@ class Disqus_Admin {
     /**
      * The version of this plugin.
      *
-     * @since    3.0.0
+     * @since    3.0
      * @access   private
      * @var      string $version    The current version of this plugin.
      */
@@ -42,7 +42,7 @@ class Disqus_Admin {
     /**
      * The unique Disqus forum shortname.
      *
-     * @since    3.0.0
+     * @since    3.0
      * @access   private
      * @var      string $shortname    The unique Disqus forum shortname.
      */
@@ -51,7 +51,7 @@ class Disqus_Admin {
     /**
      * Initialize the class and set its properties.
      *
-     * @since    3.0.0
+     * @since    3.0
      * @param    string $disqus       The name of this plugin.
      * @param    string $version      The version of this plugin.
      * @param    string $shortname    The configured Disqus shortname.
@@ -66,7 +66,7 @@ class Disqus_Admin {
     /**
      * Register the stylesheets for the admin area.
      *
-     * @since    3.0.0
+     * @since    3.0
      */
     public function enqueue_styles() {
 
@@ -94,7 +94,7 @@ class Disqus_Admin {
     /**
      * Register the JavaScript for the admin area.
      *
-     * @since    3.0.0
+     * @since    3.0
      */
     public function enqueue_scripts() {
 
@@ -146,7 +146,7 @@ class Disqus_Admin {
     /**
      * Builds the admin toolbar menu with the various Disqus options
      *
-     * @since    3.0.0
+     * @since    3.0
      */
     public function dsq_contruct_admin_menu() {
         if ( ! current_user_can( 'moderate_comments' ) ) {
@@ -172,7 +172,7 @@ class Disqus_Admin {
     /**
      * Builds the admin menu with the various Disqus options
      *
-     * @since    3.0.0
+     * @since    3.0
      * @param    WP_Admin_Bar $wp_admin_bar    Instance of the WP_Admin_Bar.
      */
     public function dsq_construct_admin_bar( $wp_admin_bar ) {
@@ -232,7 +232,7 @@ class Disqus_Admin {
     /**
      * Renders the admin page view from a partial file
      *
-     * @since    3.0.0
+     * @since    3.0
      */
     public function dsq_render_admin_index() {
         require_once plugin_dir_path( __FILE__ ) . 'partials/disqus-admin-partial.php';
@@ -241,7 +241,7 @@ class Disqus_Admin {
     /**
      * Utility function get the admin URL with site's shortname.
      *
-     * @since    3.0.0
+     * @since    3.0
      * @access   private
      * @param    string $path    The path of the admin page to route to.
      * @return   string          The fully-qualified admin URL for the given path.
@@ -253,7 +253,7 @@ class Disqus_Admin {
     /**
      * Utility function get the site's name for display in HTML markup.
      *
-     * @since    3.0.0
+     * @since    3.0
      * @access   private
      * @return   string    The escaped name for the given site.
      */

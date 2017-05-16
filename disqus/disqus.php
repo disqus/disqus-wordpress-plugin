@@ -8,7 +8,7 @@
  * that starts the plugin.
  *
  * @link              https://disqus.com
- * @since             3.0.0
+ * @since             3.0
  * @package           Disqus
  *
  * @wordpress-plugin
@@ -16,7 +16,7 @@
  * Plugin URI:        https://disqus.com/admin/wordpress/
  * Description:       Disqus installation for Wordpress. Assists with installing and showing comments on your site,
  * but doesn't include exporting and syncing features. These functions are still available to run manually.
- * Version:           3.0.0
+ * Version:           3.0
  * Author:            Ryan Valentin
  * Author URI:        http://ryanvalentin.com/
  * License:           GPL-2.0+
@@ -64,7 +64,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-disqus.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    3.0.0
+ * @since    3.0
  */
 function run_disqus() {
 

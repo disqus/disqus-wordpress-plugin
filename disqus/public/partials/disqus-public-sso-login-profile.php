@@ -7,7 +7,7 @@
  * the window to close before reloading with the authenticated user.
  *
  * @link       https://disqus.com
- * @since      3.0.0
+ * @since      3.0
  *
  * @package    Disqus
  * @subpackage Disqus/public/partials

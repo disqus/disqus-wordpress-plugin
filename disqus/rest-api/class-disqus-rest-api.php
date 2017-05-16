@@ -3,7 +3,7 @@
  * The REST API-specific functionality of the plugin.
  *
  * @link       https://disqus.com
- * @since      3.0.0
+ * @since      3.0
  *
  * @package    Disqus
  * @subpackage Disqus/rest-api
@@ -25,7 +25,7 @@ class Disqus_Rest_Api {
     /**
 	 * The unique Disqus forum shortname.
 	 *
-	 * @since    3.0.0
+	 * @since    3.0
 	 * @access   private
 	 * @var      string    $shortname    The unique Disqus forum shortname.
 	 */
@@ -34,7 +34,7 @@ class Disqus_Rest_Api {
     /**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    3.0.0
+	 * @since    3.0
 	 * @param    string $shortname    The configured Disqus shortname.
 	 */
 	public function __construct( $shortname ) {
@@ -45,7 +45,7 @@ class Disqus_Rest_Api {
 	 * When added as a filter, allows anonymous comments from the REST API.
 	 * This is required for syncing.
 	 *
-	 * @since     3.0.0
+	 * @since     3.0
 	 * @return    boolean    Whether to allow anonymous comments.
 	 */
 	public function filter_rest_allow_anonymous_comments() {
@@ -55,7 +55,7 @@ class Disqus_Rest_Api {
 	/**
 	 * Callback to ensure user has manage_options permissions.
 	 *
-	 * @since     3.0.0
+	 * @since     3.0
 	 * @return    boolean    Whether the user has permission to the admin REST API.
 	 */
 	public function rest_admin_only_permission_callback() {
@@ -69,7 +69,7 @@ class Disqus_Rest_Api {
 	/**
 	 * Registers Disqus plugin WordPress REST API endpoints.
 	 *
-	 * @since    3.0.0
+	 * @since    3.0
 	 */
 	public function register_endpoints() {
 		register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'comments/sync', array(
@@ -98,7 +98,7 @@ class Disqus_Rest_Api {
     /**
 	 * Utility function to format REST API responses.
 	 *
-	 * @since    3.0.0
+	 * @since    3.0
 	 * @access   private
 	 * @param    array $data         The request data to be returned.
 	 * @return   WP_REST_Response    The API response object.
@@ -114,7 +114,7 @@ class Disqus_Rest_Api {
 	/**
 	 * Utility function to format REST API errors, and to optionally log them.
 	 *
-	 * @since    3.0.0
+	 * @since    3.0
 	 * @access   private
 	 * @param    string $message        The error message to be returned.
 	 * @param    int    $status_code    The http status code of the error.
@@ -134,7 +134,7 @@ class Disqus_Rest_Api {
 	 * Endpoint callback for comments/sync. Takes a Disqus comment and saves
 	 * it to the local comments database.
 	 *
-	 * @since    3.0.0
+	 * @since    3.0
 	 * @param    array $data         The request POST data.
 	 * @return   WP_REST_Response    The API response object.
 	 */
@@ -278,7 +278,7 @@ class Disqus_Rest_Api {
 	 * Endpoint callback for comments/sync. Takes a Disqus comment and saves
 	 * it to the local comments database.
 	 *
-	 * @since    3.0.0
+	 * @since    3.0
 	 * @param    WP_REST_Request $request    The request object.
 	 * @return   WP_REST_Response     		 The API response object.
 	 */
@@ -293,7 +293,7 @@ class Disqus_Rest_Api {
 	/**
 	 * Parses and returns body content for either form-url-encoded or json data.
 	 *
-	 * @since    3.0.0
+	 * @since    3.0
 	 * @param    WP_REST_Request $request    The request object.
 	 * @return   array     		 Array of parsed request data.
 	 */
@@ -311,7 +311,7 @@ class Disqus_Rest_Api {
 	/**
 	 * Fetches all available plugin options and updates any values if passed, and returns updated array.
 	 *
-	 * @since     3.0.0
+	 * @since     3.0
 	 * @param     array $new_settings    Any options to be updated.
 	 * @access    private
 	 * @return    array    The current settings array.
@@ -345,7 +345,7 @@ class Disqus_Rest_Api {
 	/**
 	 * Returns the schema for the Disqus admin settings REST endpoint.
 	 *
-	 * @since     3.0.0
+	 * @since     3.0
 	 * @access    private
 	 * @return    array    The REST schema.
 	 */
