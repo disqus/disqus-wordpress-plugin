@@ -39,6 +39,7 @@ before_script:
   - nvm install 6.10
   - nvm use 6.10
   - npm install -g webpack
+  - npm install -g typescript
   - npm install
 
 script:
