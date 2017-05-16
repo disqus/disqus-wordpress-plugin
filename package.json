@@ -12,9 +12,6 @@
   "author": "ryanvalentin <ryan@disqus.com>",
   "license": "ISC",
   "devDependencies": {
-    "@types/react": "^15.0.22",
-    "@types/react-dom": "^0.14.23",
-    "@types/react-redux": "^4.4.39",
     "awesome-typescript-loader": "^3.1.2",
     "i18n-webpack-plugin": "^0.3.0",
     "source-map-loader": "^0.2.1",
