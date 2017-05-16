@@ -15,6 +15,9 @@ php:
   - 5.6
   - 7.1
 
+node_js:
+  - 6
+
 env:
   - WP_VERSION=latest WP_MULTISITE=0
   - WP_VERSION=latest WP_MULTISITE=1
@@ -36,7 +39,10 @@ before_script:
   - |
     composer global require wp-coding-standards/wpcs
     phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+  - yarn global add webpack
+  - yarn
 
 script:
   - phpcs --standard=phpcs.ruleset.xml $(find . -name '*.php')
   - phpunit
+  - yarn run build:dist
