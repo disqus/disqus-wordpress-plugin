@@ -6,7 +6,7 @@
  * public-facing side of the site and the admin area.
  *
  * @link       https://disqus.com
- * @since      1.0.0
+ * @since      3.0.0
  *
  * @package    Disqus
  * @subpackage Disqus/includes
@@ -21,7 +21,7 @@
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      1.0.0
+ * @since      3.0.0
  * @package    Disqus
  * @subpackage Disqus/includes
  * @author     Ryan Valentin <ryan@disqus.com>
@@ -32,7 +32,7 @@ class Disqus {
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   protected
 	 * @var      Disqus_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
@@ -41,7 +41,7 @@ class Disqus {
 	/**
 	 * The unique identifier of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   protected
 	 * @var      string    $disqus    The string used to uniquely identify this plugin.
 	 */
@@ -50,7 +50,7 @@ class Disqus {
 	/**
 	 * The current version of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
@@ -59,7 +59,7 @@ class Disqus {
 	/**
 	 * The unique Disqus forum shortname.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   protected
 	 * @var      string    $shortname    The unique Disqus forum shortname.
 	 */
@@ -72,12 +72,12 @@ class Disqus {
 	 * Load the dependencies, and set the hooks for the admin area and the public-facing
 	 * side of the site.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function __construct() {
 
 		$this->disqus = 'disqus';
-		$this->version = '1.0.0';
+		$this->version = '3.0.0';
 		$this->shortname = strtolower( get_option( 'disqus_forum_url' ) );
 
 		$this->load_dependencies();
@@ -99,7 +99,7 @@ class Disqus {
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   private
 	 */
 	private function load_dependencies() {
@@ -135,7 +135,7 @@ class Disqus {
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
@@ -151,7 +151,7 @@ class Disqus {
 	 * Register all of the hooks related to the public-facing functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   private
 	 */
 	private function define_public_hooks() {
@@ -168,7 +168,7 @@ class Disqus {
 	 * Register all of the hooks related to the REST API functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   private
 	 */
 	private function define_rest_api_hooks() {
@@ -185,7 +185,7 @@ class Disqus {
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function run() {
 		$this->loader->run();
@@ -195,7 +195,7 @@ class Disqus {
 	 * The name of the plugin used to uniquely identify it within the context of
 	 * WordPress and to define internationalization functionality.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @return    string    The name of the plugin.
 	 */
 	public function get_disqus_name() {
@@ -205,7 +205,7 @@ class Disqus {
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @return    Disqus_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
@@ -215,7 +215,7 @@ class Disqus {
 	/**
 	 * Retrieve the version number of the plugin.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @return    string    The version number of the plugin.
 	 */
 	public function get_version() {
@@ -225,7 +225,7 @@ class Disqus {
 	/**
 	 * Retrieve the installed Disqus shortname.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @return    string    The installed shortname.
 	 */
 	public function get_shortname() {
@@ -235,7 +235,7 @@ class Disqus {
 	/**
 	 * Formats the unique disqus_identifier for a given post.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @param     string $post    The wordpress post object.
 	 * @return    string    	  The unique disqus_identifier.
 	 */
@@ -246,7 +246,7 @@ class Disqus {
 	/**
 	 * Formats the title for a given post.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @param     string $post    The wordpress post object.
 	 * @return    string          The formatted disqus_title.
 	 */

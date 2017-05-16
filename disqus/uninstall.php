@@ -3,7 +3,7 @@
  * Fired when the plugin is uninstalled.
  *
  * @link       https://disqus.com
- * @since      1.0.0
+ * @since      3.0.0
  *
  * @package    Disqus
  */

@@ -3,7 +3,7 @@
  * The public-facing functionality of the plugin.
  *
  * @link       http://example.com
- * @since      1.0.0
+ * @since      3.0.0
  *
  * @package    Plugin_Name
  * @subpackage Plugin_Name/public
@@ -24,7 +24,7 @@ class Disqus_Public {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   private
 	 * @var      string $disqus    The ID of this plugin.
 	 */
@@ -33,7 +33,7 @@ class Disqus_Public {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   private
 	 * @var      string $version    The current version of this plugin.
 	 */
@@ -42,7 +42,7 @@ class Disqus_Public {
 	/**
      * The unique Disqus forum shortname.
      *
-     * @since    1.0.0
+     * @since    3.0.0
      * @access   private
      * @var      string $shortname    The unique Disqus forum shortname.
      */
@@ -51,7 +51,7 @@ class Disqus_Public {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @param    string $disqus       The name of the plugin.
 	 * @param    string $version      The version of this plugin.
 	 * @param    string $shortname    The configured Disqus shortname.
@@ -65,7 +65,7 @@ class Disqus_Public {
 	/**
 	 * Returns the Disqus identifier for a given post.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @access    private
 	 * @param     WP_Post $post    The WordPress post to create the title for.
 	 * @return    string           The formatted identifier to be passed to Disqus.
@@ -77,7 +77,7 @@ class Disqus_Public {
 	/**
 	 * Returns the Disqus title for a given post.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @access    private
 	 * @param     WP_Post $post    The WordPress post to create the title for.
 	 * @return    string           The cleaned title to be passed to Disqus.
@@ -91,7 +91,7 @@ class Disqus_Public {
 	/**
 	 * Returns the signed payload to authenticate an SSO user in Disqus.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @access    private
 	 * @param     WP_User $user          The WordPress user to authenticate.
 	 * @param     string  $secret_key    The Disqus API Secret Key.
@@ -116,7 +116,7 @@ class Disqus_Public {
 	/**
 	 * Returns the Disqus comments embed configuration.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @access    private
 	 * @param     WP_Post $post    The WordPress post to create the configuration for.
 	 * @return    array            The embed configuration to localize the comments embed script with.
@@ -157,7 +157,7 @@ class Disqus_Public {
 	/**
 	 * Determines if Disqus is configured and can load on a given page.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @param     string $comment_text    The default comment text.
 	 * @return    string                  The new comment text.
 	 */
@@ -177,7 +177,7 @@ class Disqus_Public {
 	/**
 	 * Returns the Disqus embed comments template
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @return    string    The new comment text.
 	 */
 	public function dsq_comments_template() {
@@ -197,7 +197,7 @@ class Disqus_Public {
 	 * by the Disqus embed for Single Sign-on purposes, and closes
 	 * itself.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function dsq_close_window_template() {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/disqus-public-sso-login-profile.php';
@@ -206,7 +206,7 @@ class Disqus_Public {
 	/**
 	 * Enqueues javascript files for displaying comment counts.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function enqueue_comment_count() {
 		if ( $this->dsq_can_load() ) {
@@ -223,7 +223,7 @@ class Disqus_Public {
 	/**
 	 * Enqueues javascript files for displaying the comment embed.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function enqueue_comment_embed() {
 		global $post;
@@ -240,7 +240,7 @@ class Disqus_Public {
 	/**
 	 * Determines if Disqus is configured and can load on a given page.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @access    private
 	 * @return    boolean    Whether Disqus is configured properly and can load on the current page.
 	 */
@@ -261,7 +261,7 @@ class Disqus_Public {
 	/**
 	 * Determines if Disqus is configured and can the comments embed on a given page.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @access    private
 	 * @param     WP_Post $post    The WordPress post used to determine if Disqus can be loaded.
 	 * @return    boolean          Whether Disqus is configured properly and can load on the current page.
