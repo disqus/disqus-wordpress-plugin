@@ -4,7 +4,7 @@
  */
 
 // See for how filter used: https://github.com/WordPress/WordPress/blob/master/wp-includes/class-http.php#L247
-function reflect_params( $preempt, $r = null, $url = null ) {
+function reflect_params( $preempt, $r, $url ) {
     // Simply return a json-encoded representation of the args that were passed.
     return array(
         'headers' => $r['headers'],
