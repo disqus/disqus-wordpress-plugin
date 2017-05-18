@@ -45,7 +45,7 @@ class Disqus_Rest_Api {
 	 *
 	 * @since    3.0
 	 * @param    Disqus_Api_Service $api_service    Instance of the Disqus API service.
-	 * @param    string $shortname    				The configured Disqus shortname.
+	 * @param    string             $shortname    	The configured Disqus shortname.
 	 */
 	public function __construct( $api_service, $shortname ) {
 		$this->api_service = $api_service;
@@ -444,7 +444,7 @@ class Disqus_Rest_Api {
 	 *
 	 * @since    3.0
 	 * @return   array        The syncing status array.
-	 * @throws   Exception    An exception if the Disqus API doesn't return with code 0 (status: 200)
+	 * @throws   Exception    An exception if the Disqus API doesn't return with code 0 (status: 200).
 	 */
 	private function get_sync_status() {
 		$is_subscribed = false;
@@ -482,7 +482,7 @@ class Disqus_Rest_Api {
 	 *
 	 * @since    3.0
 	 * @return   array    The syncing status array.
-	 * @throws   Exception    An exception if the Disqus API doesn't return with code 0 (status: 200)
+	 * @throws   Exception    An exception if the Disqus API doesn't return with code 0 (status: 200).
 	 */
 	private function enable_sync() {
 		$sync_status = $this->get_sync_status();
@@ -527,7 +527,7 @@ class Disqus_Rest_Api {
 	 *
 	 * @since    3.0
 	 * @return   array    The syncing status array.
-	 * @throws   Exception    An exception if the Disqus API doesn't return with code 0 (status: 200)
+	 * @throws   Exception    An exception if the Disqus API doesn't return with code 0 (status: 200).
 	 */
 	private function disable_sync() {
 		$sync_status = $this->get_sync_status();

@@ -55,7 +55,7 @@ class Disqus_Api_Service {
 	 *
 	 * @since     3.0
 	 * @param     string $endpoint    The Disqus API secret key.
-	 * @param     array $params       The params to be appended to the query.
+	 * @param     array  $params      The params to be appended to the query.
 	 * @return    array               The response data array.
 	 */
 	public function api_get( $endpoint, $params ) {
@@ -63,7 +63,7 @@ class Disqus_Api_Service {
 			. 'api_secret=' . $this->api_secret
 			. '&access_token=' . $this->access_token;
 
-		foreach ($params as $key => $values_array) {
+		foreach ( $params as $key => $values_array ) {
 			if ( ! is_array( $values_array ) ) {
 				$values_array = array( $values_array );
 			}
@@ -89,7 +89,7 @@ class Disqus_Api_Service {
 	 *
 	 * @since     3.0
 	 * @param     string $endpoint    The Disqus API secret key.
-	 * @param     array $params       The params to be added to the body.
+	 * @param     array  $params       The params to be added to the body.
 	 * @return    array               The response data array.
 	 */
 	public function api_post( $endpoint, $params ) {
