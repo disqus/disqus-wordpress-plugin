@@ -7,10 +7,14 @@
 function reflect_params( $preempt, $r, $url ) {
     // Simply return a json-encoded representation of the args that were passed.
     return array(
+        'headers' => $r['headers'],
         'body' => json_encode( array(
             'url' => $url,
             'args' => $r,
         ) ),
+        'response' => $r['response'],
+        'cookies' => $r['cookies'],
+        'filename' => $r['filename'],
     );
 }
 
@@ -29,7 +33,7 @@ class Test_Api_Service extends WP_UnitTestCase {
     public function test_api_get_tokens() {
         $api_service = new Disqus_Api_Service( 'APISECRETKEY', 'ACCESSTOKEN' );
 
-        $api_data = $api_service->api_get( 'someEndpoint', null );
+        $api_data = $api_service->api_get( 'someEndpoint', array() );
 
         $this->assertNotFalse( strpos( $api_data->url, 'someEndpoint.json' ) );
         $this->assertNotFalse( strpos( $api_data->url, 'api_secret=APISECRETKEY' ) );
@@ -42,7 +46,7 @@ class Test_Api_Service extends WP_UnitTestCase {
     public function test_api_post_tokens() {
         $api_service = new Disqus_Api_Service( 'APISECRETKEY', 'ACCESSTOKEN' );
 
-        $api_data = $api_service->api_post( 'someEndpoint', null );
+        $api_data = $api_service->api_post( 'someEndpoint', array() );
 
         $this->assertNotFalse( strpos( $api_data->url, 'someEndpoint.json' ) );
         $this->assertNotFalse( strpos( $api_data->url, 'api_secret=APISECRETKEY' ) );
