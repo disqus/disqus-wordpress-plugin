@@ -4,7 +4,7 @@
  */
 
  function reflect_params( $url, $args ) {
-     // Simply return a json-encoded representation of the args that were passed
+     // Simply return a json-encoded representation of the args that were passed.
     return array(
         'body' => json_encode( array(
             'url' => $url,
@@ -13,24 +13,13 @@
     );
  }
 
-/*
- * Mocked global function for making a POST http request.
- */
-function wp_remote_post( $url, $args ) {
-    return reflect_params( $url, $args );
-}
-
-/*
- * Mocked global function for making a GET http request.
- */
-function wp_remote_get( $url, $args ) {
-    return reflect_params( $url, $args );
-}
-
 class Test_Api_Service extends WP_UnitTestCase {
 
     public function setUp() {
         parent::setUp();
+
+        // Filter HTTP requests made from `wp_remote_get` and `wp_remote_post` so we don't actually call server.
+        add_filter( 'pre_http_request', 'reflect_params' );
     }
 
     /**
