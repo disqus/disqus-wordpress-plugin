@@ -1,5 +1,6 @@
 import { Record } from 'immutable';
 import AdminOptions, { IAdminOptions } from './AdminOptions';
+import SyncStatus, { ISyncStatus } from './SyncStatus';
 
 export interface IMessage {
     text: string;
@@ -39,33 +40,40 @@ export interface IDisqusWordpressWindow extends Window {
 export interface IAdminState {
     adminOptions?: IAdminOptions;
     config?: IAdminConfigData;
-    isBusy?: boolean;
+    isFetchingAdminOptions?: boolean;
+    isFetchingSyncStatus?: boolean;
     isSiteFormLocked?: boolean;
     localAdminOptions?: IAdminOptions;
     message?: IMessage;
     [key: string]: any;
 }
 
+
 export default class AdminState extends Record({
     adminOptions: null,
     config: null,
-    isBusy: false,
+    isFetchingAdminOptions: false,
+    isFetchingSyncStatus: false,
     isSiteFormLocked: true,
     localAdminOptions: null,
     message: null,
+    syncStatus: null,
 }) implements IAdminState {
     public adminOptions: AdminOptions;
     public config: IAdminConfigData;
-    public isBusy: boolean;
+    public isFetchingAdminOptions: boolean;
+    public isFetchingSyncStatus: boolean;
     public isSiteFormLocked: boolean;
     public localAdminOptions: AdminOptions;
     public message: IMessage;
+    public syncStatus: SyncStatus;
 
     constructor(config: IAdminConfigData) {
         super({
             config,
             adminOptions: new AdminOptions(),
             localAdminOptions: new AdminOptions(),
+            syncStatus: new SyncStatus(),
         });
     }
 

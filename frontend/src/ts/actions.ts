@@ -6,6 +6,7 @@ export interface IAction {
 }
 
 export const UPDATE_ADMIN_OPTIONS: string = 'UPDATE_ADMIN_OPTIONS';
+export const UPDATE_SYNC_STATUS: string = 'UPDATE_SYNC_STATUS';
 export const TOGGLE_VALUE: string = 'TOGGLE_VALUE';
 export const SET_VALUE: string = 'SET_VALUE';
 export const UPDATE_LOCAL_OPTION: string = 'UPDATE_LOCAL_OPTION';
@@ -24,6 +25,13 @@ export function updateLocalOptionAction(key: string, newValue: string): IAction 
             [key]: newValue,
         },
         type: UPDATE_LOCAL_OPTION,
+    };
+}
+
+export function updateSyncStatusAction(data: any): IAction {
+    return {
+        data,
+        type: UPDATE_SYNC_STATUS,
     };
 }
 

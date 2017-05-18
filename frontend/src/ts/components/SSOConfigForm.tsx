@@ -3,7 +3,7 @@ import { IFormProps } from './FormProps';
 
 /* tslint:disable:max-line-length */
 const SSOConfigForm = (props: IFormProps) => (
-    <form name="sso" action="" method="POST" onSubmit={props.onSubmit}>
+    <form name="sso" action="" method="POST" onSubmit={props.onSubmitSiteForm}>
         <table className="form-table">
             <tbody>
                 <tr>

@@ -6,16 +6,21 @@ import {
     toggleValueAction,
     updateAdminOptionsAction,
     updateLocalOptionAction,
+    updateSyncStatusAction,
 } from './actions';
 import Install from './components/Install';
 import Main from './components/Main';
 import SiteConfigForm from './components/SiteConfigForm';
 import SSOConfigForm from './components/SSOConfigForm';
 import SyncConfigForm from './components/SyncConfigForm';
-import SyncEnableButton from './components/SyncEnableButton';
 import { IAdminOptions } from './reducers/AdminOptions';
 import AdminState from './reducers/AdminState';
-import { IRestResponse, restGet, restPut } from './rest';
+import {
+    IRestResponse,
+    restGet,
+    restPost,
+    restPut,
+} from './rest';
 
 const UPDATABLE_FIELDS: string[] = [
     'disqus_forum_url',
@@ -24,7 +29,6 @@ const UPDATABLE_FIELDS: string[] = [
     'disqus_admin_access_token',
     'disqus_sso_button',
     'disqus_sso_enabled',
-    'disqus_manual_sync',
     'disqus_sync_token',
 ];
 
@@ -45,7 +49,7 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                 value = event.currentTarget.value;
             dispatch(updateLocalOptionAction(key, value));
         },
-        onSubmit: (event: React.SyntheticEvent<HTMLFormElement>) => {
+        onSubmitSiteForm: (event: React.SyntheticEvent<HTMLFormElement>) => {
             event.preventDefault();
 
             const fields = (UPDATABLE_FIELDS as any).reduce((previousValue: any, currentIdKey: string) => {
@@ -69,6 +73,24 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                 }
 
                 dispatch(updateAdminOptionsAction(response.data));
+                dispatch(setMessageAction({ text: __('Changes saved successfully.'), type: 'success' }));
+            });
+        },
+        onSubmitSyncConfigForm: (event: React.SyntheticEvent<HTMLFormElement>) => {
+            event.preventDefault();
+
+            const endpoint: string = event.currentTarget.name;
+
+            restPost(endpoint, null, (response: IRestResponse<IAdminOptions>) => {
+                if (!response)
+                    return;
+
+                if (response.code !== 'OK') {
+                    dispatch(setMessageAction({ text: response.message, type: 'error' }));
+                    return;
+                }
+
+                dispatch(updateSyncStatusAction(response.data));
                 dispatch(setMessageAction({ text: __('Changes saved successfully.'), type: 'success' }));
             });
         },
@@ -102,8 +124,3 @@ export const SyncConfigContainer = ReactRedux.connect(
     mapStateToProps,
     mapDispatchToProps,
 )(SyncConfigForm);
-
-export const SyncEnableButtonContainer = ReactRedux.connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(SyncEnableButton);

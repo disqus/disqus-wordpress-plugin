@@ -20,7 +20,7 @@ const getSubmitButton = (props: IFormProps): React.ReactNode => {
 };
 
 const SiteConfigForm = (props: IFormProps) => (
-    <form name="site" action="" method="POST" onSubmit={props.onSubmit}>
+    <form name="site" action="" method="POST" onSubmit={props.onSubmitSiteForm}>
         <table className="form-table">
             <tbody>
                 <tr>

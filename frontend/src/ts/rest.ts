@@ -41,3 +41,9 @@ export function restPut(path: string, data: any, onLoad: (response: IRestRespons
         handleResponse((xhr.target as XMLHttpRequest).responseText, onLoad);
     });
 }
+
+export function restPost(path: string, data: any, onLoad: (response: IRestResponse<IAdminOptions>) => void) {
+    makeApiRequest('POST', `${REST_OPTIONS.base}${path}`, JSON.stringify(data), (xhr: Event) => {
+        handleResponse((xhr.target as XMLHttpRequest).responseText, onLoad);
+    });
+}

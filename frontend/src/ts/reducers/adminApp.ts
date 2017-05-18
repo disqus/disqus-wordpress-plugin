@@ -16,6 +16,11 @@ const adminApp = (state: AdminState = initialState, action: IAction): AdminState
                 localAdminOptions: state.localAdminOptions.with(action.data),
             });
             break;
+        case actions.UPDATE_SYNC_STATUS:
+            state = state.with({
+                syncStatus: state.syncStatus.with(action.data),
+            });
+            break;
         case actions.SET_MESSAGE:
             state = state.set('message', action.data);
             break;

@@ -5,7 +5,6 @@ import {
     SiteConfigContainer,
     SSOConfigContainer,
     SyncConfigContainer,
-    SyncEnableButtonContainer,
 } from '../containers';
 import { IAdminState } from '../reducers/AdminState';
 import { getForumAdminUrl, getWordpressAdminUrl } from '../utils';
@@ -43,7 +42,7 @@ const getSyncContainer = (props: IFormProps) => {
         );
     }
 
-    return adminOptions.disqus_sync_activated ? <SyncConfigContainer /> : <SyncEnableButtonContainer />;
+    return <SyncConfigContainer />;
 };
 
 /* tslint:disable:max-line-length */
@@ -94,7 +93,7 @@ const Admin = (props: IFormProps) => (
                     {__('Syncing')}
                 </h3>
                 <p className="description">
-                    {__('Syncing may be enabled between WordPress and Disqus, which will copy comments created in Disqus to your local WordPress database for backup purposes.')}
+                    {__('Syncing will copy comments created and edited in Disqus to your local WordPress database for backup purposes. This will create additional work for your database/server and is not recommended for busy communities.')}
                 </p>
                 {getSyncContainer(props)}
             </AdminCard>
