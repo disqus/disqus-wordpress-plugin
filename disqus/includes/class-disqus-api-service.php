@@ -59,7 +59,7 @@ class Disqus_Api_Service {
 	 * @return    array               The response data array.
 	 */
 	public function api_get( $endpoint, $params ) {
-		$api_url = Disqus_Rest_Api::DISQUS_API_BASE . $endpoint . '.json?'
+		$api_url = Disqus_Api_Service::DISQUS_API_BASE . $endpoint . '.json?'
 			. 'api_secret=' . $this->api_secret
 			. '&access_token=' . $this->access_token;
 
@@ -93,7 +93,7 @@ class Disqus_Api_Service {
 	 * @return    array               The response data array.
 	 */
 	public function api_post( $endpoint, $params ) {
-		$api_url = Disqus_Rest_Api::DISQUS_API_BASE . $endpoint . '.json?'
+		$api_url = Disqus_Api_Service::DISQUS_API_BASE . $endpoint . '.json?'
 			. 'api_secret=' . $this->api_secret
 			. '&access_token=' . $this->access_token;
 
