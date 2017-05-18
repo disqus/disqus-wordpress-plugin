@@ -29,6 +29,15 @@
 class Disqus {
 
 	/**
+	 * Instance of the Disqus API service.
+	 *
+	 * @since    3.0
+	 * @access   private
+	 * @var      Disqus_Api_Service    $api_service    Instance of the Disqus API service.
+	 */
+	private $api_service;
+
+	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
@@ -111,6 +120,11 @@ class Disqus {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-disqus-loader.php';
 
 		/**
+		 * The class responsible making requests to the Disqus API.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-disqus-api-service.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-disqus-admin.php';
@@ -127,8 +141,11 @@ class Disqus {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rest-api/class-disqus-rest-api.php';
 
-		$this->loader = new Disqus_Loader();
+		$secret_key = get_option( 'disqus_secret_key' );
+		$access_token = get_option( 'disqus_admin_access_token' );
 
+		$this->api_service = new Disqus_Api_Service( $secret_key, $access_token );
+		$this->loader = new Disqus_Loader();
 	}
 
 	/**
@@ -172,7 +189,7 @@ class Disqus {
 	 * @access   private
 	 */
 	private function define_rest_api_hooks() {
-		$plugin_rest_api = new Disqus_Rest_Api( $this->get_shortname() );
+		$plugin_rest_api = new Disqus_Rest_Api( $this->get_api_service(), $this->get_shortname() );
 
 		$this->loader->add_action( 'rest_api_init', $plugin_rest_api, 'register_endpoints' );
 
@@ -189,6 +206,16 @@ class Disqus {
 	 */
 	public function run() {
 		$this->loader->run();
+	}
+
+	/**
+	 * Returns instance of the Disqus API service.
+	 *
+	 * @since     3.0
+	 * @return    string    Instance of the Disqus API service.
+	 */
+	public function get_api_service() {
+		return $this->api_service;
 	}
 
 	/**

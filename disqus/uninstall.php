@@ -24,8 +24,8 @@ const ALL_SETTINGS = array(
 	'disqus_secret_key',
 	'disqus_admin_access_token',
 	'disqus_sso_button',
-	'disqus_manual_sync',
 	'disqus_sync_token',
+	'disqus_manual_sync', // Legacy option.
 );
 
 foreach ( ALL_SETTINGS as $key ) {

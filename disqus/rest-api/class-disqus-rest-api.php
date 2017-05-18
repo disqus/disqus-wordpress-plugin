@@ -22,6 +22,15 @@ class Disqus_Rest_Api {
 
 	const DISQUS_API_BASE = 'https://disqus.com/api/3.0/';
 
+	/**
+	 * Instance of the Disqus API service.
+	 *
+	 * @since    3.0
+	 * @access   private
+	 * @var      Disqus_Api_Service    $api_service    Instance of the Disqus API service.
+	 */
+	private $api_service;
+
     /**
 	 * The unique Disqus forum shortname.
 	 *
@@ -35,9 +44,11 @@ class Disqus_Rest_Api {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    3.0
-	 * @param    string $shortname    The configured Disqus shortname.
+	 * @param    Disqus_Api_Service $api_service    Instance of the Disqus API service.
+	 * @param    string $shortname    				The configured Disqus shortname.
 	 */
-	public function __construct( $shortname ) {
+	public function __construct( $api_service, $shortname ) {
+		$this->api_service = $api_service;
 		$this->shortname = $shortname;
 	}
 
@@ -92,6 +103,30 @@ class Disqus_Rest_Api {
 				'permission_callback' => array( $this, 'rest_admin_only_permission_callback' ),
 			),
 			'schema' => array( $this, 'dsq_get_settings_schema' ),
+		) );
+
+		register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'sync/status', array(
+			array(
+				'methods' => 'GET',
+				'callback' => array( $this, 'rest_sync_status' ),
+				'permission_callback' => array( $this, 'rest_admin_only_permission_callback' ),
+			),
+		) );
+
+		register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'sync/enable', array(
+			array(
+				'methods' => 'POST',
+				'callback' => array( $this, 'rest_sync_enable' ),
+				'permission_callback' => array( $this, 'rest_admin_only_permission_callback' ),
+			),
+		) );
+
+		register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'sync/disable', array(
+			array(
+				'methods' => 'POST',
+				'callback' => array( $this, 'rest_sync_disable' ),
+				'permission_callback' => array( $this, 'rest_admin_only_permission_callback' ),
+			),
 		) );
 	}
 
@@ -291,6 +326,57 @@ class Disqus_Rest_Api {
 	}
 
 	/**
+	 * Endpoint callback for fetching automatic syncing status.
+	 *
+	 * @since    3.0
+	 * @param    WP_REST_Request $request    The request object.
+	 * @return   WP_REST_Response     		 The API response object.
+	 */
+	public function rest_sync_status( WP_REST_Request $request ) {
+		try {
+			$status = $this->get_sync_status();
+
+			return $this->rest_get_response( $status );
+		} catch ( Exception $e ) {
+			return $this->rest_get_error( $e->getMessage() );
+		}
+	}
+
+	/**
+	 * Endpoint callback for enabling automatic syncing.
+	 *
+	 * @since    3.0
+	 * @param    WP_REST_Request $request    The request object.
+	 * @return   WP_REST_Response     		 The API response object.
+	 */
+	public function rest_sync_enable( WP_REST_Request $request ) {
+		try {
+			$status = $this->enable_sync();
+
+			return $this->rest_get_response( $status );
+		} catch ( Exception $e ) {
+			return $this->rest_get_error( $e->getMessage() );
+		}
+	}
+
+	/**
+	 * Endpoint callback for disabling automatic syncing.
+	 *
+	 * @since    3.0
+	 * @param    WP_REST_Request $request    The request object.
+	 * @return   WP_REST_Response     		 The API response object.
+	 */
+	public function rest_sync_disable( WP_REST_Request $request ) {
+		try {
+			$status = $this->disable_sync();
+
+			return $this->rest_get_response( $status );
+		} catch ( Exception $e ) {
+			return $this->rest_get_error( $e->getMessage() );
+		}
+	}
+
+	/**
 	 * Parses and returns body content for either form-url-encoded or json data.
 	 *
 	 * @since    3.0
@@ -337,9 +423,134 @@ class Disqus_Rest_Api {
 
 		// Add additional non-database options here.
 		$settings['disqus_installed'] = trim( $settings['disqus_forum_url'] ) !== '';
-		$settings['disqus_sync_activated'] = false; // TODO: Figure out criteria to say true/false.
 
 		return $settings;
+	}
+
+	/**
+	 * Determines if subscription information matches information about this WordPress site.
+	 *
+	 * @since    3.0
+	 * @param    array $subscription    The Disqus webhook subscription array.
+	 * @return   boolean    			Whether the subscription information belongs to this WordPress site.
+	 */
+	private function validate_subscription( $subscription ) {
+		return get_option( 'disqus_sync_token' ) === $subscription['secret']  &&
+			rest_url( Disqus_Rest_Api::REST_NAMESPACE . '/comments/sync' ) === $subscription['url'];
+	}
+
+	/**
+	 * Fetches and returns the syncing status from the Disqus servers.
+	 *
+	 * @since    3.0
+	 * @return   array        The syncing status array.
+	 * @throws   Exception    An exception if the Disqus API doesn't return with code 0 (status: 200)
+	 */
+	private function get_sync_status() {
+		$is_subscribed = false;
+		$is_enabled = false;
+		$current_subscription = null;
+
+		if ( get_option( 'disqus_secret_key' ) && get_option( 'disqus_admin_access_token' ) ) {
+			$api_data = $this->api_service->api_get( 'forums/webhooks/list', array(
+				'forum' => $this->shortname,
+			));
+
+			if ( is_object( $api_data ) && is_array( $api_data->response ) ) {
+				// Loop through each subscription, looking for the first match.
+				foreach ( $api_data->response as $subscription ) {
+					if ( $this->validate_subscription( $subscription ) ) {
+						$current_subscription = $subscription;
+						$is_subscribed = true;
+						break;
+					}
+				}
+			} elseif ( 0 !== $api_data->code ) {
+				throw new Exception( $api_data->response );
+			}
+		}
+
+		return array(
+			'subscribed' => $is_subscribed,
+			'enabled' => $is_enabled,
+			'subscription' => $current_subscription,
+		);
+	}
+
+	/**
+	 * Enables automatic syncing from Disqus if disabled.
+	 *
+	 * @since    3.0
+	 * @return   array    The syncing status array.
+	 * @throws   Exception    An exception if the Disqus API doesn't return with code 0 (status: 200)
+	 */
+	private function enable_sync() {
+		$sync_status = $this->get_sync_status();
+		$endpoint = null;
+		$params = null;
+
+		if ( ! $sync_status['subscribed'] ) {
+			$endpoint = 'forums/webhooks/create';
+			$params = array(
+				'forum' => $this->shortname,
+				'url' => rest_url( Disqus_Rest_Api::REST_NAMESPACE . '/comments/sync' ),
+				'secret' => get_option( 'disqus_sync_token' ),
+				'enableSending' => '1',
+			);
+		} elseif ( ! $sync_status['enabled'] ) {
+			$endpoint = 'forums/webhooks/update';
+			$params = array(
+				'subscription' => $sync_status['subscription']['id'],
+				'enableSending' => '1',
+			);
+		}
+
+		if ( null !== $endpoint ) {
+			$api_data = $this->api_service->api_post( $endpoint, $params );
+
+			if ( 0 !== $api_data->code ) {
+				$sync_status = array(
+					'subscribed' => true,
+					'enabled' => true,
+					'subscription' => $api_data->response,
+				);
+			} else {
+				throw new Exception( $api_data->response );
+			}
+		}
+
+		return $sync_status;
+	}
+
+	/**
+	 * Disables automatic syncing from Disqus if enabled.
+	 *
+	 * @since    3.0
+	 * @return   array    The syncing status array.
+	 * @throws   Exception    An exception if the Disqus API doesn't return with code 0 (status: 200)
+	 */
+	private function disable_sync() {
+		$sync_status = $this->get_sync_status();
+
+		if ( true === $sync_status['enabled'] ) {
+			$params = array(
+				'subscription' => $sync_status['subscription']['id'],
+				'enableSending' => '0',
+			);
+			$api_data = $this->api_service->api_post( 'forums/webhooks/update', $params );
+
+			if ( 0 !== $api_data->code ) {
+				$sync_status = array(
+					'subscribed' => true,
+					'enabled' => false,
+					'subscription' => $api_data->response,
+				);
+			} else {
+				throw new Exception( $api_data->response );
+			}
+		}
+
+		return $sync_status;
 	}
 
 	/**
@@ -388,19 +599,9 @@ class Disqus_Rest_Api {
 					'type' => 'string',
 					'readonly' => false,
 				),
-				'disqus_manual_sync' => array(
-					'description' => 'This will back up comments to your WordPress database when made in Disqus.',
-					'type' => 'string',
-					'readonly' => false,
-				),
 				'disqus_sync_token' => array(
 					'description' => 'The shared secret token for data sync between Disqus and the plugin.',
 					'type' => 'string',
-					'readonly' => true,
-				),
-				'disqus_sync_activated' => array(
-					'description' => 'Whether the webhook link has been established with Disqus.',
-					'type' => 'boolean',
 					'readonly' => true,
 				),
 				'disqus_installed' => array(

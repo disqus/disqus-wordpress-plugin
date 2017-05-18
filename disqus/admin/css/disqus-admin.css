@@ -36,6 +36,10 @@
     margin-bottom: 1.33em;
 }
 
+.button-large .dashicons {
+    margin-top: 4px;
+}
+
 /* Placeholder spinner */
 
 .dsq-loading-container {

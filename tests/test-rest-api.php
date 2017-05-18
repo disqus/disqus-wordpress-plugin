@@ -95,9 +95,7 @@ class Test_REST_API extends WP_UnitTestCase {
         $this->assertArrayHasKey( 'disqus_secret_key', $response_data['data'] );
         $this->assertArrayHasKey( 'disqus_admin_access_token', $response_data['data'] );
         $this->assertArrayHasKey( 'disqus_sso_button', $response_data['data'] );
-        $this->assertArrayHasKey( 'disqus_manual_sync', $response_data['data'] );
         $this->assertArrayHasKey( 'disqus_sync_token', $response_data['data'] );
-        $this->assertArrayHasKey( 'disqus_sync_activated', $response_data['data'] );
         $this->assertArrayHasKey( 'disqus_installed', $response_data['data'] );
     }
 
