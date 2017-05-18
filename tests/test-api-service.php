@@ -3,15 +3,16 @@
  * REST API Tests.
  */
 
- function reflect_params( $url, $args ) {
-     // Simply return a json-encoded representation of the args that were passed.
+// See for how filter used: https://github.com/WordPress/WordPress/blob/master/wp-includes/class-http.php#L247
+function reflect_params( $preempt, $r, $url ) {
+    // Simply return a json-encoded representation of the args that were passed.
     return array(
         'body' => json_encode( array(
             'url' => $url,
-            'args' => $args,
+            'args' => $r,
         ) ),
     );
- }
+}
 
 class Test_Api_Service extends WP_UnitTestCase {
 
