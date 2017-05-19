@@ -5,6 +5,7 @@ import SyncStatus, { ISyncStatus } from './SyncStatus';
 export interface IMessage {
     text: string;
     type: string;
+    onDismiss?: (event: React.SyntheticEvent<HTMLButtonElement>) => void;
 }
 
 export interface IRestOptions {

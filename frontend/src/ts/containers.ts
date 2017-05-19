@@ -38,6 +38,9 @@ const mapStateToProps = (state: AdminState) => {
 };
 
 const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
+    const handleClearMessage = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
+        dispatch(setMessageAction(null));
+    };
     return {
         onInputChange: (key: string, event: React.SyntheticEvent<HTMLInputElement>) => {
             const isCheckbox: boolean = event.currentTarget.type === 'checkbox';
@@ -67,12 +70,20 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                     return;
 
                 if (response.code !== 'OK') {
-                    dispatch(setMessageAction({ text: response.message, type: 'error' }));
+                    dispatch(setMessageAction({
+                        onDismiss: handleClearMessage,
+                        text: response.message,
+                        type: 'error',
+                    }));
                     return;
                 }
 
                 dispatch(updateAdminOptionsAction(response.data));
-                dispatch(setMessageAction({ text: __('Changes saved successfully.'), type: 'success' }));
+                dispatch(setMessageAction({
+                    onDismiss: handleClearMessage,
+                    text: __('Changes saved successfully.'),
+                    type: 'success',
+                }));
             });
         },
         onSubmitSyncConfigForm: (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -85,12 +96,20 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                     return;
 
                 if (response.code !== 'OK') {
-                    dispatch(setMessageAction({ text: response.message, type: 'error' }));
+                    dispatch(setMessageAction({
+                        onDismiss: handleClearMessage,
+                        text: response.message,
+                        type: 'error',
+                    }));
                     return;
                 }
 
                 dispatch(updateSyncStatusAction(response.data));
-                dispatch(setMessageAction({ text: __('Changes saved successfully.'), type: 'success' }));
+                dispatch(setMessageAction({
+                    onDismiss: handleClearMessage,
+                    text: __('Changes saved successfully.'),
+                    type: 'success',
+                }));
             });
         },
         onToggleState: (key: string) => {

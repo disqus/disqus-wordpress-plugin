@@ -19,12 +19,32 @@ const store = Redux.createStore<AdminState>(adminApp);
 
 const element: HTMLElement = document.getElementById('disqus-admin');
 
+const onClearMessage = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
+    store.dispatch(setMessageAction(null));
+};
+
 ReactDOM.render(
     <ReactRedux.Provider store={store}>
         <MainContainer />
     </ReactRedux.Provider>,
     element,
     () => {
+        const checkResponse = (response: IRestResponse<IAdminOptions>): boolean => {
+            if (!response)
+                return false;
+
+            if (response.code !== 'OK') {
+                store.dispatch(setMessageAction({
+                    onDismiss: onClearMessage,
+                    text: response.message,
+                    type: 'error',
+                }));
+                return false;
+            }
+
+            return true;
+        };
+
         store.dispatch(setValueAction('isFetchingAdminOptions', true));
         store.dispatch(setValueAction('isFetchingSyncStatus', true));
 
@@ -32,13 +52,8 @@ ReactDOM.render(
         restGet('settings', (response: IRestResponse<IAdminOptions>) => {
             store.dispatch(setValueAction('isFetchingAdminOptions', false));
 
-            if (!response)
+            if (!checkResponse(response))
                 return;
-
-            if (response.code !== 'OK') {
-                store.dispatch(setMessageAction({ text: response.message, type: 'error' }));
-                return;
-            }
 
             store.dispatch(updateAdminOptionsAction(response.data));
         });
@@ -47,13 +62,8 @@ ReactDOM.render(
         restGet('sync/status', (response: IRestResponse<ISyncStatus>) => {
             store.dispatch(setValueAction('isFetchingSyncStatus', false));
 
-            if (!response)
+            if (!checkResponse(response))
                 return;
-
-            if (response.code !== 'OK') {
-                store.dispatch(setMessageAction({ text: response.message, type: 'error' }));
-                return;
-            }
 
             store.dispatch(updateSyncStatusAction(response.data));
         });
