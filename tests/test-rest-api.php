@@ -176,10 +176,10 @@ class Test_REST_API extends WP_UnitTestCase {
      */
     public function test_valid_shared_secret() {
         wp_set_current_user( null );
-        $sync_token = get_option( 'disqus_sync_token' );
+        update_option( 'disqus_sync_token', 'valid_token' );
 
         $request = new WP_REST_Request( 'GET', '/disqus/v1/settings' );
-        $request->set_header( 'X-Hub-Signature', $sync_token );
+        $request->set_header( 'X-Hub-Signature', 'valid_token' );
 
         $response = $this->server->dispatch( $request );
         $this->assertEquals( 200, $response->get_status() );
@@ -190,12 +190,13 @@ class Test_REST_API extends WP_UnitTestCase {
      */
     public function test_invalid_shared_secret() {
         wp_set_current_user( null );
+        update_option(  'disqus_sync_token', 'valid_token' );
 
         $request = new WP_REST_Request( 'GET', '/disqus/v1/settings' );
-        $request->set_header( 'X-Hub-Signature', 'ImNotAuthorized' );
+        $request->set_header( 'X-Hub-Signature', 'not_valid_token' );
 
         $response = $this->server->dispatch( $request );
-        $this->assertEquals( 200, $response->get_status() );
+        $this->assertEquals( 401, $response->get_status() );
     }
 
     /**
