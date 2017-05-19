@@ -9,8 +9,11 @@ function reflect_params( $preempt, $args, $url ) {
     return array(
         'headers' => $args['headers'],
         'body' => json_encode( array(
-            'url' => $url,
-            'args' => $args,
+            'code' => 0,
+            'response' => array(
+                'url' => $url,
+                'args' => $args,
+            ),
         ) ),
         'response' => $args['response'],
         'cookies' => $args['cookies'],
