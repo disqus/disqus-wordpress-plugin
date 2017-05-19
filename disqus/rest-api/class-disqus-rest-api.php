@@ -67,14 +67,23 @@ class Disqus_Rest_Api {
 	 * Callback to ensure user has manage_options permissions.
 	 *
 	 * @since     3.0
-	 * @return    boolean    Whether the user has permission to the admin REST API.
+	 * @param     WP_REST_Request $request    The request object.
+	 * @return    boolean|WP_Error    		  Whether the user has permission to the admin REST API.
 	 */
-	public function rest_admin_only_permission_callback() {
-		// TODO: Check for Disqus server permissions.
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return $this->rest_get_error( 'You must be logged in and have admin permissions for this resource.', 401 );
+	public function rest_admin_only_permission_callback( WP_REST_Request $request ) {
+		// Regular cookie-based authentication
+		if ( current_user_can( 'manage_options' ) ) {
+			return true;
 		}
-		return true;
+
+		// Shared secret authentication
+		$hub_signature = $request->get_header( 'X-Hub-Signature' );
+		$sync_token = get_option( 'disqus_sync_token' );
+		if ( $hub_signature && $sync_token && $sync_token === $hub_signature ) {
+			return true;
+		}
+
+		return $this->rest_get_error( 'You must be logged in and have admin permissions for this resource.', 401 );
 	}
 
 	/**

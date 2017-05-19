@@ -172,10 +172,30 @@ class Test_REST_API extends WP_UnitTestCase {
     }
 
     /**
-     * Check that we can fetch and update settings with shared secret authentication.
+     * Check that we can fetch settings with shared secret authentication.
      */
-    public function test_shared_secret_settings() {
-        $this->assertTrue( true );
+    public function test_valid_shared_secret() {
+        wp_set_current_user( null );
+        $sync_token = get_option( 'disqus_sync_token' );
+
+        $request = new WP_REST_Request( 'GET', '/disqus/v1/settings' );
+        $request->set_header( 'X-Hub-Signature', $sync_token );
+
+        $response = $this->server->dispatch( $request );
+        $this->assertEquals( 200, $response->get_status() );
+    }
+
+    /**
+     * Check that we can't fetch settings with bad secret authentication.
+     */
+    public function test_invalid_shared_secret() {
+        wp_set_current_user( null );
+
+        $request = new WP_REST_Request( 'GET', '/disqus/v1/settings' );
+        $request->set_header( 'X-Hub-Signature', 'ImNotAuthorized' );
+
+        $response = $this->server->dispatch( $request );
+        $this->assertEquals( 200, $response->get_status() );
     }
 
     /**
