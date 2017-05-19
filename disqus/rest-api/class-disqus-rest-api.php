@@ -79,7 +79,9 @@ class Disqus_Rest_Api {
 		// Shared secret authentication.
 		$hub_signature = $request->get_header( 'X-Hub-Signature' );
 		$sync_token = get_option( 'disqus_sync_token' );
-		if ( $hub_signature && $sync_token && $sync_token === $hub_signature ) {
+		$body = $request->get_body();
+
+		if ( $hub_signature && $sync_token && $body && hash_hmac( 'sha512', $body, $sync_token ) === $hub_signature ) {
 			return true;
 		}
 

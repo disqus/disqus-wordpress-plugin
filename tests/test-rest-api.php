@@ -178,8 +178,14 @@ class Test_REST_API extends WP_UnitTestCase {
         wp_set_current_user( null );
         update_option( 'disqus_sync_token', 'valid_token' );
 
-        $request = new WP_REST_Request( 'GET', '/disqus/v1/settings' );
-        $request->set_header( 'X-Hub-Signature', 'valid_token' );
+        $body = array(
+            'disqus_forum_url' => 'rossbob',
+        );
+
+        $request = new WP_REST_Request( 'POST', '/disqus/v1/settings' );
+        $request->set_body_params( $body );
+        $hub_signature = hash_hmac( 'sha512', $request->get_body(), 'valid_token' );
+        $request->set_header( 'X-Hub-Signature', $hub_signature );
 
         $response = $this->server->dispatch( $request );
         $this->assertEquals( 200, $response->get_status() );
@@ -190,10 +196,16 @@ class Test_REST_API extends WP_UnitTestCase {
      */
     public function test_invalid_shared_secret() {
         wp_set_current_user( null );
-        update_option(  'disqus_sync_token', 'valid_token' );
+        update_option( 'disqus_sync_token', 'valid_token' );
 
-        $request = new WP_REST_Request( 'GET', '/disqus/v1/settings' );
-        $request->set_header( 'X-Hub-Signature', 'not_valid_token' );
+        $body = array(
+            'disqus_forum_url' => 'rossbob',
+        );
+
+        $request = new WP_REST_Request( 'POST', '/disqus/v1/settings' );
+        $request->set_body_params( $body );
+        $hub_signature = hash_hmac( 'sha512', $request->get_body(), 'not_valid_token' );
+        $request->set_header( 'X-Hub-Signature', $hub_signature );
 
         $response = $this->server->dispatch( $request );
         $this->assertEquals( 401, $response->get_status() );
