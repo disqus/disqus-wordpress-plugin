@@ -17,17 +17,11 @@ if ( ! current_user_can( 'install_plugins' ) ) {
 	exit;
 }
 
-const ALL_SETTINGS = array(
-	'disqus_forum_url',
-	'disqus_sso_enabled',
-	'disqus_public_key',
-	'disqus_secret_key',
-	'disqus_admin_access_token',
-	'disqus_sso_button',
-	'disqus_sync_token',
-	'disqus_manual_sync', // Legacy option.
-);
-
-foreach ( ALL_SETTINGS as $key ) {
-	delete_option( $key );
-}
+delete_option( 'disqus_forum_url' );
+delete_option( 'disqus_sso_enabled' );
+delete_option( 'disqus_public_key' );
+delete_option( 'disqus_secret_key' );
+delete_option( 'disqus_admin_access_token' );
+delete_option( 'disqus_sso_button' );
+delete_option( 'disqus_sync_token' );
+delete_option( 'disqus_manual_sync' ); // Legacy option.
