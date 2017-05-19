@@ -173,7 +173,7 @@ class Disqus_Rest_Api {
 	 * it to the local comments database.
 	 *
 	 * @since    3.0
-	 * @param    array $data         		  The request POST data.
+	 * @param    WP_REST_Request $request     The request object.
 	 * @return   WP_REST_Response|WP_Error    The API response object.
 	 */
 	public function rest_comments_sync( WP_REST_Request $request ) {
