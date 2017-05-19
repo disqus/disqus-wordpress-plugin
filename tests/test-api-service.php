@@ -45,9 +45,9 @@ class Test_Api_Service extends WP_UnitTestCase {
     public function test_api_post_tokens() {
         $api_service = new Disqus_Api_Service( 'APISECRETKEY', 'ACCESSTOKEN' );
 
-        $api_data = $api_service->api_post( 'forums/details', array() );
+        $api_data = $api_service->api_post( 'forums/update', array() );
 
-        $this->assertNotFalse( strpos( $api_data->response->url, 'forums/details.json' ) );
+        $this->assertNotFalse( strpos( $api_data->response->url, 'forums/update.json' ) );
         $this->assertNotFalse( strpos( $api_data->response->url, 'api_secret=APISECRETKEY' ) );
         $this->assertNotFalse( strpos( $api_data->response->url, 'access_token=ACCESSTOKEN' ) );
     }
@@ -66,6 +66,25 @@ class Test_Api_Service extends WP_UnitTestCase {
         $this->assertNotFalse( strpos( $api_data->response->url, 'forum=bobross' ) );
         $this->assertNotFalse( strpos( $api_data->response->url, 'attach=forumDaysAlive' ) );
         $this->assertNotFalse( strpos( $api_data->response->url, 'attach=forumFeatures' ) );
+    }
+
+    /**
+     * Check that Disqus API GET requests include params that are passed in
+     */
+    public function test_api_post_with_args() {
+        $api_service = new Disqus_Api_Service( 'APISECRETKEY', 'ACCESSTOKEN' );
+
+        $api_data = $api_service->api_post( 'forums/update', array(
+            'forum' => 'bobross',
+            'name' => 'Ross Bob',
+            'attach' => array( 'forumDaysAlive', 'forumFeatures' ),
+        ) );
+
+        $this->assertObjectHasAttribute( 'name', $api_data->response->args );
+        $this->assertEquals( 'bobross', $api_data->response->args->name );
+
+        $this->assertObjectHasAttribute( 'attach', $api_data->response->args );
+        $this->assertTrue( is_array( $api_data->response->args->attach ) );
     }
 
     /**
