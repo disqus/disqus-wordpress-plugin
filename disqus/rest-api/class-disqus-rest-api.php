@@ -532,7 +532,7 @@ class Disqus_Rest_Api {
 		$wp_request->set_param( 'author_email', $author_email );
 		$wp_request->set_param( 'author_name', $post->author->name );
 		$wp_request->set_param( 'author_url', $post->author->url );
-		// you can also set ( 'date_gmt', $post->createdAt ).
+		$wp_request->set_param( 'date_gmt', $post->createdAt );
 		$wp_request->set_param( 'content', $post->raw_message );
 		$wp_request->set_param( 'post', (int) $wp_post_id );
 		$wp_request->set_param( 'parent', $parent );
