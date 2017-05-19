@@ -178,13 +178,13 @@ class Test_REST_API extends WP_UnitTestCase {
         wp_set_current_user( null );
         update_option( 'disqus_sync_token', 'valid_token' );
 
-        $body = array(
+        $body = json_encode( array(
             'disqus_forum_url' => 'rossbob',
-        );
+        ) );
 
         $request = new WP_REST_Request( 'POST', '/disqus/v1/settings' );
-        $request->set_body_params( $body );
-        $hub_signature = hash_hmac( 'sha512', $request->get_body(), 'valid_token' );
+        $request->set_body( $body );
+        $hub_signature = hash_hmac( 'sha512', $body, 'valid_token' );
         $request->set_header( 'X-Hub-Signature', $hub_signature );
 
         $response = $this->server->dispatch( $request );
@@ -198,13 +198,13 @@ class Test_REST_API extends WP_UnitTestCase {
         wp_set_current_user( null );
         update_option( 'disqus_sync_token', 'valid_token' );
 
-        $body = array(
+        $body = json_encode( array(
             'disqus_forum_url' => 'rossbob',
-        );
+        ) );
 
         $request = new WP_REST_Request( 'POST', '/disqus/v1/settings' );
         $request->set_body_params( $body );
-        $hub_signature = hash_hmac( 'sha512', $request->get_body(), 'not_valid_token' );
+        $hub_signature = hash_hmac( 'sha512', $body, 'not_valid_token' );
         $request->set_header( 'X-Hub-Signature', $hub_signature );
 
         $response = $this->server->dispatch( $request );
