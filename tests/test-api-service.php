@@ -81,7 +81,7 @@ class Test_Api_Service extends WP_UnitTestCase {
         ) );
 
         $this->assertObjectHasAttribute( 'name', $api_data->response->args->body );
-        $this->assertEquals( 'bobross', $api_data->response->args->body->name );
+        $this->assertEquals( 'Ross Bob', $api_data->response->args->body->name );
 
         $this->assertObjectHasAttribute( 'attach', $api_data->response->args->body );
         $this->assertTrue( is_array( $api_data->response->args->body->attach ) );
