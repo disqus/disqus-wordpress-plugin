@@ -435,7 +435,7 @@ class Disqus_Rest_Api {
 	 * @return   boolean    			Whether the subscription information belongs to this WordPress site.
 	 */
 	private function validate_subscription( $subscription ) {
-		return get_option( 'disqus_sync_token' ) === $subscription['secret']  &&
+		return get_option( 'disqus_sync_token' ) === $subscription['secret'] &&
 			rest_url( Disqus_Rest_Api::REST_NAMESPACE . '/comments/sync' ) === $subscription['url'];
 	}
 
