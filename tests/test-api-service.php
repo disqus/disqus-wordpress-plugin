@@ -32,9 +32,9 @@ class Test_Api_Service extends WP_UnitTestCase {
     public function test_api_get_tokens() {
         $api_service = new Disqus_Api_Service( 'APISECRETKEY', 'ACCESSTOKEN' );
 
-        $api_data = $api_service->api_get( 'someEndpoint', array() );
+        $api_data = $api_service->api_get( 'forums/details', array() );
 
-        $this->assertNotFalse( strpos( $api_data->response->url, 'someEndpoint.json' ) );
+        $this->assertNotFalse( strpos( $api_data->response->url, 'forums/details.json' ) );
         $this->assertNotFalse( strpos( $api_data->response->url, 'api_secret=APISECRETKEY' ) );
         $this->assertNotFalse( strpos( $api_data->response->url, 'access_token=ACCESSTOKEN' ) );
     }
@@ -45,17 +45,37 @@ class Test_Api_Service extends WP_UnitTestCase {
     public function test_api_post_tokens() {
         $api_service = new Disqus_Api_Service( 'APISECRETKEY', 'ACCESSTOKEN' );
 
-        $api_data = $api_service->api_post( 'someEndpoint', array() );
+        $api_data = $api_service->api_post( 'forums/details', array() );
 
-        $this->assertNotFalse( strpos( $api_data->response->url, 'someEndpoint.json' ) );
+        $this->assertNotFalse( strpos( $api_data->response->url, 'forums/details.json' ) );
         $this->assertNotFalse( strpos( $api_data->response->url, 'api_secret=APISECRETKEY' ) );
         $this->assertNotFalse( strpos( $api_data->response->url, 'access_token=ACCESSTOKEN' ) );
+    }
+
+    /**
+     * Check that Disqus API GET requests include params that are passed in
+     */
+    public function test_api_get_with_args() {
+        $api_service = new Disqus_Api_Service( 'APISECRETKEY', 'ACCESSTOKEN' );
+
+        $api_data = $api_service->api_get( 'forums/details', array(
+            'forum' => 'bobross',
+            'attach' => array( 'forumDaysAlive', 'forumFeatures' ),
+        ) );
+
+        $this->assertNotFalse( strpos( $api_data->response->url, 'forum=bobross' ) );
+        $this->assertNotFalse( strpos( $api_data->response->url, 'attach=forumDaysAlive' ) );
+        $this->assertNotFalse( strpos( $api_data->response->url, 'attach=forumFeatures' ) );
     }
 
     /**
      * Check that Disqus API POST requests have no referer.
      */
     public function test_api_post_no_referer() {
-        $this->assertTrue( true );
+        $api_service = new Disqus_Api_Service( 'APISECRETKEY', 'ACCESSTOKEN' );
+
+        $api_data = $api_service->api_post( 'forums/details', array() );
+
+        $this->assertEquals( '', $api_data->response->args->headers->Referer );
     }
 }
