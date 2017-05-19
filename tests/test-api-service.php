@@ -4,17 +4,17 @@
  */
 
 // See for how filter used: https://github.com/WordPress/WordPress/blob/master/wp-includes/class-http.php#L247
-function reflect_params( $preempt, $r, $url ) {
+function reflect_params( $preempt, $args, $url ) {
     // Simply return a json-encoded representation of the args that were passed.
     return array(
-        'headers' => $r['headers'],
+        'headers' => $args['headers'],
         'body' => json_encode( array(
             'url' => $url,
-            'args' => $r,
+            'args' => $args,
         ) ),
-        'response' => $r['response'],
-        'cookies' => $r['cookies'],
-        'filename' => $r['filename'],
+        'response' => $args['response'],
+        'cookies' => $args['cookies'],
+        'filename' => $args['filename'],
     );
 }
 
@@ -24,7 +24,7 @@ class Test_Api_Service extends WP_UnitTestCase {
         parent::setUp();
 
         // Filter HTTP requests made from `wp_remote_get` and `wp_remote_post` so we don't actually call server.
-        add_filter( 'pre_http_request', 'reflect_params' );
+        add_filter( 'pre_http_request', 'reflect_params', 1, 3 );
     }
 
     /**
