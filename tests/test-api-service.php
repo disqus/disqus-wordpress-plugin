@@ -7,7 +7,6 @@
 function reflect_params( $preempt, $args, $url ) {
     // Simply return a json-encoded representation of the args that were passed.
     return array(
-        'headers' => $args['headers'],
         'body' => json_encode( array(
             'code' => 0,
             'response' => array(
@@ -15,9 +14,6 @@ function reflect_params( $preempt, $args, $url ) {
                 'args' => $args,
             ),
         ) ),
-        'response' => $args['response'],
-        'cookies' => $args['cookies'],
-        'filename' => $args['filename'],
     );
 }
 
