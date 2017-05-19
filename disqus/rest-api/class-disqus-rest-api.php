@@ -71,12 +71,12 @@ class Disqus_Rest_Api {
 	 * @return    boolean|WP_Error    		  Whether the user has permission to the admin REST API.
 	 */
 	public function rest_admin_only_permission_callback( WP_REST_Request $request ) {
-		// Regular cookie-based authentication
+		// Regular cookie-based authentication.
 		if ( current_user_can( 'manage_options' ) ) {
 			return true;
 		}
 
-		// Shared secret authentication
+		// Shared secret authentication.
 		$hub_signature = $request->get_header( 'X-Hub-Signature' );
 		$sync_token = get_option( 'disqus_sync_token' );
 		if ( $hub_signature && $sync_token && $sync_token === $hub_signature ) {
