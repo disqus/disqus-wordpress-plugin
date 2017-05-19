@@ -34,9 +34,9 @@ class Test_Api_Service extends WP_UnitTestCase {
 
         $api_data = $api_service->api_get( 'someEndpoint', array() );
 
-        $this->assertNotFalse( strpos( $api_data->url, 'someEndpoint.json' ) );
-        $this->assertNotFalse( strpos( $api_data->url, 'api_secret=APISECRETKEY' ) );
-        $this->assertNotFalse( strpos( $api_data->url, 'access_token=ACCESSTOKEN' ) );
+        $this->assertNotFalse( strpos( $api_data['url'], 'someEndpoint.json' ) );
+        $this->assertNotFalse( strpos( $api_data['url'], 'api_secret=APISECRETKEY' ) );
+        $this->assertNotFalse( strpos( $api_data['url'], 'access_token=ACCESSTOKEN' ) );
     }
 
     /**
@@ -47,9 +47,9 @@ class Test_Api_Service extends WP_UnitTestCase {
 
         $api_data = $api_service->api_post( 'someEndpoint', array() );
 
-        $this->assertNotFalse( strpos( $api_data->url, 'someEndpoint.json' ) );
-        $this->assertNotFalse( strpos( $api_data->url, 'api_secret=APISECRETKEY' ) );
-        $this->assertNotFalse( strpos( $api_data->url, 'access_token=ACCESSTOKEN' ) );
+        $this->assertNotFalse( strpos( $api_data['url'], 'someEndpoint.json' ) );
+        $this->assertNotFalse( strpos( $api_data['url'], 'api_secret=APISECRETKEY' ) );
+        $this->assertNotFalse( strpos( $api_data['url'], 'access_token=ACCESSTOKEN' ) );
     }
 
     /**
