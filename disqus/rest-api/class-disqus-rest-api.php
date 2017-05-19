@@ -456,7 +456,7 @@ class Disqus_Rest_Api {
 				'forum' => $this->shortname,
 			));
 
-			if ( is_object( $api_data ) && is_array( $api_data->response ) ) {
+			if ( 0 === $api_data->code ) {
 				// Loop through each subscription, looking for the first match.
 				foreach ( $api_data->response as $subscription ) {
 					if ( $this->validate_subscription( $subscription ) ) {
@@ -465,7 +465,7 @@ class Disqus_Rest_Api {
 						break;
 					}
 				}
-			} elseif ( 0 !== $api_data->code ) {
+			} else {
 				throw new Exception( $api_data->response );
 			}
 		}
@@ -508,7 +508,7 @@ class Disqus_Rest_Api {
 		if ( null !== $endpoint ) {
 			$api_data = $this->api_service->api_post( $endpoint, $params );
 
-			if ( 0 !== $api_data->code ) {
+			if ( 0 === $api_data->code ) {
 				$sync_status = array(
 					'subscribed' => true,
 					'enabled' => true,
@@ -539,7 +539,7 @@ class Disqus_Rest_Api {
 			);
 			$api_data = $this->api_service->api_post( 'forums/webhooks/update', $params );
 
-			if ( 0 !== $api_data->code ) {
+			if ( 0 === $api_data->code ) {
 				$sync_status = array(
 					'subscribed' => true,
 					'enabled' => false,
