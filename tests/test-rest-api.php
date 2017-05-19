@@ -139,7 +139,7 @@ class Test_REST_API extends WP_UnitTestCase {
             'disqus_forum_url' => 'rossbob',
         );
 
-        $request = new WP_REST_Request( 'PUT', '/disqus/v1/settings' );
+        $request = new WP_REST_Request( 'POST', '/disqus/v1/settings' );
         $request->set_body_params( $body );
 
         $response = $this->server->dispatch( $request );

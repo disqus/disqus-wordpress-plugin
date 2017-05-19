@@ -19,7 +19,6 @@ import {
     IRestResponse,
     restGet,
     restPost,
-    restPut,
 } from './rest';
 
 const UPDATABLE_FIELDS: string[] = [
@@ -63,7 +62,7 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                 return previousValue;
             }, {});
 
-            restPut('settings', fields, (response: IRestResponse<IAdminOptions>) => {
+            restPost('settings', fields, (response: IRestResponse<IAdminOptions>) => {
                 if (!response)
                     return;
 

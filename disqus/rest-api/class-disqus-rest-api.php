@@ -98,7 +98,7 @@ class Disqus_Rest_Api {
 
 		register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'settings', array(
 			array(
-				'methods' => array( 'GET', 'PUT' ),
+				'methods' => array( 'GET', 'POST' ),
 				'callback' => array( $this, 'rest_settings' ),
 				'permission_callback' => array( $this, 'rest_admin_only_permission_callback' ),
 			),
@@ -318,7 +318,7 @@ class Disqus_Rest_Api {
 	 * @return   WP_REST_Response     		 The API response object.
 	 */
 	public function rest_settings( WP_REST_Request $request ) {
-		$should_update = 'PUT' === $request->get_method();
+		$should_update = 'POST' === $request->get_method();
 		$new_settings = $should_update ? $this->get_request_data( $request ) : null;
 		$updated_settings = $this->get_or_update_settings( $new_settings );
 
