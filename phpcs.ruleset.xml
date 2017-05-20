@@ -7,7 +7,7 @@
         <exclude name="Generic.WhiteSpace.ScopeIndent"/>
         <exclude name="Generic.WhiteSpace.DisallowSpaceIndent"/>
         <exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
-		<exclude name="WordPress.NamingConventions.ValidVariableName">
+		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
 	</rule>
 	<rule ref="WordPress-Docs" />
 
