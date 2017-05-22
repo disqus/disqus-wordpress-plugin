@@ -184,10 +184,10 @@ class Test_REST_API extends WP_UnitTestCase {
         $body = json_encode( array(
             'disqus_forum_url' => 'rossbob',
         ) );
+        $hub_signature = hash_hmac( 'sha512', $body, 'valid_token' );
 
         $request = new WP_REST_Request( 'POST', '/disqus/v1/settings' );
         $request->set_body( $body );
-        $hub_signature = hash_hmac( 'sha512', $body, 'valid_token' );
         $request->set_header( 'X-Hub-Signature', 'sha512=' . $hub_signature );
 
         $response = $this->server->dispatch( $request );
@@ -204,10 +204,10 @@ class Test_REST_API extends WP_UnitTestCase {
         $body = json_encode( array(
             'disqus_forum_url' => 'rossbob',
         ) );
+        $hub_signature = hash_hmac( 'sha512', $body, 'not_valid_token' );
 
         $request = new WP_REST_Request( 'POST', '/disqus/v1/settings' );
         $request->set_body_params( $body );
-        $hub_signature = hash_hmac( 'sha512', $body, 'not_valid_token' );
         $request->set_header( 'X-Hub-Signature', 'sha512=' . $hub_signature );
 
         $response = $this->server->dispatch( $request );
@@ -225,11 +225,12 @@ class Test_REST_API extends WP_UnitTestCase {
             'verb' => 'verify',
             'challenge' => 'come at me, bro',
         ) );
+        $hub_signature = hash_hmac( 'sha512', $body, 'valid_token' );
 
         $request = new WP_REST_Request( 'POST', '/disqus/v1/sync/webhook' );
         $request->set_body_params( $body );
-        $hub_signature = hash_hmac( 'sha512', $body, 'valid_token' );
         $request->set_header( 'X-Hub-Signature', 'sha512=' . $hub_signature );
+        $request->set_header( 'Content-Type', 'application/json' );
 
         $response = $this->server->dispatch( $request );
 
