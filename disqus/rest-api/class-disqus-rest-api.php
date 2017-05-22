@@ -182,15 +182,15 @@ class Disqus_Rest_Api {
 	public function rest_sync_webhook( WP_REST_Request $request ) {
 		$json_data = $request->get_json_params();
 
-		if ( ! property_exists( 'verb', $json_data ) ) {
+		if ( ! isset( $json_data['verb'] ) ) {
 			return new WP_Error( 400, 'Missing required property: verb.' );
 		}
 
 		try {
-			switch ( $json_data->verb ) {
+			switch ( $json_data['verb'] ) {
 				case 'verify':
 					// The X-Hub-Signature header was already validated, so we only need to return the challenge.
-					return new WP_REST_Response( $challenge, 200 );
+					return new WP_REST_Response( $json_data['challenge'], 200 );
 				case 'create':
 					$this->create_comment_from_post( $json_data->reference );
 					return new WP_REST_Response( '', 201 );
