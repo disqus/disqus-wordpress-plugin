@@ -233,9 +233,9 @@ class Test_REST_API extends WP_UnitTestCase {
         $request->set_header( 'Content-Type', 'application/json' );
 
         $response = $this->server->dispatch( $request );
-
-        $this->assertEquals( 200, $response->get_status(), $response->get_body() );
-        $this->assertEquals( 'come at me, bro', $response->get_body() );
+        $body = $response->get_body();
+        $this->assertEquals( 200, $response->get_status(), 'Not a valid 200 status code, response was: ' . $body );
+        $this->assertEquals( 'come at me, bro', $body );
     }
 
     /**
