@@ -163,10 +163,10 @@ class Disqus_Rest_Api {
 	 */
 	private function rest_get_error( $message, $status_code = 500 ) {
 		return new WP_Error(
-			'api_error',
+			$status_code,
 			$message,
 			array(
-				'status' => $status_code,
+				'status' => 'api_error',
 			)
 		);
 	}
