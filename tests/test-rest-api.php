@@ -228,7 +228,7 @@ class Test_REST_API extends WP_UnitTestCase {
         $hub_signature = hash_hmac( 'sha512', $body, 'valid_token' );
 
         $request = new WP_REST_Request( 'POST', '/disqus/v1/sync/webhook' );
-        $request->set_body_params( $body );
+        $request->set_body( $body );
         $request->set_header( 'X-Hub-Signature', 'sha512=' . $hub_signature );
         $request->set_header( 'Content-Type', 'application/json' );
 
