@@ -218,14 +218,23 @@ class Test_REST_API extends WP_UnitTestCase {
      * Check that the sync endpoint will handle valid verification challenge.
      */
     public function test_sync_valid_verification() {
-        $this->assertTrue( true );
-    }
+        wp_set_current_user( null );
+        update_option( 'disqus_sync_token', 'valid_token' );
 
-    /**
-     * Check that the sync endpoint will handle invalid verification challenge.
-     */
-    public function test_sync_invalid_verification() {
-        $this->assertTrue( true );
+        $body = json_encode( array(
+            'verb' => 'verify',
+            'challenge' => 'come at me, bro',
+        ) );
+
+        $request = new WP_REST_Request( 'POST', '/disqus/v1/sync/webhook' );
+        $request->set_body_params( $body );
+        $hub_signature = hash_hmac( 'sha512', $body, 'valid_token' );
+        $request->set_header( 'X-Hub-Signature', 'sha512=' . $hub_signature );
+
+        $response = $this->server->dispatch( $request );
+
+        $this->assertEquals( 200, $response->get_status() );
+        $this->assertEquals( 'come at me, bro', $response->get_body() );
     }
 
     /**
