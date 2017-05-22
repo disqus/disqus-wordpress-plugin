@@ -166,7 +166,7 @@ class Disqus_Rest_Api {
 			$status_code,
 			$message,
 			array(
-				'status' => 'api_error',
+				'status' => $status_code,
 			)
 		);
 	}
