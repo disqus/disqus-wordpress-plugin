@@ -242,7 +242,66 @@ class Test_REST_API extends WP_UnitTestCase {
      * Check that the sync endpoint will handle new valid comment.
      */
     public function test_sync_valid_new_comment() {
-        $this->assertTrue( true );
+        wp_set_current_user( null );
+        update_option( 'disqus_forum_url', 'bobross' );
+        update_option( 'disqus_sync_token', 'valid_token' );
+
+        // Setup the post.
+        $post = $this->factory->post->create_and_get( array(
+            'post_title' => 'Test Post 1'
+        ) );
+
+        // Create the POST data.
+        $body = json_encode( array(
+            'verb' => 'create',
+            'reference' => array(
+                'id' => '1',
+                'author' => array(
+                    'name' => 'Bob',
+                    'url' => 'http://bobross.com/',
+                    'email' => 'bob@bobross.com',
+                ),
+                'thread' => array(
+                    'id' => '1',
+                    'identifiers' => array(
+                        $post->ID . ' ' . $post->guid,
+                    )
+                ),
+                'parent' => null,
+                'createdAt' => '2017-01-01T15:51:30',
+                'forum' => 'bobross',
+                'raw_message' => 'This is a test comment',
+            ),
+        ) );
+
+        // Set up the webhook request.
+        $request = new WP_REST_Request( 'POST', '/disqus/v1/sync/webhook' );
+        $request->set_body( $body );
+        $request->set_header( 'X-Hub-Signature', 'sha512=' . $hub_signature );
+        $request->set_header( 'Content-Type', 'application/json' );
+
+        // Make the request.
+        $response = $this->server->dispatch( $request );
+
+        // Assert that the post now has the meta disqus_thread_id.
+        $this->assertEquals( '1', get_post_meta( $post->ID, 'dsq_thread_id', true ) );
+
+        // Assert the comment exits, and includes the Disqus post data.
+        $comment = $this->factory->comment->get_object_by_id( 1 );
+
+        $this->assertEquals( 'This is a test comment', $comment->comment_content );
+        $this->assertEquals( $post->ID, $comment->comment_post_ID );
+        $this->assertEquals( '2017-01-01 15:51:30', $comment->comment_date_gmt );
+        $this->assertEquals( 0, $comment->comment_parent );
+        $this->assertEquals( 'Bob', $comment->comment_author );
+        $this->assertEquals( 'bob@bobross.com', $comment->comment_author_email );
+        $this->assertEquals( 'http://bobross.com/', $comment->comment_author_url );
+        $this->assertEquals( '255.255.255.255', $comment->comment_author_IP );
+
+        // Assert that the comment meta has Disqus Post Id attached to it.
+        $comment_meta_post_id = get_comment_meta( $comment->comment_ID, 'dsq_post_id', true );
+
+        $this->assertEquals( '1', $comment_meta_post_id );
     }
 
     /**
