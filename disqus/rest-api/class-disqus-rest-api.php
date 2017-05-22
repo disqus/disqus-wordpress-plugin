@@ -97,9 +97,9 @@ class Disqus_Rest_Api {
 	 * @since    3.0
 	 */
 	public function register_endpoints() {
-		register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'comments/sync', array(
+		register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'sync/webhook', array(
 			'methods' => 'POST',
-			'callback' => array( $this, 'rest_comments_sync' ),
+			'callback' => array( $this, 'rest_sync_webhook' ),
 		) );
 
 		register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'settings', array(
@@ -172,14 +172,14 @@ class Disqus_Rest_Api {
 	}
 
     /**
-	 * Endpoint callback for comments/sync. Takes a Disqus comment and saves
+	 * Endpoint callback for sync/webhook. Takes a Disqus comment and saves
 	 * it to the local comments database.
 	 *
 	 * @since    3.0
 	 * @param    WP_REST_Request $request     The request object.
 	 * @return   WP_REST_Response|WP_Error    The API response object.
 	 */
-	public function rest_comments_sync( WP_REST_Request $request ) {
+	public function rest_sync_webhook( WP_REST_Request $request ) {
 		$json_data = $request->get_json_params();
 
 		if ( ! property_exists( 'verb', $json_data ) ) {
@@ -206,8 +206,7 @@ class Disqus_Rest_Api {
 	}
 
 	/**
-	 * Endpoint callback for comments/sync. Takes a Disqus comment and saves
-	 * it to the local comments database.
+	 * Endpoint callback for admin settings.
 	 *
 	 * @since    3.0
 	 * @param    WP_REST_Request $request     The request object.
@@ -332,7 +331,7 @@ class Disqus_Rest_Api {
 	 */
 	private function validate_subscription( $subscription ) {
 		return get_option( 'disqus_sync_token' ) === $subscription['secret'] &&
-			rest_url( Disqus_Rest_Api::REST_NAMESPACE . '/comments/sync' ) === $subscription['url'];
+			rest_url( Disqus_Rest_Api::REST_NAMESPACE . '/sync/webhook' ) === $subscription['url'];
 	}
 
 	/**
@@ -389,7 +388,7 @@ class Disqus_Rest_Api {
 			$endpoint = 'forums/webhooks/create';
 			$params = array(
 				'forum' => $this->shortname,
-				'url' => rest_url( Disqus_Rest_Api::REST_NAMESPACE . '/comments/sync' ),
+				'url' => rest_url( Disqus_Rest_Api::REST_NAMESPACE . '/sync/webhook' ),
 				'secret' => get_option( 'disqus_sync_token' ),
 				'enableSending' => '1',
 			);

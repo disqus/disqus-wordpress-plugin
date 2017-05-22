@@ -48,7 +48,10 @@ class Test_REST_API extends WP_UnitTestCase {
         $routes = $this->server->get_routes();
         $custom_routes = array(
             Test_REST_API::REST_NAMESPACE,
-            Test_REST_API::REST_NAMESPACE . '/comments/sync',
+            Test_REST_API::REST_NAMESPACE . '/sync/webhook',
+            Test_REST_API::REST_NAMESPACE . '/sync/status',
+            Test_REST_API::REST_NAMESPACE . '/sync/enable',
+            Test_REST_API::REST_NAMESPACE . '/sync/disable',
             Test_REST_API::REST_NAMESPACE . '/settings'
         );
 
