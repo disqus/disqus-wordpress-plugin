@@ -234,7 +234,7 @@ class Test_REST_API extends WP_UnitTestCase {
 
         $response = $this->server->dispatch( $request );
 
-        $this->assertEquals( 200, $response->get_status() );
+        $this->assertEquals( 200, $response->get_status(), $response->get_body() );
         $this->assertEquals( 'come at me, bro', $response->get_body() );
     }
 
