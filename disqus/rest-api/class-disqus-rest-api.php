@@ -84,7 +84,7 @@ class Disqus_Rest_Api {
 		if ( $hub_signature &&
 			 $sync_token &&
 			 $body &&
-			'sha512=' . hash_hmac( 'sha512', $body, $sync_token ) === $hub_signature ) {
+			( 'sha512=' . hash_hmac( 'sha512', $body, $sync_token ) ) === $hub_signature ) {
 			return true;
 		}
 
