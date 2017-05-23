@@ -201,7 +201,7 @@ class Disqus_Rest_Api {
 					return new WP_REST_Response( '', 204 );
 			}
 		} catch ( Exception $e ) {
-			return new WP_Error( 500, $e->getMessage() );
+			return new WP_Error( 500, (string) $e );
 		}
 	}
 
