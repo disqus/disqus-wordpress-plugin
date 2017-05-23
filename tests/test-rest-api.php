@@ -38,6 +38,8 @@ class Test_REST_API extends WP_UnitTestCase {
 
         $this->server = $wp_rest_server = new \WP_REST_Server;
 
+        update_option( 'disqus_forum_url', 'bobross' );
+
         do_action( 'rest_api_init' );
     }
 
@@ -122,7 +124,6 @@ class Test_REST_API extends WP_UnitTestCase {
      */
     public function test_admin_fetch_settings_installed() {
         wp_set_current_user( $this->admin_user_id );
-        update_option( 'disqus_forum_url', 'bobross' );
 
         $request = new WP_REST_Request( 'GET', '/disqus/v1/settings' );
         $response = $this->server->dispatch( $request );
@@ -243,7 +244,6 @@ class Test_REST_API extends WP_UnitTestCase {
      */
     public function test_sync_valid_new_comment() {
         wp_set_current_user( null );
-        update_option( 'disqus_forum_url', 'bobross' );
         update_option( 'disqus_sync_token', 'valid_token' );
 
         // Setup the post.
