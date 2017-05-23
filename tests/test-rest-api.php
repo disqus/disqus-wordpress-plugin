@@ -285,7 +285,7 @@ class Test_REST_API extends WP_UnitTestCase {
         // Make the request.
         $response = $this->server->dispatch( $request );
 
-        $this->assertEquals( 201, $response->get_status(), 'Not a valid 201 status code, response was: ' . json_encode( $response_data->get_data() ) );
+        $this->assertEquals( 201, $response->get_status(), 'Not a valid 201 status code, response was: ' . json_encode( $response->get_data() ) );
 
         // Assert that the post now has the meta disqus_thread_id.
         $this->assertEquals( '1', get_post_meta( $post->ID, 'dsq_thread_id', true ) );
