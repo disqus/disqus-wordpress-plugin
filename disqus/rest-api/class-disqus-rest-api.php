@@ -32,24 +32,13 @@ class Disqus_Rest_Api {
 	private $api_service;
 
     /**
-	 * The unique Disqus forum shortname.
-	 *
-	 * @since    3.0
-	 * @access   private
-	 * @var      string    $shortname    The unique Disqus forum shortname.
-	 */
-	private $shortname;
-
-    /**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    3.0
 	 * @param    Disqus_Api_Service $api_service    Instance of the Disqus API service.
-	 * @param    string             $shortname    	The configured Disqus shortname.
 	 */
-	public function __construct( $api_service, $shortname ) {
+	public function __construct( $api_service ) {
 		$this->api_service = $api_service;
-		$this->shortname = $shortname;
 	}
 
     /**
@@ -348,7 +337,7 @@ class Disqus_Rest_Api {
 
 		if ( get_option( 'disqus_secret_key' ) && get_option( 'disqus_admin_access_token' ) ) {
 			$api_data = $this->api_service->api_get( 'forums/webhooks/list', array(
-				'forum' => $this->shortname,
+				'forum' => get_option( 'disqus_forum_url' ),
 			));
 
 			if ( 0 === $api_data->code ) {
@@ -387,7 +376,7 @@ class Disqus_Rest_Api {
 		if ( ! $sync_status['subscribed'] ) {
 			$endpoint = 'forums/webhooks/create';
 			$params = array(
-				'forum' => $this->shortname,
+				'forum' => get_option( 'disqus_forum_url' ),
 				'url' => rest_url( Disqus_Rest_Api::REST_NAMESPACE . '/sync/webhook' ),
 				'secret' => get_option( 'disqus_sync_token' ),
 				'enableSending' => '1',
@@ -456,8 +445,8 @@ class Disqus_Rest_Api {
 	 * @throws   Exception    				  An exception if comment can't be saved from post data.
 	 */
 	private function create_comment_from_post( $post ) {
-		if ( $this->shortname !== $post['forum'] ) {
-			throw new Exception( 'The comment\'s forum does not match the installed forum. Was "' . $post['forum'] . '", expected "' . $this->shortname . '"' );
+		if ( get_option( 'disqus_forum_url' ) !== $post['forum'] ) {
+			throw new Exception( 'The comment\'s forum does not match the installed forum. Was "' . $post['forum'] . '", expected "' . get_option( 'disqus_forum_url' ) . '"' );
 		}
 
 		$thread = $post['thread'];

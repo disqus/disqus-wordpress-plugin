@@ -189,7 +189,7 @@ class Disqus {
 	 * @access   private
 	 */
 	private function define_rest_api_hooks() {
-		$plugin_rest_api = new Disqus_Rest_Api( $this->get_api_service(), $this->get_shortname() );
+		$plugin_rest_api = new Disqus_Rest_Api( $this->get_api_service() );
 
 		$this->loader->add_action( 'rest_api_init', $plugin_rest_api, 'register_endpoints' );
 
