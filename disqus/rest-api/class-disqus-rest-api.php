@@ -192,7 +192,7 @@ class Disqus_Rest_Api {
 					// The X-Hub-Signature header was already validated, so we only need to return the challenge.
 					return new WP_REST_Response( $json_data['challenge'], 200 );
 				case 'create':
-					$this->create_comment_from_post( $json_data->reference );
+					$this->create_comment_from_post( $json_data['reference'] );
 					return new WP_REST_Response( '', 201 );
 				case 'update':
 					// TODO: Implement updating comment from post.
