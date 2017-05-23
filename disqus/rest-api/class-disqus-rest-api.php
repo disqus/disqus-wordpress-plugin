@@ -457,7 +457,7 @@ class Disqus_Rest_Api {
 	 */
 	private function create_comment_from_post( $post ) {
 		if ( $this->shortname !== $post['forum'] ) {
-			throw new Exception( 'The comment\'s forum does not match the installed forum.' );
+			throw new Exception( 'The comment\'s forum does not match the installed forum. Was "' . $post['forum'] . '", expected "' . $this->shortname . '"' );
 		}
 
 		$thread = $post['thread'];
