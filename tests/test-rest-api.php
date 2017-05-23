@@ -84,7 +84,6 @@ class Test_REST_API extends WP_UnitTestCase {
      */
     public function test_admin_fetch_settings() {
         wp_set_current_user( $this->admin_user_id );
-        update_option( 'disqus_forum_url', 'bobross' );
 
         $request = new WP_REST_Request( 'GET', '/disqus/v1/settings' );
         $response = $this->server->dispatch( $request );
@@ -123,6 +122,7 @@ class Test_REST_API extends WP_UnitTestCase {
      */
     public function test_admin_fetch_settings_installed() {
         wp_set_current_user( $this->admin_user_id );
+        update_option( 'disqus_forum_url', 'bobross' );
 
         $request = new WP_REST_Request( 'GET', '/disqus/v1/settings' );
         $response = $this->server->dispatch( $request );
