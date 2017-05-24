@@ -181,8 +181,8 @@ class Disqus_Rest_Api {
 					// The X-Hub-Signature header was already validated, so we only need to return the challenge.
 					return new WP_REST_Response( $json_data['challenge'], 200 );
 				case 'create':
-					$this->create_comment_from_post( $json_data['reference'] );
-					return new WP_REST_Response( '', 201 );
+					$new_comment_id = $this->create_comment_from_post( $json_data['reference'] );
+					return new WP_REST_Response( (string) $new_comment_id, 201 );
 				case 'update':
 					// TODO: Implement updating comment from post.
 					return new WP_REST_Response( '', 200 );
@@ -442,6 +442,7 @@ class Disqus_Rest_Api {
 	 *
 	 * @since    3.0
 	 * @param    array $post    			  The Disqus post object.
+	 * @return   int 						  The newly created comment ID.
 	 * @throws   Exception    				  An exception if comment can't be saved from post data.
 	 */
 	private function create_comment_from_post( $post ) {
@@ -535,6 +536,8 @@ class Disqus_Rest_Api {
 
 		// Add Disqus post ID as meta to local comment to avoid duplicates.
 		add_comment_meta( $new_comment_id, 'dsq_post_id', $post['id'] );
+
+		return $new_comment_id;
 	}
 
 	/**
