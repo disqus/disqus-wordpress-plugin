@@ -97,7 +97,7 @@ class Disqus_Admin {
      * @since    3.0
      */
     public function enqueue_scripts() {
-        if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'disqus' ) {
+        if ( ! isset( $_GET['page'] ) || 'disqus' !== $_GET['page'] ) {
             return;
         }
 
