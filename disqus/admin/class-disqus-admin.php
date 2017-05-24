@@ -97,18 +97,9 @@ class Disqus_Admin {
      * @since    3.0
      */
     public function enqueue_scripts() {
-
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in Disqus_Loader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The Disqus_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
+        if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'disqus' ) {
+            return;
+        }
 
          $admin_js_vars = array(
             'rest' => array(
