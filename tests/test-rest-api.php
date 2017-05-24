@@ -292,19 +292,19 @@ class Test_REST_API extends WP_UnitTestCase {
 
         // Assert the comment exits, and includes the Disqus post data.
         $first_comment = 1;
-        $comment = get_comment( $first_comment );
+        $comment = get_comment( $first_comment, ARRAY_A );
 
-        $this->assertEquals( 'This is a test comment', $comment->comment_content );
-        $this->assertEquals( $post->ID, $comment->comment_post_ID );
-        $this->assertEquals( '2017-01-01 15:51:30', $comment->comment_date_gmt );
-        $this->assertEquals( 0, $comment->comment_parent );
-        $this->assertEquals( 'Bob', $comment->comment_author );
-        $this->assertEquals( 'bob@bobross.com', $comment->comment_author_email );
-        $this->assertEquals( 'http://bobross.com/', $comment->comment_author_url );
-        $this->assertEquals( '255.255.255.255', $comment->comment_author_IP );
+        $this->assertEquals( 'This is a test comment', $comment['comment_content'] );
+        $this->assertEquals( $post->ID, $comment['comment_post_ID'] );
+        $this->assertEquals( '2017-01-01 15:51:30', $comment['comment_date_gmt'] );
+        $this->assertEquals( 0, $comment['comment_parent'] );
+        $this->assertEquals( 'Bob', $comment['comment_author'] );
+        $this->assertEquals( 'bob@bobross.com', $comment['comment_author_email'] );
+        $this->assertEquals( 'http://bobross.com/', $comment['comment_author_url'] );
+        $this->assertEquals( '255.255.255.255', $comment['comment_author_IP'] );
 
         // Assert that the comment meta has Disqus Post Id attached to it.
-        $comment_meta_post_id = get_comment_meta( $comment->comment_ID, 'dsq_post_id', true );
+        $comment_meta_post_id = get_comment_meta( $comment['comment_post_ID'], 'dsq_post_id', true );
 
         $this->assertEquals( '1', $comment_meta_post_id );
     }
