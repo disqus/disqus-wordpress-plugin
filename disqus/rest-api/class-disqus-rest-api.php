@@ -534,7 +534,7 @@ class Disqus_Rest_Api {
 		$new_comment_id = wp_new_comment( $commentData );
 
 		// Add Disqus post ID as meta to local comment to avoid duplicates.
-		add_comment_meta( $wp_response_data['id'], 'dsq_post_id', $post['id'] );
+		add_comment_meta( $new_comment_id, 'dsq_post_id', $post['id'] );
 	}
 
 	/**
