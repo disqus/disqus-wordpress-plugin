@@ -519,24 +519,19 @@ class Disqus_Rest_Api {
 			$author_email = 'user-' . $author['id'] . '@disqus.com';
 		}
 
-		$wp_request = new WP_REST_Request( 'POST', '/wp/v2/comments' );
-		$wp_request->set_param( 'author_email', $author_email );
-		$wp_request->set_param( 'author_name', $author['name'] );
-		$wp_request->set_param( 'author_url', $author['url'] );
-		$wp_request->set_param( 'author_ip', $post['ipAddress'] );
-		$wp_request->set_param( 'date_gmt', $post['createdAt'] );
-		$wp_request->set_param( 'content', $post['raw_message'] );
-		$wp_request->set_param( 'post', (int) $wp_post_id );
-		$wp_request->set_param( 'parent', $parent );
+		$commentData = array(
+			'comment_post_ID' => (int) $wp_post_id,
+			'comment_author' => $author['name'],
+			'comment_author_email' => $author_email,
+			'comment_author_IP' => $post['ipAddress'],
+			'comment_author_url' => $author['url'],
+			'comment_content' => $post['raw_message'],
+			'comment_date_gmt' => $post['createdAt'],
+			'comment_type' => '', // Leave blank for a regular comment.
+			'comment_parent' => $parent,
+		);
 
-		$wp_response = rest_do_request( $wp_request );
-
-		if ( $wp_response->is_error() ) {
-			$wp_error = $wp_response->as_error();
-			throw new Exception( $wp_error->get_error_message() );
-		}
-
-		$wp_response_data = $wp_response->get_data();
+		$new_comment_id = wp_new_comment( $commentData );
 
 		// Add Disqus post ID as meta to local comment to avoid duplicates.
 		add_comment_meta( $wp_response_data['id'], 'dsq_post_id', $post['id'] );
