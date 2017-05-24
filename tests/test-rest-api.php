@@ -291,7 +291,7 @@ class Test_REST_API extends WP_UnitTestCase {
         $this->assertEquals( '1', get_post_meta( $post->ID, 'dsq_thread_id', true ) );
 
         // Assert the comment exits, and includes the Disqus post data.
-        $comment = $this->factory->comment->get_object_by_id( 1 );
+        $comment = get_comment( 1 );
 
         $this->assertEquals( 'This is a test comment', $comment->comment_content );
         $this->assertEquals( $post->ID, $comment->comment_post_ID );
