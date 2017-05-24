@@ -181,7 +181,7 @@ class Disqus_Rest_Api {
 					// The X-Hub-Signature header was already validated, so we only need to return the challenge.
 					return new WP_REST_Response( $json_data['challenge'], 200 );
 				case 'create':
-					$new_comment_id = $this->create_comment_from_post( $json_data['reference'] );
+					$new_comment_id = $this->create_comment_from_post( $json_data['transformed_data'] );
 					return new WP_REST_Response( (string) $new_comment_id, 201 );
 				case 'update':
 					// TODO: Implement updating comment from post.
@@ -450,7 +450,7 @@ class Disqus_Rest_Api {
 			throw new Exception( 'The comment\'s forum does not match the installed forum. Was "' . $post['forum'] . '", expected "' . get_option( 'disqus_forum_url' ) . '"' );
 		}
 
-		$thread = $post['thread'];
+		$thread = $post['threadData'];
 		$author = $post['author'];
 
 		// Check to make sure we haven't synced this comment yet.

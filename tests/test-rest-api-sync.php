@@ -69,14 +69,14 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
         // Create the POST data.
         $body = json_encode( array(
             'verb' => 'create',
-            'reference' => array(
+            'transformed_data' => array(
                 'id' => '1',
                 'author' => array(
                     'name' => 'Bob',
                     'url' => 'http://bobross.com/',
                     'email' => 'bob@bobross.com',
                 ),
-                'thread' => array(
+                'threadData' => array(
                     'id' => '1',
                     'identifiers' => array(
                         $this->post->ID . ' ' . $this->post->guid,
