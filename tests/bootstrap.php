@@ -13,6 +13,7 @@ if ( ! $_tests_dir ) {
 define( 'PLUGIN_FILE', getenv( 'DISQUS_PLUGIN' ) );
 define( 'PLUGIN_FOLDER', basename( dirname( __DIR__ ) ) );
 define( 'PLUGIN_PATH', PLUGIN_FOLDER . '/' . PLUGIN_FILE );
+define( 'DISQUS_REST_NAMESPACE', '/disqus/v1' );
 
 // Activates this plugin in WordPress so it can be tested.
 $GLOBALS['wp_tests_options'] = array(
