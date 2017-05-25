@@ -53,6 +53,29 @@ class Disqus_Rest_Api {
 	}
 
 	/**
+	 * When added as a filter, allows customizing the response. We use this to stop WordPress from
+	 * JSON-encoding the webhook verification response.
+	 * See: https://github.com/WordPress/WordPress/blob/27aa0664df927f610e42f9a694eb452cee49e245/wp-includes/rest-api/class-wp-rest-server.php#L376
+	 *
+	 * @since     3.0
+	 * @param     boolean          $served     Whether this filter has already been applied.
+	 * @param     WP_HTTP_Response $result     Result to send to the client. Usually a WP_REST_Response.
+	 * @param     WP_REST_Request  $request    Request used to generate the response.
+	 * @param     WP_REST_Server   $server     Server instance.
+	 * @return    boolean    				   Whether we've handled the response or not.
+	 */
+	public function filter_rest_pre_serve_request( $served, $result, $request, $server ) {
+		if ( '/' . Disqus_Rest_Api::REST_NAMESPACE . '/sync/webhook' === $request->get_route() ) {
+			header( 'Content-Type: text/plain; charset=UTF-8' );
+			$json_data = $request->get_json_params();
+			echo $json_data['challenge'];
+			$served = true;
+		}
+
+		return $served;
+	}
+
+	/**
 	 * Callback to ensure user has manage_options permissions.
 	 *
 	 * @since     3.0
@@ -89,7 +112,7 @@ class Disqus_Rest_Api {
 		register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'sync/webhook', array(
 			'methods' => 'POST',
 			'callback' => array( $this, 'rest_sync_webhook' ),
-			'permission_callback' => array( $this, 'rest_admin_only_permission_callback' ),
+			//'permission_callback' => array( $this, 'rest_admin_only_permission_callback' ),
 		) );
 
 		register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'settings', array(

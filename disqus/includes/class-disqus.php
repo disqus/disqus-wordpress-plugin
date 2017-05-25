@@ -197,6 +197,7 @@ class Disqus {
 		// if your WordPress settings say otherwise.
 		// TODO: Only add this filter if syncing is enabled.
 		$this->loader->add_filter( 'rest_allow_anonymous_comments', $plugin_rest_api, 'filter_rest_allow_anonymous_comments' );
+		$this->loader->add_filter( 'rest_pre_serve_request', $plugin_rest_api, 'filter_rest_pre_serve_request', 10, 4 );
 	}
 
 	/**
