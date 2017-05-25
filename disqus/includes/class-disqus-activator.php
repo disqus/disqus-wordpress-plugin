@@ -29,8 +29,11 @@ class Disqus_Activator {
 	 * @since    3.0
 	 */
 	public static function activate() {
+		$existing_token = get_option( 'disqus_sync_token', null );
+
 		// Create a shared secret token that will be used for install/syncing with Disqus.
-		update_option( 'disqus_sync_token', bin2hex( random_bytes( 16 ) ) );
+		if ( empty( $existing_token ) )
+			update_option( 'disqus_sync_token', bin2hex( random_bytes( 16 ) ) );
 	}
 
 }
