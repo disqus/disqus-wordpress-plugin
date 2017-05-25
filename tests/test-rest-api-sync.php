@@ -87,6 +87,10 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
                 'forum' => 'bobross',
                 'raw_message' => 'This is a test comment',
                 'ipAddress' => '255.255.255.255',
+                'isApproved' => true,
+                'isDeleted' => false,
+                'isFlagged' => false,
+                'isSpam' => false,
             ),
         ) );
 
