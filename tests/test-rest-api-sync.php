@@ -19,6 +19,13 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
      */
     protected $post;
 
+    /**
+     * Test Disqus post (comment) fixture
+     *
+     * @var array
+     */
+    protected $disqus_post;
+
     public function setUp() {
         parent::setUp();
 
@@ -29,6 +36,33 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
         $this->post = $this->factory->post->create_and_get( array(
             'post_title' => 'Test Post 1'
         ) );
+
+        $this->disqus_post = array(
+            'verb' => 'create',
+            'transformed_data' => array(
+                'id' => '1',
+                'author' => array(
+                    'name' => 'Bob',
+                    'url' => 'http://bobross.com/',
+                    'email' => 'bob@bobross.com',
+                ),
+                'threadData' => array(
+                    'id' => '1',
+                    'identifiers' => array(
+                        $this->post->ID . ' ' . $this->post->guid,
+                    )
+                ),
+                'parent' => null,
+                'createdAt' => '2017-01-01T15:51:30',
+                'forum' => 'bobross',
+                'raw_message' => 'This is a test comment',
+                'ipAddress' => '255.255.255.255',
+                'isApproved' => true,
+                'isDeleted' => false,
+                'isFlagged' => false,
+                'isSpam' => false,
+            ),
+        );
 
         wp_set_current_user( null );
         update_option( 'disqus_forum_url', 'bobross' );
@@ -66,42 +100,8 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
      * Check that the sync endpoint will handle new valid comment.
      */
     public function test_sync_valid_new_comment() {
-        // Create the POST data.
-        $body = json_encode( array(
-            'verb' => 'create',
-            'transformed_data' => array(
-                'id' => '1',
-                'author' => array(
-                    'name' => 'Bob',
-                    'url' => 'http://bobross.com/',
-                    'email' => 'bob@bobross.com',
-                ),
-                'threadData' => array(
-                    'id' => '1',
-                    'identifiers' => array(
-                        $this->post->ID . ' ' . $this->post->guid,
-                    )
-                ),
-                'parent' => null,
-                'createdAt' => '2017-01-01T15:51:30',
-                'forum' => 'bobross',
-                'raw_message' => 'This is a test comment',
-                'ipAddress' => '255.255.255.255',
-                'isApproved' => true,
-                'isDeleted' => false,
-                'isFlagged' => false,
-                'isSpam' => false,
-            ),
-        ) );
-
-        // Set up the webhook request.
-        $hub_signature = hash_hmac( 'sha512', $body, 'valid_token' );
-        $request = new WP_REST_Request( 'POST', DISQUS_REST_NAMESPACE . '/sync/webhook' );
-        $request->set_body( $body );
-        $request->set_header( 'X-Hub-Signature', 'sha512=' . $hub_signature );
-        $request->set_header( 'Content-Type', 'application/json' );
-
         // Make the request.
+        $request = $this->get_valid_request_with_signature( $this->disqus_post, 'sync/webhook' );
         $response = $this->server->dispatch( $request );
 
         $this->assertEquals(
@@ -130,6 +130,8 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
         get_comment_meta( $comment['comment_post_ID'], 'dsq_post_id', true );
     }
 
+
+
     /**
      * Check that the sync endpoint will handle updated comment.
      */
@@ -149,5 +151,16 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
      */
     public function test_sync_duplicate_new_comment() {
         $this->assertTrue( true );
+    }
+
+    /**
+     * Utility function for building a request with a given body/path using shared secret authentication.
+     */
+    private function get_valid_request_with_signature( $body, $path ) {
+        $hub_signature = hash_hmac( 'sha512', $body, 'valid_token' );
+        $request = new WP_REST_Request( 'POST', DISQUS_REST_NAMESPACE . '/' . $path );
+        $request->set_body( json_encode( $body ) );
+        $request->set_header( 'X-Hub-Signature', 'sha512=' . $hub_signature );
+        $request->set_header( 'Content-Type', 'application/json' );
     }
 }
