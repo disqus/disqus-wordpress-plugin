@@ -341,12 +341,12 @@ class Disqus_Rest_Api {
 	 * Determines if subscription information matches information about this WordPress site.
 	 *
 	 * @since    3.0
-	 * @param    array $subscription    The Disqus webhook subscription array.
-	 * @return   boolean    			Whether the subscription information belongs to this WordPress site.
+	 * @param    object $subscription    The Disqus webhook subscription array.
+	 * @return   boolean    			 Whether the subscription information belongs to this WordPress site.
 	 */
 	private function validate_subscription( $subscription ) {
-		return get_option( 'disqus_sync_token' ) === $subscription['secret'] &&
-			rest_url( Disqus_Rest_Api::REST_NAMESPACE . '/sync/webhook' ) === $subscription['url'];
+		return get_option( 'disqus_sync_token' ) === $subscription->secret &&
+			rest_url( Disqus_Rest_Api::REST_NAMESPACE . '/sync/webhook' ) === $subscription->url;
 	}
 
 	/**
