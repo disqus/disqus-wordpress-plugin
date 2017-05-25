@@ -536,6 +536,17 @@ class Disqus_Rest_Api {
 			$author_email = 'user-' . $author['id'] . '@disqus.com';
 		}
 
+		$comment_state = 1;
+		if ( $post['isApproved'] && ! $post['isDeleted'] ) {
+			$approved_state = 1;
+		} elseif ( $post['isDeleted'] ) {
+			$comment_state = 0; // Deleted is not a state in WordPress, so we'll keep them in pending.
+		} elseif ( ! $post['isDeleted'] && ! $post['isSpam'] && ! $post['isApproved'] ) {
+			$comment_state = 0;
+		} elseif ( $post['isSpam'] && ! $post['isApproved'] ) {
+			$comment_state = 'spam';
+		}
+
 		$commentData = array(
 			'comment_post_ID' => (int) $wp_post_id,
 			'comment_author' => $author['name'],
@@ -546,12 +557,14 @@ class Disqus_Rest_Api {
 			'comment_date_gmt' => $post['createdAt'],
 			'comment_type' => '', // Leave blank for a regular comment.
 			'comment_parent' => $parent,
+			'comment_agent' => 'Disqus Sync Host',
+			'comment_approved' => $comment_state,
+			'comment_meta' => array(
+				'dsq_post_id' => $post['id'],
+			)
 		);
 
-		$new_comment_id = wp_new_comment( $commentData );
-
-		// Add Disqus post ID as meta to local comment to avoid duplicates.
-		add_comment_meta( $new_comment_id, 'dsq_post_id', $post['id'] );
+		$new_comment_id = wp_insert_comment( $commentData );
 
 		return $new_comment_id;
 	}
