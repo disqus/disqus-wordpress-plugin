@@ -66,10 +66,12 @@ class Disqus_Rest_Api {
 	 */
 	public function filter_rest_pre_serve_request( $served, $result, $request, $server ) {
 		if ( '/' . Disqus_Rest_Api::REST_NAMESPACE . '/sync/webhook' === $request->get_route() ) {
-			header( 'Content-Type: text/plain; charset=UTF-8' );
 			$json_data = $request->get_json_params();
-			echo $json_data['challenge'];
-			$served = true;
+			if ( 'verify' === $json_data['verb'] ) {
+				header( 'Content-Type: text/plain; charset=UTF-8' );
+				echo $json_data['challenge'];
+				$served = true;
+			}
 		}
 
 		return $served;
