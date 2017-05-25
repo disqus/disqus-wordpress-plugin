@@ -193,10 +193,6 @@ class Disqus {
 
 		$this->loader->add_action( 'rest_api_init', $plugin_rest_api, 'register_endpoints' );
 
-		// Add a filter to allow anonymous comments from the API. This is required because you must be logged in, even
-		// if your WordPress settings say otherwise.
-		// TODO: Only add this filter if syncing is enabled.
-		$this->loader->add_filter( 'rest_allow_anonymous_comments', $plugin_rest_api, 'filter_rest_allow_anonymous_comments' );
 		$this->loader->add_filter( 'rest_pre_serve_request', $plugin_rest_api, 'filter_rest_pre_serve_request', 10, 4 );
 	}
 

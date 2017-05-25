@@ -41,17 +41,6 @@ class Disqus_Rest_Api {
 		$this->api_service = $api_service;
 	}
 
-    /**
-	 * When added as a filter, allows anonymous comments from the REST API.
-	 * This is required for syncing.
-	 *
-	 * @since     3.0
-	 * @return    boolean    Whether to allow anonymous comments.
-	 */
-	public function filter_rest_allow_anonymous_comments() {
-		return true;
-	}
-
 	/**
 	 * When added as a filter, allows customizing the response. We use this to stop WordPress from
 	 * JSON-encoding the webhook verification response.
