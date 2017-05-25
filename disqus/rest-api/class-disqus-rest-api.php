@@ -371,6 +371,7 @@ class Disqus_Rest_Api {
 				foreach ( $api_data->response as $subscription ) {
 					if ( $this->validate_subscription( $subscription ) ) {
 						$current_subscription = $subscription;
+						$is_enabled = $subscription->enableSending;
 						$is_subscribed = true;
 						break;
 					}
