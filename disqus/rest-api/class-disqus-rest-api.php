@@ -89,6 +89,7 @@ class Disqus_Rest_Api {
 		register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'sync/webhook', array(
 			'methods' => 'POST',
 			'callback' => array( $this, 'rest_sync_webhook' ),
+			'permission_callback' => array( $this, 'rest_admin_only_permission_callback' ),
 		) );
 
 		register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'settings', array(
