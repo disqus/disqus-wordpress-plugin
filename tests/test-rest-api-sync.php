@@ -128,7 +128,8 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
         $this->assertEquals( 1, $comment['comment_approved'] );
 
         // Assert that the comment meta has Disqus Post Id attached to it.
-        get_comment_meta( $comment['comment_post_ID'], 'dsq_post_id', true );
+        $disqus_post_id = get_comment_meta( $comment['comment_post_ID'], 'dsq_post_id', true );
+        $this->assertEquals( $this->disqus_post['transformed_data']['id'], $disqus_post_id );
     }
 
     public function test_sync_unapproved_new_comment() {
