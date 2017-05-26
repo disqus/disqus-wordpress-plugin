@@ -536,15 +536,15 @@ class Disqus_Rest_Api {
 			$author_email = 'user-' . $author['id'] . '@disqus.com';
 		}
 
-		$comment_state = 1;
+		$comment_approved = 1;
 		if ( $post['isApproved'] && ! $post['isDeleted'] ) {
-			$approved_state = 1;
+			$comment_approved = 1;
 		} elseif ( $post['isDeleted'] ) {
-			$comment_state = 0; // Deleted is not a state in WordPress, so we'll keep them in pending.
+			$comment_approved = 0; // Deleted is not a state in WordPress, so we'll keep them in pending.
 		} elseif ( ! $post['isDeleted'] && ! $post['isSpam'] && ! $post['isApproved'] ) {
-			$comment_state = 0;
+			$comment_approved = 0;
 		} elseif ( $post['isSpam'] && ! $post['isApproved'] ) {
-			$comment_state = 'spam';
+			$comment_approved = 'spam';
 		}
 
 		$commentData = array(
@@ -558,7 +558,7 @@ class Disqus_Rest_Api {
 			'comment_type' => '', // Leave blank for a regular comment.
 			'comment_parent' => $parent,
 			'comment_agent' => 'Disqus Sync Host',
-			'comment_approved' => $comment_state,
+			'comment_approved' => $comment_approved,
 			'comment_meta' => array(
 				'dsq_post_id' => $post['id'],
 			),
