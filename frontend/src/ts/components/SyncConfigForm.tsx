@@ -22,6 +22,7 @@ const SyncConfigForm = (props: IFormProps) => (
             {' '}
             <strong>{getSyncStatus(props.data.syncStatus)}</strong>
         </p>
+        {props.data.syncStatus.last_message ? <p>{props.data.syncStatus.last_message}</p> : null}
         <p className="submit">
             <button type="submit" className="button button-large">
                 <span className={`dashicons dashicons-controls-${props.data.syncStatus.enabled ? 'pause' : 'play'}`} />
