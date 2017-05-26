@@ -194,9 +194,11 @@ class Disqus_Rest_Api {
 			switch ( $json_data['verb'] ) {
 				case 'verify':
 					// The X-Hub-Signature header was already validated, so we only need to return the challenge.
+					$this->log_sync_message( 'Syncing established with Disqus servers' );
 					return new WP_REST_Response( $json_data['challenge'], 200 );
 				case 'create':
 					$new_comment_id = $this->create_comment_from_post( $json_data['transformed_data'] );
+					$this->log_sync_message( 'Synced new comment "' . $json_data['transformed_data']['id'] . '" from Disqus' );
 					return new WP_REST_Response( (string) $new_comment_id, 201 );
 				case 'update':
 					// TODO: Implement updating comment from post.
@@ -205,6 +207,7 @@ class Disqus_Rest_Api {
 					return new WP_REST_Response( '', 204 );
 			}
 		} catch ( Exception $e ) {
+			$this->log_sync_message( 'Error occurred during sync request from Disqus' );
 			return new WP_Error( 500, (string) $e );
 		}
 	}
@@ -374,6 +377,7 @@ class Disqus_Rest_Api {
 			'subscribed' => $is_subscribed,
 			'enabled' => $is_enabled,
 			'subscription' => $current_subscription,
+			'last_message' => get_option( 'disqus_last_sync_message', '' ),
 		);
 	}
 
@@ -567,6 +571,19 @@ class Disqus_Rest_Api {
 		$new_comment_id = wp_insert_comment( $commentData );
 
 		return $new_comment_id;
+	}
+
+	/**
+
+	/**
+	 * Stores the last sync log message with date/time appended.
+	 *
+	 * @since     3.0
+	 * @access    private
+	 * @param     string $message    The base message to store.
+	 */
+	private function log_sync_message( $message ) {
+		update_option( 'disqus_last_sync_message', $message . ': ' . the_date( 'Y-m-d' ) . ' ' . the_time( 'g:i a' ) );
 	}
 
 	/**
