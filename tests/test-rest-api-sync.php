@@ -163,5 +163,7 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
         $request->set_body( $body );
         $request->set_header( 'X-Hub-Signature', 'sha512=' . $hub_signature );
         $request->set_header( 'Content-Type', 'application/json' );
+
+        return $request;
     }
 }
