@@ -390,6 +390,7 @@ class Disqus_Rest_Api {
 	 */
 	private function enable_sync() {
 		$sync_status = $this->get_sync_status();
+		$subscription = $sync_status['subscription'];
 		$endpoint = null;
 		$params = null;
 
@@ -404,7 +405,7 @@ class Disqus_Rest_Api {
 		} elseif ( ! $sync_status['enabled'] ) {
 			$endpoint = 'forums/webhooks/update';
 			$params = array(
-				'subscription' => $sync_status['subscription']['id'],
+				'subscription' => $subscription->id,
 				'enableSending' => '1',
 			);
 		}
@@ -435,10 +436,11 @@ class Disqus_Rest_Api {
 	 */
 	private function disable_sync() {
 		$sync_status = $this->get_sync_status();
+		$subscription = $sync_status['subscription'];
 
-		if ( true === $sync_status['enabled'] ) {
+		if ( $sync_status['enabled'] ) {
 			$params = array(
-				'subscription' => $sync_status['subscription']['id'],
+				'subscription' => $subscription->id,
 				'enableSending' => '0',
 			);
 			$api_data = $this->api_service->api_post( 'forums/webhooks/update', $params );
