@@ -229,7 +229,22 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
      * Check that the sync endpoint will handle updated comment.
      */
     public function test_sync_valid_updated_comment() {
-        $this->assertTrue( true );
+        // First sync the original comment
+        $disqus_post = $this->disqus_post;
+
+        $create_request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
+        $create_response = $this->server->dispatch( $create_request );
+
+        // Now change the message and re-sync
+        $disqus_post['transformed_data']['raw_message'] = 'lol jk, idk';
+
+        $update_request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
+        $update_response = $this->server->dispatch( $update_request );
+
+        $comment = (int) $update_response->get_data();
+        $comment = get_comment( $comment, ARRAY_A );
+
+        $this->assertEquals( 'lol jk, idk', $comment['comment_content'] );
     }
 
     /**
