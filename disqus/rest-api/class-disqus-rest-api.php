@@ -240,7 +240,7 @@ class Disqus_Rest_Api {
 
 			return $this->rest_get_response( $status );
 		} catch ( Exception $e ) {
-			return $this->rest_get_error( $e->getMessage() );
+			return $this->rest_get_error( 'There was an error fetching sync status.' );
 		}
 	}
 
@@ -257,7 +257,7 @@ class Disqus_Rest_Api {
 
 			return $this->rest_get_response( $status );
 		} catch ( Exception $e ) {
-			return $this->rest_get_error( $e->getMessage() );
+			return $this->rest_get_error( 'There was an error attempting to enable.' );
 		}
 	}
 
@@ -274,7 +274,7 @@ class Disqus_Rest_Api {
 
 			return $this->rest_get_response( $status );
 		} catch ( Exception $e ) {
-			return $this->rest_get_error( $e->getMessage() );
+			return $this->rest_get_error( 'There was an error attempting to disable sync.' );
 		}
 	}
 
