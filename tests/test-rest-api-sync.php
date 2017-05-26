@@ -132,11 +132,10 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
     }
 
     public function test_sync_unapproved_new_comment() {
-        $unapproved_comment = array_merge( $this->disqus_post, array(
-            'isApproved' => false,
-        ) );
+        $disqus_post = $this->disqus_post;
+-       $disqus_post['transformed_data']['isApproved'] = false;
 
-        $request = $this->get_valid_request_with_signature( $unapproved_comment, 'sync/webhook' );
+        $request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
         $response = $this->server->dispatch( $request );
 
         $comment = (int) $response->get_data();
@@ -146,12 +145,11 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
     }
 
     public function test_sync_spam_new_comment() {
-        $spam_comment = array_merge( $this->disqus_post, array(
-            'isApproved' => false,
-            'isSpam' => true,
-        ) );
+        $disqus_post = $this->disqus_post;
+-       $disqus_post['transformed_data']['isApproved'] = false;
+        $disqus_post['transformed_data']['isSpam'] = true;
 
-        $request = $this->get_valid_request_with_signature( $spam_comment, 'sync/webhook' );
+        $request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
         $response = $this->server->dispatch( $request );
 
         $comment = (int) $response->get_data();
@@ -161,12 +159,11 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
     }
 
     public function test_sync_deleted_new_comment() {
-        $deleted_comment = array_merge( $this->disqus_post, array(
-            'isApproved' => false,
-            'isDeleted' => true,
-        ) );
+        $disqus_post = $this->disqus_post;
+-       $disqus_post['transformed_data']['isApproved'] = false;
+        $disqus_post['transformed_data']['isDeleted'] = true;
 
-        $request = $this->get_valid_request_with_signature( $deleted_comment, 'sync/webhook' );
+        $request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
         $response = $this->server->dispatch( $request );
 
         $comment = (int) $response->get_data();
