@@ -132,6 +132,58 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
         $this->assertEquals( $this->disqus_post['transformed_data']['id'], $disqus_post_id );
     }
 
+    /**
+     * Check that the sync endpoint will handle replies.
+     */
+    public function test_sync_parent_new_comment() {
+        // Sync the first comment
+        $parent_disqus_post = $this->disqus_post;
+        $parent_request = $this->get_valid_request_with_signature( $parent_disqus_post, 'sync/webhook' );
+        $parent_response = $this->server->dispatch( $parent_request );
+        $parent_comment = (int) $parent_response->get_data();
+        $parent_comment = get_comment( $parent_comment, ARRAY_A );
+
+        // Sync the second comment with first as parent (using Disqus post ID).
+        $child_disqus_post = array(
+            'verb' => 'create',
+            'transformed_data' => array(
+                'id' => '2',
+                'author' => array(
+                    'name' => 'Rob',
+                    'email' => 'rob@robboss.com',
+                ),
+                'threadData' => array(
+                    'id' => '1',
+                    'identifiers' => array(
+                        $this->post->ID . ' ' . $this->post->guid,
+                    )
+                ),
+                'parent' => 1,
+                'createdAt' => '2017-01-02T15:51:30',
+                'forum' => 'bobross',
+                'raw_message' => 'This is a reply to test comment',
+                'ipAddress' => '255.255.255.255',
+                'isApproved' => true,
+                'isDeleted' => false,
+                'isFlagged' => false,
+                'isSpam' => false,
+            ),
+        );
+        $child_request = $this->get_valid_request_with_signature( $child_disqus_post, 'sync/webhook' );
+        $child_response = $this->server->dispatch( $child_request );
+
+        $this->assertEquals(
+            201,
+            $child_response->get_status(),
+            'Not a valid 201 status code, response was: ' . json_encode( $child_response->get_data() )
+        );
+
+        $child_comment = (int) $child_response->get_data();
+        $child_comment = get_comment( $child_comment, ARRAY_A );
+
+        $this->assertEquals( $parent_comment['comment_ID'], $child_comment['comment_parent'] );
+    }
+
     public function test_sync_unapproved_new_comment() {
         $disqus_post = $this->disqus_post;
 -       $disqus_post['transformed_data']['isApproved'] = false;
