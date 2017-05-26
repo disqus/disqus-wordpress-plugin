@@ -125,12 +125,24 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
         $this->assertEquals( 'bob@bobross.com', $comment['comment_author_email'] );
         $this->assertEquals( 'http://bobross.com/', $comment['comment_author_url'] );
         $this->assertEquals( '255.255.255.255', $comment['comment_author_IP'] );
+        $this->assertEquals( 1, $comment['comment_approved'] );
 
         // Assert that the comment meta has Disqus Post Id attached to it.
         get_comment_meta( $comment['comment_post_ID'], 'dsq_post_id', true );
     }
 
+    public function test_sync_unapproved_new_comment() {
+        $unapproved_comment = $this->disqus_post;
+        $unapproved_comment['isApproved'] = false;
 
+        $request = $this->get_valid_request_with_signature( $unapproved_comment, 'sync/webhook' );
+        $response = $this->server->dispatch( $request );
+
+        $comment = (int) $response->get_data();
+        $comment = get_comment( $comment, ARRAY_A );
+
+        $this->assertEquals( 0, $comment['comment_approved'] );
+    }
 
     /**
      * Check that the sync endpoint will handle updated comment.
