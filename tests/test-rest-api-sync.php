@@ -157,9 +157,10 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
      * Utility function for building a request with a given body/path using shared secret authentication.
      */
     private function get_valid_request_with_signature( $body, $path ) {
+        $body = json_encode( $body );
         $hub_signature = hash_hmac( 'sha512', $body, 'valid_token' );
         $request = new WP_REST_Request( 'POST', DISQUS_REST_NAMESPACE . '/' . $path );
-        $request->set_body( json_encode( $body ) );
+        $request->set_body( $body );
         $request->set_header( 'X-Hub-Signature', 'sha512=' . $hub_signature );
         $request->set_header( 'Content-Type', 'application/json' );
     }
