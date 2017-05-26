@@ -561,7 +561,7 @@ class Disqus_Rest_Api {
 			'comment_approved' => $comment_state,
 			'comment_meta' => array(
 				'dsq_post_id' => $post['id'],
-			)
+			),
 		);
 
 		$new_comment_id = wp_insert_comment( $commentData );
