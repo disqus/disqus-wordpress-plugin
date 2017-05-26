@@ -132,10 +132,41 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
     }
 
     public function test_sync_unapproved_new_comment() {
-        $unapproved_comment = $this->disqus_post;
-        $unapproved_comment['isApproved'] = false;
+        $unapproved_comment = array_merge( $this->disqus_post, array(
+            'isApproved' => false,
+        ) );
 
         $request = $this->get_valid_request_with_signature( $unapproved_comment, 'sync/webhook' );
+        $response = $this->server->dispatch( $request );
+
+        $comment = (int) $response->get_data();
+        $comment = get_comment( $comment, ARRAY_A );
+
+        $this->assertEquals( 0, $comment['comment_approved'] );
+    }
+
+    public function test_sync_spam_new_comment() {
+        $spam_comment = array_merge( $this->disqus_post, array(
+            'isApproved' => false,
+            'isSpam' => true,
+        ) );
+
+        $request = $this->get_valid_request_with_signature( $spam_comment, 'sync/webhook' );
+        $response = $this->server->dispatch( $request );
+
+        $comment = (int) $response->get_data();
+        $comment = get_comment( $comment, ARRAY_A );
+
+        $this->assertEquals( 'spam', $comment['comment_approved'] );
+    }
+
+    public function test_sync_deleted_new_comment() {
+        $deleted_comment = array_merge( $this->disqus_post, array(
+            'isApproved' => false,
+            'isDeleted' => true,
+        ) );
+
+        $request = $this->get_valid_request_with_signature( $deleted_comment, 'sync/webhook' );
         $response = $this->server->dispatch( $request );
 
         $comment = (int) $response->get_data();
