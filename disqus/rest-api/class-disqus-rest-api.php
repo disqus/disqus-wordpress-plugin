@@ -563,7 +563,7 @@ class Disqus_Rest_Api {
 		) );
 
 		if ( $post_query->have_posts() ) {
-			$wp_post_id = $post_query->the_post()->ID;
+			$wp_post_id = $post_query->post->ID;
 			wp_reset_postdata();
 		}
 
