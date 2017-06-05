@@ -516,7 +516,7 @@ class Disqus_Rest_Api {
 		$comment_data = $this->comment_data_from_post( $post );
 		$comment_data['comment_ID']  = $updated_comment_id;
 
-		// Remove non-updating fields
+		// Remove non-updating fields.
 		unset( $comment_data['comment_meta'] );
 		unset( $comment_data['comment_agent'] );
 		unset( $comment_data['comment_parent'] );
@@ -611,7 +611,7 @@ class Disqus_Rest_Api {
 			$author_email = 'user-' . $author['id'] . '@disqus.com';
 		}
 
-		// Translate the comment approval state
+		// Translate the comment approval state.
 		$comment_approved = 1;
 		if ( $post['isApproved'] && ! $post['isDeleted'] ) {
 			$comment_approved = 1;
