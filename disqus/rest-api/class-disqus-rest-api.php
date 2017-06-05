@@ -649,7 +649,7 @@ class Disqus_Rest_Api {
 	 * @param     string $message    The base message to store.
 	 */
 	private function log_sync_message( $message ) {
-		update_option( 'disqus_last_sync_message', $message . ': ' . the_date( 'Y-m-d' ) . ' ' . the_time( 'g:i a' ) );
+		update_option( 'disqus_last_sync_message', $message . ': ' . date( 'Y-m-d g:i a', time() ) );
 	}
 
 	/**
