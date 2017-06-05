@@ -631,7 +631,7 @@ class Disqus_Rest_Api {
 			'comment_author' => $author['name'],
 			'comment_author_email' => $author_email,
 			'comment_author_IP' => $post['ipAddress'],
-			'comment_author_url' => $author['url'],
+			'comment_author_url' => isset( $author['url'] ) ? $author['url'] : '',
 			'comment_content' => $post['raw_message'],
 			'comment_date_gmt' => $post['createdAt'],
 			'comment_type' => '', // Leave blank for a regular comment.
