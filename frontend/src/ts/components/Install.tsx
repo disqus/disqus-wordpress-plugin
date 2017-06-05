@@ -14,7 +14,7 @@ const REST_OPTIONS = WIN.DISQUS_WP.rest;
 /* tslint:disable:max-line-length */
 const Install = (props: IFormProps) => (
     <div>
-        <AdminCard title={__('Automatic Installation')}>
+        <AdminCard title={__('Automatic Installation (Coming soon)')}>
             <p>
                 {__('Start the registration process and choose the WordPress platform when prompted.')}
             </p>
@@ -41,8 +41,7 @@ const Install = (props: IFormProps) => (
             </table>
             <p className="submit">
                 <a
-                    className="button button-primary"
-                    href="https://disqus.com/profile/login/?next=/admin/create/"
+                    className="button button-primary button-disabled"
                     target="_blank"
                 >
                     {__('Start Installation')}
