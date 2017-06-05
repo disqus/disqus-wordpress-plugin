@@ -230,8 +230,8 @@ class Disqus_Admin {
     public function dsq_plugin_action_links( $links, $file ) {
         if ( 'disqus/disqus.php' === $file ) {
             $plugin_links = array(
-                '<a href="' . esc_url( get_admin_url( null, 'admin.php?page=disqus' ) )  . '">' .
-                    ( $this->shortname === '' ? 'Install' : 'Configure' ) .
+                '<a href="' . esc_url( get_admin_url( null, 'admin.php?page=disqus' ) ) . '">' .
+                    ( '' === $this->shortname ? 'Install' : 'Configure' ) .
                 '</a>',
             );
             return array_merge( $links, $plugin_links );
