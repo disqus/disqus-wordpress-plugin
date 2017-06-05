@@ -258,17 +258,23 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
     }
 
     /**
-     * Check that the sync endpoint will reject invalid new comment.
-     */
-    public function test_sync_invalid_new_comment() {
-        $this->assertTrue( true );
-    }
-
-    /**
      * Check that the sync endpoint will reject duplicate comments.
      */
     public function test_sync_duplicate_new_comment() {
-        $this->assertTrue( true );
+        $disqus_post = $this->disqus_post;
+
+        $first_create_request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
+        $first_create_response = $this->server->dispatch( $first_create_request );
+        $first_comment_id = $first_create_response->get_data();
+
+        $this->assertGreaterThan(0, $first_comment_id);
+
+        $second_create_request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
+        $second_create_response = $this->server->dispatch( $second_create_request );
+        $second_comment_id = $second_create_response->get_data();
+
+        // We should get a `0` back indicating the second comment was not synced.
+        $this->assertEquals('0', $second_comment_id);
     }
 
     /**
