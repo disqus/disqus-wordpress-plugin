@@ -221,6 +221,25 @@ class Disqus_Admin {
     }
 
     /**
+     * Adds a plugin link to the Disqus entry on the plugin page.
+     *
+     * @since    3.0
+     * @param    array  $links    Links rendered for Disqus entry on the plugin page.
+     * @param    string $file     The filename of the link being filtered.
+     */
+    public function dsq_plugin_action_links( $links, $file ) {
+        if ( 'disqus/disqus.php' === $file ) {
+            $plugin_links = array(
+                '<a href="' . esc_url( get_admin_url( null, 'admin.php?page=disqus' ) )  . '">' .
+                    ( $this->shortname === '' ? 'Install' : 'Configure' ) .
+                '</a>',
+            );
+            return array_merge( $links, $plugin_links );
+        }
+        return $links;
+    }
+
+    /**
      * Renders the admin page view from a partial file
      *
      * @since    3.0
