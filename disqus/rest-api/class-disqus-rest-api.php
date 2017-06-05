@@ -508,11 +508,13 @@ class Disqus_Rest_Api {
 			'number' => 1,
 		) );
 
-		if ( empty( $comment_query->comments ) ) {
+		$comments = $comment_query->comments;
+
+		if ( empty( $comments ) ) {
 			$this->log_sync_message( 'Error updating synced comment "' . $json_data['transformed_data']['id'] . '" from Disqus. Comment with this dsq_post_id was not in the local database' );
 			return 0;
 		}
-		$updated_comment_id = $comment_query->comments[0]->$comment_ID;
+		$updated_comment_id = $comments[0]->comment_ID;
 		$comment_data = $this->comment_data_from_post( $post );
 		$comment_data['comment_ID']  = $updated_comment_id;
 
@@ -592,11 +594,12 @@ class Disqus_Rest_Api {
 				'meta_value' => (string) $post['parent'],
 				'number' => 1,
 			) );
+			$parent_comments = $parent_comment_query->comments;
 
-			if ( empty( $parent_comment_query->comments ) ) {
+			if ( empty( $parent_comments ) ) {
 				throw new Exception( 'This comment\'s parent has not been synced yet.' );
 			} else {
-				$parent = $parent_comment_query->comments[0]->$comment_ID;
+				$parent = $parent_comments[0]->comment_ID;
 			}
 		}
 
