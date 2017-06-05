@@ -249,6 +249,9 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
         );
 
         $comment = (int) $update_response->get_data();
+
+        $this->assertGreaterThan(0, $comment);
+
         $comment = get_comment( $comment, ARRAY_A );
 
         $this->assertEquals( 'lol jk, idk', $comment['comment_content'] );
