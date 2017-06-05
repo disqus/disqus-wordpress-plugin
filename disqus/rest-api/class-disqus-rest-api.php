@@ -479,7 +479,7 @@ class Disqus_Rest_Api {
 		) );
 
 		if ( ! empty( $comment_query->comments ) ) {
-			$this->log_sync_message( 'Error syncing new comment "' . $json_data['transformed_data']['id'] . '" from Disqus. Comment with this dsq_post_id already in the local database' );
+			$this->log_sync_message( 'Error syncing new comment "' . $post['id'] . '" from Disqus. Comment with this dsq_post_id already in the local database' );
 			return 0;
 		}
 
@@ -511,7 +511,7 @@ class Disqus_Rest_Api {
 		$comments = $comment_query->comments;
 
 		if ( empty( $comments ) ) {
-			$this->log_sync_message( 'Error updating synced comment "' . $json_data['transformed_data']['id'] . '" from Disqus. Comment with this dsq_post_id was not in the local database' );
+			$this->log_sync_message( 'Error updating synced comment "' . $post['id'] . '" from Disqus. Comment with this dsq_post_id was not in the local database' );
 			return 0;
 		}
 		$updated_comment_id = $comments[0]->comment_ID;
