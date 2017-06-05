@@ -237,6 +237,7 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
 
         // Now change the message and re-sync
         $disqus_post['transformed_data']['raw_message'] = 'lol jk, idk';
+        $disqus_post['verb'] = 'update';
 
         $update_request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
         $update_response = $this->server->dispatch( $update_request );
@@ -249,8 +250,6 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
 
         $comment = (int) $update_response->get_data();
         $comment = get_comment( $comment, ARRAY_A );
-
-        var_dump( $comment );
 
         $this->assertEquals( 'lol jk, idk', $comment['comment_content'] );
     }
