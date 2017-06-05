@@ -508,8 +508,6 @@ class Disqus_Rest_Api {
 			'number' => 1,
 		) );
 
-		$comment_data = $this->comment_data_from_post( $post );
-
 		$comments = $comment_query->comments;
 
 		if ( empty( $comments ) ) {
@@ -521,6 +519,7 @@ class Disqus_Rest_Api {
 			$updated_comment_id = $comment->comment_ID;
 		}
 
+		$comment_data = $this->comment_data_from_post( $post );
 		$comment_data['comment_ID'] = $updated_comment_id;
 
 		// Remove non-updating fields.
@@ -531,7 +530,7 @@ class Disqus_Rest_Api {
 		unset( $comment_data['comment_date_gmt'] );
 		unset( $comment_data['comment_post_ID'] );
 
-		$updated = wp_insert_comment( $comment_data );
+		$updated = wp_update_comment( $comment_data );
 
 		return 1 === $updated ? $updated_comment_id : 0;
 	}
