@@ -241,8 +241,16 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
         $update_request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
         $update_response = $this->server->dispatch( $update_request );
 
+        $this->assertEquals(
+            200,
+            $update_response->get_status(),
+            'Not a valid 200 status code, response was: ' . json_encode( $update_response->get_data() )
+        );
+
         $comment = (int) $update_response->get_data();
         $comment = get_comment( $comment, ARRAY_A );
+
+        var_dump( $comment );
 
         $this->assertEquals( 'lol jk, idk', $comment['comment_content'] );
     }
