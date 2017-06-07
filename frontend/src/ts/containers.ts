@@ -37,18 +37,25 @@ const mapStateToProps = (state: AdminState) => {
     };
 };
 
+const valueFromInput = (element: HTMLInputElement): string => {
+    const isCheckbox: boolean = element.type === 'checkbox';
+
+    let value: string;
+    if (isCheckbox)
+        value = element.checked ? '1' : '';
+    else
+        value = element.value;
+
+    return value;
+};
+
 const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
     const handleClearMessage = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
         dispatch(setMessageAction(null));
     };
     return {
         onInputChange: (key: string, event: React.SyntheticEvent<HTMLInputElement>) => {
-            const isCheckbox: boolean = event.currentTarget.type === 'checkbox';
-            let value: string;
-            if (isCheckbox)
-                value = event.currentTarget.checked ? '1' : null;
-            else
-                value = event.currentTarget.value;
+            const value: string = valueFromInput(event.currentTarget);
             dispatch(updateLocalOptionAction(key, value));
         },
         onSubmitSiteForm: (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -58,8 +65,10 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                 if (currentIdKey in event.currentTarget.elements) {
                     const currentField: Element | HTMLCollection = event.currentTarget.elements.namedItem(currentIdKey);
                     const currentInputElement = currentField as HTMLInputElement;
+                    const value: string = valueFromInput(currentInputElement);
+
                     return (Object as any).assign({
-                        [currentInputElement.name]: currentInputElement.value,
+                        [currentInputElement.name]: value,
                     }, previousValue);
                 }
                 return previousValue;
