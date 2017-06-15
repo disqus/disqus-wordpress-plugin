@@ -190,12 +190,20 @@ class Disqus_Rest_Api {
 			return new WP_Error( 400, 'Missing required property: verb.' );
 		}
 
+		// Check for and respond to verification request before anything else.
+		if ( 'verify' === $json_data['verb'] ) {
+			// The X-Hub-Signature header was already validated, so we only need to return the challenge.
+			$this->log_sync_message( 'Syncing established with Disqus servers' );
+			return new WP_REST_Response( $json_data['challenge'], 200 );
+		}
+
+		// Don't attempt to sync anything that isn't a comment.
+		if ( 'post' !== $json_data['object_type'] ) {
+			return new WP_REST_Response( '', 204 );
+		}
+
 		try {
 			switch ( $json_data['verb'] ) {
-				case 'verify':
-					// The X-Hub-Signature header was already validated, so we only need to return the challenge.
-					$this->log_sync_message( 'Syncing established with Disqus servers' );
-					return new WP_REST_Response( $json_data['challenge'], 200 );
 				case 'create':
 					$new_comment_id = $this->create_comment_from_post( $json_data['transformed_data'] );
 					$this->log_sync_message( 'Synced new comment "' . $json_data['transformed_data']['id'] . '" from Disqus' );

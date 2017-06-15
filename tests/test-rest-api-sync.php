@@ -39,6 +39,7 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
 
         $this->disqus_post = array(
             'verb' => 'create',
+            'object_type' => 'post',
             'transformed_data' => array(
                 'id' => '1',
                 'author' => array(
@@ -275,6 +276,19 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
 
         // We should get a `0` back indicating the second comment was not synced.
         $this->assertEquals('0', $second_comment_id);
+    }
+
+    /**
+     * Check that the sync endpoint will do nothing with non-post objects.
+     */
+    public function test_sync_non_post_webhook() {
+        $disqus_post = $this->disqus_post;
+        $disqus_post['object_type'] = 'not_a_post_lol';
+
+        $request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
+        $response = $this->server->dispatch( $request );
+
+        $this->assertEquals( 204, $response->get_status() );
     }
 
     /**
