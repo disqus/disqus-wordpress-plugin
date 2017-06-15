@@ -147,6 +147,7 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
         // Sync the second comment with first as parent (using Disqus post ID).
         $child_disqus_post = array(
             'verb' => 'create',
+            'object_type' => 'post',
             'transformed_data' => array(
                 'id' => '2',
                 'author' => array(
