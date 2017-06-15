@@ -68,9 +68,9 @@ const Admin = (props: IFormProps) => (
             </AdminCard>
             <AdminCard title={__('Single Sign-on')}>
                 <p className="description">
-                    {__('Allow users to sign in with this site\'s user accounts. This is a premium-level feature and must be enabled for your organization.')}
+                    {__('Allow users to sign in with this site\'s user accounts. This is a Disqus Pro feature.')}
                     {' '}
-                    <a href="https://disqus.com/api/applications/" target="_blank">
+                    <a href="https://help.disqus.com/customer/portal/articles/1148635" target="_blank">
                         {__('Learn More')}
                     </a>
                 </p>
@@ -93,7 +93,7 @@ const Admin = (props: IFormProps) => (
                     {__('Syncing')}
                 </h3>
                 <p className="description">
-                    {__('Syncing will copy comments created and edited in Disqus to your local WordPress database for backup purposes. This will create additional work for your database/server and is not recommended for busy communities.')}
+                    {__('Syncing will copy comments created and edited in Disqus to your local WordPress database for backup purposes. This will create additional work for your database/server and may not be recommended for highly active communities.')}
                 </p>
                 {getSyncContainer(props)}
             </AdminCard>
