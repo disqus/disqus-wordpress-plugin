@@ -23,7 +23,7 @@ const WelcomePanel = (props: IWelcomePanelProps) => (
                         {__('Moderate')}
                     </a>
                     <p className="description">
-                        <a href={getForumAdminUrl(props.shortname, 'filters/banned')} target="_blank">
+                        <a href={getForumAdminUrl(props.shortname, 'access/banned')} target="_blank">
                             {__('Manage banned users and word filters')}
                         </a>
                     </p>
