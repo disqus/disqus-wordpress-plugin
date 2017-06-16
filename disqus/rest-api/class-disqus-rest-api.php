@@ -401,22 +401,18 @@ class Disqus_Rest_Api {
 		$sync_status = $this->get_sync_status();
 		$subscription = $sync_status['subscription'];
 		$endpoint = null;
-		$params = null;
+		$params = array(
+			'url' => rest_url( Disqus_Rest_Api::REST_NAMESPACE . '/sync/webhook' ),
+			'secret' => get_option( 'disqus_sync_token' ),
+			'enableSending' => '1',
+		);
 
 		if ( ! $sync_status['subscribed'] ) {
 			$endpoint = 'forums/webhooks/create';
-			$params = array(
-				'forum' => get_option( 'disqus_forum_url' ),
-				'url' => rest_url( Disqus_Rest_Api::REST_NAMESPACE . '/sync/webhook' ),
-				'secret' => get_option( 'disqus_sync_token' ),
-				'enableSending' => '1',
-			);
+			$params['forum'] = get_option( 'disqus_forum_url' );
 		} elseif ( ! $sync_status['enabled'] ) {
 			$endpoint = 'forums/webhooks/update';
-			$params = array(
-				'subscription' => $subscription->id,
-				'enableSending' => '1',
-			);
+			$params['subscription'] = $subscription->id;
 		}
 
 		if ( null !== $endpoint ) {
