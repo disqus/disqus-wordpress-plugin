@@ -40,6 +40,22 @@
     margin-top: 4px;
 }
 
+.submit .button-link {
+    text-decoration: none;
+}
+
+.dsq-card {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+}
+
+@media screen and (max-width: 480px) {
+    .dsq-card {
+        margin-right: 0px;
+    }
+}
+
 /* Placeholder spinner */
 
 .dsq-loading-container {
