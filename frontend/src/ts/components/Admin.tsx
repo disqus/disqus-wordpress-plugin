@@ -4,6 +4,7 @@ import * as Redux from 'redux';
 import {
     SiteConfigContainer,
     SSOConfigContainer,
+    SupportDiagnosticsContainer,
     SyncConfigContainer,
 } from '../containers';
 import { IAdminState } from '../reducers/AdminState';
@@ -96,6 +97,40 @@ const Admin = (props: IFormProps) => (
                     {__('Syncing will copy comments created and edited in Disqus to your local WordPress database for backup purposes. This will create additional work for your database/server and may not be recommended for highly active communities.')}
                 </p>
                 {getSyncContainer(props)}
+            </AdminCard>
+            <AdminCard title={__('Support')}>
+                <ul>
+                    <li>
+                        <a href="https://status.disqus.com/" target="_blank">
+                            Disqus System Status
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/ryanvalentin/disqus-wordpress-plugin" target="_blank">
+                            Github Project (disqus-wordpress-plugin)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://help.disqus.com/" target="_blank">
+                            Documentation
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://disqus.com/support/?article=contact_wordpress" target="_blank">
+                            Contact Support
+                        </a>
+                    </li>
+                </ul>
+                <hr />
+                <h3>
+                    {__('Diagnostic Information')}
+                </h3>
+                <p className="description">
+                    {__('Include the following information in any private support requests, but do not share this publicly.')}
+                </p>
+                <div className="submit">
+                    <SupportDiagnosticsContainer />
+                </div>
             </AdminCard>
         </div>
     </div>

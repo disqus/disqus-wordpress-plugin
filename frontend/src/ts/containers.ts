@@ -12,6 +12,7 @@ import Install from './components/Install';
 import Main from './components/Main';
 import SiteConfigForm from './components/SiteConfigForm';
 import SSOConfigForm from './components/SSOConfigForm';
+import SupportDiagnostics from './components/SupportDiagnostics';
 import SyncConfigForm from './components/SyncConfigForm';
 import { IAdminOptions } from './reducers/AdminOptions';
 import AdminState from './reducers/AdminState';
@@ -54,6 +55,17 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
         dispatch(setMessageAction(null));
     };
     return {
+        onCopyText: (elementId: string): void => {
+            try {
+                const element: HTMLInputElement = window.document.getElementById(elementId) as HTMLInputElement;
+                if (element) {
+                    element.select();
+                    window.document.execCommand('copy');
+                }
+            } catch (err) {
+                // Continue
+            }
+        },
         onInputChange: (key: string, event: React.SyntheticEvent<HTMLInputElement>) => {
             const value: string = valueFromInput(event.currentTarget);
             dispatch(updateLocalOptionAction(key, value));
@@ -146,6 +158,11 @@ export const SSOConfigContainer = ReactRedux.connect(
     mapStateToProps,
     mapDispatchToProps,
 )(SSOConfigForm);
+
+export const SupportDiagnosticsContainer = ReactRedux.connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(SupportDiagnostics);
 
 export const SyncConfigContainer = ReactRedux.connect(
     mapStateToProps,
