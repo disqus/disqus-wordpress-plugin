@@ -20,3 +20,8 @@ activate:
 
 js:
 	yarn run build
+
+dist:
+	yarn run build
+	rm disqus.zip
+	zip -r disqus.zip disqus
