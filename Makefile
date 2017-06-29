@@ -23,5 +23,5 @@ js:
 
 dist:
 	yarn run build
-	rm disqus.zip
+	rm -f disqus.zip
 	zip -r disqus.zip disqus
