@@ -18,7 +18,6 @@ import { IAdminOptions } from './reducers/AdminOptions';
 import AdminState from './reducers/AdminState';
 import {
     IRestResponse,
-    restGet,
     restPost,
 } from './rest';
 
