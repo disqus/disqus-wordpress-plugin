@@ -262,7 +262,7 @@ class Disqus {
      *
      * @since     3.0
      * @param     string $post    The WordPress post object.
-     * @return    string    	  The unique disqus_identifier.
+     * @return    string          The unique disqus_identifier.
      */
     public function dsq_identifier_for_post( $post ) {
         return $post->ID . ' ' . $post->guid;

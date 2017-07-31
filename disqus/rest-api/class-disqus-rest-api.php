@@ -51,7 +51,7 @@ class Disqus_Rest_Api {
      * @param     WP_HTTP_Response $result     Result to send to the client. Usually a WP_REST_Response.
      * @param     WP_REST_Request  $request    Request used to generate the response.
      * @param     WP_REST_Server   $server     Server instance.
-     * @return    boolean    				   Whether we've handled the response or not.
+     * @return    boolean                      Whether we've handled the response or not.
      */
     public function filter_rest_pre_serve_request( $served, $result, $request, $server ) {
         if ( '/' . Disqus_Rest_Api::REST_NAMESPACE . '/sync/webhook' === $request->get_route() ) {
@@ -71,7 +71,7 @@ class Disqus_Rest_Api {
      *
      * @since     3.0
      * @param     WP_REST_Request $request    The request object.
-     * @return    boolean|WP_Error    		  Whether the user has permission to the admin REST API.
+     * @return    boolean|WP_Error            Whether the user has permission to the admin REST API.
      */
     public function rest_admin_only_permission_callback( WP_REST_Request $request ) {
         // Regular cookie-based authentication.
@@ -163,7 +163,7 @@ class Disqus_Rest_Api {
      * @access   private
      * @param    string $message        The error message to be returned.
      * @param    int    $status_code    The http status code of the error.
-     * @return   WP_Error     		    The API error object.
+     * @return   WP_Error               The API error object.
      */
     private function rest_get_error( $message, $status_code = 500 ) {
         return new WP_Error(
@@ -292,7 +292,7 @@ class Disqus_Rest_Api {
      *
      * @since    3.0
      * @param    WP_REST_Request $request    The request object.
-     * @return   array     		 Array of parsed request data.
+     * @return   array                       Array of parsed request data.
      */
     private function get_request_data( WP_REST_Request $request ) {
         $content_type = $request->get_content_type();
@@ -343,7 +343,7 @@ class Disqus_Rest_Api {
      *
      * @since    3.0
      * @param    object $subscription    The Disqus webhook subscription array.
-     * @return   boolean    			 Whether the subscription information belongs to this WordPress site.
+     * @return   boolean                 Whether the subscription information belongs to this WordPress site.
      */
     private function validate_subscription( $subscription ) {
         return get_option( 'disqus_sync_token' ) === $subscription->secret &&
@@ -468,9 +468,9 @@ class Disqus_Rest_Api {
      * Creates a comment in the WordPress database given a Disqus post.
      *
      * @since    3.0
-     * @param    array $post    			  The Disqus post object.
-     * @return   int 						  The newly created comment ID.
-     * @throws   Exception    				  An exception if comment can't be saved from post data.
+     * @param    array $post    The Disqus post object.
+     * @return   int            The newly created comment ID.
+     * @throws   Exception      An exception if comment can't be saved from post data.
      */
     private function create_comment_from_post( $post ) {
         $this->validate_disqus_post_data( $post );
@@ -498,9 +498,9 @@ class Disqus_Rest_Api {
      * Updates a comment in the WordPress database given a Disqus post.
      *
      * @since    3.0
-     * @param    array $post    			  The Disqus post object.
-     * @return   int 						  The newly created comment ID.
-     * @throws   Exception    				  An exception if comment can't be saved from post data.
+     * @param    array $post    The Disqus post object.
+     * @return   int            The newly created comment ID.
+     * @throws   Exception      An exception if comment can't be saved from post data.
      */
     private function update_comment_from_post( $post ) {
         $this->validate_disqus_post_data( $post );
@@ -557,8 +557,8 @@ class Disqus_Rest_Api {
      *
      * @since    3.0
      * @param    array $post    The Disqus post object.
-     * @return   array 			The translated comment data to be inserted/updated.
-     * @throws   Exception    	An exception if comment can't be saved from post data.
+     * @return   array          The translated comment data to be inserted/updated.
+     * @throws   Exception      An exception if comment can't be saved from post data.
      */
     private function comment_data_from_post( $post ) {
         $thread = $post['threadData'];
