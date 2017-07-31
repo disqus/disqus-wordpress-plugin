@@ -13,5 +13,4 @@
 
 ?>
 
-<?php /* React application container */ ?>
 <div id="disqus-admin"></div>

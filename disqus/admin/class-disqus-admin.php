@@ -101,7 +101,7 @@ class Disqus_Admin {
             return;
         }
 
-         $admin_js_vars = array(
+        $admin_js_vars = array(
             'rest' => array(
                 'base' => esc_url_raw( rest_url( 'disqus/v1/' ) ),
 
