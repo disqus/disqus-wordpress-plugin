@@ -12,8 +12,8 @@
  * @package           Disqus
  *
  * @wordpress-plugin
- * Plugin Name:       Disqus
- * Plugin URI:        https://disqus.com/admin/wordpress/
+ * Plugin Name:       Disqus for WordPress
+ * Plugin URI:        https://disqus.com/
  * Description:       Disqus installation for WordPress. Assists with installing and showing comments on your site,
  * but doesn't include exporting and syncing features. These functions are still available to run manually.
  * Version:           3.0
