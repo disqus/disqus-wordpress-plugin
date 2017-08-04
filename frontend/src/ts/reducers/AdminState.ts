@@ -41,6 +41,7 @@ export interface IDisqusWordpressWindow extends Window {
 export interface IAdminState {
     adminOptions?: IAdminOptions;
     config?: IAdminConfigData;
+    installationState?: InstallationState;
     isFetchingAdminOptions?: boolean;
     isFetchingSyncStatus?: boolean;
     isSiteFormLocked?: boolean;
@@ -49,10 +50,19 @@ export interface IAdminState {
     [key: string]: any;
 }
 
+export enum InstallationState {
+    none,
+    noAccount,
+    hasAccount,
+    noSite,
+    hasSite,
+    installed,
+}
 
 export default class AdminState extends Record({
     adminOptions: null,
     config: null,
+    installationState: InstallationState.none,
     isFetchingAdminOptions: false,
     isFetchingSyncStatus: false,
     isSiteFormLocked: true,
@@ -62,6 +72,7 @@ export default class AdminState extends Record({
 }) implements IAdminState {
     public adminOptions: AdminOptions;
     public config: IAdminConfigData;
+    public installationState: InstallationState;
     public isFetchingAdminOptions: boolean;
     public isFetchingSyncStatus: boolean;
     public isSiteFormLocked: boolean;

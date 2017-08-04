@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactRedux from 'react-redux';
 import * as Redux from 'redux';
 import {
+    changeInstallStateAction,
     setMessageAction,
     toggleValueAction,
     updateAdminOptionsAction,
@@ -15,7 +16,7 @@ import SSOConfigForm from './components/SSOConfigForm';
 import SupportDiagnostics from './components/SupportDiagnostics';
 import SyncConfigForm from './components/SyncConfigForm';
 import { IAdminOptions } from './reducers/AdminOptions';
-import AdminState from './reducers/AdminState';
+import AdminState, { InstallationState } from './reducers/AdminState';
 import {
     IRestResponse,
     restPost,
@@ -134,6 +135,9 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
         },
         onToggleState: (key: string) => {
             dispatch(toggleValueAction(key));
+        },
+        onUpdateInstallationState: (newState: InstallationState) => {
+            dispatch(changeInstallStateAction(newState));
         },
     };
 };

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import AdminState from '../reducers/AdminState';
+import AdminState, { InstallationState } from '../reducers/AdminState';
 
 export interface IFormProps {
     data: AdminState;
@@ -8,4 +8,5 @@ export interface IFormProps {
     onInputChange(stateKey: string, event: React.SyntheticEvent<HTMLInputElement>): void;
     onSubmitSiteForm(event: React.SyntheticEvent<HTMLFormElement>): void;
     onSubmitSyncConfigForm(event: React.SyntheticEvent<HTMLFormElement>): void;
+    onUpdateInstallationState(newState: InstallationState): void;
 }

@@ -1,4 +1,4 @@
-import { IMessage } from './reducers/AdminState';
+import { IMessage, InstallationState } from './reducers/AdminState';
 
 export interface IAction {
     type: string;
@@ -11,6 +11,7 @@ export const TOGGLE_VALUE: string = 'TOGGLE_VALUE';
 export const SET_VALUE: string = 'SET_VALUE';
 export const UPDATE_LOCAL_OPTION: string = 'UPDATE_LOCAL_OPTION';
 export const SET_MESSAGE: string = 'SET_MESSAGE';
+export const CHANGE_INSTALL_STATE: string = 'CHANGE_INSTALL_STATE';
 
 export function updateAdminOptionsAction(data: any): IAction {
     return {
@@ -55,5 +56,12 @@ export function setMessageAction(message: IMessage): IAction {
     return {
         data: message,
         type: SET_MESSAGE,
+    };
+}
+
+export function changeInstallStateAction(state: InstallationState): IAction {
+    return {
+        data: state,
+        type: CHANGE_INSTALL_STATE,
     };
 }

@@ -38,6 +38,11 @@ const adminApp = (state: AdminState = initialState, action: IAction): AdminState
                 localAdminOptions: state.localAdminOptions.with(action.data),
             });
             break;
+        case actions.CHANGE_INSTALL_STATE:
+            state = state.with({
+                installationState: action.data,
+            });
+            break;
         default:
             break;
     }

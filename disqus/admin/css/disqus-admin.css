@@ -88,3 +88,41 @@
         transform: rotate(360deg);
     }
 }
+
+.dsq-installation__instruction-list {
+    padding-left: 0px;
+    counter-reset: li 0;
+    margin: 35px 0px 0px 70px;
+}
+
+.dsq-installation__instruction-list::before, .installation__instruction-list::after {
+    content: " ";
+    display: table;
+}
+
+.dsq-installation__instruction-list > li {
+    font-size: 16px;
+    line-height: 1.5em;
+    position: relative;
+    z-index: 200;
+    margin-bottom: 40px;
+    list-style: none;
+}
+
+.dsq-installation__instruction-list > li::before {
+    content: counter(li);
+    counter-increment: li 1;
+    position: absolute;
+    top: -8px;
+    left: -65px;
+    width: 40px;
+    height: 22px;
+    margin-right: 8px;
+    color: rgb(255, 255, 255);
+    font-size: 21px;
+    font-weight: 600;
+    text-align: center;
+    padding: 0.42em 0px;
+    background: rgb(255, 211, 79);
+    border-radius: 1em;
+}
