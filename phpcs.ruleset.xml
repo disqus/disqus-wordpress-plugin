@@ -19,6 +19,6 @@
 
 	<exclude-pattern>*/node_modules/*</exclude-pattern>
 	<exclude-pattern>*/index.php</exclude-pattern>
-	<exclude-pattern type="relative">*/tests/*</exclude-pattern>
-	<exclude-pattern type="relative">*/vendor/*</exclude-pattern>
+	<exclude-pattern type="relative">^/tests/*</exclude-pattern>
+	<exclude-pattern type="relative">^/vendor/*</exclude-pattern>
 </ruleset>
