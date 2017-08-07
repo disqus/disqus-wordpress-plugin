@@ -45,7 +45,7 @@ before_script:
   - yarn install
 
 script:
-  - phpcs -s --standard=phpcs.ruleset.xml /disqus/
+  - phpcs -s --standard=phpcs.ruleset.xml $(find . -name '*.php')
   - phpunit
   - yarn run build:dist
 
