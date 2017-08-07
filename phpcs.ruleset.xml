@@ -17,8 +17,16 @@
 		</properties>
 	</rule>
 
-	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<!-- Rules we don't want to error on, but should note  -->
+	<rule ref="Squiz.Commenting.FileComment.Missing">
+		<severity>3</severity>
+	</rule>
+	<rule ref="Squiz.Commenting.ClassComment.SpacingAfter">
+		<severity>3</severity>
+	</rule>
+
+	<file>./disqus</file>
+
+	<exclude-pattern>*.js</exclude-pattern>
 	<exclude-pattern>*/index.php</exclude-pattern>
-	<exclude-pattern>*/tests/*</exclude-pattern>
-	<exclude-pattern>*/vendor/*</exclude-pattern>
 </ruleset>
