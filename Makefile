@@ -1,5 +1,5 @@
 phpcs:
-	~/.composer/vendor/bin/phpcs --standard=phpcs.ruleset.xml $(find . -name '*.php')
+	~/.composer/vendor/bin/phpcs --standard=phpcs.ruleset.xml
 
 run:
 	docker-compose up --build -d
