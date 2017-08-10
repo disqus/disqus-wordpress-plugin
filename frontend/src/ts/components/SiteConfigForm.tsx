@@ -25,7 +25,10 @@ const SiteConfigForm = (props: IFormProps) => (
             <tbody>
                 <tr>
                     <th scope="row">
-                        <label htmlFor="disqus_forum_url">{__('Shortname')}</label>
+                        <label htmlFor="disqus_forum_url">
+                            {__('Shortname')}
+                            <span style={{color: 'red'}}>{' *'}</span>
+                        </label>
                     </th>
                     <td>
                         <input
