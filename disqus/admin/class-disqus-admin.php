@@ -101,6 +101,7 @@ class Disqus_Admin {
             return;
         }
 
+        $plugin_data = get_plugin_data( str_replace( '/admin/class-disqus-admin.php', '/disqus.php', __FILE__ ), false );
         $admin_js_vars = array(
             'rest' => array(
                 'base' => esc_url_raw( rest_url( 'disqus/v1/' ) ),
@@ -117,6 +118,7 @@ class Disqus_Admin {
             ),
             'site' => array(
                 'name' => $this->get_site_name(),
+                'pluginVersion' => $plugin_data['Version'],
             ),
         );
 

@@ -16,7 +16,7 @@
  * Plugin URI:        https://disqus.com/
  * Description:       Disqus installation for WordPress. Assists with installing and showing comments on your site,
  * but doesn't include exporting and syncing features. These functions are still available to run manually.
- * Version:           3.0
+ * Version:           3.0.1
  * Author:            Ryan Valentin
  * Author URI:        http://ryanvalentin.com/
  * License:           GPL-2.0+

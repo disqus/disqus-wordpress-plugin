@@ -25,6 +25,7 @@ export interface IAdminUrls {
 
 export interface IWordpressSite {
     name: string;
+    pluginVersion: string;
 }
 
 export interface IAdminConfigData {
