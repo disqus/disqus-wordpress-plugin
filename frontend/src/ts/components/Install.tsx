@@ -1,11 +1,12 @@
 import * as React from 'react';
 import * as ReactRedux from 'react-redux';
-import { SiteConfigContainer } from '../containers';
+import { SiteConfigContainer, SupportDiagnosticsContainer } from '../containers';
 import { IAdminState, InstallationState } from '../reducers/AdminState';
 import { IDisqusWordpressWindow } from '../reducers/AdminState';
 import { getWordpressAdminUrl } from '../utils';
 import AdminCard from './AdminCard';
 import { IFormProps } from './FormProps';
+import SupportLinks from './SupportLinks';
 
 const WIN = window as IDisqusWordpressWindow;
 const REST_OPTIONS = WIN.DISQUS_WP.rest;
@@ -54,6 +55,19 @@ class Install extends React.Component<IFormProps, any> {
                             {__('View WordPress Comments')}
                         </a>
                     </p>
+                </AdminCard>
+                <AdminCard title={__('Support')}>
+                    <SupportLinks />
+                    <hr />
+                    <h3>
+                        {__('Diagnostic Information')}
+                    </h3>
+                    <p className="description">
+                        {__('Include the following information in any private support requests, but do not share this publicly.')}
+                    </p>
+                    <div className="submit">
+                        <SupportDiagnosticsContainer />
+                    </div>
                 </AdminCard>
             </div>
         );

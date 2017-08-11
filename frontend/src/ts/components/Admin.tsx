@@ -11,6 +11,7 @@ import { IAdminState } from '../reducers/AdminState';
 import { getForumAdminUrl, getWordpressAdminUrl } from '../utils';
 import AdminCard from './AdminCard';
 import { IFormProps } from './FormProps';
+import SupportLinks from './SupportLinks';
 import WelcomePanel from './WelcomePanel';
 
 const getSSOContainer = (props: IFormProps) => {
@@ -99,28 +100,7 @@ const Admin = (props: IFormProps) => (
                 {getSyncContainer(props)}
             </AdminCard>
             <AdminCard title={__('Support')}>
-                <ul>
-                    <li>
-                        <a href="https://status.disqus.com/" target="_blank">
-                            Disqus System Status
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/ryanvalentin/disqus-wordpress-plugin" target="_blank">
-                            Github Project (disqus-wordpress-plugin)
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://help.disqus.com/" target="_blank">
-                            Documentation
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://disqus.com/support/?article=contact_wordpress" target="_blank">
-                            Contact Support
-                        </a>
-                    </li>
-                </ul>
+                <SupportLinks />
                 <hr />
                 <h3>
                     {__('Diagnostic Information')}
