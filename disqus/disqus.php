@@ -68,7 +68,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-disqus.php';
  */
 function run_disqus() {
 
-	$plugin = new Disqus();
+	$plugin = new Disqus( '3.0.1-beta' );
 	$plugin->run();
 
 }

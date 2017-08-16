@@ -82,11 +82,12 @@ class Disqus {
      * side of the site.
      *
      * @since    3.0
+     * @param    string $version    The version of this plugin.
      */
-    public function __construct() {
+    public function __construct( $version ) {
 
         $this->disqus = 'disqus';
-        $this->version = '3.0';
+        $this->version = $version;
         $this->shortname = strtolower( get_option( 'disqus_forum_url' ) );
 
         $this->load_dependencies();
