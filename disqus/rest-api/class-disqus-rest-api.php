@@ -266,7 +266,7 @@ class Disqus_Rest_Api {
 
             return $this->rest_get_response( $status );
         } catch ( Exception $e ) {
-            return $this->rest_get_error( 'There was an error attempting to enable.' );
+            return $this->rest_get_error( 'There was an error attempting to enable syncing.' );
         }
     }
 
@@ -283,7 +283,7 @@ class Disqus_Rest_Api {
 
             return $this->rest_get_response( $status );
         } catch ( Exception $e ) {
-            return $this->rest_get_error( 'There was an error attempting to disable sync.' );
+            return $this->rest_get_error( 'There was an error attempting to disable syncing.' );
         }
     }
 
@@ -346,8 +346,7 @@ class Disqus_Rest_Api {
      * @return   boolean                 Whether the subscription information belongs to this WordPress site.
      */
     private function validate_subscription( $subscription ) {
-        return get_option( 'disqus_sync_token' ) === $subscription->secret &&
-            rest_url( Disqus_Rest_Api::REST_NAMESPACE . '/sync/webhook' ) === $subscription->url;
+        return rest_url( Disqus_Rest_Api::REST_NAMESPACE . '/sync/webhook' ) === $subscription->url;
     }
 
     /**
@@ -361,6 +360,7 @@ class Disqus_Rest_Api {
         $is_subscribed = false;
         $is_enabled = false;
         $current_subscription = null;
+        $requires_update = false;
 
         if ( get_option( 'disqus_secret_key' ) && get_option( 'disqus_admin_access_token' ) ) {
             $api_data = $this->api_service->api_get( 'forums/webhooks/list', array(
@@ -372,8 +372,9 @@ class Disqus_Rest_Api {
                 foreach ( $api_data->response as $subscription ) {
                     if ( $this->validate_subscription( $subscription ) ) {
                         $current_subscription = $subscription;
-                        $is_enabled = $subscription->enableSending;
+                        $is_enabled = $current_subscription->enableSending;
                         $is_subscribed = true;
+                        $requires_update = get_option( 'disqus_sync_token' ) !== $current_subscription->secret;
                         break;
                     }
                 }
@@ -385,6 +386,7 @@ class Disqus_Rest_Api {
         return array(
             'subscribed' => $is_subscribed,
             'enabled' => $is_enabled,
+            'requires_update' => $requires_update,
             'subscription' => $current_subscription,
             'last_message' => get_option( 'disqus_last_sync_message', '' ),
         );
@@ -410,7 +412,7 @@ class Disqus_Rest_Api {
         if ( ! $sync_status['subscribed'] ) {
             $endpoint = 'forums/webhooks/create';
             $params['forum'] = get_option( 'disqus_forum_url' );
-        } elseif ( ! $sync_status['enabled'] ) {
+        } elseif ( ! $sync_status['enabled'] || $sync_status['requires_update'] ) {
             $endpoint = 'forums/webhooks/update';
             $params['subscription'] = $subscription->id;
         }
@@ -422,9 +424,12 @@ class Disqus_Rest_Api {
                 $sync_status = array(
                     'subscribed' => true,
                     'enabled' => true,
+                    'requires_update' => false,
                     'subscription' => $api_data->response,
+                    'last_message' => $sync_status['last_message'],
                 );
             } else {
+                $this->log_sync_message( 'Error enabling syncing: ' . $api_data->response );
                 throw new Exception( $api_data->response );
             }
         }
@@ -454,7 +459,9 @@ class Disqus_Rest_Api {
                 $sync_status = array(
                     'subscribed' => true,
                     'enabled' => false,
+                    'requires_update' => false,
                     'subscription' => $api_data->response,
+                    'last_message' => $sync_status['last_message'],
                 );
             } else {
                 throw new Exception( $api_data->response );
