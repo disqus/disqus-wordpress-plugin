@@ -85,7 +85,6 @@ class Test_REST_API_Basic extends WP_UnitTestCase {
 
         $request = new WP_REST_Request( 'GET', DISQUS_REST_NAMESPACE . '/settings' );
         $response = $this->server->dispatch( $request );
-        $response_data = $response->get_data();
 
         $this->assertEquals( 200, $response->get_status() );
     }
