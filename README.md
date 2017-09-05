@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ryanvalentin/disqus-wordpress-plugin.svg?branch=master)](https://travis-ci.org/ryanvalentin/disqus-wordpress-plugin)
+[![Build Status](https://travis-ci.org/disqus/disqus-wordpress-plugin.svg?branch=master)](https://travis-ci.org/disqus/disqus-wordpress-plugin)
 
 # Disqus WordPress Plugin
 
