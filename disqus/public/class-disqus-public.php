@@ -124,7 +124,7 @@ class Disqus_Public {
 	private function embed_vars_for_post( $post ) {
 		$embed_vars = array(
 			'disqusConfig' => array(
-				'platform' => 'wordpress',
+				'integration' => 'wordpress ' . $this->version,
 			),
 			'disqusIdentifier' => $this->dsq_identifier_for_post( $post ),
 			'disqusShortname' => $this->shortname,
