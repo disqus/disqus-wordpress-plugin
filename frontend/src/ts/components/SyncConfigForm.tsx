@@ -43,19 +43,19 @@ const SyncConfigForm = (props: IFormProps) => {
     return (
         <form
             name={syncStatus.endpoint}
-            method="POST"
+            method='POST'
             onSubmit={props.onSubmitSyncConfigForm}
         >
             <p>
-                <span className="dashicons dashicons-update" />
+                <span className='dashicons dashicons-update' />
                 {' '}
                 {__('Auto syncing')}{':'}
                 {' '}
                 <strong>{syncStatus.status}</strong>
             </p>
             {props.data.syncStatus.last_message ? <p>{props.data.syncStatus.last_message}</p> : null}
-            <p className="submit">
-                <button type="submit" className="button button-large">
+            <p className='submit'>
+                <button type='submit' className='button button-large'>
                     <span className={`dashicons dashicons-controls-${syncStatus.statusIcon}`} />
                     {' '}
                     {syncStatus.button}

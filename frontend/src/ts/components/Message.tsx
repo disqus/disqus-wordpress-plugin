@@ -6,8 +6,8 @@ const getDismissButton = (props: IMessage) => {
         return null;
 
     return (
-        <button type="button" className="notice-dismiss" onClick={props.onDismiss}>
-            <span className="screen-reader-text">Dismiss this notice.</span>
+        <button type='button' className='notice-dismiss' onClick={props.onDismiss}>
+            <span className='screen-reader-text'>Dismiss this notice.</span>
         </button>
     );
 };

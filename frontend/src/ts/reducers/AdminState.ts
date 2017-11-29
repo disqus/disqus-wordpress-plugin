@@ -83,8 +83,8 @@ export default class AdminState extends Record({
 
     constructor(config: IAdminConfigData) {
         super({
-            config,
             adminOptions: new AdminOptions(),
+            config,
             localAdminOptions: new AdminOptions(),
             syncStatus: new SyncStatus(),
         });

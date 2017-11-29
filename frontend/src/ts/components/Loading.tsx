@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 const Loading = () => (
-    <div className="dsq-loading-container">
-        <div className="dsq-spinner" />
+    <div className='dsq-loading-container'>
+        <div className='dsq-spinner' />
     </div>
 );
 

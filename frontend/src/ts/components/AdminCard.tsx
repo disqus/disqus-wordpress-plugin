@@ -6,8 +6,8 @@ export interface IAdminCardProps {
 }
 
 const AdminCard = (props: IAdminCardProps) => (
-    <div className="card dsq-card">
-        {props.title ? <h2 className="title">{props.title}</h2> : null}
+    <div className='card dsq-card'>
+        {props.title ? <h2 className='title'>{props.title}</h2> : null}
         {props.children}
     </div>
 );

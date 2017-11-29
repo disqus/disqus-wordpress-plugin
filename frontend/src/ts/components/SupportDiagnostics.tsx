@@ -14,7 +14,7 @@ const SupportDiagnostics = (props: IFormProps) => (
             />
             <br />
             <button
-                className="button"
+                className='button'
                 onClick={props.onCopyText.bind(null, DIAGNOSTICS_TEXTAREA_ID)}
             >
                 {__('Copy')}

@@ -18,20 +18,20 @@ const getMainView = (props: IFormProps) => {
 };
 
 const Main = (props: IFormProps) => (
-    <div className="dsq-admin-wrapper">
-        <div className="wrap">
-            <a href={getWordpressAdminUrl('disqus')} className="disqus-logo">
+    <div className='dsq-admin-wrapper'>
+        <div className='wrap'>
+            <a href={getWordpressAdminUrl('disqus')} className='disqus-logo'>
                 <img
-                    src="https://a.disquscdn.com/dotcom/d-2407bda/img/brand/disqus-logo-blue-white.svg"
+                    src='https://a.disquscdn.com/dotcom/d-2407bda/img/brand/disqus-logo-blue-white.svg'
                     width={102}
                 />
             </a>
         </div>
-        <div className="wrap">
+        <div className='wrap'>
             <div className={`notice notice-info inline`}>
                 <p>
                     You are using a <strong>pre-release version ({`${props.data.config.site.pluginVersion}`})</strong> of the Disqus WordPress plugin.
-                    {' '}<a href="https://github.com/ryanvalentin/disqus-wordpress-plugin/releases" target="_blank">Check for new releases</a>
+                    {' '}<a href='https://github.com/ryanvalentin/disqus-wordpress-plugin/releases' target='_blank'>Check for new releases</a>
                 </p>
             </div>
             {props.data.message ? <Message {...props.data.message} /> : null}

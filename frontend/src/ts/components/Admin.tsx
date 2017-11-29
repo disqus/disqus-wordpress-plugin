@@ -18,9 +18,9 @@ const getSSOContainer = (props: IFormProps) => {
     const adminOptions = props.data.adminOptions;
     if (!adminOptions.disqus_public_key || !adminOptions.disqus_secret_key) {
         return (
-            <div className="notice notice-warning">
+            <div className='notice notice-warning'>
                 <p>
-                    <span className="dashicons dashicons-warning" />
+                    <span className='dashicons dashicons-warning' />
                     {' '}
                     {__('You must have an API Public Key and API Secret Key configured to enable this feature.')}
                 </p>
@@ -34,9 +34,9 @@ const getSyncContainer = (props: IFormProps) => {
     const adminOptions = props.data.adminOptions;
     if (!adminOptions.disqus_secret_key || !adminOptions.disqus_admin_access_token) {
         return (
-            <div className="notice notice-warning">
+            <div className='notice notice-warning'>
                 <p>
-                    <span className="dashicons dashicons-warning" />
+                    <span className='dashicons dashicons-warning' />
                     {' '}
                     {__('You must have an API Secret Key and API Access Token configured to enable this feature.')}
                 </p>
@@ -51,17 +51,17 @@ const getSyncContainer = (props: IFormProps) => {
 const Admin = (props: IFormProps) => (
     <div>
         <WelcomePanel shortname={props.data.adminOptions.disqus_forum_url} />
-        <h2 className="title">
+        <h2 className='title'>
             {__('Plugin Settings')}
         </h2>
         <div>
             <AdminCard title={__('Site Configuration')}>
-                <p className="description">
+                <p className='description'>
                     {__('Your site configuration comes from Disqus. Changing these values may break your installation.')}
                     {' '}
                     <a
                         href={getForumAdminUrl(props.data.adminOptions.disqus_forum_url, 'install/platforms/wordpress')}
-                        target="_blank"
+                        target='_blank'
                     >
                         {__('WordPress install instructions')}
                     </a>
@@ -69,23 +69,23 @@ const Admin = (props: IFormProps) => (
                 <SiteConfigContainer />
             </AdminCard>
             <AdminCard title={__('Single Sign-on')}>
-                <p className="description">
+                <p className='description'>
                     {__('Allow users to sign in with this site\'s user accounts. This is a Disqus Pro feature.')}
                     {' '}
-                    <a href="https://help.disqus.com/customer/portal/articles/1148635" target="_blank">
+                    <a href='https://help.disqus.com/customer/portal/articles/1148635' target='_blank'>
                         {__('Learn More')}
                     </a>
                 </p>
                 {getSSOContainer(props)}
             </AdminCard>
             <AdminCard title={__('WordPress Comments')}>
-                <p className="description">
+                <p className='description'>
                     {__('Disqus has replaced the default WordPress commenting system. You may access and edit the comments in your database, but any actions performed there will not be reflected in Disqus.')}
                 </p>
-                <p className="submit">
+                <p className='submit'>
                     <a
                         href={getWordpressAdminUrl('editComments')}
-                        className="button"
+                        className='button'
                     >
                         {__('View WordPress Comments')}
                     </a>
@@ -94,7 +94,7 @@ const Admin = (props: IFormProps) => (
                 <h3>
                     {__('Syncing')}
                 </h3>
-                <p className="description">
+                <p className='description'>
                     {__('Syncing will copy comments created and edited in Disqus to your local WordPress database for backup purposes. This will create additional work for your database/server and may not be recommended for highly active communities.')}
                 </p>
                 {getSyncContainer(props)}
@@ -105,10 +105,10 @@ const Admin = (props: IFormProps) => (
                 <h3>
                     {__('Diagnostic Information')}
                 </h3>
-                <p className="description">
+                <p className='description'>
                     {__('Include the following information in any private support requests, but do not share this publicly.')}
                 </p>
-                <div className="submit">
+                <div className='submit'>
                     <SupportDiagnosticsContainer />
                 </div>
             </AdminCard>
