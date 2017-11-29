@@ -19,7 +19,7 @@ const makeApiRequest = (method: string, url: string, data: any, onLoad: EventLis
     XHR.send(data);
 };
 
-const handleResponse = (text: string, callback: (response: IRestResponse<IAdminOptions>) => void) => {
+const handleResponse = (text: string, callback: (response: IRestResponse<any>) => void) => {
     let jsonObject = null;
     try {
         jsonObject = JSON.parse(text);
@@ -30,13 +30,13 @@ const handleResponse = (text: string, callback: (response: IRestResponse<IAdminO
     callback.call(null, jsonObject);
 };
 
-export function restGet(path: string, onLoad: (response: IRestResponse<IAdminOptions>) => void) {
+export function restGet(path: string, onLoad: (response: IRestResponse<any>) => void) {
     makeApiRequest('GET', `${REST_OPTIONS.base}${path}`, null, (xhr: Event) => {
         handleResponse((xhr.target as XMLHttpRequest).responseText, onLoad);
     });
 }
 
-export function restPost(path: string, data: any, onLoad: (response: IRestResponse<IAdminOptions>) => void) {
+export function restPost(path: string, data: any, onLoad: (response: IRestResponse<any>) => void) {
     makeApiRequest('POST', `${REST_OPTIONS.base}${path}`, data && JSON.stringify(data), (xhr: Event) => {
         handleResponse((xhr.target as XMLHttpRequest).responseText, onLoad);
     });

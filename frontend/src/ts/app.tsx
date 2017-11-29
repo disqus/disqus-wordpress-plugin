@@ -29,7 +29,7 @@ ReactDOM.render(
     </ReactRedux.Provider>,
     element,
     () => {
-        const checkResponse = (response: IRestResponse<IAdminOptions>): boolean => {
+        const checkResponse = (response: IRestResponse<any>): boolean => {
             if (!response)
                 return false;
 
