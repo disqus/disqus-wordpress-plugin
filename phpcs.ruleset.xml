@@ -3,11 +3,14 @@
 	<description>Same as for WordPress plugins with some small changes</description>
 
 	<rule ref="WordPress-Core">
+		<exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning"/>
 		<exclude name="Generic.Files.LineLength"/>
         <exclude name="Generic.WhiteSpace.ScopeIndent"/>
         <exclude name="Generic.WhiteSpace.DisallowSpaceIndent"/>
         <exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
+		<exclude name="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned"/>
 		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
+		<exclude name="WordPress.WhiteSpace.PrecisionAlignment.Found"/>
 	</rule>
 	<rule ref="WordPress-Docs" />
 

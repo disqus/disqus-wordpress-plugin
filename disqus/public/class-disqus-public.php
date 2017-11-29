@@ -148,7 +148,7 @@ class Disqus_Public {
 				'height' => '700',
 			);
 			$embed_vars['disqusConfig']['api_key'] = $public_key;
-			$embed_vars['disqusConfig']['remote_auth_s3'] = $this->remote_auth_s3_for_user( $user,  $secret_key );
+			$embed_vars['disqusConfig']['remote_auth_s3'] = $this->remote_auth_s3_for_user( $user, $secret_key );
 		}
 
 		return $embed_vars;
