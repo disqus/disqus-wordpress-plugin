@@ -8,7 +8,7 @@ const SupportLinks = () => (
             </a>
         </li>
         <li>
-            <a href='https://github.com/ryanvalentin/disqus-wordpress-plugin' target='_blank'>
+            <a href='https://github.com/disqus/disqus-wordpress-plugin' target='_blank'>
                 Github Project (disqus-wordpress-plugin)
             </a>
         </li>
