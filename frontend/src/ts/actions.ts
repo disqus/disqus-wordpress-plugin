@@ -12,6 +12,7 @@ export const SET_VALUE: string = 'SET_VALUE';
 export const UPDATE_LOCAL_OPTION: string = 'UPDATE_LOCAL_OPTION';
 export const SET_MESSAGE: string = 'SET_MESSAGE';
 export const CHANGE_INSTALL_STATE: string = 'CHANGE_INSTALL_STATE';
+export const CHANGE_TAB_STATE: string = 'CHANGE_TAB_STATE';
 
 export function updateAdminOptionsAction(data: any): IAction {
     return {
@@ -63,5 +64,12 @@ export function changeInstallStateAction(state: InstallationState): IAction {
     return {
         data: state,
         type: CHANGE_INSTALL_STATE,
+    };
+}
+
+export function changeTabStateAction(tab: string): IAction {
+    return {
+        data: tab,
+        type: CHANGE_TAB_STATE,
     };
 }

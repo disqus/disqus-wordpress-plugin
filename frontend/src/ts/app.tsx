@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import * as ReactRedux from 'react-redux';
 import * as Redux from 'redux';
 import {
+    changeTabStateAction,
     setMessageAction,
     setValueAction,
     updateAdminOptionsAction,
@@ -22,6 +23,18 @@ const element: HTMLElement = document.getElementById('disqus-admin');
 const onClearMessage = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
     store.dispatch(setMessageAction(null));
 };
+
+// Sets up the hashchange router for configuration tabs.
+const onHashChange = (event: HashChangeEvent): void => {
+    if (event)
+        event.preventDefault();
+    store.dispatch(changeTabStateAction(window.location.hash.replace('#', '')));
+};
+
+window.addEventListener('hashchange', onHashChange);
+
+if (window.location.hash)
+    onHashChange(null);
 
 ReactDOM.render(
     <ReactRedux.Provider store={store}>

@@ -43,6 +43,10 @@ const adminApp = (state: AdminState = initialState, action: IAction): AdminState
                 installationState: action.data,
             });
             break;
+        case actions.CHANGE_TAB_STATE:
+            state = state.with({
+                activeTab: action.data,
+            });
         default:
             break;
     }

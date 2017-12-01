@@ -61,6 +61,7 @@ export enum InstallationState {
 }
 
 export default class AdminState extends Record({
+    activeTab: null,
     adminOptions: null,
     config: null,
     installationState: InstallationState.none,
@@ -71,6 +72,7 @@ export default class AdminState extends Record({
     message: null,
     syncStatus: null,
 }) implements IAdminState {
+    public activeTab: string;
     public adminOptions: AdminOptions;
     public config: IAdminConfigData;
     public installationState: InstallationState;

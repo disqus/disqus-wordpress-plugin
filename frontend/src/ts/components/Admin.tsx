@@ -47,38 +47,37 @@ const getSyncContainer = (props: IFormProps) => {
     return <SyncConfigContainer />;
 };
 
+const getTabClassName = (props: IFormProps, id: string) => {
+    const activeTab = props.data.activeTab || 'siteConfiguration';
+    return `nav-tab${activeTab === id ? ' nav-tab-active' : ''}`;
+};
+
+const AdminTabBar = (props: IFormProps) => (
+    <div className='nav-tab-wrapper'>
+        <a href='#siteConfiguration' className={getTabClassName(props, 'siteConfiguration')}>
+            {__('Site Configuration')}
+        </a>
+        <a href='#syncingImporting' className={getTabClassName(props, 'syncingImporting')}>
+            {__('Syncing & Importing')}
+        </a>
+        <a href='#singleSignOn' className={getTabClassName(props, 'singleSignOn')}>
+            {__('Single Sign-on')}
+        </a>
+        <a href='#support' className={getTabClassName(props, 'support')}>
+            {__('Support')}
+        </a>
+    </div>
+);
+
 /* tslint:disable:max-line-length */
-const Admin = (props: IFormProps) => (
-    <div>
-        <WelcomePanel shortname={props.data.adminOptions.disqus_forum_url} />
-        <h2 className='title'>
-            {__('Plugin Settings')}
-        </h2>
-        <div>
-            <AdminCard title={__('Site Configuration')}>
-                <p className='description'>
-                    {__('Your site configuration comes from Disqus. Changing these values may break your installation.')}
-                    {' '}
-                    <a
-                        href={getForumAdminUrl(props.data.adminOptions.disqus_forum_url, 'install/platforms/wordpress')}
-                        target='_blank'
-                    >
-                        {__('WordPress install instructions')}
-                    </a>
-                </p>
-                <SiteConfigContainer />
-            </AdminCard>
-            <AdminCard title={__('Single Sign-on')}>
-                <p className='description'>
-                    {__('Allow users to sign in with this site\'s user accounts. This is a Disqus Pro feature.')}
-                    {' '}
-                    <a href='https://help.disqus.com/customer/portal/articles/1148635' target='_blank'>
-                        {__('Learn More')}
-                    </a>
-                </p>
-                {getSSOContainer(props)}
-            </AdminCard>
-            <AdminCard title={__('WordPress Comments')}>
+const getActiveTabView = (props: IFormProps) => {
+    switch (props.data.activeTab) {
+    case 'syncingImporting':
+        return (
+            <div>
+                <h3>
+                    {__('WordPress Comments')}
+                </h3>
                 <p className='description'>
                     {__('Disqus has replaced the default WordPress commenting system. You may access and edit the comments in your database, but any actions performed there will not be reflected in Disqus.')}
                 </p>
@@ -98,8 +97,30 @@ const Admin = (props: IFormProps) => (
                     {__('Syncing will copy comments created and edited in Disqus to your local WordPress database for backup purposes. This will create additional work for your database/server and may not be recommended for highly active communities.')}
                 </p>
                 {getSyncContainer(props)}
-            </AdminCard>
-            <AdminCard title={__('Support')}>
+            </div>
+        );
+    case 'singleSignOn':
+        return (
+            <div>
+                <h3>
+                    {__('Set up Single Sign-on')}
+                </h3>
+                <p className='description'>
+                    {__('Allow users to sign in with this site\'s user accounts. This is a Disqus Pro feature.')}
+                    {' '}
+                    <a href='https://help.disqus.com/customer/portal/articles/1148635' target='_blank'>
+                        {__('Learn More')}
+                    </a>
+                </p>
+                {getSSOContainer(props)}
+            </div>
+        );
+    case 'support':
+        return (
+            <div>
+                <h3>
+                    {__('Support Links')}
+                </h3>
                 <SupportLinks />
                 <hr />
                 <h3>
@@ -111,8 +132,36 @@ const Admin = (props: IFormProps) => (
                 <div className='submit'>
                     <SupportDiagnosticsContainer />
                 </div>
-            </AdminCard>
-        </div>
+            </div>
+        );
+    case 'siteConfiguration':
+    default:
+        return (
+            <div>
+                <h3>
+                    {__('Site Configuration')}
+                </h3>
+                <p className='description'>
+                    {__('Your site configuration comes from Disqus. Changing these values may break your installation.')}
+                    {' '}
+                    <a
+                        href={getForumAdminUrl(props.data.adminOptions.disqus_forum_url, 'install/platforms/wordpress')}
+                        target='_blank'
+                    >
+                        {__('WordPress install instructions')}
+                    </a>
+                </p>
+                <SiteConfigContainer />
+            </div>
+        );
+    }
+};
+
+const Admin = (props: IFormProps) => (
+    <div>
+        <WelcomePanel shortname={props.data.adminOptions.disqus_forum_url} />
+        <AdminTabBar {...props} />
+        {getActiveTabView(props)}
     </div>
 );
 /* tslint:enable:max-line-length */
