@@ -30,14 +30,27 @@ const handleResponse = (text: string, callback: (response: IRestResponse<any>) =
     callback.call(null, jsonObject);
 };
 
-export function restGet(path: string, onLoad: (response: IRestResponse<any>) => void) {
-    makeApiRequest('GET', `${REST_OPTIONS.base}${path}`, null, (xhr: Event) => {
+export function wordpressRestGet(path: string, query: string, onLoad: (response: any) => void) {
+    makeApiRequest(
+        'GET',
+        `${REST_OPTIONS.base}wp/v2/${path}${REST_OPTIONS.base.indexOf('?') > -1 ? '&' : '?'}${query || ''}`,
+        null, (xhr: Event) => {
         handleResponse((xhr.target as XMLHttpRequest).responseText, onLoad);
     });
 }
 
-export function restPost(path: string, data: any, onLoad: (response: IRestResponse<any>) => void) {
-    makeApiRequest('POST', `${REST_OPTIONS.base}${path}`, data && JSON.stringify(data), (xhr: Event) => {
+export function disqusRestGet(path: string, onLoad: (response: IRestResponse<any>) => void) {
+    makeApiRequest('GET', `${REST_OPTIONS.base}${REST_OPTIONS.disqusBase}${path}`, null, (xhr: Event) => {
         handleResponse((xhr.target as XMLHttpRequest).responseText, onLoad);
     });
+}
+
+export function disqusRestPost(path: string, data: any, onLoad: (response: IRestResponse<any>) => void) {
+    makeApiRequest(
+        'POST',
+        `${REST_OPTIONS.base}${REST_OPTIONS.disqusBase}${path}`,
+        data && JSON.stringify(data),
+        (xhr: Event) => {
+            handleResponse((xhr.target as XMLHttpRequest).responseText, onLoad);
+        });
 }

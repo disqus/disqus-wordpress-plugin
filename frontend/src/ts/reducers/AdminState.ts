@@ -1,4 +1,4 @@
-import { Record } from 'immutable';
+import { Map, Record } from 'immutable';
 import AdminOptions, { IAdminOptions } from './AdminOptions';
 import SyncStatus, { ISyncStatus } from './SyncStatus';
 
@@ -10,6 +10,7 @@ export interface IMessage {
 
 export interface IRestOptions {
     base: string;
+    disqusBase: string;
     nonce: string;
 }
 
@@ -51,6 +52,15 @@ export interface IAdminState {
     [key: string]: any;
 }
 
+export interface IExportPostLog {
+    id: number;
+    title: string;
+    link: string;
+    status: ExportLogStaus;
+    numComments?: number;
+    error?: string;
+}
+
 export enum InstallationState {
     none,
     noAccount,
@@ -60,11 +70,19 @@ export enum InstallationState {
     installed,
 }
 
+export enum ExportLogStaus {
+    pending,
+    complete,
+    failed,
+}
+
 export default class AdminState extends Record({
     activeTab: null,
     adminOptions: null,
     config: null,
+    exportLogs: null,
     installationState: InstallationState.none,
+    isExportRunning: false,
     isFetchingAdminOptions: false,
     isFetchingSyncStatus: false,
     isSiteFormLocked: true,
@@ -75,7 +93,9 @@ export default class AdminState extends Record({
     public activeTab: string;
     public adminOptions: AdminOptions;
     public config: IAdminConfigData;
+    public exportLogs: Map<number, IExportPostLog>;
     public installationState: InstallationState;
+    public isExportRunning: boolean;
     public isFetchingAdminOptions: boolean;
     public isFetchingSyncStatus: boolean;
     public isSiteFormLocked: boolean;
@@ -87,6 +107,7 @@ export default class AdminState extends Record({
         super({
             adminOptions: new AdminOptions(),
             config,
+            exportLogs: Map(),
             localAdminOptions: new AdminOptions(),
             syncStatus: new SyncStatus(),
         });

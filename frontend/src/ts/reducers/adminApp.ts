@@ -2,7 +2,7 @@ import * as Immutable from 'immutable';
 import { IAction } from '../actions';
 import * as actions from '../actions';
 import AdminOptions from './AdminOptions';
-import AdminState, { IAdminConfigData, IDisqusWordpressWindow } from './AdminState';
+import AdminState, { ExportLogStaus, IAdminConfigData, IDisqusWordpressWindow, IExportPostLog } from './AdminState';
 
 const adminConfigData: IAdminConfigData = (window as IDisqusWordpressWindow).DISQUS_WP;
 
@@ -47,6 +47,16 @@ const adminApp = (state: AdminState = initialState, action: IAction): AdminState
             state = state.with({
                 activeTab: action.data,
             });
+            break;
+        case actions.UPDATE_EXPORT_POST_LOG:
+            const newLogs = state.exportLogs.set(action.data.id, action.data);
+            state = state.with({
+                exportLogs: newLogs,
+                isExportRunning: Boolean(newLogs.find((value: IExportPostLog, key: any) => {
+                    return value.status === ExportLogStaus.pending;
+                })),
+            });
+            break;
         default:
             break;
     }
