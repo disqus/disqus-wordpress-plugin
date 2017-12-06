@@ -1,4 +1,4 @@
-import { IMessage, InstallationState } from './reducers/AdminState';
+import { IExportPostLog, IMessage, InstallationState } from './reducers/AdminState';
 
 export interface IAction {
     type: string;
@@ -13,6 +13,7 @@ export const UPDATE_LOCAL_OPTION: string = 'UPDATE_LOCAL_OPTION';
 export const SET_MESSAGE: string = 'SET_MESSAGE';
 export const CHANGE_INSTALL_STATE: string = 'CHANGE_INSTALL_STATE';
 export const CHANGE_TAB_STATE: string = 'CHANGE_TAB_STATE';
+export const UPDATE_EXPORT_POST_LOG: string = 'UPDATE_EXPORT_POST_LOG';
 
 export function updateAdminOptionsAction(data: any): IAction {
     return {
@@ -71,5 +72,12 @@ export function changeTabStateAction(tab: string): IAction {
     return {
         data: tab,
         type: CHANGE_TAB_STATE,
+    };
+}
+
+export function updateExportPostLogAction(log: IExportPostLog): IAction {
+    return {
+        data: log,
+        type: UPDATE_EXPORT_POST_LOG,
     };
 }

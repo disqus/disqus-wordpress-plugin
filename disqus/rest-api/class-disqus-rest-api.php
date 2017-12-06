@@ -32,13 +32,23 @@ class Disqus_Rest_Api {
     private $api_service;
 
     /**
+     * The current version of the plugin.
+     *
+     * @since    3.0
+     * @access   protected
+     * @var      string    $version    The current version of the plugin.
+     */
+    protected $version;
+
+    /**
      * Initialize the class and set its properties.
      *
      * @since    3.0
      * @param    Disqus_Api_Service $api_service    Instance of the Disqus API service.
      */
-    public function __construct( $api_service ) {
+    public function __construct( $api_service, $version ) {
         $this->api_service = $api_service;
+        $this->version = $version;
     }
 
     /**
@@ -135,6 +145,14 @@ class Disqus_Rest_Api {
             array(
                 'methods' => 'POST',
                 'callback' => array( $this, 'rest_sync_disable' ),
+                'permission_callback' => array( $this, 'rest_admin_only_permission_callback' ),
+            ),
+        ) );
+
+        register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'export/post', array(
+            array(
+                'methods' => 'POST',
+                'callback' => array( $this, 'rest_export_post' ),
                 'permission_callback' => array( $this, 'rest_admin_only_permission_callback' ),
             ),
         ) );
@@ -285,6 +303,67 @@ class Disqus_Rest_Api {
         } catch ( Exception $e ) {
             return $this->rest_get_error( 'There was an error attempting to disable syncing.' );
         }
+    }
+
+    /**
+     * Endpoint callback for exporting comments from a single WordPress post to Disqus.
+     *
+     * @since    3.0
+     * @param    WP_REST_Request $request     The request object.
+     * @return   WP_REST_Response|WP_Error    The API response object.
+     */
+    public function rest_export_post ( WP_REST_Request $request ) {
+        $json_data = $request->get_json_params();
+        $postId = $json_data['postId'];
+
+        if ( ! isset( $json_data['postId'] ) ) {
+            return $this->rest_get_error( 'Missing required property: postId.', 400 );
+        }
+
+        $post = get_post( $postId );
+
+        // First get comments that are approved, and sort them by smaller IDs first, so that the parent/child dependency
+        // of replies are maintained.
+        $comments = get_comments( array(
+            'post_id' => $postId,
+            'status' => 'approve',
+            'orderby' => 'comment_ID',
+            'order' => 'ASC',
+        ) );
+
+        // Filter out pingbacks/trackings and comments that have been created by Disqus via syncing.
+        $filtered_comments = array_filter( $comments, function ( $value ) {
+            return empty( $value->comment_type ) && strpos( $value->comment_agent, 'Disqus' ) === false;
+        } );
+
+        $response_data = array(
+            'comments' => $filtered_comments,
+        );
+
+        if ( ! empty( $filtered_comments ) ) {
+
+            // Generate a WXR (XML) file that Disqus will be able to read.
+            $wxr = $this->generate_export_wxr( $post, $filtered_comments );
+
+            if ( WP_DEBUG ) {
+                $response_data['wxr'] = $wxr;
+            }
+
+            // Uploads the file to the Disqus API to create an import.
+            $params = array(
+                'upload' => $wxr,
+                'forum' => get_option( 'disqus_forum_url' ),
+                'sourceType' => '0',
+            );
+
+            $api_data = $this->api_service->api_post( 'imports/create', $params );
+
+            if ( 0 !== $api_data->code ) {
+                return $this->rest_get_error( 'There was an error with this import: ' . $api_data->response, 500 );
+            }
+        }
+
+        return $this->rest_get_response( $response_data );
     }
 
     /**
@@ -664,10 +743,332 @@ class Disqus_Rest_Api {
      *
      * @since     3.0
      * @access    private
-     * @param     string $message    The base message to store.
+     * @param     string     $message    The base message to store.
      */
     private function log_sync_message( $message ) {
         update_option( 'disqus_last_sync_message', $message . ': ' . date( 'Y-m-d g:i a', time() ) );
+    }
+
+    /**
+     * Outputs a string in a CDATA tag.
+     *
+     * @since     3.0
+     * @access    private
+     * @param     string     $comments    The string to wrap in CDATA tags.
+     * @return    string     The wrapped CDATA string.
+     */
+    private function format_wxr_cdata( $str ) {
+        if ( seems_utf8( $str ) === false ) {
+            $str = utf8_encode($str);
+        }
+
+        $str = '<![CDATA[' . str_replace( ']]>', ']]]]><![CDATA[>', $str ) . ']]>';
+
+        return $str;
+    }
+
+    /**
+     * Outputs a list of comments to a WXR file for uploading to the Disqus importer.
+     *
+     * @since     3.0
+     * @access    private
+     * @param     WP_Post      $post        The post details the comments belong to.
+     * @param     array        $comments    The base message to store.
+     * @return    string       The WXR document as a string.
+     */
+    private function generate_export_wxr( $post, $comments ) {
+
+        $post_author = get_userdata( $post->post_author );
+
+        $xml = new DOMDocument( '1.0', get_bloginfo( 'charset' ) );
+
+        $rss = $xml->createElement( 'rss' );
+        $rss->setAttribute( 'version', '2.0' );
+        $rss->setAttributeNS(
+            'http://www.w3.org/2000/xmlns/',
+            'xmlns:excerpt',
+            'http://wordpress.org/export/1.0/excerpt/'
+        );
+        $rss->setAttributeNS(
+            'http://www.w3.org/2000/xmlns/',
+            'xmlns:content',
+            'http://purl.org/rss/1.0/modules/content/'
+        );
+        $rss->setAttributeNS(
+            'http://www.w3.org/2000/xmlns/',
+            'xmlns:dsq',
+            'https://disqus.com/'
+        );
+        $rss->setAttributeNS(
+            'http://www.w3.org/2000/xmlns/',
+            'xmlns:wfw',
+            'http://wellformedweb.org/CommentAPI/'
+        );
+        $rss->setAttributeNS(
+            'http://www.w3.org/2000/xmlns/',
+            'xmlns:dc',
+            'http://purl.org/dc/elements/1.1/'
+        );
+        $rss->setAttributeNS(
+            'http://www.w3.org/2000/xmlns/',
+            'xmlns:wp',
+            'http://wordpress.org/export/1.0/'
+        );
+
+        $channel = $xml->createElement( 'channel' );
+        $channel->appendChild( $xml->createElement( 'title', get_bloginfo_rss( 'name' ) ) );
+        $channel->appendChild( $xml->createElement( 'link', get_bloginfo_rss( 'url' ) ) );
+        $channel->appendChild(
+            $xml->createElement(
+                'pubDate',
+                mysql2date( 'D, d M Y H:i:s +0000', get_lastpostmodified( 'GMT' ), false )
+            )
+        );
+        $channel->appendChild(
+            $xml->createElement(
+                'generator',
+                'WordPress ' . get_bloginfo_rss( 'version' ) . '; Disqus ' . $this->version
+            )
+        );
+
+        // Generate the item (the post)
+        $item = $xml->createElement( 'item' );
+        $item->appendChild(
+            $xml->createElement( 'title', apply_filters( 'the_title_rss', $post->post_title ) )
+        );
+        $item->appendChild(
+            $xml->createElement(
+                'link',
+                esc_url( apply_filters( 'the_permalink_rss', get_permalink( $post->ID ) ) )
+            )
+        );
+        $item->appendChild(
+            $xml->createElement(
+                'pubDate',
+                mysql2date( 'D, d M Y H:i:s +0000', get_post_time( 'Y-m-d H:i:s', true, $post ), false )
+            )
+        );
+        $item->appendChild(
+            $xml->createElement(
+                'dc:creator',
+                $this->format_wxr_cdata( $post_author->display_name )
+            )
+        );
+
+        $guid = $xml->createElement( 'guid', $post->guid );
+        $guid->setAttribute( 'isPermalink', 'false' );
+        $item->appendChild( $guid );
+
+        $item->appendChild(
+            $xml->createElement(
+                'content:encoded',
+                $this->format_wxr_cdata( apply_filters( 'the_content_export', $post->post_content ) )
+            )
+        );
+
+        $item->appendChild(
+            $xml->createElement(
+                'dsq:thread_identifier',
+                $this->format_wxr_cdata( $post->ID . ' ' . $post->guid )
+            )
+        );
+
+        $item->appendChild(
+            $xml->createElement(
+                'wp:post_id',
+                $post->ID
+            )
+        );
+
+        $item->appendChild(
+            $xml->createElement(
+                'wp:post_date_gmt',
+                $post->post_date_gmt
+            )
+        );
+
+        $item->appendChild(
+            $xml->createElement(
+                'wp:comment_status',
+                $post->comment_status
+            )
+        );
+
+        foreach ( $comments as $c ) {
+
+            $wpcomment = $xml->createElement( 'wp:comment' );
+
+            $wpcomment->appendChild(
+                $xml->createElement(
+                    'wp:comment_id',
+                    $c->comment_ID
+                )
+            );
+
+            $wpcomment->appendChild(
+                $xml->createElement(
+                    'wp:comment_author',
+                    $this->format_wxr_cdata( $c->comment_author )
+                )
+            );
+
+            $wpcomment->appendChild(
+                $xml->createElement(
+                    'wp:comment_author_email',
+                    $c->comment_author_email
+                )
+            );
+
+            $wpcomment->appendChild(
+                $xml->createElement(
+                    'wp:comment_author_url',
+                    $c->comment_author_url
+                )
+            );
+
+            $wpcomment->appendChild(
+                $xml->createElement(
+                    'wp:comment_author_IP',
+                    $c->comment_author_IP
+                )
+            );
+
+            $wpcomment->appendChild(
+                $xml->createElement(
+                    'wp:comment_date',
+                    $c->comment_date
+                )
+            );
+
+            $wpcomment->appendChild(
+                $xml->createElement(
+                    'wp:comment_date_gmt',
+                    $c->comment_date_gmt
+                )
+            );
+
+            $wpcomment->appendChild(
+                $xml->createElement(
+                    'wp:comment_content',
+                    $this->format_wxr_cdata( $c->comment_content )
+                )
+            );
+
+            $wpcomment->appendChild(
+                $xml->createElement(
+                    'wp:comment_approved',
+                    $c->comment_approved
+                )
+            );
+
+            $wpcomment->appendChild(
+                $xml->createElement(
+                    'wp:comment_type',
+                    $c->comment_type
+                )
+            );
+
+            $wpcomment->appendChild(
+                $xml->createElement(
+                    'wp:comment_parent',
+                    $c->comment_parent
+                )
+            );
+
+            $item->appendChild( $wpcomment );
+        }
+
+        /*
+        <wp:comment>
+                <wp:comment_id><?php echo $c->comment_ID; ?></wp:comment_id>
+                <wp:comment_author><?php echo dsq_export_wxr_cdata($c->comment_author); ?></wp:comment_author>
+                <wp:comment_author_email><?php echo $c->comment_author_email; ?></wp:comment_author_email>
+                <wp:comment_author_url><?php echo $c->comment_author_url; ?></wp:comment_author_url>
+                <wp:comment_author_IP><?php echo $c->comment_author_IP; ?></wp:comment_author_IP>
+                <wp:comment_date><?php echo $c->comment_date; ?></wp:comment_date>
+                <wp:comment_date_gmt><?php echo $c->comment_date_gmt; ?></wp:comment_date_gmt>
+                <wp:comment_content><?php echo dsq_export_wxr_cdata($c->comment_content) ?></wp:comment_content>
+                <wp:comment_approved><?php echo $c->comment_approved; ?></wp:comment_approved>
+                <wp:comment_type><?php echo $c->comment_type; ?></wp:comment_type>
+                <wp:comment_parent><?php echo $c->comment_parent; ?></wp:comment_parent>
+            </wp:comment>
+        */
+
+        // Append the post item to the channel
+        $channel->appendChild( $item );
+
+        // Append the root channel to the RSS element
+        $rss->appendChild( $channel );
+
+        // Finally append the root RSS element to the XML document
+        $xml->appendChild( $rss );
+
+        $wxr = $xml->saveXML();
+
+        return $wxr;
+
+        // start catching output
+        //ob_start();
+
+        // XML file output below
+        //echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
+        /*
+?>
+<?php the_generator('export');?>
+<rss version="2.0"
+    xmlns:excerpt="http://wordpress.org/export/1.0/excerpt/"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:dsq="https://disqus.com/"
+    xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:wp="http://wordpress.org/export/1.0/"
+>
+    <channel>
+        <title><?php bloginfo_rss('name'); ?></title>
+        <link><?php bloginfo_rss('url') ?></link>
+        <pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), false); ?></pubDate>
+        <generator>WordPress <?php bloginfo_rss('version'); ?>; Disqus <?php echo DISQUS_VERSION; ?></generator>
+        <item>
+            <title><?php echo apply_filters('the_title_rss', $post->post_title); ?></title>
+            <link><?php the_permalink_rss() ?></link>
+            <pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_post_time('Y-m-d H:i:s', true), false); ?></pubDate>
+
+            <dc:creator><?php echo dsq_export_wxr_cdata(get_the_author()); ?></dc:creator>
+            <guid isPermaLink="false"><?php the_guid(); ?></guid>
+            <content:encoded><?php echo dsq_export_wxr_cdata( apply_filters('the_content_export', $post->post_content) ); ?></content:encoded>
+            <dsq:thread_identifier><?php echo dsq_identifier_for_post($post); ?></dsq:thread_identifier>
+            <wp:post_id><?php echo $post->ID; ?></wp:post_id>
+            <wp:post_date_gmt><?php echo $post->post_date_gmt; ?></wp:post_date_gmt>
+            <wp:comment_status><?php echo $post->comment_status; ?></wp:comment_status>
+<?php
+        foreach ( $comments as $c ) {
+?>
+            <wp:comment>
+                <wp:comment_id><?php echo $c->comment_ID; ?></wp:comment_id>
+                <wp:comment_author><?php echo dsq_export_wxr_cdata($c->comment_author); ?></wp:comment_author>
+                <wp:comment_author_email><?php echo $c->comment_author_email; ?></wp:comment_author_email>
+                <wp:comment_author_url><?php echo $c->comment_author_url; ?></wp:comment_author_url>
+                <wp:comment_author_IP><?php echo $c->comment_author_IP; ?></wp:comment_author_IP>
+                <wp:comment_date><?php echo $c->comment_date; ?></wp:comment_date>
+                <wp:comment_date_gmt><?php echo $c->comment_date_gmt; ?></wp:comment_date_gmt>
+                <wp:comment_content><?php echo dsq_export_wxr_cdata($c->comment_content) ?></wp:comment_content>
+                <wp:comment_approved><?php echo $c->comment_approved; ?></wp:comment_approved>
+                <wp:comment_type><?php echo $c->comment_type; ?></wp:comment_type>
+                <wp:comment_parent><?php echo $c->comment_parent; ?></wp:comment_parent>
+            </wp:comment>
+<?php
+        } // comments
+?>
+        </item>
+    </channel>
+</rss>
+<?php
+*/
+        // end of WXR output
+        //$output = ob_get_clean();
+
+        //return $output;
+
     }
 
     /**

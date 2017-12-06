@@ -6,9 +6,11 @@ import {
     setMessageAction,
     toggleValueAction,
     updateAdminOptionsAction,
+    updateExportPostLogAction,
     updateLocalOptionAction,
     updateSyncStatusAction,
 } from './actions';
+import ExportComments from './components/ExportComments';
 import Install from './components/Install';
 import Main from './components/Main';
 import SiteConfigForm from './components/SiteConfigForm';
@@ -16,10 +18,11 @@ import SSOConfigForm from './components/SSOConfigForm';
 import SupportDiagnostics from './components/SupportDiagnostics';
 import SyncConfigForm from './components/SyncConfigForm';
 import { IAdminOptions } from './reducers/AdminOptions';
-import AdminState, { InstallationState } from './reducers/AdminState';
+import AdminState, { ExportLogStaus, InstallationState } from './reducers/AdminState';
 import {
+    disqusRestPost,
     IRestResponse,
-    restPost,
+    wordpressRestGet,
 } from './rest';
 
 const UPDATABLE_FIELDS: string[] = [
@@ -66,14 +69,69 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                 // Continue
             }
         },
-        onInputChange: (key: string, event: React.SyntheticEvent<HTMLInputElement>) => {
+        onInputChange: (key: string, event: React.SyntheticEvent<HTMLInputElement>): void => {
             const value: string = valueFromInput(event.currentTarget);
             dispatch(updateLocalOptionAction(key, value));
+        },
+        onSubmitExportCommentsForm: (event: React.SyntheticEvent<HTMLFormElement>): void => {
+            event.preventDefault();
+
+            const postsPerPage = 10;
+            let currentPage = 1;
+            const exportPost = (post: any): void => {
+                disqusRestPost('export/post', { postId: post.id }, (response: any): void => {
+                    if (!response || response.code !== 'OK') {
+                        dispatch(updateExportPostLogAction({
+                            error: response.message,
+                            id: post.id,
+                            link: post.link,
+                            numComments: null,
+                            status: ExportLogStaus.failed,
+                            title: post.title.rendered,
+                        }));
+                        return;
+                    }
+
+                    dispatch(updateExportPostLogAction({
+                        error: null,
+                        id: post.id,
+                        link: post.link,
+                        numComments: response.data.comments.length,
+                        status: ExportLogStaus.complete,
+                        title: post.title.rendered,
+                    }));
+                });
+            };
+
+            const fetchPosts = (): void => {
+                wordpressRestGet('posts', `per_page=${postsPerPage}&page=${currentPage}`, (response: any): void => {
+                    if (Array.isArray(response)) {
+                        response.forEach((post: any) => {
+                            dispatch(updateExportPostLogAction({
+                                error: null,
+                                id: post.id,
+                                link: post.link,
+                                numComments: null,
+                                status: ExportLogStaus.pending,
+                                title: post.title.rendered,
+                            }));
+                            exportPost(post);
+                        });
+
+                        if (response.length === postsPerPage) {
+                            currentPage += 1;
+                            fetchPosts();
+                        }
+                    }
+                });
+            };
+
+            fetchPosts();
         },
         onSubmitSiteForm: (event: React.SyntheticEvent<HTMLFormElement>) => {
             event.preventDefault();
 
-            const fields = (UPDATABLE_FIELDS as any).reduce((previousValue: any, currentIdKey: string) => {
+            const fields = (UPDATABLE_FIELDS as any).reduce((previousValue: any, currentIdKey: string): any => {
                 if (currentIdKey in event.currentTarget.elements) {
                     const currentField: Element | HTMLCollection = event.currentTarget.elements.namedItem(currentIdKey);
                     const currentInputElement = currentField as HTMLInputElement;
@@ -86,7 +144,7 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                 return previousValue;
             }, {});
 
-            restPost('settings', fields, (response: IRestResponse<IAdminOptions>) => {
+            disqusRestPost('settings', fields, (response: IRestResponse<IAdminOptions>): void => {
                 if (!response)
                     return;
 
@@ -107,12 +165,12 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                 }));
             });
         },
-        onSubmitSyncConfigForm: (event: React.SyntheticEvent<HTMLFormElement>) => {
+        onSubmitSyncConfigForm: (event: React.SyntheticEvent<HTMLFormElement>): void => {
             event.preventDefault();
 
             const endpoint: string = event.currentTarget.name;
 
-            restPost(endpoint, null, (response: IRestResponse<IAdminOptions>) => {
+            disqusRestPost(endpoint, null, (response: IRestResponse<IAdminOptions>): void => {
                 if (!response)
                     return;
 
@@ -146,6 +204,11 @@ export const MainContainer = ReactRedux.connect(
     mapStateToProps,
     mapDispatchToProps,
 )(Main);
+
+export const ExportCommentsContainer = ReactRedux.connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(ExportComments);
 
 export const InstallContainer = ReactRedux.connect(
     mapStateToProps,

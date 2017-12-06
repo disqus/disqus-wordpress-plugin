@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactRedux from 'react-redux';
 import * as Redux from 'redux';
 import {
+    ExportCommentsContainer,
     SiteConfigContainer,
     SSOConfigContainer,
     SupportDiagnosticsContainer,
@@ -47,6 +48,23 @@ const getSyncContainer = (props: IFormProps) => {
     return <SyncConfigContainer />;
 };
 
+const getExportContainer = (props: IFormProps) => {
+    const adminOptions = props.data.adminOptions;
+    if (!adminOptions.disqus_secret_key || !adminOptions.disqus_admin_access_token) {
+        return (
+            <div className='notice notice-warning'>
+                <p>
+                    <span className='dashicons dashicons-warning' />
+                    {' '}
+                    {__('You must have an API Secret Key and API Access Token configured to enable this feature.')}
+                </p>
+            </div>
+        );
+    }
+
+    return <ExportCommentsContainer />;
+};
+
 const getTabClassName = (props: IFormProps, id: string) => {
     const activeTab = props.data.activeTab || 'siteConfiguration';
     return `nav-tab${activeTab === id ? ' nav-tab-active' : ''}`;
@@ -57,8 +75,8 @@ const AdminTabBar = (props: IFormProps) => (
         <a href='#siteConfiguration' className={getTabClassName(props, 'siteConfiguration')}>
             {__('Site Configuration')}
         </a>
-        <a href='#syncingImporting' className={getTabClassName(props, 'syncingImporting')}>
-            {__('Syncing & Importing')}
+        <a href='#syncing' className={getTabClassName(props, 'syncing')}>
+            {__('Syncing')}
         </a>
         <a href='#singleSignOn' className={getTabClassName(props, 'singleSignOn')}>
             {__('Single Sign-on')}
@@ -72,7 +90,7 @@ const AdminTabBar = (props: IFormProps) => (
 /* tslint:disable:max-line-length */
 const getActiveTabView = (props: IFormProps) => {
     switch (props.data.activeTab) {
-    case 'syncingImporting':
+    case 'syncing':
         return (
             <div>
                 <h3>
@@ -84,19 +102,29 @@ const getActiveTabView = (props: IFormProps) => {
                 <p className='submit'>
                     <a
                         href={getWordpressAdminUrl('editComments')}
-                        className='button'
+                        className='button button-large'
                     >
+                        <span className='dashicons dashicons-wordpress-alt' />
+                        {' '}
                         {__('View WordPress Comments')}
                     </a>
                 </p>
                 <hr />
                 <h3>
-                    {__('Syncing')}
+                    {__('Sync')}
                 </h3>
                 <p className='description'>
-                    {__('Syncing will copy comments created and edited in Disqus to your local WordPress database for backup purposes. This will create additional work for your database/server and may not be recommended for highly active communities.')}
+                    {__('Copy comments created and edited in Disqus to your local WordPress database for backup purposes.')}
                 </p>
                 {getSyncContainer(props)}
+                <hr />
+                <h3>
+                    {__('Export')}
+                </h3>
+                <p className='description'>
+                    {__('Export comments from your WordPress installation to Disqus.')}
+                </p>
+                {getExportContainer(props)}
             </div>
         );
     case 'singleSignOn':
