@@ -12,8 +12,6 @@ const getMainView = (props: IFormProps) => {
         return __('You don\'t have permission to make any changes here. Please contact the site administrator to get access.');
     else if (props.data.isFetchingAdminOptions || props.data.isFetchingSyncStatus)
         return <Loading />;
-    else if (!props.data.adminOptions.disqus_installed)
-        return <InstallContainer />;
     return <Admin {...props} />;
 };
 

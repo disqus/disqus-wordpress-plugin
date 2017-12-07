@@ -1,12 +1,7 @@
 import * as React from 'react';
-import * as ReactRedux from 'react-redux';
-import { SiteConfigContainer, SupportDiagnosticsContainer } from '../containers';
-import { IAdminState, InstallationState } from '../reducers/AdminState';
+import { InstallationState } from '../reducers/AdminState';
 import { IDisqusWordpressWindow } from '../reducers/AdminState';
-import { getWordpressAdminUrl } from '../utils';
-import AdminCard from './AdminCard';
 import { IFormProps } from './FormProps';
-import SupportLinks from './SupportLinks';
 
 const WIN = window as IDisqusWordpressWindow;
 const REST_OPTIONS = WIN.DISQUS_WP.rest;
@@ -24,51 +19,13 @@ class Install extends React.Component<IFormProps, any> {
         const syncToken = `${REST_OPTIONS.base}settings ${this.props.data.adminOptions.get('disqus_sync_token', '')}`;
         return (
             <div>
-                <AdminCard title={__('Automatic Installation')}>
-                    <p>
-                        {__('Installs Disqus on your site using a generated API application. If your site isn\'t publicly accessible, use the manual installation method.')}
-                    </p>
-                    {this.getAutoInstallPrompt(syncToken)}
-                </AdminCard>
-                <AdminCard title={__('Manual Installation')}>
-                    <p>
-                        {__('You may install Disqus manually if you\'re not able to use the automatic installer.')}
-                    </p>
-                    <p className='submit'>
-                        <button className='button button-link' onClick={this.props.onToggleState.bind(null, 'isSiteFormLocked')}>
-                            <span className={`dashicons dashicons-arrow-${this.props.data.isSiteFormLocked ? 'right' : 'down'}`} />
-                            {' '}
-                            {this.props.data.isSiteFormLocked ? __('Show manual configuration') : __('Hide manual configuration')}
-                        </button>
-                    </p>
-                    {this.props.data.isSiteFormLocked ? null : <SiteConfigContainer />}
-                </AdminCard>
-                <AdminCard title={__('WordPress Comments')}>
-                    <p className='description'>
-                        {__('Disqus has replaced the default WordPress commenting system. You may access and edit the comments in your database, but any actions performed there will not be reflected in Disqus.')}
-                    </p>
-                    <p className='submit'>
-                        <a
-                            href={getWordpressAdminUrl('editComments')}
-                            className='button'
-                        >
-                            {__('View WordPress Comments')}
-                        </a>
-                    </p>
-                </AdminCard>
-                <AdminCard title={__('Support')}>
-                    <SupportLinks />
-                    <hr />
-                    <h3>
-                        {__('Diagnostic Information')}
-                    </h3>
-                    <p className='description'>
-                        {__('Include the following information in any private support requests, but do not share this publicly.')}
-                    </p>
-                    <div className='submit'>
-                        <SupportDiagnosticsContainer />
-                    </div>
-                </AdminCard>
+                <h3>
+                    {__('Automatic Installation')}
+                </h3>
+                <p>
+                    {__('Installs Disqus on your site using a generated API application. If your site isn\'t publicly accessible, use the manual installation method.')}
+                </p>
+                {this.getAutoInstallPrompt(syncToken)}
             </div>
         );
     }

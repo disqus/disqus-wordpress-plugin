@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactRedux from 'react-redux';
 import * as Redux from 'redux';
 import {
+    InstallContainer,
     SiteConfigContainer,
     SSOConfigContainer,
     SupportDiagnosticsContainer,
@@ -9,7 +10,6 @@ import {
 } from '../containers';
 import { IAdminState } from '../reducers/AdminState';
 import { getForumAdminUrl, getWordpressAdminUrl } from '../utils';
-import AdminCard from './AdminCard';
 import { IFormProps } from './FormProps';
 import SupportLinks from './SupportLinks';
 import WelcomePanel from './WelcomePanel';
@@ -48,12 +48,18 @@ const getSyncContainer = (props: IFormProps) => {
 };
 
 const getTabClassName = (props: IFormProps, id: string) => {
-    const activeTab = props.data.activeTab || 'siteConfiguration';
+    const activeTab = props.data.activeTab || (props.data.adminOptions.disqus_installed ? 'siteConfiguration' : 'install');
     return `nav-tab${activeTab === id ? ' nav-tab-active' : ''}`;
 };
 
 const AdminTabBar = (props: IFormProps) => (
     <div className='nav-tab-wrapper'>
+        {props.data.adminOptions.disqus_installed ?
+            null :
+            <a href="#install" className={getTabClassName(props, 'install')}>
+                {__('Install')}
+            </a>
+        }
         <a href='#siteConfiguration' className={getTabClassName(props, 'siteConfiguration')}>
             {__('Site Configuration')}
         </a>
@@ -134,6 +140,8 @@ const getActiveTabView = (props: IFormProps) => {
                 </div>
             </div>
         );
+    case 'install':
+        return <InstallContainer />;
     case 'siteConfiguration':
     default:
         return (

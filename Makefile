@@ -1,3 +1,6 @@
+CURPATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+CURDIR := $(notdir $(patsubst %/,%,$(dir $(CURPATH))))
+
 phpcs:
 	~/.composer/vendor/bin/phpcs --standard=phpcs.ruleset.xml
 
@@ -13,10 +16,10 @@ rebuild:
 	docker-compose build --no-cache
 
 install:
-	docker exec disquswordpressplugin_wordpress_1 wp core install --url='localhost:8888' --title='Example' --admin_user='admin' --admin_password='root' --admin_email='admin@example.com'
+	docker exec ${CURDIR}_wordpress_1 wp core install --url='localhost:8888' --title='Example' --admin_user='admin' --admin_password='root' --admin_email='admin@example.com'
 
 activate:
-	docker exec disquswordpressplugin_wordpress_1 wp plugin activate disqus
+	docker exec ${CURDIR}_wordpress_1 wp plugin activate disqus
 
 js:
 	yarn run build
