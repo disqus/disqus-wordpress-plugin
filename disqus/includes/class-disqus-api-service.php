@@ -121,7 +121,7 @@ class Disqus_Api_Service {
 	 * @param     string $file_param_key    The name of the param for the filename.
 	 * @return    array               The response data array.
 	 */
-	public function api_post_file( $endpoint, $params, $file, $filename, $file_param_key = 'upload' ) {
+	public function api_post_file( $endpoint, $params, $file, $filename ) {
 		$api_url = Disqus_Api_Service::DISQUS_API_BASE . $endpoint . '.json?'
 			. 'api_secret=' . $this->api_secret
 			. '&access_token=' . $this->access_token;
@@ -137,7 +137,7 @@ class Disqus_Api_Service {
 		// Add the file
 		$body .= '--' . $boundary;
 		$body .= '\r\n';
-		$body .= 'Content-Disposition: form-data; name="' . $file_param_key . '"; filename="' . $filename . '"';
+		$body .= 'Content-Disposition: form-data; name="upload"; filename="' . $filename . '"';
 		$body .= '\r\n\r\n';
 		$body .= $file;
 		$body .= '\r\n';
@@ -155,7 +155,6 @@ class Disqus_Api_Service {
 		// Close the form
 		$body .= '--' . $boundary . '--';
 
-		var_dump( $headers );
 		var_dump( $body );
 
 		$dsq_response = wp_remote_post( $api_url, array(
