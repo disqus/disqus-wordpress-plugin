@@ -344,6 +344,7 @@ class Disqus_Rest_Api {
 
             // Generate a WXR (XML) file that Disqus will be able to read.
             $wxr = $this->generate_export_wxr( $post, $filtered_comments );
+            $filename = (string)$post->ID . '.wxr';
 
             if ( WP_DEBUG ) {
                 $response_data['wxr'] = $wxr;
@@ -351,12 +352,11 @@ class Disqus_Rest_Api {
 
             // Uploads the file to the Disqus API to create an import.
             $params = array(
-                'upload' => $wxr,
                 'forum' => get_option( 'disqus_forum_url' ),
                 'sourceType' => '0',
             );
 
-            $api_data = $this->api_service->api_post( 'imports/create', $params );
+            $api_data = $this->api_service->api_post_file( 'imports/create', $params, $wxr, $filename );
 
             if ( 0 !== $api_data->code ) {
                 return $this->rest_get_error( 'There was an error with this import: ' . $api_data->response, 500 );
@@ -978,22 +978,6 @@ class Disqus_Rest_Api {
             $item->appendChild( $wpcomment );
         }
 
-        /*
-        <wp:comment>
-                <wp:comment_id><?php echo $c->comment_ID; ?></wp:comment_id>
-                <wp:comment_author><?php echo dsq_export_wxr_cdata($c->comment_author); ?></wp:comment_author>
-                <wp:comment_author_email><?php echo $c->comment_author_email; ?></wp:comment_author_email>
-                <wp:comment_author_url><?php echo $c->comment_author_url; ?></wp:comment_author_url>
-                <wp:comment_author_IP><?php echo $c->comment_author_IP; ?></wp:comment_author_IP>
-                <wp:comment_date><?php echo $c->comment_date; ?></wp:comment_date>
-                <wp:comment_date_gmt><?php echo $c->comment_date_gmt; ?></wp:comment_date_gmt>
-                <wp:comment_content><?php echo dsq_export_wxr_cdata($c->comment_content) ?></wp:comment_content>
-                <wp:comment_approved><?php echo $c->comment_approved; ?></wp:comment_approved>
-                <wp:comment_type><?php echo $c->comment_type; ?></wp:comment_type>
-                <wp:comment_parent><?php echo $c->comment_parent; ?></wp:comment_parent>
-            </wp:comment>
-        */
-
         // Append the post item to the channel
         $channel->appendChild( $item );
 
@@ -1006,69 +990,6 @@ class Disqus_Rest_Api {
         $wxr = $xml->saveXML();
 
         return $wxr;
-
-        // start catching output
-        //ob_start();
-
-        // XML file output below
-        //echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
-        /*
-?>
-<?php the_generator('export');?>
-<rss version="2.0"
-    xmlns:excerpt="http://wordpress.org/export/1.0/excerpt/"
-    xmlns:content="http://purl.org/rss/1.0/modules/content/"
-    xmlns:dsq="https://disqus.com/"
-    xmlns:wfw="http://wellformedweb.org/CommentAPI/"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:wp="http://wordpress.org/export/1.0/"
->
-    <channel>
-        <title><?php bloginfo_rss('name'); ?></title>
-        <link><?php bloginfo_rss('url') ?></link>
-        <pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), false); ?></pubDate>
-        <generator>WordPress <?php bloginfo_rss('version'); ?>; Disqus <?php echo DISQUS_VERSION; ?></generator>
-        <item>
-            <title><?php echo apply_filters('the_title_rss', $post->post_title); ?></title>
-            <link><?php the_permalink_rss() ?></link>
-            <pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_post_time('Y-m-d H:i:s', true), false); ?></pubDate>
-
-            <dc:creator><?php echo dsq_export_wxr_cdata(get_the_author()); ?></dc:creator>
-            <guid isPermaLink="false"><?php the_guid(); ?></guid>
-            <content:encoded><?php echo dsq_export_wxr_cdata( apply_filters('the_content_export', $post->post_content) ); ?></content:encoded>
-            <dsq:thread_identifier><?php echo dsq_identifier_for_post($post); ?></dsq:thread_identifier>
-            <wp:post_id><?php echo $post->ID; ?></wp:post_id>
-            <wp:post_date_gmt><?php echo $post->post_date_gmt; ?></wp:post_date_gmt>
-            <wp:comment_status><?php echo $post->comment_status; ?></wp:comment_status>
-<?php
-        foreach ( $comments as $c ) {
-?>
-            <wp:comment>
-                <wp:comment_id><?php echo $c->comment_ID; ?></wp:comment_id>
-                <wp:comment_author><?php echo dsq_export_wxr_cdata($c->comment_author); ?></wp:comment_author>
-                <wp:comment_author_email><?php echo $c->comment_author_email; ?></wp:comment_author_email>
-                <wp:comment_author_url><?php echo $c->comment_author_url; ?></wp:comment_author_url>
-                <wp:comment_author_IP><?php echo $c->comment_author_IP; ?></wp:comment_author_IP>
-                <wp:comment_date><?php echo $c->comment_date; ?></wp:comment_date>
-                <wp:comment_date_gmt><?php echo $c->comment_date_gmt; ?></wp:comment_date_gmt>
-                <wp:comment_content><?php echo dsq_export_wxr_cdata($c->comment_content) ?></wp:comment_content>
-                <wp:comment_approved><?php echo $c->comment_approved; ?></wp:comment_approved>
-                <wp:comment_type><?php echo $c->comment_type; ?></wp:comment_type>
-                <wp:comment_parent><?php echo $c->comment_parent; ?></wp:comment_parent>
-            </wp:comment>
-<?php
-        } // comments
-?>
-        </item>
-    </channel>
-</rss>
-<?php
-*/
-        // end of WXR output
-        //$output = ob_get_clean();
-
-        //return $output;
-
     }
 
     /**
