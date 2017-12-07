@@ -89,7 +89,7 @@ class Disqus_Api_Service {
 	 *
 	 * @since     3.0
 	 * @param     string $endpoint    The Disqus API secret key.
-	 * @param     array  $params       The params to be added to the body.
+	 * @param     array  $params      The params to be added to the body.
 	 * @return    array               The response data array.
 	 */
 	public function api_post( $endpoint, $params ) {
@@ -102,6 +102,65 @@ class Disqus_Api_Service {
 			'headers' => array(
 				'Referer' => '', // Unset referer so we can use secret key.
 			),
+			'method' => 'POST',
+		) );
+
+		$dsq_response_data = json_decode( $dsq_response['body'] );
+
+		return $dsq_response_data;
+	}
+
+	/**
+	 * Makes a POST request to the Disqus API with a file as a multipart request.
+	 *
+	 * @since     3.0
+	 * @param     string $endpoint          The Disqus API secret key.
+	 * @param     array  $params            The params to be added to the body.
+	 * @param     string $file              The file to upload.
+	 * @param     string $filename          The filename.
+	 * @param     string $file_param_key    The name of the param for the filename.
+	 * @return    array               The response data array.
+	 */
+	public function api_post_file( $endpoint, $params, $file, $filename, $file_param_key = 'upload' ) {
+		$api_url = Disqus_Api_Service::DISQUS_API_BASE . $endpoint . '.json?'
+			. 'api_secret=' . $this->api_secret
+			. '&access_token=' . $this->access_token;
+
+		$boundary = wp_generate_password( 24, false );
+		$headers = array(
+			'Referer' => '', // Unset referer so we can use secret key.
+			'Content-Type' => 'multipart/form-data; boundary=' . $boundary,
+		);
+
+		$body = '';
+
+		// Add the file
+		$body .= '--' . $boundary;
+		$body .= '\r\n';
+		$body .= 'Content-Disposition: form-data; name="' . $file_param_key . '"; filename="' . $filename . '"';
+		$body .= '\r\n\r\n';
+		$body .= $file;
+		$body .= '\r\n';
+
+		// Add the params to the multipart body
+		foreach ( $params as $name => $value ) {
+			$body .= '--' . $boundary;
+			$body .= '\r\n';
+			$body .= 'Content-Disposition: form-data; name="' . $name . '"';
+			$body .= '\r\n\r\n';
+			$body .= $value;
+			$body .= '\r\n';
+		}
+
+		// Close the form
+		$body .= '--' . $boundary . '--';
+
+		var_dump( $headers );
+		var_dump( $body );
+
+		$dsq_response = wp_remote_post( $api_url, array(
+			'body' => $body,
+			'headers' => $headers,
 			'method' => 'POST',
 		) );
 
