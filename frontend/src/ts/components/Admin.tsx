@@ -47,19 +47,20 @@ const getSyncContainer = (props: IFormProps) => {
     return <SyncConfigContainer />;
 };
 
+const getActiveTab = (props: IFormProps) => (
+    props.data.activeTab || (props.data.adminOptions.disqus_installed ? 'siteConfiguration' : 'install')
+);
+
 const getTabClassName = (props: IFormProps, id: string) => {
-    const activeTab = props.data.activeTab || (props.data.adminOptions.disqus_installed ? 'siteConfiguration' : 'install');
+    const activeTab = getActiveTab(props);
     return `nav-tab${activeTab === id ? ' nav-tab-active' : ''}`;
 };
 
 const AdminTabBar = (props: IFormProps) => (
     <div className='nav-tab-wrapper'>
-        {props.data.adminOptions.disqus_installed ?
-            null :
-            <a href="#install" className={getTabClassName(props, 'install')}>
-                {__('Install')}
-            </a>
-        }
+        <a href="#install" className={getTabClassName(props, 'install')}>
+            {props.data.adminOptions.disqus_installed ? __('Reinstall') : __('Install')}
+        </a>
         <a href='#siteConfiguration' className={getTabClassName(props, 'siteConfiguration')}>
             {__('Site Configuration')}
         </a>
@@ -77,7 +78,8 @@ const AdminTabBar = (props: IFormProps) => (
 
 /* tslint:disable:max-line-length */
 const getActiveTabView = (props: IFormProps) => {
-    switch (props.data.activeTab) {
+    const activeTab = getActiveTab(props);
+    switch (activeTab) {
     case 'syncingImporting':
         return (
             <div>
