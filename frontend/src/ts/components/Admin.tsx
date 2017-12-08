@@ -16,13 +16,13 @@ import WelcomePanel from './WelcomePanel';
 
 const getSSOContainer = (props: IFormProps) => {
     const adminOptions = props.data.adminOptions;
-    if (!adminOptions.disqus_public_key || !adminOptions.disqus_secret_key) {
+    if (!adminOptions.disqus_public_key || !adminOptions.disqus_secret_key || !adminOptions.disqus_installed) {
         return (
             <div className='notice notice-warning'>
                 <p>
                     <span className='dashicons dashicons-warning' />
                     {' '}
-                    {__('You must have an API Public Key and API Secret Key configured to enable this feature.')}
+                    {__('You must have a Site Shortname, API Public Key, and API Secret Key configured to enable this feature.')}
                 </p>
             </div>
         );
@@ -32,13 +32,13 @@ const getSSOContainer = (props: IFormProps) => {
 
 const getSyncContainer = (props: IFormProps) => {
     const adminOptions = props.data.adminOptions;
-    if (!adminOptions.disqus_secret_key || !adminOptions.disqus_admin_access_token) {
+    if (!adminOptions.disqus_secret_key || !adminOptions.disqus_admin_access_token || !adminOptions.disqus_installed) {
         return (
             <div className='notice notice-warning'>
                 <p>
                     <span className='dashicons dashicons-warning' />
                     {' '}
-                    {__('You must have an API Secret Key and API Access Token configured to enable this feature.')}
+                    {__('You must have a Site Shortname, API Secret Key, and API Access Token configured to enable this feature.')}
                 </p>
             </div>
         );
@@ -58,7 +58,7 @@ const getTabClassName = (props: IFormProps, id: string) => {
 
 const AdminTabBar = (props: IFormProps) => (
     <div className='nav-tab-wrapper'>
-        <a href="#install" className={getTabClassName(props, 'install')}>
+        <a href='#install' className={getTabClassName(props, 'install')}>
             {props.data.adminOptions.disqus_installed ? __('Reinstall') : __('Install')}
         </a>
         <a href='#siteConfiguration' className={getTabClassName(props, 'siteConfiguration')}>
@@ -169,7 +169,10 @@ const getActiveTabView = (props: IFormProps) => {
 
 const Admin = (props: IFormProps) => (
     <div>
-        <WelcomePanel shortname={props.data.adminOptions.disqus_forum_url} />
+        {props.data.adminOptions.disqus_installed ?
+            <WelcomePanel shortname={props.data.adminOptions.disqus_forum_url} /> :
+            null
+        }
         <AdminTabBar {...props} />
         {getActiveTabView(props)}
     </div>
