@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactRedux from 'react-redux';
 import * as Redux from 'redux';
 import {
+    InstallContainer,
     SiteConfigContainer,
     SSOConfigContainer,
     SupportDiagnosticsContainer,
@@ -9,20 +10,19 @@ import {
 } from '../containers';
 import { IAdminState } from '../reducers/AdminState';
 import { getForumAdminUrl, getWordpressAdminUrl } from '../utils';
-import AdminCard from './AdminCard';
 import { IFormProps } from './FormProps';
 import SupportLinks from './SupportLinks';
 import WelcomePanel from './WelcomePanel';
 
 const getSSOContainer = (props: IFormProps) => {
     const adminOptions = props.data.adminOptions;
-    if (!adminOptions.disqus_public_key || !adminOptions.disqus_secret_key) {
+    if (!adminOptions.disqus_public_key || !adminOptions.disqus_secret_key || !adminOptions.disqus_installed) {
         return (
             <div className='notice notice-warning'>
                 <p>
                     <span className='dashicons dashicons-warning' />
                     {' '}
-                    {__('You must have an API Public Key and API Secret Key configured to enable this feature.')}
+                    {__('You must have a Site Shortname, API Public Key, and API Secret Key configured to enable this feature.')}
                 </p>
             </div>
         );
@@ -32,13 +32,13 @@ const getSSOContainer = (props: IFormProps) => {
 
 const getSyncContainer = (props: IFormProps) => {
     const adminOptions = props.data.adminOptions;
-    if (!adminOptions.disqus_secret_key || !adminOptions.disqus_admin_access_token) {
+    if (!adminOptions.disqus_secret_key || !adminOptions.disqus_admin_access_token || !adminOptions.disqus_installed) {
         return (
             <div className='notice notice-warning'>
                 <p>
                     <span className='dashicons dashicons-warning' />
                     {' '}
-                    {__('You must have an API Secret Key and API Access Token configured to enable this feature.')}
+                    {__('You must have a Site Shortname, API Secret Key, and API Access Token configured to enable this feature.')}
                 </p>
             </div>
         );
@@ -47,13 +47,20 @@ const getSyncContainer = (props: IFormProps) => {
     return <SyncConfigContainer />;
 };
 
+const getActiveTab = (props: IFormProps) => (
+    props.data.activeTab || (props.data.adminOptions.disqus_installed ? 'siteConfiguration' : 'install')
+);
+
 const getTabClassName = (props: IFormProps, id: string) => {
-    const activeTab = props.data.activeTab || 'siteConfiguration';
+    const activeTab = getActiveTab(props);
     return `nav-tab${activeTab === id ? ' nav-tab-active' : ''}`;
 };
 
 const AdminTabBar = (props: IFormProps) => (
     <div className='nav-tab-wrapper'>
+        <a href='#install' className={getTabClassName(props, 'install')}>
+            {props.data.adminOptions.disqus_installed ? __('Reinstall') : __('Install')}
+        </a>
         <a href='#siteConfiguration' className={getTabClassName(props, 'siteConfiguration')}>
             {__('Site Configuration')}
         </a>
@@ -71,7 +78,8 @@ const AdminTabBar = (props: IFormProps) => (
 
 /* tslint:disable:max-line-length */
 const getActiveTabView = (props: IFormProps) => {
-    switch (props.data.activeTab) {
+    const activeTab = getActiveTab(props);
+    switch (activeTab) {
     case 'syncingImporting':
         return (
             <div>
@@ -134,6 +142,8 @@ const getActiveTabView = (props: IFormProps) => {
                 </div>
             </div>
         );
+    case 'install':
+        return <InstallContainer />;
     case 'siteConfiguration':
     default:
         return (
@@ -159,7 +169,10 @@ const getActiveTabView = (props: IFormProps) => {
 
 const Admin = (props: IFormProps) => (
     <div>
-        <WelcomePanel shortname={props.data.adminOptions.disqus_forum_url} />
+        {props.data.adminOptions.disqus_installed ?
+            <WelcomePanel shortname={props.data.adminOptions.disqus_forum_url} /> :
+            null
+        }
         <AdminTabBar {...props} />
         {getActiveTabView(props)}
     </div>
