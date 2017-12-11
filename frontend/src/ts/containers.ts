@@ -20,8 +20,9 @@ import SyncConfigForm from './components/SyncConfigForm';
 import { IAdminOptions } from './reducers/AdminOptions';
 import AdminState, { ExportLogStaus, InstallationState } from './reducers/AdminState';
 import {
-    disqusRestPost,
+    DisqusApi,
     IRestResponse,
+    pluginRestPost,
     wordpressRestGet,
 } from './rest';
 
@@ -76,30 +77,64 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
         onSubmitExportCommentsForm: (event: React.SyntheticEvent<HTMLFormElement>): void => {
             event.preventDefault();
 
+            const dispatchError = (post: any, error: string): void => {
+                dispatch(updateExportPostLogAction({
+                    error,
+                    id: post.id,
+                    link: post.link,
+                    numComments: null,
+                    status: ExportLogStaus.failed,
+                    title: post.title.rendered,
+                }));
+            };
+
+            const dispatchComplete = (post: any, numComments: number): void => {
+                dispatch(updateExportPostLogAction({
+                    error: null,
+                    id: post.id,
+                    link: post.link,
+                    numComments,
+                    status: ExportLogStaus.complete,
+                    title: post.title.rendered,
+                }));
+            };
+
             const postsPerPage = 10;
             let currentPage = 1;
             const exportPost = (post: any): void => {
-                disqusRestPost('export/post', { postId: post.id }, (response: any): void => {
+                pluginRestPost('export/post', { postId: post.id }, (response: any): void => {
+
                     if (!response || response.code !== 'OK') {
-                        dispatch(updateExportPostLogAction({
-                            error: response.message,
-                            id: post.id,
-                            link: post.link,
-                            numComments: null,
-                            status: ExportLogStaus.failed,
-                            title: post.title.rendered,
-                        }));
+                        dispatchError(post, response.message);
                         return;
                     }
 
-                    dispatch(updateExportPostLogAction({
-                        error: null,
-                        id: post.id,
-                        link: post.link,
-                        numComments: response.data.comments.length,
-                        status: ExportLogStaus.complete,
-                        title: post.title.rendered,
-                    }));
+                    if (!response.data.comments.length) {
+                        dispatchComplete(post, response.data.comments.length);
+                        return;
+                    }
+
+                    const wxr = response.data.wxr;
+                    DisqusApi.instance.createImport(wxr.xmlContent, wxr.filename, (xhr: Event) => {
+                        let jsonObject = null;
+                        try {
+                            jsonObject = JSON.parse((xhr.target as XMLHttpRequest).responseText);
+                        } catch (error) {
+                            // Continue
+                        }
+
+                        if (!jsonObject) {
+                            dispatchError(post, __('Unknown error uploading to the Disqus servers'));
+                            return;
+                        }
+
+                        if (jsonObject.code !== 0) {
+                            dispatchError(post, jsonObject.response);
+                            return;
+                        }
+
+                        dispatchComplete(post, response.data.comments.length);
+                    });
                 });
             };
 
@@ -144,7 +179,7 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                 return previousValue;
             }, {});
 
-            disqusRestPost('settings', fields, (response: IRestResponse<IAdminOptions>): void => {
+            pluginRestPost('settings', fields, (response: IRestResponse<IAdminOptions>): void => {
                 if (!response)
                     return;
 
@@ -170,7 +205,7 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
 
             const endpoint: string = event.currentTarget.name;
 
-            disqusRestPost(endpoint, null, (response: IRestResponse<IAdminOptions>): void => {
+            pluginRestPost(endpoint, null, (response: IRestResponse<IAdminOptions>): void => {
                 if (!response)
                     return;
 

@@ -2,6 +2,23 @@ import * as React from 'react';
 import { ExportLogStaus, IExportPostLog } from '../reducers/AdminState';
 import { IFormProps } from './FormProps';
 
+const getStatusMessage = (props: IFormProps): JSX.Element => {
+    if (props.data.isExportRunning)
+        return <h4>{__('Exporting') + '…'}</h4>;
+
+    return (
+        <h4>
+            <span>
+                {__('Done!')}
+                {' '}
+                <a href={`https://import.disqus.com/${props.data.adminOptions.disqus_forum_url}/`} target='_blank'>
+                    {__('Check your import status')}
+                </a>
+            </span>
+        </h4>
+    );
+};
+
 const LogMessages = (props: IFormProps) => {
     const logArray: IExportPostLog[] = props.data.exportLogs.toArray();
     const logElements: JSX.Element[] = logArray.map((log: IExportPostLog) => {
@@ -35,7 +52,7 @@ const LogMessages = (props: IFormProps) => {
 
     return (
         <div>
-            <h4>{props.data.isExportRunning ? __('Exporting') + '…' : 'Done'}</h4>
+            {getStatusMessage(props)}
             <table className='wp-list-table widefat striped'>
                 <thead>
                     <tr>

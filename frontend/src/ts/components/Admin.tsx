@@ -23,6 +23,7 @@ const getSSOContainer = (props: IFormProps) => {
                 <p>
                     <span className='dashicons dashicons-warning' />
                     {' '}
+                    {/* tslint:disable-next-line:max-line-length */}
                     {__('You must have a Site Shortname, API Public Key, and API Secret Key configured to enable this feature.')}
                 </p>
             </div>
@@ -39,6 +40,7 @@ const getSyncContainer = (props: IFormProps) => {
                 <p>
                     <span className='dashicons dashicons-warning' />
                     {' '}
+                    {/* tslint:disable-next-line:max-line-length */}
                     {__('You must have a Site Shortname, API Secret Key, and API Access Token configured to enable this feature.')}
                 </p>
             </div>

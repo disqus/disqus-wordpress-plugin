@@ -341,26 +341,13 @@ class Disqus_Rest_Api {
         );
 
         if ( ! empty( $filtered_comments ) ) {
-
             // Generate a WXR (XML) file that Disqus will be able to read.
             $wxr = $this->generate_export_wxr( $post, $filtered_comments );
             $filename = (string)$post->ID . '.wxr';
-
-            if ( WP_DEBUG ) {
-                $response_data['wxr'] = $wxr;
-            }
-
-            // Uploads the file to the Disqus API to create an import.
-            $params = array(
-                'forum' => get_option( 'disqus_forum_url' ),
-                'sourceType' => '0',
+            $response_data['wxr'] = array(
+                'filename' => $filename,
+                'xmlContent' => $wxr,
             );
-
-            $api_data = $this->api_service->api_post_file( 'imports/create', $params, $wxr, $filename );
-
-            if ( 0 !== $api_data->code ) {
-                return $this->rest_get_error( 'There was an error with this import: ' . $api_data->response, 500 );
-            }
         }
 
         return $this->rest_get_response( $response_data );
