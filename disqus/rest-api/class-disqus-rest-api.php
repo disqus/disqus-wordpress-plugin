@@ -45,6 +45,7 @@ class Disqus_Rest_Api {
      *
      * @since    3.0
      * @param    Disqus_Api_Service $api_service    Instance of the Disqus API service.
+     * @param    string             $version        The version of this plugin.
      */
     public function __construct( $api_service, $version ) {
         $this->api_service = $api_service;
@@ -312,7 +313,7 @@ class Disqus_Rest_Api {
      * @param    WP_REST_Request $request     The request object.
      * @return   WP_REST_Response|WP_Error    The API response object.
      */
-    public function rest_export_post ( WP_REST_Request $request ) {
+    public function rest_export_post( WP_REST_Request $request ) {
         $json_data = $request->get_json_params();
         $postId = $json_data['postId'];
 
@@ -343,7 +344,7 @@ class Disqus_Rest_Api {
         if ( ! empty( $filtered_comments ) ) {
             // Generate a WXR (XML) file that Disqus will be able to read.
             $wxr = $this->generate_export_wxr( $post, $filtered_comments );
-            $filename = (string)$post->ID . '.wxr';
+            $filename = (string) $post->ID . '.wxr';
             $response_data['wxr'] = array(
                 'filename' => $filename,
                 'xmlContent' => $wxr,
@@ -730,7 +731,7 @@ class Disqus_Rest_Api {
      *
      * @since     3.0
      * @access    private
-     * @param     string     $message    The base message to store.
+     * @param     string $message    The base message to store.
      */
     private function log_sync_message( $message ) {
         update_option( 'disqus_last_sync_message', $message . ': ' . date( 'Y-m-d g:i a', time() ) );
@@ -741,12 +742,12 @@ class Disqus_Rest_Api {
      *
      * @since     3.0
      * @access    private
-     * @param     string     $comments    The string to wrap in CDATA tags.
-     * @return    string     The wrapped CDATA string.
+     * @param     string $str    The string to wrap in CDATA tags.
+     * @return    string         The wrapped CDATA string.
      */
     private function format_wxr_cdata( $str ) {
         if ( seems_utf8( $str ) === false ) {
-            $str = utf8_encode($str);
+            $str = utf8_encode( $str );
         }
 
         $str = '<![CDATA[' . str_replace( ']]>', ']]]]><![CDATA[>', $str ) . ']]>';
@@ -759,9 +760,9 @@ class Disqus_Rest_Api {
      *
      * @since     3.0
      * @access    private
-     * @param     WP_Post      $post        The post details the comments belong to.
-     * @param     array        $comments    The base message to store.
-     * @return    string       The WXR document as a string.
+     * @param     WP_Post $post        The post details the comments belong to.
+     * @param     array   $comments    The base message to store.
+     * @return    string               The WXR document as a string.
      */
     private function generate_export_wxr( $post, $comments ) {
 
@@ -818,7 +819,7 @@ class Disqus_Rest_Api {
             )
         );
 
-        // Generate the item (the post)
+        // Generate the item (the post).
         $item = $xml->createElement( 'item' );
         $item->appendChild(
             $xml->createElement( 'title', apply_filters( 'the_title_rss', $post->post_title ) )
@@ -965,13 +966,13 @@ class Disqus_Rest_Api {
             $item->appendChild( $wpcomment );
         }
 
-        // Append the post item to the channel
+        // Append the post item to the channel.
         $channel->appendChild( $item );
 
-        // Append the root channel to the RSS element
+        // Append the root channel to the RSS element.
         $rss->appendChild( $channel );
 
-        // Finally append the root RSS element to the XML document
+        // Finally append the root RSS element to the XML document.
         $xml->appendChild( $rss );
 
         $wxr = $xml->saveXML();
