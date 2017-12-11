@@ -197,10 +197,7 @@ const getActiveTabView = (props: IFormProps) => {
 
 const Admin = (props: IFormProps) => (
     <div>
-        {props.data.adminOptions.disqus_installed ?
-            <WelcomePanel shortname={props.data.adminOptions.disqus_forum_url} /> :
-            null
-        }
+        {props.data.adminOptions.disqus_installed ? <WelcomePanel shortname={props.data.adminOptions.disqus_forum_url} /> : null}
         <AdminTabBar {...props} />
         {getActiveTabView(props)}
     </div>
