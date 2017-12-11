@@ -155,8 +155,6 @@ class Disqus_Api_Service {
 		// Close the form
 		$body .= '--' . $boundary . '--';
 
-		var_dump( $body );
-
 		$dsq_response = wp_remote_post( $api_url, array(
 			'body' => $body,
 			'headers' => $headers,
