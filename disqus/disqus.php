@@ -14,10 +14,10 @@
  * @wordpress-plugin
  * Plugin Name:       Disqus for WordPress
  * Plugin URI:        https://disqus.com/
- * Description:       Disqus helps publishers increase engagement and build loyal audiences.
+ * Description:       Disqus helps publishers increase engagement and build loyal audiences. Supports syncing comments to your database for easy backup.
  * Version:           3.0.2
- * Author:            Ryan Valentin
- * Author URI:        http://ryanvalentin.com/
+ * Author:            Disqus
+ * Author URI:        https://disqus.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       disqus
