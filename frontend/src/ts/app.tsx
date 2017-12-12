@@ -14,7 +14,7 @@ import adminApp from './reducers/adminApp';
 import { IAdminOptions } from './reducers/AdminOptions';
 import AdminState from './reducers/AdminState';
 import { ISyncStatus } from './reducers/SyncStatus';
-import { IRestResponse, restGet } from './rest';
+import { DisqusApi, IRestResponse, pluginRestGet } from './rest';
 
 const store = Redux.createStore<AdminState>(adminApp);
 
@@ -62,17 +62,20 @@ ReactDOM.render(
         store.dispatch(setValueAction('isFetchingSyncStatus', true));
 
         // Fetch the admin options
-        restGet('settings', (response: IRestResponse<IAdminOptions>) => {
+        pluginRestGet('settings', (response: IRestResponse<IAdminOptions>) => {
             store.dispatch(setValueAction('isFetchingAdminOptions', false));
 
             if (!checkResponse(response))
                 return;
 
+            const data: IAdminOptions = response.data;
+            DisqusApi.instance.configure(data.disqus_public_key, data.disqus_admin_access_token, data.disqus_forum_url);
+
             store.dispatch(updateAdminOptionsAction(response.data));
         });
 
         // Fetch the sync status
-        restGet('sync/status', (response: IRestResponse<ISyncStatus>) => {
+        pluginRestGet('sync/status', (response: IRestResponse<ISyncStatus>) => {
             store.dispatch(setValueAction('isFetchingSyncStatus', false));
 
             if (!checkResponse(response))

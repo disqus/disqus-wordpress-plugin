@@ -89,7 +89,7 @@ class Disqus_Api_Service {
 	 *
 	 * @since     3.0
 	 * @param     string $endpoint    The Disqus API secret key.
-	 * @param     array  $params       The params to be added to the body.
+	 * @param     array  $params      The params to be added to the body.
 	 * @return    array               The response data array.
 	 */
 	public function api_post( $endpoint, $params ) {
