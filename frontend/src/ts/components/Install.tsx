@@ -16,7 +16,7 @@ const SYNCTOKEN_INPUT_ID = 'configKey';
 /* tslint:disable:max-line-length */
 class Install extends React.Component<IFormProps, any> {
     public render() {
-        const syncToken = `${REST_OPTIONS.base}settings ${this.props.data.adminOptions.get('disqus_sync_token', '')}`;
+        const syncToken = `${REST_OPTIONS.base}${REST_OPTIONS.disqusBase}settings ${this.props.data.adminOptions.get('disqus_sync_token', '')}`;
         return (
             <div>
                 <h3>
