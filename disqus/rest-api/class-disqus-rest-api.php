@@ -738,24 +738,6 @@ class Disqus_Rest_Api {
     }
 
     /**
-     * Outputs a string in a CDATA tag.
-     *
-     * @since     3.0
-     * @access    private
-     * @param     string $str    The string to wrap in CDATA tags.
-     * @return    string         The wrapped CDATA string.
-     */
-    private function format_wxr_cdata( $str ) {
-        if ( seems_utf8( $str ) === false ) {
-            $str = utf8_encode( $str );
-        }
-
-        $str = '<![CDATA[' . str_replace( ']]>', ']]]]><![CDATA[>', $str ) . ']]>';
-
-        return $str;
-    }
-
-    /**
      * Outputs a list of comments to a WXR file for uploading to the Disqus importer.
      *
      * @since     3.0
@@ -836,30 +818,25 @@ class Disqus_Rest_Api {
                 mysql2date( 'D, d M Y H:i:s +0000', get_post_time( 'Y-m-d H:i:s', true, $post ), false )
             )
         );
-        $item->appendChild(
-            $xml->createElement(
-                'dc:creator',
-                $this->format_wxr_cdata( $post_author->display_name )
-            )
-        );
+
+        $author_name_cdata = $xml->createCDATASection( $post_author->display_name );
+        $author_name_element = $xml->createElement( 'dc:creator' );
+        $author_name_element->appendChild( $author_name_cdata );
+        $item->appendChild( $author_name_element );
 
         $guid = $xml->createElement( 'guid', $post->guid );
         $guid->setAttribute( 'isPermalink', 'false' );
         $item->appendChild( $guid );
 
-        $item->appendChild(
-            $xml->createElement(
-                'content:encoded',
-                $this->format_wxr_cdata( apply_filters( 'the_content_export', $post->post_content ) )
-            )
-        );
+        $post_content_cdata = $xml->createCDATASection( apply_filters( 'the_content_export', $post->post_content ) );
+        $post_content_element = $xml->createElement( 'content:encoded' );
+        $post_content_element->appendChild( $post_content_cdata );
+        $item->appendChild($post_content_element);
 
-        $item->appendChild(
-            $xml->createElement(
-                'dsq:thread_identifier',
-                $this->format_wxr_cdata( $post->ID . ' ' . $post->guid )
-            )
-        );
+        $identifier_cdata = $xml->createCDATASection( $post->ID . ' ' . $post->guid );
+        $identifier_element = $xml->createElement( 'dsq:thread_identifier' );
+        $identifier_element->appendChild( $identifier_cdata );
+        $item->appendChild( $identifier_element );
 
         $item->appendChild(
             $xml->createElement(
@@ -893,12 +870,10 @@ class Disqus_Rest_Api {
                 )
             );
 
-            $wpcomment->appendChild(
-                $xml->createElement(
-                    'wp:comment_author',
-                    $this->format_wxr_cdata( $c->comment_author )
-                )
-            );
+            $comment_author_name_cdata = $xml->createCDATASection( $c->comment_author );
+            $comment_author_name_element = $xml->createElement( 'wp:comment_author' );
+            $comment_author_name_element->appendChild( $comment_author_name_cdata );
+            $wpcomment->appendChild( $comment_author_name_element );
 
             $wpcomment->appendChild(
                 $xml->createElement(
@@ -935,12 +910,10 @@ class Disqus_Rest_Api {
                 )
             );
 
-            $wpcomment->appendChild(
-                $xml->createElement(
-                    'wp:comment_content',
-                    $this->format_wxr_cdata( $c->comment_content )
-                )
-            );
+            $comment_content_cdata = $xml->createCDATASection( $c->comment_content );
+            $comment_content_element = $xml->createElement( 'wp:comment_content' );
+            $comment_content_element->appendChild( $comment_content_cdata );
+            $wpcomment->appendChild( $comment_content_element );
 
             $wpcomment->appendChild(
                 $xml->createElement(
