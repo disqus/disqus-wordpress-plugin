@@ -831,7 +831,7 @@ class Disqus_Rest_Api {
         $post_content_cdata = $xml->createCDATASection( apply_filters( 'the_content_export', $post->post_content ) );
         $post_content_element = $xml->createElement( 'content:encoded' );
         $post_content_element->appendChild( $post_content_cdata );
-        $item->appendChild($post_content_element);
+        $item->appendChild( $post_content_element );
 
         $identifier_cdata = $xml->createCDATASection( $post->ID . ' ' . $post->guid );
         $identifier_element = $xml->createElement( 'dsq:thread_identifier' );
