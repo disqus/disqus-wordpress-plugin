@@ -48,6 +48,7 @@ script:
   - phpcs -s --standard=phpcs.ruleset.xml
   - phpunit
   - yarn run build:dist
+  - npm test
 
 deploy:
   provider: script

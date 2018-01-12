@@ -1,23 +1,27 @@
 {
   "name": "disqus-wordpress-plugin",
-  "version": "3.0",
+  "version": "3.0.5",
   "description": "",
   "main": "frontend/src/js/index.js",
   "scripts": {
     "build": "yarn run build:dev && yarn run build:dist",
     "build:dev": "webpack --progress --colors",
     "build:dist": "NODE_ENV=production webpack --progress --colors",
-    "start": "webpack --progress --colors --watch"
+    "start": "webpack --progress --colors --watch",
+    "test": "jest"
   },
   "author": "ryanvalentin <ryan@disqus.com>",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^22.0.1",
     "@types/react": "^15.5.6",
     "@types/react-dom": "^15.5.6",
     "@types/react-redux": "^5.0.14",
     "awesome-typescript-loader": "^3.4.0",
     "i18n-webpack-plugin": "^1.0.0",
+    "jest": "^22.0.6",
     "source-map-loader": "^0.2.3",
+    "ts-jest": "^22.0.1",
     "tslint": "^5.8.0",
     "tslint-react": "^3.2.0",
     "typescript": "^2.6.2",
@@ -30,5 +34,18 @@
     "react-redux": "^5.0.6",
     "redux": "^3.7.2"
   },
-  "repository": "https://github.com/ryanvalentin/disqus-wordpress-plugin.git"
+  "repository": "https://github.com/ryanvalentin/disqus-wordpress-plugin.git",
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/frontend/tests/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx",
+      "json"
+    ]
+  }
 }
