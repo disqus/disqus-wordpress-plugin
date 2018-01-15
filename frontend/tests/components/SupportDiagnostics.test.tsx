@@ -1,11 +1,6 @@
 import * as React from 'react';
-import * as ReactRedux from 'react-redux';
 import * as TestRenderer from 'react-test-renderer';
-import * as Redux from 'redux';
-import { IFormProps } from '../../src/ts/components/FormProps';
 import SupportDiagnostics from '../../src/ts/components/SupportDiagnostics';
-import adminApp from '../../src/ts/reducers/adminApp';
-import AdminState, { IAdminConfigData } from '../../src/ts/reducers/AdminState';
 import { DEFAULT_FORM_PROPS } from '../fixtures';
 
 test('SupportDiagnostics renders a readonly textarea with admin config data', () => {
