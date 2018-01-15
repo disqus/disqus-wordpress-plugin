@@ -1,10 +1,10 @@
 import { IFormProps } from '../src/ts/components/FormProps';
 import AdminState, { IAdminConfigData } from '../src/ts/reducers/AdminState';
 
-export const DEFAULT_ADMIN_CONFIG: IAdminConfigData = {
+export const getDefaultAdminConfig = (): IAdminConfigData => ({
     adminUrls: {
-        disqus: '/',
-        editComments: '/',
+        disqus: 'https://foo.com/wp-admin/admin.php?page=disqus',
+        editComments: 'https://foo.com/wp-admin/edit-comments.php',
     },
     permissions: {
         canManageSettings: true,
@@ -18,10 +18,10 @@ export const DEFAULT_ADMIN_CONFIG: IAdminConfigData = {
         name: 'Test',
         pluginVersion: '0.0.1',
     },
-};
+});
 
-export const DEFAULT_FORM_PROPS: IFormProps = {
-    data: new AdminState(DEFAULT_ADMIN_CONFIG),
+export const getDefaultFormProps = (): IFormProps => ({
+    data: new AdminState(getDefaultAdminConfig()),
     onCopyText: jest.fn(),
     onInputChange: jest.fn(),
     onSubmitExportCommentsForm: jest.fn(),
@@ -29,4 +29,4 @@ export const DEFAULT_FORM_PROPS: IFormProps = {
     onSubmitSyncConfigForm: jest.fn(),
     onToggleState: jest.fn(),
     onUpdateInstallationState: jest.fn(),
-};
+});
