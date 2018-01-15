@@ -43,7 +43,7 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(/frontend/tests/.*|(\\.|/)(test|spec))\\.(ts|tsx)$",
+    "testRegex": "(/frontend/tests/.*(\\.|/)(test|spec))\\.(ts|tsx)$",
     "moduleFileExtensions": [
       "js",
       "jsx",
