@@ -10,11 +10,12 @@ import {
     updateSyncStatusAction,
 } from './actions';
 import { MainContainer } from './containers';
+import { DisqusApi } from './DisqusApi';
 import adminApp from './reducers/adminApp';
 import { IAdminOptions } from './reducers/AdminOptions';
 import AdminState from './reducers/AdminState';
 import { ISyncStatus } from './reducers/SyncStatus';
-import { DisqusApi, IRestResponse, pluginRestGet } from './rest';
+import { IRestResponse, WordPressRestApi } from './WordPressRestApi';
 
 const store = Redux.createStore<AdminState>(adminApp);
 
@@ -62,7 +63,7 @@ ReactDOM.render(
         store.dispatch(setValueAction('isFetchingSyncStatus', true));
 
         // Fetch the admin options
-        pluginRestGet('settings', (response: IRestResponse<IAdminOptions>) => {
+        WordPressRestApi.instance.pluginRestGet('settings', (response: IRestResponse<IAdminOptions>) => {
             store.dispatch(setValueAction('isFetchingAdminOptions', false));
 
             if (!checkResponse(response))
@@ -75,7 +76,7 @@ ReactDOM.render(
         });
 
         // Fetch the sync status
-        pluginRestGet('sync/status', (response: IRestResponse<ISyncStatus>) => {
+        WordPressRestApi.instance.pluginRestGet('sync/status', (response: IRestResponse<ISyncStatus>) => {
             store.dispatch(setValueAction('isFetchingSyncStatus', false));
 
             if (!checkResponse(response))

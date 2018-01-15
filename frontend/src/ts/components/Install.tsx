@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { InstallationState } from '../reducers/AdminState';
 import { IDisqusWordpressWindow } from '../reducers/AdminState';
+import REST_OPTIONS from '../REST_OPTIONS';
 import { IFormProps } from './FormProps';
 
-const WIN = window as IDisqusWordpressWindow;
-const REST_OPTIONS = WIN.DISQUS_WP.rest;
 const DISQUS_URL_BASE: string = 'https://disqus.com/';
 const DISQUS_SIGNUP_URL: string = `${DISQUS_URL_BASE}profile/signup/`;
 const DISQUS_LOGIN_URL: string = `${DISQUS_URL_BASE}profile/login/`;
