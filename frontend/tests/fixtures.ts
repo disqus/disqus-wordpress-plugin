@@ -1,7 +1,7 @@
 import { IFormProps } from '../src/ts/components/FormProps';
 import AdminState, { IAdminConfigData } from '../src/ts/reducers/AdminState';
 
-const DEFAULT_ADMIN_CONFIG: IAdminConfigData = {
+export const DEFAULT_ADMIN_CONFIG: IAdminConfigData = {
     adminUrls: {
         disqus: '/',
         editComments: '/',
