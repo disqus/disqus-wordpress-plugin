@@ -44,19 +44,6 @@
     text-decoration: none;
 }
 
-.dsq-card {
-    display: inline-block;
-    vertical-align: top;
-    margin-right: 20px;
-    width: 100%;
-}
-
-@media screen and (max-width: 480px) {
-    .dsq-card {
-        margin-right: 0px;
-    }
-}
-
 /* Placeholder spinner */
 
 .dsq-loading-container {
