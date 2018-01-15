@@ -18,8 +18,12 @@
     "@types/react-dom": "^15.5.6",
     "@types/react-redux": "^5.0.14",
     "awesome-typescript-loader": "^3.4.0",
+    "babel-jest": "^22.0.6",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "i18n-webpack-plugin": "^1.0.0",
     "jest": "^22.0.6",
+    "react-test-renderer": "^16.2.0",
     "source-map-loader": "^0.2.3",
     "ts-jest": "^22.0.1",
     "tslint": "^5.8.0",
@@ -29,8 +33,8 @@
   },
   "dependencies": {
     "immutable": "^3.8.2",
-    "react": "^15.6.2",
-    "react-dom": "^15.6.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2"
   },
@@ -39,13 +43,16 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(/frontend/tests/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testRegex": "(/frontend/tests/.*|(\\.|/)(test|spec))\\.(ts|tsx)$",
     "moduleFileExtensions": [
       "js",
       "jsx",
       "ts",
       "tsx",
       "json"
+    ],
+    "setupFiles": [
+      "./frontend/tests/beforeAll.js"
     ]
   }
 }
