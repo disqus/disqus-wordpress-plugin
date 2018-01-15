@@ -52,7 +52,7 @@
       "json"
     ],
     "setupFiles": [
-      "./frontend/tests/beforeAll.js"
+      "./frontend/tests/beforeAll.ts"
     ]
   }
 }
