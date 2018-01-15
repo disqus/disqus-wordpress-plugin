@@ -8,7 +8,7 @@ var LANGUAGES = {
     'en': null,
 };
 
-var allConfigs = Object.keys(LANGUAGES).map(language => {
+var allConfigs = Object.keys(LANGUAGES).map(function (language) {
     var config = {
         entry: './frontend/src/ts/index.ts',
         output: {
