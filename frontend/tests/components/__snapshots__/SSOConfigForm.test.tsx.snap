@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SSOConfigForm component Renders basic form 1`] = `
+<form
+  action=""
+  method="POST"
+  name="sso"
+  onSubmit={[MockFunction]}
+>
+  <table
+    className="form-table"
+  >
+    <tbody>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_sso_enabled"
+          >
+            Enable SSO
+          </label>
+        </th>
+        <td>
+          <input
+            checked={false}
+            id="disqus_sso_enabled"
+            name="disqus_sso_enabled"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <p
+            className="description"
+          >
+            This will enable Single Sign-on for this site, if already enabled for your Disqus organization.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_sso_button"
+          >
+            Custom Login Button
+          </label>
+        </th>
+        <td>
+          <input
+            className="regular-text"
+            id="disqus_sso_button"
+            name="disqus_sso_button"
+            onChange={[Function]}
+            type="url"
+            value=""
+          />
+          <p
+            className="description"
+          >
+            A link to a .png, .gif, or .jpg image to show as a button in Disqus.
+             
+            <a
+              href="https://help.disqus.com/customer/portal/articles/236206#sso-login-button"
+              target="_blank"
+            >
+              Learn More
+            </a>
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p
+    className="submit"
+  >
+    <input
+      className="button button-primary"
+      name="submit-application-form"
+      type="submit"
+      value="Save"
+    />
+  </p>
+</form>
+`;
+
+exports[`SSOConfigForm component Renders form with values 1`] = `
+<form
+  action=""
+  method="POST"
+  name="sso"
+  onSubmit={[MockFunction]}
+>
+  <table
+    className="form-table"
+  >
+    <tbody>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_sso_enabled"
+          >
+            Enable SSO
+          </label>
+        </th>
+        <td>
+          <input
+            checked={true}
+            id="disqus_sso_enabled"
+            name="disqus_sso_enabled"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <p
+            className="description"
+          >
+            This will enable Single Sign-on for this site, if already enabled for your Disqus organization.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_sso_button"
+          >
+            Custom Login Button
+          </label>
+        </th>
+        <td>
+          <input
+            className="regular-text"
+            id="disqus_sso_button"
+            name="disqus_sso_button"
+            onChange={[Function]}
+            type="url"
+            value="https://foo.com/sso.png"
+          />
+          <p
+            className="description"
+          >
+            A link to a .png, .gif, or .jpg image to show as a button in Disqus.
+             
+            <a
+              href="https://help.disqus.com/customer/portal/articles/236206#sso-login-button"
+              target="_blank"
+            >
+              Learn More
+            </a>
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p
+    className="submit"
+  >
+    <input
+      className="button button-primary"
+      name="submit-application-form"
+      type="submit"
+      value="Save"
+    />
+  </p>
+</form>
+`;
