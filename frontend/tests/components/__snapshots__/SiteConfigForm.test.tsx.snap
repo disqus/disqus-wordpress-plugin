@@ -1,0 +1,468 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SiteConfigForm component Renders basic form 1`] = `
+<form
+  action=""
+  method="POST"
+  name="site"
+  onSubmit={[MockFunction]}
+>
+  <table
+    className="form-table"
+  >
+    <tbody>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_forum_url"
+          >
+            Shortname
+            <span
+              style={
+                Object {
+                  "color": "red",
+                }
+              }
+            >
+               *
+            </span>
+          </label>
+        </th>
+        <td>
+          <input
+            className="regular-text"
+            id="disqus_forum_url"
+            name="disqus_forum_url"
+            onChange={[Function]}
+            readOnly={true}
+            type="text"
+            value=""
+          />
+          <p
+            className="description"
+          >
+            Your site's unique identifier
+             
+            <a
+              href="https://help.disqus.com/customer/portal/articles/466208"
+              target="_blank"
+            >
+              What is this?
+            </a>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_public_key"
+          >
+            API Public Key
+          </label>
+        </th>
+        <td>
+          <input
+            autoComplete="new-password"
+            className="regular-text"
+            id="disqus_public_key"
+            name="disqus_public_key"
+            onChange={[Function]}
+            readOnly={true}
+            type="password"
+            value=""
+          />
+          <p
+            className="description"
+          >
+            The public key of your application (optional).
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_secret_key"
+          >
+            API Secret Key
+          </label>
+        </th>
+        <td>
+          <input
+            autoComplete="new-password"
+            className="regular-text"
+            id="disqus_secret_key"
+            name="disqus_secret_key"
+            onChange={[Function]}
+            readOnly={true}
+            type="password"
+            value=""
+          />
+          <p
+            className="description"
+          >
+            The secret key of your application (optional).
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_admin_access_token"
+          >
+            API Access Token
+          </label>
+        </th>
+        <td>
+          <input
+            autoComplete="new-password"
+            className="regular-text"
+            id="disqus_admin_access_token"
+            name="disqus_admin_access_token"
+            onChange={[Function]}
+            readOnly={true}
+            type="password"
+            value=""
+          />
+          <p
+            className="description"
+          >
+            The admin access token of your application (optional).
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p
+    className="submit"
+  >
+    <button
+      className="button button-link"
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-lock"
+      />
+       
+      Click to make changes
+    </button>
+  </p>
+</form>
+`;
+
+exports[`SiteConfigForm component Renders form with save button unlocked 1`] = `
+<form
+  action=""
+  method="POST"
+  name="site"
+  onSubmit={[MockFunction]}
+>
+  <table
+    className="form-table"
+  >
+    <tbody>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_forum_url"
+          >
+            Shortname
+            <span
+              style={
+                Object {
+                  "color": "red",
+                }
+              }
+            >
+               *
+            </span>
+          </label>
+        </th>
+        <td>
+          <input
+            className="regular-text"
+            id="disqus_forum_url"
+            name="disqus_forum_url"
+            onChange={[Function]}
+            readOnly={false}
+            type="text"
+            value=""
+          />
+          <p
+            className="description"
+          >
+            Your site's unique identifier
+             
+            <a
+              href="https://help.disqus.com/customer/portal/articles/466208"
+              target="_blank"
+            >
+              What is this?
+            </a>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_public_key"
+          >
+            API Public Key
+          </label>
+        </th>
+        <td>
+          <input
+            autoComplete="new-password"
+            className="regular-text"
+            id="disqus_public_key"
+            name="disqus_public_key"
+            onChange={[Function]}
+            readOnly={false}
+            type="text"
+            value=""
+          />
+          <p
+            className="description"
+          >
+            The public key of your application (optional).
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_secret_key"
+          >
+            API Secret Key
+          </label>
+        </th>
+        <td>
+          <input
+            autoComplete="new-password"
+            className="regular-text"
+            id="disqus_secret_key"
+            name="disqus_secret_key"
+            onChange={[Function]}
+            readOnly={false}
+            type="text"
+            value=""
+          />
+          <p
+            className="description"
+          >
+            The secret key of your application (optional).
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_admin_access_token"
+          >
+            API Access Token
+          </label>
+        </th>
+        <td>
+          <input
+            autoComplete="new-password"
+            className="regular-text"
+            id="disqus_admin_access_token"
+            name="disqus_admin_access_token"
+            onChange={[Function]}
+            readOnly={false}
+            type="text"
+            value=""
+          />
+          <p
+            className="description"
+          >
+            The admin access token of your application (optional).
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p
+    className="submit"
+  >
+    <input
+      className="button button-primary"
+      name="submit-site-form"
+      type="submit"
+      value="Save"
+    />
+  </p>
+</form>
+`;
+
+exports[`SiteConfigForm component Renders form with values 1`] = `
+<form
+  action=""
+  method="POST"
+  name="site"
+  onSubmit={[MockFunction]}
+>
+  <table
+    className="form-table"
+  >
+    <tbody>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_forum_url"
+          >
+            Shortname
+            <span
+              style={
+                Object {
+                  "color": "red",
+                }
+              }
+            >
+               *
+            </span>
+          </label>
+        </th>
+        <td>
+          <input
+            className="regular-text"
+            id="disqus_forum_url"
+            name="disqus_forum_url"
+            onChange={[Function]}
+            readOnly={true}
+            type="text"
+            value="foo"
+          />
+          <p
+            className="description"
+          >
+            Your site's unique identifier
+             
+            <a
+              href="https://help.disqus.com/customer/portal/articles/466208"
+              target="_blank"
+            >
+              What is this?
+            </a>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_public_key"
+          >
+            API Public Key
+          </label>
+        </th>
+        <td>
+          <input
+            autoComplete="new-password"
+            className="regular-text"
+            id="disqus_public_key"
+            name="disqus_public_key"
+            onChange={[Function]}
+            readOnly={true}
+            type="password"
+            value="bar"
+          />
+          <p
+            className="description"
+          >
+            The public key of your application (optional).
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_secret_key"
+          >
+            API Secret Key
+          </label>
+        </th>
+        <td>
+          <input
+            autoComplete="new-password"
+            className="regular-text"
+            id="disqus_secret_key"
+            name="disqus_secret_key"
+            onChange={[Function]}
+            readOnly={true}
+            type="password"
+            value="baz"
+          />
+          <p
+            className="description"
+          >
+            The secret key of your application (optional).
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_admin_access_token"
+          >
+            API Access Token
+          </label>
+        </th>
+        <td>
+          <input
+            autoComplete="new-password"
+            className="regular-text"
+            id="disqus_admin_access_token"
+            name="disqus_admin_access_token"
+            onChange={[Function]}
+            readOnly={true}
+            type="password"
+            value="qux"
+          />
+          <p
+            className="description"
+          >
+            The admin access token of your application (optional).
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p
+    className="submit"
+  >
+    <button
+      className="button button-link"
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-lock"
+      />
+       
+      Click to make changes
+    </button>
+  </p>
+</form>
+`;
