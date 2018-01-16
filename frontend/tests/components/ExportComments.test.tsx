@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as TestRenderer from 'react-test-renderer';
-import ExportComments, { LogMessages } from '../../src/ts/components/ExportComments';
+import ExportComments from '../../src/ts/components/ExportComments';
 import { IFormProps } from '../../src/ts/components/FormProps';
 import { ExportLogStaus, IExportPostLog } from '../../src/ts/reducers/AdminState';
 import { getDefaultFormProps } from '../fixtures';
