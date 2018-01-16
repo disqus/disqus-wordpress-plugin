@@ -3,16 +3,28 @@ import { DisqusApi } from '../src/ts/DisqusApi';
 describe('DisqusApi', () => {
     let xmlHttpReq: jest.MockInstance<any>;
     let lastSentFormData: FormData;
+    let lastEventListener: jest.EmptyFunction;
 
     beforeEach(() => {
         // tslint:disable-next-line:no-string-literal
         xmlHttpReq = global['XMLHttpRequest'] = jest.fn(() => ({
-            addEventListener: jest.fn(),
+            addEventListener: jest.fn((event: string, onload: jest.EmptyFunction) => {
+                if (event === 'load')
+                    lastEventListener = onload;
+            }),
             open: jest.fn(),
             send: jest.fn((data: FormData) => {
                 lastSentFormData = data;
+                if (lastEventListener)
+                    lastEventListener.call(this);
             }),
         }));
+    });
+
+    afterEach(() => {
+        xmlHttpReq = null;
+        lastSentFormData = null;
+        lastEventListener = null;
     });
 
     test('Can be configured with authentication and forum', () => {
@@ -39,6 +51,7 @@ describe('DisqusApi', () => {
         expect(xmlHttpReq.mock.instances).toHaveLength(1);
         expect(xhr.open).toBeCalledWith('POST', 'https://disqus.com/api/3.0/imports/create.json');
         expect(xhr.addEventListener).toBeCalledWith('load', onLoad);
+        expect(onLoad).toBeCalled();
 
         const uploadFile: File = lastSentFormData.get('upload') as File;
         expect(uploadFile.name).toBe(expectedUpload.name);
