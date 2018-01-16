@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Message Includes message content and class name 1`] = `
+<div
+  className="notice notice-error inline is-dismissible"
+>
+  <p>
+    Test message
+  </p>
+</div>
+`;

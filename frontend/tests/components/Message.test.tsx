@@ -3,7 +3,7 @@ import * as TestRenderer from 'react-test-renderer';
 import Message from '../../src/ts/components/Message';
 import { IMessage } from '../../src/ts/reducers/AdminState';
 
-describe('Message rendering', () => {
+describe('Message', () => {
     const props: IMessage = {
         onDismiss: null,
         text: 'Test message',
@@ -12,10 +12,8 @@ describe('Message rendering', () => {
 
     test('Includes message content and class name', () => {
         const component = TestRenderer.create(<Message {...props} />);
-        const root = component.root;
 
-        expect(root.findByType('p').children).toEqual(['Test message']);
-        expect(root.findByType('div').props.className).toBe('notice notice-error inline is-dismissible');
+        expect(component).toMatchSnapshot();
     });
 
     test('Dismiss button is rendered with the onDismiss prop', () => {
