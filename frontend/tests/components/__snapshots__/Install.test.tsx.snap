@@ -1,0 +1,227 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Install component rendering InstallationState.hasAccount displays a followup question about registering a site 1`] = `
+<div>
+  <h3>
+    Automatic Installation
+  </h3>
+  <p>
+    Installs Disqus on your site using a generated API application. If your site isn't publicly accessible, use the manual installation method.
+  </p>
+  <div>
+    <p
+      className="submit"
+    >
+      <strong>
+        Do you have a site registered on Disqus you want to use?
+      </strong>
+      <br />
+      <button
+        className="button"
+        onClick={[Function]}
+      >
+        Yes
+      </button>
+       
+      <button
+        className="button"
+        onClick={[Function]}
+      >
+        No
+      </button>
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Install component rendering InstallationState.hasSite displays a instructions for installing using an existing site 1`] = `
+<div>
+  <h3>
+    Automatic Installation
+  </h3>
+  <p>
+    Installs Disqus on your site using a generated API application. If your site isn't publicly accessible, use the manual installation method.
+  </p>
+  <ol
+    className="dsq-installation__instruction-list"
+  >
+    <li>
+      Go to the WordPress Beta installation page
+      <br />
+      <button
+        className="button button-primary button-large"
+        onClick={[Function]}
+      >
+        WordPress Beta installation page
+      </button>
+    </li>
+    <li>
+      When prompted, choose the Disqus site you want to use
+    </li>
+    <li>
+      If needed, copy the sync token below and paste it to the input field in the installation page
+      <br />
+      <input
+        className="regular-text"
+        id="configKey"
+        readOnly={true}
+        type="text"
+        value="https://foo.com/wp-json/disqus/v1/settings null"
+      />
+      <button
+        className="button"
+        onClick={[Function]}
+      >
+        Copy
+      </button>
+    </li>
+    <li>
+      Click the Install button and finish configuring your Disqus settings
+    </li>
+  </ol>
+</div>
+`;
+
+exports[`Install component rendering InstallationState.noAccount displays a instructions for registering an account 1`] = `
+<div>
+  <h3>
+    Automatic Installation
+  </h3>
+  <p>
+    Installs Disqus on your site using a generated API application. If your site isn't publicly accessible, use the manual installation method.
+  </p>
+  <ol
+    className="dsq-installation__instruction-list"
+  >
+    <li>
+      Sign up to register your account and site with Disqus
+      <br />
+      <button
+        className="button button-primary button-large"
+        onClick={[Function]}
+      >
+        Sign up
+      </button>
+    </li>
+    <li>
+      After creating the site, go to the WordPress Beta installation page to finish.
+      <br />
+      <button
+        className="button"
+        onClick={[Function]}
+      >
+        WordPress Beta installation page
+      </button>
+    </li>
+    <li>
+      If needed, copy the sync token below and paste it to the input field in the installation page
+      <br />
+      <input
+        className="regular-text"
+        id="configKey"
+        readOnly={true}
+        type="text"
+        value="https://foo.com/wp-json/disqus/v1/settings null"
+      />
+      <button
+        className="button"
+        onClick={[Function]}
+      >
+        Copy
+      </button>
+    </li>
+    <li>
+      Click the Install button and finish configuring your Disqus settings
+    </li>
+  </ol>
+</div>
+`;
+
+exports[`Install component rendering InstallationState.noSite displays a instructions for installing using an new site 1`] = `
+<div>
+  <h3>
+    Automatic Installation
+  </h3>
+  <p>
+    Installs Disqus on your site using a generated API application. If your site isn't publicly accessible, use the manual installation method.
+  </p>
+  <ol
+    className="dsq-installation__instruction-list"
+  >
+    <li>
+      Create a new site on Disqus
+      <br />
+      <button
+        className="button button-primary button-large"
+        onClick={[Function]}
+      >
+        Create site
+      </button>
+    </li>
+    <li>
+      After creating the site, go to the WordPress Beta installation page to finish.
+      <br />
+      <button
+        className="button"
+        onClick={[Function]}
+      >
+        WordPress Beta installation page
+      </button>
+    </li>
+    <li>
+      If needed, copy the sync token below and paste it to the input field in the installation page
+      <br />
+      <input
+        className="regular-text"
+        id="configKey"
+        readOnly={true}
+        type="text"
+        value="https://foo.com/wp-json/disqus/v1/settings null"
+      />
+      <button
+        className="button"
+        onClick={[Function]}
+      >
+        Copy
+      </button>
+    </li>
+    <li>
+      Click the Install button and finish configuring your Disqus settings
+    </li>
+  </ol>
+</div>
+`;
+
+exports[`Install component rendering InstallationState.none displays the entry form snapshot 1`] = `
+<div>
+  <h3>
+    Automatic Installation
+  </h3>
+  <p>
+    Installs Disqus on your site using a generated API application. If your site isn't publicly accessible, use the manual installation method.
+  </p>
+  <div>
+    <p
+      className="submit"
+    >
+      <strong>
+        Do you have a Disqus account?
+      </strong>
+      <br />
+      <button
+        className="button"
+        onClick={[Function]}
+      >
+        Yes
+      </button>
+       
+      <button
+        className="button"
+        onClick={[Function]}
+      >
+        No
+      </button>
+    </p>
+  </div>
+</div>
+`;
