@@ -27,6 +27,10 @@ describe('DisqusApi', () => {
         lastEventListener = null;
     });
 
+    test('Static instance is defined', () => {
+        expect(DisqusApi.instance).toBeInstanceOf(DisqusApi);
+    });
+
     test('Can be configured with authentication and forum', () => {
         const api: DisqusApi = new DisqusApi();
         api.configure('foo', 'bar', 'baz');
