@@ -3,17 +3,35 @@ export class DisqusApi {
         return disqusApi;
     }
 
-    private apiKey: string;
-    private accessToken: string;
-    private forum: string;
+    // tslint:disable:variable-name
+    private _apiKey: string;
+    private _accessToken: string;
+    private _forum: string;
+    // tslint:enable:variable-name
 
-    public configure(apiKey: string, accessToken: string, forum: string) {
-        this.apiKey = apiKey;
-        this.accessToken = accessToken;
-        this.forum = forum;
+    public get apiKey(): string {
+        return this._apiKey;
     }
 
-    public createImport(xmlContent: string, filename: string, onLoad: EventListenerOrEventListenerObject): void {
+    public get accessToken(): string {
+        return this._accessToken;
+    }
+
+    public get forum(): string {
+        return this._forum;
+    }
+
+    public configure(apiKey: string, accessToken: string, forum: string) {
+        this._apiKey = apiKey;
+        this._accessToken = accessToken;
+        this._forum = forum;
+    }
+
+    public createImport(
+        xmlContent: string,
+        filename: string,
+        onLoad: EventListenerOrEventListenerObject,
+    ): XMLHttpRequest {
         const formData: FormData = new FormData();
         formData.append('upload', new Blob([xmlContent], { type: 'text/xml' }), filename);
         formData.append('sourceType', '0');
@@ -21,12 +39,12 @@ export class DisqusApi {
         formData.append('api_key', this.apiKey);
         formData.append('access_token', this.accessToken);
 
-        this.post('imports/create', formData, onLoad);
+        return this.post('imports/create', formData, onLoad);
     }
 
-    public post(path: string, data: FormData, onLoad: EventListenerOrEventListenerObject): XMLHttpRequest {
+    private post(path: string, data: FormData, onLoad: EventListenerOrEventListenerObject): XMLHttpRequest {
         if (!this.apiKey)
-            return;
+            return null;
 
         const XHR = new XMLHttpRequest();
         XHR.open('POST', `https://disqus.com/api/3.0/${path}.json`);
