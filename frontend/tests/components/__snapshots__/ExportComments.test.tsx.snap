@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExportComments component Disables submit button during export 1`] = `
+<form
+  method="POST"
+  name="export"
+  onSubmit={[MockFunction]}
+>
+  <p
+    className="submit"
+  >
+    <button
+      className="button button-large"
+      disabled={true}
+      type="submit"
+    >
+      <span
+        className="dashicons dashicons-upload"
+      />
+       
+      Export Comments
+    </button>
+  </p>
+</form>
+`;
+
+exports[`ExportComments component Renders basic form without any export logs 1`] = `
+<form
+  method="POST"
+  name="export"
+  onSubmit={[MockFunction]}
+>
+  <p
+    className="submit"
+  >
+    <button
+      className="button button-large"
+      disabled={false}
+      type="submit"
+    >
+      <span
+        className="dashicons dashicons-upload"
+      />
+       
+      Export Comments
+    </button>
+  </p>
+</form>
+`;
+
+exports[`ExportComments component Renders export logs 1`] = `
+<form
+  method="POST"
+  name="export"
+  onSubmit={[MockFunction]}
+>
+  <p
+    className="submit"
+  >
+    <button
+      className="button button-large"
+      disabled={true}
+      type="submit"
+    >
+      <span
+        className="dashicons dashicons-upload"
+      />
+       
+      Export Comments
+    </button>
+  </p>
+  <div>
+    <h4>
+      Exporting…
+    </h4>
+    <table
+      className="wp-list-table widefat striped"
+    >
+      <thead>
+        <tr>
+          <th
+            scope="col"
+          >
+            ID
+          </th>
+          <th
+            scope="col"
+          >
+            Title
+          </th>
+          <th
+            scope="col"
+          >
+            Status
+          </th>
+          <th
+            scope="col"
+          >
+            # Imported
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            1
+          </td>
+          <td>
+            <a
+              href="https://foo.com?p=1"
+            >
+              Foo
+            </a>
+          </td>
+          <td>
+            <strong
+              style={
+                Object {
+                  "color": "gray",
+                }
+              }
+            >
+              Pending
+            </strong>
+          </td>
+          <td />
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</form>
+`;
