@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WelcomePanel renders basic layout 1`] = `
+<div
+  className="welcome-panel"
+>
+  <div
+    className="welcome-panel-content"
+  >
+    <p
+      className="about-description"
+    >
+      Check out what's new
+    </p>
+    <div
+      className="welcome-panel-column-container"
+    >
+      <div
+        className="welcome-panel-column"
+      >
+        <h3>
+          Comments
+        </h3>
+        <a
+          className="button button-primary button-hero"
+          href="https://foo.disqus.com/admin/moderate/"
+        >
+          Moderate
+        </a>
+        <p
+          className="description"
+        >
+          <a
+            href="https://foo.disqus.com/admin/access/banned/"
+            target="_blank"
+          >
+            Manage banned users and word filters
+          </a>
+        </p>
+      </div>
+      <div
+        className="welcome-panel-column"
+      >
+        <h3>
+          Analytics
+        </h3>
+        <ul>
+          <li>
+            <a
+              className="welcome-icon dashicons-megaphone"
+              href="https://foo.disqus.com/admin/analytics/comments/"
+              target="_blank"
+            >
+              Engagement
+            </a>
+          </li>
+          <li>
+            <a
+              className="welcome-icon dashicons-chart-line"
+              href="https://foo.disqus.com/admin/analytics/revenue/"
+              target="_blank"
+            >
+              Revenue
+            </a>
+          </li>
+          <li>
+            <a
+              className="welcome-icon dashicons-heart"
+              href="https://foo.disqus.com/admin/analytics/content/"
+              target="_blank"
+            >
+              Popular Content
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div
+        className="welcome-panel-column"
+      >
+        <h3>
+          Settings
+        </h3>
+        <ul>
+          <li>
+            <a
+              className="welcome-icon dashicons-admin-appearance"
+              href="https://foo.disqus.com/admin/settings/general/"
+              target="_blank"
+            >
+              Identity
+            </a>
+          </li>
+          <li>
+            <a
+              className="welcome-icon dashicons-format-chat"
+              href="https://foo.disqus.com/admin/settings/community/"
+              target="_blank"
+            >
+              Community Rules
+            </a>
+          </li>
+          <li>
+            <a
+              className="welcome-icon dashicons-admin-settings"
+              href="https://foo.disqus.com/admin/settings/advanced/"
+              target="_blank"
+            >
+              Advanced
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+`;
