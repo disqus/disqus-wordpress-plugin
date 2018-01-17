@@ -3,6 +3,7 @@ import { Record } from 'immutable';
 export interface ISyncStatus {
     enabled?: boolean;
     last_message?: string;
+    requires_update?: any;
     subscribed?: boolean;
     subscription?: any;
 }

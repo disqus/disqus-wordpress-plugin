@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SyncConfigForm component Renders form with disabled sync subscription 1`] = `
+<form
+  method="POST"
+  name="sync/enable"
+  onSubmit={[MockFunction]}
+>
+  <p>
+    <span
+      className="dashicons dashicons-update"
+    />
+     
+    Auto syncing
+    :
+     
+    <strong>
+      Not Configured
+    </strong>
+  </p>
+  <p
+    className="submit"
+  >
+    <button
+      className="button button-large"
+      type="submit"
+    >
+      <span
+        className="dashicons dashicons-controls-play"
+      />
+       
+      Enable Auto Syncing
+    </button>
+  </p>
+</form>
+`;
+
+exports[`SyncConfigForm component Renders form with enabled sync subscription 1`] = `
+<form
+  method="POST"
+  name="sync/disable"
+  onSubmit={[MockFunction]}
+>
+  <p>
+    <span
+      className="dashicons dashicons-update"
+    />
+     
+    Auto syncing
+    :
+     
+    <strong>
+      Running
+    </strong>
+  </p>
+  <p
+    className="submit"
+  >
+    <button
+      className="button button-large"
+      type="submit"
+    >
+      <span
+        className="dashicons dashicons-controls-pause"
+      />
+       
+      Pause Auto Syncing
+    </button>
+  </p>
+</form>
+`;
+
+exports[`SyncConfigForm component Renders form with no sync enabled 1`] = `
+<form
+  method="POST"
+  name="sync/enable"
+  onSubmit={[MockFunction]}
+>
+  <p>
+    <span
+      className="dashicons dashicons-update"
+    />
+     
+    Auto syncing
+    :
+     
+    <strong>
+      Not Configured
+    </strong>
+  </p>
+  <p
+    className="submit"
+  >
+    <button
+      className="button button-large"
+      type="submit"
+    >
+      <span
+        className="dashicons dashicons-controls-play"
+      />
+       
+      Enable Auto Syncing
+    </button>
+  </p>
+</form>
+`;
+
+exports[`SyncConfigForm component Renders form with paused sync subscription 1`] = `
+<form
+  method="POST"
+  name="sync/enable"
+  onSubmit={[MockFunction]}
+>
+  <p>
+    <span
+      className="dashicons dashicons-update"
+    />
+     
+    Auto syncing
+    :
+     
+    <strong>
+      Needs Update
+    </strong>
+  </p>
+  <p
+    className="submit"
+  >
+    <button
+      className="button button-large"
+      type="submit"
+    >
+      <span
+        className="dashicons dashicons-controls-play"
+      />
+       
+      Update Auto Syncing
+    </button>
+  </p>
+</form>
+`;
