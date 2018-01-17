@@ -27,14 +27,29 @@ exports[`WelcomePanel renders basic layout 1`] = `
         >
           Moderate
         </a>
-        <p
-          className="description"
-        >
+        <p>
+          <strong>
+            Manage: 
+          </strong>
           <a
             href="https://foo.disqus.com/admin/access/banned/"
             target="_blank"
           >
-            Manage banned users and word filters
+            Banned users
+          </a>
+           | 
+          <a
+            href="https://foo.disqus.com/admin/settings/access/"
+            target="_blank"
+          >
+            Restricted words filter
+          </a>
+           | 
+          <a
+            href="https://foo.disqus.com/admin/settings/moderators/"
+            target="_blank"
+          >
+            Site moderators
           </a>
         </p>
       </div>

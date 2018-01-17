@@ -8,13 +8,18 @@ const SupportLinks = () => (
             </a>
         </li>
         <li>
-            <a href='https://github.com/disqus/disqus-wordpress-plugin' target='_blank'>
-                Github Project (disqus-wordpress-plugin)
+            <a href='https://help.disqus.com/customer/en/portal/articles/472005' target='_blank'>
+                WordPress Troubleshooting and F.A.Q.
             </a>
         </li>
         <li>
-            <a href='https://help.disqus.com/' target='_blank'>
-                Documentation
+            <a href='https://disqus.com/home/channel/discussdisqus/' target='_blank'>
+                Post Question on <em>Discuss Disqus</em>
+            </a>
+        </li>
+        <li>
+            <a href='https://github.com/disqus/disqus-wordpress-plugin' target='_blank'>
+                Github Project (disqus-wordpress-plugin)
             </a>
         </li>
         <li>
