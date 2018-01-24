@@ -6,8 +6,7 @@ describe('DisqusApi', () => {
     let lastEventListener: jest.EmptyFunction;
 
     beforeEach(() => {
-        // tslint:disable-next-line:no-string-literal
-        xmlHttpReq = global['XMLHttpRequest'] = jest.fn(() => ({
+        xmlHttpReq = global.XMLHttpRequest = jest.fn(() => ({
             addEventListener: jest.fn((event: string, onload: jest.EmptyFunction) => {
                 if (event === 'load')
                     lastEventListener = onload;
