@@ -9,7 +9,7 @@ import {
     updateAdminOptionsAction,
     updateSyncStatusAction,
 } from './actions';
-import { MainContainer } from './containers';
+import MainContainer from './containers/MainContainer';
 import { DisqusApi } from './DisqusApi';
 import adminApp from './reducers/adminApp';
 import { IAdminOptions } from './reducers/AdminOptions';

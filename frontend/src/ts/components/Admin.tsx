@@ -1,14 +1,12 @@
 import * as React from 'react';
 import * as ReactRedux from 'react-redux';
 import * as Redux from 'redux';
-import {
-    ExportCommentsContainer,
-    InstallContainer,
-    SiteConfigContainer,
-    SSOConfigContainer,
-    SupportDiagnosticsContainer,
-    SyncConfigContainer,
-} from '../containers';
+import ExportCommentsContainer from '../containers/ExportCommentsContainer';
+import InstallContainer from '../containers/InstallContainer';
+import SiteConfigContainer from '../containers/SiteConfigContainer';
+import SSOConfigContainer from '../containers/SSOConfigContainer';
+import SupportDiagnosticsContainer from '../containers/SupportDiagnosticsContainer';
+import SyncConfigContainer from '../containers/SyncConfigContainer';
 import { IAdminState } from '../reducers/AdminState';
 import { getForumAdminUrl, getWordpressAdminUrl } from '../utils';
 import { IFormProps } from './FormProps';

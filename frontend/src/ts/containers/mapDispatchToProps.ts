@@ -1,5 +1,3 @@
-import * as React from 'react';
-import * as ReactRedux from 'react-redux';
 import * as Redux from 'redux';
 import {
     changeInstallStateAction,
@@ -9,21 +7,17 @@ import {
     updateExportPostLogAction,
     updateLocalOptionAction,
     updateSyncStatusAction,
-} from './actions';
-import ExportComments from './components/ExportComments';
-import Install from './components/Install';
-import Main from './components/Main';
-import SiteConfigForm from './components/SiteConfigForm';
-import SSOConfigForm from './components/SSOConfigForm';
-import SupportDiagnostics from './components/SupportDiagnostics';
-import SyncConfigForm from './components/SyncConfigForm';
-import { DisqusApi } from './DisqusApi';
-import { IAdminOptions } from './reducers/AdminOptions';
-import AdminState, { ExportLogStaus, InstallationState } from './reducers/AdminState';
+} from '../actions';
+import { DisqusApi } from '../DisqusApi';
+import { IAdminOptions } from '../reducers/AdminOptions';
+import {
+    ExportLogStaus,
+    InstallationState,
+} from '../reducers/AdminState';
 import {
     IRestResponse,
     WordPressRestApi,
-} from './WordPressRestApi';
+} from '../WordPressRestApi';
 
 const UPDATABLE_FIELDS: string[] = [
     'disqus_forum_url',
@@ -34,12 +28,6 @@ const UPDATABLE_FIELDS: string[] = [
     'disqus_sso_enabled',
     'disqus_sync_token',
 ];
-
-const mapStateToProps = (state: AdminState) => {
-    return {
-        data: state,
-    };
-};
 
 const valueFromInput = (element: HTMLInputElement): string => {
     const isCheckbox: boolean = element.type === 'checkbox';
@@ -242,37 +230,4 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
     };
 };
 
-export const MainContainer = ReactRedux.connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(Main);
-
-export const ExportCommentsContainer = ReactRedux.connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(ExportComments);
-
-export const InstallContainer = ReactRedux.connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(Install);
-
-export const SiteConfigContainer = ReactRedux.connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(SiteConfigForm);
-
-export const SSOConfigContainer = ReactRedux.connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(SSOConfigForm);
-
-export const SupportDiagnosticsContainer = ReactRedux.connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(SupportDiagnostics);
-
-export const SyncConfigContainer = ReactRedux.connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(SyncConfigForm);
+export default mapDispatchToProps;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { InstallContainer } from '../containers';
+import InstallContainer from '../containers/InstallContainer';
 import { getWordpressAdminUrl } from '../utils';
 import Admin from './Admin';
 import { IFormProps } from './FormProps';
