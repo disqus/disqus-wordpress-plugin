@@ -9,8 +9,13 @@ export interface IRestResponse<T> {
 }
 
 export class WordPressRestApi {
+    private static current: WordPressRestApi;
+
     static get instance() {
-        return wordPressRestApi;
+        if (!WordPressRestApi.current)
+            WordPressRestApi.current = new WordPressRestApi();
+
+        return WordPressRestApi.current;
     }
 
     public pluginRestGet(path: string, onLoad: (response: IRestResponse<any>) => void): XMLHttpRequest {
@@ -74,5 +79,3 @@ export class WordPressRestApi {
         callback.call(null, jsonObject);
     }
 }
-
-const wordPressRestApi: WordPressRestApi = new WordPressRestApi();
