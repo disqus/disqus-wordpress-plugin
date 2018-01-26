@@ -18,6 +18,10 @@ export class WordPressRestApi {
         return WordPressRestApi.current;
     }
 
+    static set instance(newInstance) {
+        WordPressRestApi.current = newInstance;
+    }
+
     public pluginRestGet(path: string, onLoad: (response: IRestResponse<any>) => void): XMLHttpRequest {
         return this.makeApiRequest(
             'GET',
