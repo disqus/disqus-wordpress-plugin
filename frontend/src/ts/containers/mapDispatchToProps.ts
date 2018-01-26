@@ -14,6 +14,7 @@ import {
     ExportLogStaus,
     InstallationState,
 } from '../reducers/AdminState';
+import WordPressCommentExporter from '../WordPressCommentExporter';
 import {
     IRestResponse,
     WordPressRestApi,
@@ -64,100 +65,14 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
         onSubmitExportCommentsForm: (event: React.SyntheticEvent<HTMLFormElement>): void => {
             event.preventDefault();
 
-            const dispatchError = (post: any, error: string): void => {
-                dispatch(updateExportPostLogAction({
-                    error,
-                    id: post.id,
-                    link: post.link,
-                    numComments: null,
-                    status: ExportLogStaus.failed,
-                    title: post.title.rendered,
-                }));
-            };
+            const exporter: WordPressCommentExporter = new WordPressCommentExporter(dispatch);
 
-            const dispatchComplete = (post: any, numComments: number): void => {
-                dispatch(updateExportPostLogAction({
-                    error: null,
-                    id: post.id,
-                    link: post.link,
-                    numComments,
-                    status: ExportLogStaus.complete,
-                    title: post.title.rendered,
-                }));
-            };
-
-            const postsPerPage = 10;
-            let currentPage = 1;
-            const exportPost = (post: any): void => {
-                WordPressRestApi.instance.pluginRestPost('export/post', { postId: post.id }, (response: any): void => {
-
-                    if (!response || response.code !== 'OK') {
-                        dispatchError(post, response.message);
-                        return;
-                    }
-
-                    if (!response.data.comments.length) {
-                        dispatchComplete(post, response.data.comments.length);
-                        return;
-                    }
-
-                    const wxr = response.data.wxr;
-                    DisqusApi.instance.createImport(wxr.xmlContent, wxr.filename, (xhr: Event) => {
-                        let jsonObject = null;
-                        try {
-                            jsonObject = JSON.parse((xhr.target as XMLHttpRequest).responseText);
-                        } catch (error) {
-                            // Continue
-                        }
-
-                        if (!jsonObject) {
-                            dispatchError(post, __('Unknown error uploading to the Disqus servers'));
-                            return;
-                        }
-
-                        if (jsonObject.code !== 0) {
-                            dispatchError(post, jsonObject.response);
-                            return;
-                        }
-
-                        dispatchComplete(post, response.data.comments.length);
-                    });
-                });
-            };
-
-            const fetchPosts = (): void => {
-                WordPressRestApi.instance.wordpressRestGet(
-                    'posts',
-                    `per_page=${postsPerPage}&page=${currentPage}`,
-                    (response: any): void => {
-                        if (Array.isArray(response)) {
-                            response.forEach((post: any) => {
-                                dispatch(updateExportPostLogAction({
-                                    error: null,
-                                    id: post.id,
-                                    link: post.link,
-                                    numComments: null,
-                                    status: ExportLogStaus.pending,
-                                    title: post.title.rendered,
-                                }));
-                                exportPost(post);
-                            });
-
-                            if (response.length === postsPerPage) {
-                                currentPage += 1;
-                                fetchPosts();
-                            }
-                        }
-                    },
-                );
-            };
-
-            fetchPosts();
+            exporter.startExportPosts();
         },
         onSubmitSiteForm: (event: React.SyntheticEvent<HTMLFormElement>) => {
             event.preventDefault();
 
-            const fields = (UPDATABLE_FIELDS as any).reduce((previousValue: any, currentIdKey: string): any => {
+            const fields = UPDATABLE_FIELDS.reduce((previousValue: any, currentIdKey: string): any => {
                 if (currentIdKey in event.currentTarget.elements) {
                     const currentField: Element | HTMLCollection = event.currentTarget.elements.namedItem(currentIdKey);
                     const currentInputElement = currentField as HTMLInputElement;
@@ -229,5 +144,7 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
         },
     };
 };
+
+export { UPDATABLE_FIELDS };
 
 export default mapDispatchToProps;
