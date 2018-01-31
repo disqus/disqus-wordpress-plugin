@@ -15,15 +15,15 @@ class WordPressCommentExporter {
         this.currentPage = 1;
     }
 
-    public startExportPosts(): void {
-        WordPressRestApi.instance.wordpressRestGet(
+    public startExportPosts(): XMLHttpRequest {
+        return WordPressRestApi.instance.wordpressRestGet(
             'posts',
             `per_page=${POSTS_PER_PAGE}&page=${this.currentPage}`,
             this.handlePostsResponse,
         );
     }
 
-    private exportPost(post: any): void {
+    public exportPost(post: any): void {
         WordPressRestApi.instance.pluginRestPost(
             'export/post',
             { postId: post.id },
@@ -31,7 +31,7 @@ class WordPressCommentExporter {
         );
     }
 
-    private dispatchComplete(post: any, numComments: number): void {
+    public dispatchComplete(post: any, numComments: number): void {
         this.dispatch(updateExportPostLogAction({
             error: null,
             id: post.id,
@@ -42,7 +42,7 @@ class WordPressCommentExporter {
         }));
     }
 
-    private dispatchError(post: any, error: string): void {
+    public dispatchError(post: any, error: string): void {
         this.dispatch(updateExportPostLogAction({
             error,
             id: post.id,
@@ -53,7 +53,7 @@ class WordPressCommentExporter {
         }));
     }
 
-    private handleDisqusImportResponse(post: any, exportPostResponse: any, xhr: Event): void {
+    public handleDisqusImportResponse(post: any, exportPostResponse: any, xhr: Event): void {
         let jsonObject = null;
         try {
             jsonObject = JSON.parse((xhr.target as XMLHttpRequest).responseText);
@@ -74,7 +74,7 @@ class WordPressCommentExporter {
         this.dispatchComplete(post, exportPostResponse.data.comments.length);
     }
 
-    private handleExportPostResponse(post: any, response: any): void {
+    public handleExportPostResponse(post: any, response: any): void {
         if (!response || response.code !== 'OK') {
             this.dispatchError(post, response.message);
             return;
@@ -93,7 +93,7 @@ class WordPressCommentExporter {
         );
     }
 
-    private handlePostsResponse(response: any): void {
+    public handlePostsResponse(response: any): void {
         if (Array.isArray(response)) {
             response.forEach((post: any) => {
                 this.dispatch(updateExportPostLogAction({
