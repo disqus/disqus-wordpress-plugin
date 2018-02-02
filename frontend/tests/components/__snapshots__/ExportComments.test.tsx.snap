@@ -18,7 +18,7 @@ exports[`ExportComments component Disables submit button during export 1`] = `
         className="dashicons dashicons-upload"
       />
        
-      Export Comments
+      Import Comments
     </button>
   </p>
 </form>
@@ -42,7 +42,7 @@ exports[`ExportComments component Renders basic form without any export logs 1`]
         className="dashicons dashicons-upload"
       />
        
-      Export Comments
+      Import Comments
     </button>
   </p>
 </form>
@@ -66,12 +66,12 @@ exports[`ExportComments component Renders export logs 1`] = `
         className="dashicons dashicons-upload"
       />
        
-      Export Comments
+      Import Comments
     </button>
   </p>
   <div>
     <h4>
-      Exporting…
+      Sending to Disqus…
     </h4>
     <table
       className="wp-list-table widefat striped"

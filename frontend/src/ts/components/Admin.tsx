@@ -128,10 +128,10 @@ const getActiveTabView = (props: IFormProps) => {
                 {getSyncContainer(props)}
                 <hr />
                 <h3>
-                    {__('Export')}
+                    {__('Import')}
                 </h3>
                 <p className='description'>
-                    {__('Export comments from your WordPress installation to Disqus.')}
+                    {__('Import your existing WordPress comments to Disqus.')}
                 </p>
                 {getExportContainer(props)}
             </div>

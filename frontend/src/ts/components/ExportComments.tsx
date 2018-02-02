@@ -4,7 +4,7 @@ import { IFormProps } from './FormProps';
 
 const getStatusMessage = (props: IFormProps): JSX.Element => {
     if (props.data.isExportRunning)
-        return <h4>{__('Exporting') + '…'}</h4>;
+        return <h4>{__('Sending to Disqus') + '…'}</h4>;
 
     return (
         <h4>
@@ -80,7 +80,7 @@ const ExportComments = (props: IFormProps) => (
             <button type='submit' className='button button-large' disabled={props.data.isExportRunning}>
                 <span className='dashicons dashicons-upload' />
                 {' '}
-                {__('Export Comments')}
+                {__('Import Comments')}
             </button>
         </p>
         {props.data.exportLogs.size ? <LogMessages {...props} /> : null}
