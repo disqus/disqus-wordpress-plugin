@@ -6,6 +6,11 @@ import { IFormProps } from './FormProps';
 import Loading from './Loading';
 import Message from './Message';
 
+const PRE_RELEASE_TYPES: any = Object.freeze({
+    alpha: 'alpha',
+    beta: 'beta',
+});
+
 /* tslint:disable:max-line-length */
 const getMainView = (props: IFormProps) => {
     if (!props.data.config.permissions.canManageSettings)
@@ -13,6 +18,22 @@ const getMainView = (props: IFormProps) => {
     else if (props.data.isFetchingAdminOptions || props.data.isFetchingSyncStatus)
         return <Loading />;
     return <Admin {...props} />;
+};
+
+const getPreReleaseNotice = (pluginVersion: string) => {
+    // Format of versions can be either 1.0.0, 1.0.0-beta, or 1.0.0-beta.1
+    const preReleaseType = (pluginVersion.split('-')[1] || '').split('.')[0];
+    if (PRE_RELEASE_TYPES[preReleaseType]) {
+        return (
+            <div className={`notice notice-info inline`}>
+                <p>
+                    You are using a <strong>pre-release version ({`${pluginVersion}`})</strong> of the Disqus WordPress plugin.
+                    {' '}<a href='https://github.com/disqus/disqus-wordpress-plugin/releases' target='_blank'>Check for new releases</a>
+                </p>
+            </div>
+        );
+    }
+    return null;
 };
 
 const Main = (props: IFormProps) => (
@@ -26,12 +47,7 @@ const Main = (props: IFormProps) => (
             </a>
         </div>
         <div className='wrap'>
-            <div className={`notice notice-info inline`}>
-                <p>
-                    You are using a <strong>pre-release version ({`${props.data.config.site.pluginVersion}`})</strong> of the Disqus WordPress plugin.
-                    {' '}<a href='https://github.com/disqus/disqus-wordpress-plugin/releases' target='_blank'>Check for new releases</a>
-                </p>
-            </div>
+            {getPreReleaseNotice(props.data.config.site.pluginVersion)}
             {props.data.message ? <Message {...props.data.message} /> : null}
             {getMainView(props)}
         </div>
