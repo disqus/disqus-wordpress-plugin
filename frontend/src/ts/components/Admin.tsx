@@ -10,6 +10,7 @@ import SyncConfigContainer from '../containers/SyncConfigContainer';
 import { IAdminState } from '../reducers/AdminState';
 import { getForumAdminUrl, getWordpressAdminUrl } from '../utils';
 import { IFormProps } from './FormProps';
+import HelpResources from './HelpResources';
 import SupportLinks from './SupportLinks';
 import WelcomePanel from './WelcomePanel';
 
@@ -155,9 +156,14 @@ const getActiveTabView = (props: IFormProps) => {
         return (
             <div>
                 <h3>
-                    {__('Support Links')}
+                    {__('How to Get Support')}
                 </h3>
                 <SupportLinks />
+                <hr />
+                <h3>
+                    {__('Helpful Resources')}
+                </h3>
+                <HelpResources />
                 <hr />
                 <h3>
                     {__('Diagnostic Information')}

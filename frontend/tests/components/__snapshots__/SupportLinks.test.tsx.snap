@@ -1,49 +1,53 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SupportLinks renders with correct links 1`] = `
-<ul>
-  <li>
-    <a
-      href="https://status.disqus.com/"
-      target="_blank"
-    >
-      Disqus System Status
-    </a>
+<ul
+  className="dsq-support-list-container"
+>
+  <li
+    className="dsq-support-list-item"
+  >
+    <div>
+      <a
+        href="https://help.disqus.com/customer/en/portal/articles/472005"
+        target="_blank"
+      >
+        <div
+          className="dashicons dashicons-lightbulb dsq-icon-support"
+        />
+        WordPress FAQ
+      </a>
+    </div>
   </li>
-  <li>
-    <a
-      href="https://help.disqus.com/customer/en/portal/articles/472005"
-      target="_blank"
-    >
-      WordPress Troubleshooting and F.A.Q.
-    </a>
+  <li
+    className="dsq-support-list-item"
+  >
+    <div>
+      <a
+        href="https://disqus.com/home/channel/discussdisqus/"
+        target="_blank"
+      >
+        <div
+          className="dashicons dashicons-groups dsq-icon-support"
+        />
+        Community Forum
+      </a>
+    </div>
   </li>
-  <li>
-    <a
-      href="https://disqus.com/home/channel/discussdisqus/"
-      target="_blank"
-    >
-      Post Question on 
-      <em>
-        Discuss Disqus
-      </em>
-    </a>
-  </li>
-  <li>
-    <a
-      href="https://github.com/disqus/disqus-wordpress-plugin"
-      target="_blank"
-    >
-      Github Project (disqus-wordpress-plugin)
-    </a>
-  </li>
-  <li>
-    <a
-      href="https://disqus.com/support/?article=contact_wordpress"
-      target="_blank"
-    >
-      Contact Support
-    </a>
+  <li
+    className="dsq-support-list-item"
+  >
+    <div>
+      <a
+        href="https://disqus.com/support/?article=contact_wordpress"
+        target="_blank"
+      >
+        <div
+          className="dashicons dashicons-email-alt dsq-icon-support"
+        />
+        Contact Support
+      </a>
+    </div>
   </li>
 </ul>
 `;

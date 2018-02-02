@@ -114,3 +114,27 @@
     background: rgb(255, 211, 79);
     border-radius: 1em;
 }
+
+.dsq-icon-support {
+    font-size: 72px;
+    width: 72px;
+    height: 72px;
+    display: block;
+    margin: 0 auto 5px auto;
+}
+
+.dsq-support-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+.dsq-support-list-item {
+    text-align: center;
+    padding: 10px 30px;
+}
+
+.dsq-support-list-item a {
+    text-decoration: none;
+    font-size: 14px;
+}

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SupportLinks renders with correct links 1`] = `
+<ul>
+  <li>
+    <a
+      href="https://status.disqus.com/"
+      target="_blank"
+    >
+      Disqus System Status
+    </a>
+  </li>
+  <li>
+    <a
+      href="https://github.com/disqus/disqus-wordpress-plugin"
+      target="_blank"
+    >
+      Github Project
+       (disqus-wordpress-plugin)
+    </a>
+  </li>
+</ul>
+`;
