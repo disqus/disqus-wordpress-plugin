@@ -70,11 +70,11 @@ describe('Install component rendering', () => {
         props.data = props.data.set('adminOptions', props.data.adminOptions.set('disqus_sync_token', 'foo'));
         const component = TestRenderer.create(<Install {...props} />);
 
-        const openDisqusButton = component.root.findByProps({children: 'WordPress Beta installation page'});
+        const openDisqusButton = component.root.findByProps({children: 'WordPress installation page'});
         openDisqusButton.props.onClick();
 
         // tslint:disable-next-line:max-line-length
-        const expectedUrl = 'https://disqus.com/profile/login/?next=https%3A%2F%2Fdisqus.com%2Fadmin%2Finstall%2Fplatforms%2Fwordpressbeta%2F';
+        const expectedUrl = 'https://disqus.com/profile/login/?next=https%3A%2F%2Fdisqus.com%2Fadmin%2Finstall%2Fplatforms%2Fwordpress%2F';
 
         expect(mockOpenFunction).toBeCalledWith(expectedUrl);
         expect(mockEventListenerFunction).toBeCalledWith('message', expect.anything(), false);

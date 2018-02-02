@@ -54,7 +54,7 @@ The Disqus for WordPress plugin lets site owners and developers easily add Disqu
 
 == Support ==
 
-* Search our [Knowledge Base](https://help.disqus.com/) for solutions to common troubleshooting questions
+* Search our [Knowledge Base](https://help.disqus.com/customer/portal/articles/472005) for solutions to common troubleshooting questions
 * Check out our support community, [Discuss Disqus](https://disqus.com/home/channel/discussdisqus/), to see if your question has been answered
 * Talk to our Support team at [disqus.com/support](disqus.com/support)
 * Visit our [Getting Started](https://help.disqus.com/customer/en/portal/articles/1264625-getting-started) page to learn the basics of Disqus
@@ -118,10 +118,11 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 
 == Changelog ==
 
-= 3.0 =
+= 3.0.6 =
 
-* Plugin has been completely rewritten from the ground up to support modern and secure WordPress/PHP features
-* New method of syncing comments removes dependency on wp-cron making it more reliable
+* Plugin has been completely rewritten to support modern and secure WordPress features.
+* Added new Automatic Installation for installing Disqus on your site. This also creates the API application required for enabling comment syncing.
+* Completely redesigned plugin settings page. Disqus replaces the Comments menu link in your WordPress admin and includes shortcut links to popular settings.
 
 = 2.86 =
 
@@ -392,9 +393,3 @@ INSERT INTO `wp_options` (blog_id, option_name, option_value, autoload) VALUES (
 * Legacy mode is no longer available.
 * The plugin management interface can now be localized.
 * The plugin is now valid HTML5.
-
-== Support ==
-
-* Visit https://disqus.com/help/wordpress for help documentation.
-
-* Visit https://help.disqus.com for help from our support team.

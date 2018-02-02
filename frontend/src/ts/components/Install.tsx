@@ -8,7 +8,6 @@ const DISQUS_URL_BASE: string = 'https://disqus.com/';
 const DISQUS_SIGNUP_URL: string = `${DISQUS_URL_BASE}profile/signup/`;
 const DISQUS_LOGIN_URL: string = `${DISQUS_URL_BASE}profile/login/`;
 const DISQUS_CREATE_URL: string = `${DISQUS_URL_BASE}admin/create/`;
-const DISQUS_WORDPRESSBETA_URL: string = `${DISQUS_URL_BASE}admin/install/platforms/wordpressbeta/`;
 const DISQUS_WORDPRESS_URL: string = `${DISQUS_URL_BASE}admin/install/platforms/wordpress/`;
 const SYNCTOKEN_INPUT_ID = 'configKey';
 
@@ -35,20 +34,20 @@ class Install extends React.Component<IFormProps, any> {
                 return (
                     <div>
                         <p className='submit'>
-                            <strong>Do you have a Disqus account?</strong>
+                            <strong>{__('Do you have a Disqus account?')}</strong>
                             <br />
                             <button
                                 className='button'
                                 onClick={this.props.onUpdateInstallationState.bind(null, InstallationState.hasAccount)}
                             >
-                                Yes
+                                {__('Yes')}
                             </button>
                             {' '}
                             <button
                                 className='button'
                                 onClick={this.props.onUpdateInstallationState.bind(null, InstallationState.noAccount)}
                             >
-                                No
+                                {__('No')}
                             </button>
                         </p>
                     </div>
@@ -57,20 +56,20 @@ class Install extends React.Component<IFormProps, any> {
                 return (
                     <div>
                         <p className='submit'>
-                            <strong>Do you have a site registered on Disqus you want to use?</strong>
+                            <strong>{__('Do you have a site registered on Disqus you want to use?')}</strong>
                             <br />
                             <button
                                 className='button'
                                 onClick={this.props.onUpdateInstallationState.bind(null, InstallationState.hasSite)}
                             >
-                                Yes
+                                {__('Yes')}
                             </button>
                             {' '}
                             <button
                                 className='button'
                                 onClick={this.props.onUpdateInstallationState.bind(null, InstallationState.noSite)}
                             >
-                                No
+                                {__('No')}
                             </button>
                         </p>
                     </div>
@@ -79,7 +78,7 @@ class Install extends React.Component<IFormProps, any> {
                 return (
                     <ol className='dsq-installation__instruction-list'>
                         <li>
-                            Sign up to register your account and site with Disqus
+                            {__('Sign up to register your account and site with Disqus')}
                             <br />
                             <button
                                 className='button button-primary button-large'
@@ -89,17 +88,17 @@ class Install extends React.Component<IFormProps, any> {
                             </button>
                         </li>
                         <li>
-                            After creating the site, go to the WordPress Beta installation page to finish.
+                            {__('After creating the site, go to the WordPress installation page to finish.')}
                             <br />
                             <button
                                 className='button'
-                                onClick={this.openDisqusPage.bind(this, syncToken, `${DISQUS_LOGIN_URL}?next=${encodeURIComponent(DISQUS_WORDPRESSBETA_URL)}`)}
+                                onClick={this.openDisqusPage.bind(this, syncToken, `${DISQUS_LOGIN_URL}?next=${encodeURIComponent(DISQUS_WORDPRESS_URL)}`)}
                             >
-                                {__('WordPress Beta installation page')}
+                                {__('WordPress installation page')}
                             </button>
                         </li>
                         <li>
-                            If needed, copy the sync token below and paste it to the input field in the installation page
+                            {__('If needed, copy the sync token below and paste it to the input field in the installation page')}
                             <br />
                             <input
                                 id={SYNCTOKEN_INPUT_ID}
@@ -116,7 +115,7 @@ class Install extends React.Component<IFormProps, any> {
                             </button>
                         </li>
                         <li>
-                            Click the Install button and finish configuring your Disqus settings
+                            {__('Click the Install button and finish configuring your Disqus settings')}
                         </li>
                     </ol>
                 );
@@ -124,20 +123,20 @@ class Install extends React.Component<IFormProps, any> {
                 return (
                     <ol className='dsq-installation__instruction-list'>
                         <li>
-                            Go to the WordPress Beta installation page
+                            {__('Go to the WordPress installation page')}
                             <br />
                             <button
                                 className='button button-primary button-large'
-                                onClick={this.openDisqusPage.bind(this, syncToken, `${DISQUS_LOGIN_URL}?next=${encodeURIComponent(DISQUS_WORDPRESSBETA_URL)}`)}
+                                onClick={this.openDisqusPage.bind(this, syncToken, `${DISQUS_LOGIN_URL}?next=${encodeURIComponent(DISQUS_WORDPRESS_URL)}`)}
                             >
-                                {__('WordPress Beta installation page')}
+                                {__('WordPress installation page')}
                             </button>
                         </li>
                         <li>
-                            When prompted, choose the Disqus site you want to use
+                            {__('When prompted, choose the Disqus site you want to use')}
                         </li>
                         <li>
-                            If needed, copy the sync token below and paste it to the input field in the installation page
+                            {__('If needed, copy the sync token below and paste it to the input field in the installation page')}
                             <br />
                             <input
                                 id={SYNCTOKEN_INPUT_ID}
@@ -154,7 +153,7 @@ class Install extends React.Component<IFormProps, any> {
                             </button>
                         </li>
                         <li>
-                            Click the Install button and finish configuring your Disqus settings
+                            {__('Click the Install button and finish configuring your Disqus settings')}
                         </li>
                     </ol>
                 );
@@ -162,7 +161,7 @@ class Install extends React.Component<IFormProps, any> {
                 return (
                     <ol className='dsq-installation__instruction-list'>
                         <li>
-                            Create a new site on Disqus
+                            {__('Create a new site on Disqus')}
                             <br />
                             <button
                                 className='button button-primary button-large'
@@ -172,17 +171,17 @@ class Install extends React.Component<IFormProps, any> {
                             </button>
                         </li>
                         <li>
-                            After creating the site, go to the WordPress Beta installation page to finish.
+                            {__('After creating the site, go to the WordPress installation page to finish.')}
                             <br />
                             <button
                                 className='button'
-                                onClick={this.openDisqusPage.bind(this, syncToken, `${DISQUS_LOGIN_URL}?next=${encodeURIComponent(DISQUS_WORDPRESSBETA_URL)}`)}
+                                onClick={this.openDisqusPage.bind(this, syncToken, `${DISQUS_LOGIN_URL}?next=${encodeURIComponent(DISQUS_WORDPRESS_URL)}`)}
                             >
-                                {__('WordPress Beta installation page')}
+                                {__('WordPress installation page')}
                             </button>
                         </li>
                         <li>
-                            If needed, copy the sync token below and paste it to the input field in the installation page
+                            {__('If needed, copy the sync token below and paste it to the input field in the installation page')}
                             <br />
                             <input
                                 id={SYNCTOKEN_INPUT_ID}
@@ -199,7 +198,7 @@ class Install extends React.Component<IFormProps, any> {
                             </button>
                         </li>
                         <li>
-                            Click the Install button and finish configuring your Disqus settings
+                            {__('Click the Install button and finish configuring your Disqus settings')}
                         </li>
                     </ol>
                 );
