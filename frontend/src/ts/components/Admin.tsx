@@ -132,6 +132,10 @@ const getActiveTabView = (props: IFormProps) => {
                 </h3>
                 <p className='description'>
                     {__('Import your existing WordPress comments to Disqus.')}
+                    {' '}
+                    <a href='https://help.disqus.com/customer/portal/articles/466255' target='_blank'>
+                        {__('Learn More')}
+                    </a>
                 </p>
                 {getExportContainer(props)}
             </div>
