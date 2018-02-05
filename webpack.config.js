@@ -1,3 +1,4 @@
+var package = require('./package.json');
 var path = require('path');
 var webpack = require('webpack');
 var I18nPlugin = require('i18n-webpack-plugin');
@@ -13,7 +14,7 @@ var allConfigs = Object.keys(LANGUAGES).map(function (language) {
         entry: './frontend/src/ts/index.ts',
         output: {
             path: path.resolve(__dirname, 'disqus/admin/bundles/js'),
-            filename: language + '.disqus-admin.bundle' + (OPTIMIZE ? '.min.js' : '.js'),
+            filename: language + '.disqus-admin.bundle.' + package.version + (OPTIMIZE ? '.min.js' : '.js'),
         },
         devtool: 'source-map',
         resolve: {

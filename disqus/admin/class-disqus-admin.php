@@ -125,7 +125,11 @@ class Disqus_Admin {
         // TODO: Match language of the WordPress installation against any other localizations once they've been set up.
         $language_code = 'en';
 
-        $file = $language_code . '.' . ( WP_DEBUG ? 'disqus-admin.bundle.js' : 'disqus-admin.bundle.min.js' );
+        $file = $language_code;
+        $file .= '.disqus-admin.bundle.';
+        $file .= $this->version;
+        $file .= WP_DEBUG ? '.js' : '.min.js';
+
         wp_enqueue_script(
             $this->disqus . '_admin',
             plugin_dir_url( __FILE__ ) . 'bundles/js/' . $file,
