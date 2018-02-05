@@ -3,7 +3,7 @@ Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, rya
 Tags: comments, threaded, email, notification, spam, avatars, community, profile, widget, disqus
 Requires at least: 4.4
 Tested up to: 4.7.5
-Stable tag: 3.0
+Stable tag: 3.0.7
 
 Disqus is the web's most popular comment system. Use Disqus to increase engagement, retain readers, and grow your audience.
 
@@ -118,7 +118,7 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 
 == Changelog ==
 
-= 3.0.6 =
+= 3.0.7 =
 
 * Plugin has been completely rewritten to support modern and secure WordPress features.
 * Added new Automatic Installation for installing Disqus on your site. This also creates the API application required for enabling comment syncing.
