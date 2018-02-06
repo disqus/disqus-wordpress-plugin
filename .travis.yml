@@ -40,7 +40,6 @@ before_script:
     composer global require wp-coding-standards/wpcs
   - phpenv rehash
   - composer install
-  - ./vendor/bin/phpcs --config-set installed_paths ./vendor/wp-coding-standards/wpcs
   - nvm install 6.10
   - nvm use 6.10
   - npm install -g yarn
