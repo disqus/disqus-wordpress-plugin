@@ -32,8 +32,8 @@ echo
 # Check version in readme.txt is the same as plugin file after translating both to unix line breaks to work around grep's failure to identify mac line breaks
 PLUGINVERSION=`grep "Version:" $GITPATH/$MAINFILE | awk -F' ' '{print $NF}' | tr -d '\r'`
 echo "$MAINFILE version: $PLUGINVERSION"
-READMEVERSION=`grep "^Stable tag:" $GITPATH/readme.txt | awk -F' ' '{print $NF}' | tr -d '\r'`
-echo "readme.txt version: $READMEVERSION"
+READMEVERSION=`grep "^Stable tag:" $GITPATH/README.txt | awk -F' ' '{print $NF}' | tr -d '\r'`
+echo "README.txt version: $READMEVERSION"
 
 # Check the version in package.json and make sure it's also the same
 PACKAGEVERSION=`cat $CURRENTDIR/package.json | jq -r '.version'`
