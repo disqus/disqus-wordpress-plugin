@@ -20,7 +20,8 @@
         "composer/installers": "v1.2.0"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "3.*",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4"
+        "squizlabs/php_codesniffer": "^3.0.2",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
+        "wp-coding-standards/wpcs": "^0.14.0"
     }
 }
