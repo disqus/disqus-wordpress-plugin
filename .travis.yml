@@ -1,4 +1,4 @@
-sudo: true
+sudo: required
 
 language: php
 
@@ -37,8 +37,6 @@ before_script:
     fi
   - |
     composer global require wp-coding-standards/wpcs
-  - pear install pear/PHP_CodeSniffer
-  - phpenv rehash
   - phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
   - nvm install 6.10
   - nvm use 6.10
