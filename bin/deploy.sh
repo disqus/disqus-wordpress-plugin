@@ -77,9 +77,6 @@ Thumbs.db
 .gitattributes
 .gitignore" "$SVNPATH/trunk/"
 
-#echo "Exporting the HEAD of master from git to the trunk of SVN"
-#git checkout-index -a -f --prefix=$SVNPATH/trunk/
-
 # Make sure trunk files are clean
 echo "Removing all files from trunk"
 rm -rf $SVNPATH/trunk/*
