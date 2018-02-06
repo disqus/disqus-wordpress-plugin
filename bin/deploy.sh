@@ -4,7 +4,7 @@
 # Set up some default values. Feel free to change these in your own script
 PLUGINSLUG="disqus"
 CURRENTDIR=`pwd`
-SVNPATH="/tmp/$PLUGINSLUG"
+SVNPATH="$CURRENTDIR/tmp"
 SVNURL="https://plugins.svn.wordpress.org/disqus-comment-system"
 SVNUSER="disqus"
 PLUGINDIR="$CURRENTDIR/$PLUGINSLUG"
@@ -18,9 +18,6 @@ echo "Plugin directory: $PLUGINDIR"
 echo "Main file: $MAINFILE"
 echo
 
-# git config
-GITPATH="$PLUGINDIR/" # this file should be in the base of your git repository
-
 # Let's begin...
 echo ".........................................."
 echo
@@ -29,10 +26,13 @@ echo
 echo ".........................................."
 echo
 
+# Make sure the SVN temporary folder is removed
+rm -fr $SVNPATH/
+
 # Check version in readme.txt is the same as plugin file after translating both to unix line breaks to work around grep's failure to identify mac line breaks
-PLUGINVERSION=`grep "Version:" $GITPATH/$MAINFILE | awk -F' ' '{print $NF}' | tr -d '\r'`
+PLUGINVERSION=`grep "Version:" $PLUGINDIR/$MAINFILE | awk -F' ' '{print $NF}' | tr -d '\r'`
 echo "$MAINFILE version: $PLUGINVERSION"
-READMEVERSION=`grep "^Stable tag:" $GITPATH/README.txt | awk -F' ' '{print $NF}' | tr -d '\r'`
+READMEVERSION=`grep "^Stable tag:" $PLUGINDIR/README.txt | awk -F' ' '{print $NF}' | tr -d '\r'`
 echo "README.txt version: $READMEVERSION"
 
 # Check the version in package.json and make sure it's also the same
@@ -40,7 +40,7 @@ PACKAGEVERSION=`cat $CURRENTDIR/package.json | jq -r '.version'`
 echo "package.json version: $PACKAGEVERSION"
 
 if [ "$READMEVERSION" = "trunk" ]; then
-	echo "Version in readme.txt & $MAINFILE don't match, but Stable tag is trunk. Let's proceed..."
+	echo "Version in readme.txt & $MAINFILE don't match, but Stable tag is trunk. Continuing..."
 elif [ "$PLUGINVERSION" != "$READMEVERSION" ]; then
 	echo "Version in readme.txt & $MAINFILE don't match. Exiting..."
 	exit 1;
@@ -48,20 +48,26 @@ elif [ "$PACKAGEVERSION" != "$PLUGINVERSION" ]; then
 	echo "Version in package.json & $MAINFILE don't match. Exiting..."
 	exit 1;
 elif [ "$PLUGINVERSION" = "$READMEVERSION" ]; then
-	echo "Versions match in readme.txt, package.json and $MAINFILE. Let's proceed..."
+	echo "Versions match in readme.txt, package.json and $MAINFILE. Continuing..."
 fi
-
-# Temporary so we don't actually push
-echo "Exit before deploying since this is a test."
-exit 1;
-
-echo "Changing to $GITPATH"
-cd $GITPATH
 
 echo
 echo "Creating local copy of SVN repo trunk ..."
 svn checkout $SVNURL $SVNPATH --depth immediates
 svn update --quiet $SVNPATH/trunk --set-depth infinity
+
+# Check latest version tag on SVN and see if this version is a duplicate
+cd $SVNPATH
+TAGREVISION=`svn info ^/disqus-comment-system/tags/$PLUGINVERSION | grep Revision | tr -d 'Revison: '`
+
+if [ -z "$TAGREVISION" ]; then
+    echo "No tag for $PLUGINVERSION yet. Continuing..."
+else
+    echo "Error: A tag exists with the plugin version $PLUGINVERSION. Make sure you update the plugin version before deploying"
+    exit 1;
+fi
+
+cd ..
 
 echo "Ignoring GitHub specific files"
 svn propset svn:ignore "README.md
@@ -71,35 +77,24 @@ Thumbs.db
 .gitattributes
 .gitignore" "$SVNPATH/trunk/"
 
-echo "Exporting the HEAD of master from git to the trunk of SVN"
-git checkout-index -a -f --prefix=$SVNPATH/trunk/
+#echo "Exporting the HEAD of master from git to the trunk of SVN"
+#git checkout-index -a -f --prefix=$SVNPATH/trunk/
 
-# If submodule exist, recursively check out their indexes
-if [ -f ".gitmodules" ]
-	then
-		echo "Exporting the HEAD of each submodule from git to the trunk of SVN"
-		git submodule init
-		git submodule update
-		git config -f .gitmodules --get-regexp '^submodule\..*\.path$' |
-			while read path_key path
-			do
-				#url_key=$(echo $path_key | sed 's/\.path/.url/')
-				#url=$(git config -f .gitmodules --get "$url_key")
-				#git submodule add $url $path
-				echo "This is the submodule path: $path"
-				echo "The following line is the command to checkout the submodule."
-				echo "git submodule foreach --recursive 'git checkout-index -a -f --prefix=$SVNPATH/trunk/$path/'"
-				git submodule foreach --recursive 'git checkout-index -a -f --prefix=$SVNPATH/trunk/$path/'
-			done
-fi
+# Make sure trunk files are clean
+echo "Removing all files from trunk"
+rm -rf $SVNPATH/trunk/*
+
+# Move the folder with the plugin files into trunk
+echo "Copying plugin files into trunk"
+cp -r $PLUGINDIR/* $SVNPATH/trunk/
 
 # Support for the /assets folder on the .org repo.
-echo "Moving assets"
+echo "Copying asset files"
 # Make the directory if it doesn't already exist
 mkdir -p $SVNPATH/assets/
-mv $SVNPATH/trunk/assets/* $SVNPATH/assets/
+cp -r $CURRENTDIR/assets/* $SVNPATH/assets/
+
 svn add --force $SVNPATH/assets/
-svn delete --force $SVNPATH/trunk/assets
 
 echo "Changing directory to SVN and committing to trunk"
 cd $SVNPATH/trunk/
@@ -107,7 +102,7 @@ cd $SVNPATH/trunk/
 svn status | grep -v "^.[ \t]*\..*" | grep "^\!" | awk '{print $2"@"}' | xargs svn del
 # Add all new files that are not set to be ignored
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2"@"}' | xargs svn add
-svn commit --username=$SVNUSER -m "Preparing for $PLUGINVERSION release"
+svn commit --non-interactive --no-auth-cache --username=$SVNUSER --password=$WP_ORG_PASSWORD -m "Preparing for $PLUGINVERSION release"
 
 echo "Updating WordPress plugin repo assets and committing"
 cd $SVNPATH/assets/
@@ -116,7 +111,7 @@ svn status | grep -v "^.[ \t]*\..*" | grep "^\!" | awk '{print $2"@"}' | xargs s
 # Add all new files that are not set to be ignored
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2"@"}' | xargs svn add
 svn update --accept mine-full $SVNPATH/assets/*
-svn commit --username=$SVNUSER -m "Updating assets"
+svn commit --non-interactive --no-auth-cache --username=$SVNUSER --password=$WP_ORG_PASSWORD -m "Updating assets"
 
 echo "Creating new SVN tag and committing it"
 cd $SVNPATH
@@ -126,7 +121,7 @@ svn copy --quiet trunk/ tags/$PLUGINVERSION/
 svn delete --force --quiet $SVNPATH/tags/$PLUGINVERSION/assets
 svn delete --force --quiet $SVNPATH/tags/$PLUGINVERSION/trunk
 cd $SVNPATH/tags/$PLUGINVERSION
-svn commit --username=$SVNUSER -m "Tagging version $PLUGINVERSION"
+svn commit --non-interactive --no-auth-cache --username=$SVNUSER --password=$WP_ORG_PASSWORD -m "Tagging version $PLUGINVERSION"
 
 echo "Removing temporary directory $SVNPATH"
 cd $SVNPATH
