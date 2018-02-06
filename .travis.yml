@@ -61,4 +61,4 @@ deploy:
   script: sh bin/deploy.sh
   on:
     branch: master
-    php: 7.1
+    php: 7.0
