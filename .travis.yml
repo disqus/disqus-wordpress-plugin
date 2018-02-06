@@ -10,7 +10,7 @@ notifications:
 branches:
   only:
     - master
-    - travis_ci
+    - fix_ci
 
 php:
   - 5.6
