@@ -45,7 +45,7 @@ function deactivate_disqus() {
 	Disqus_Deactivator::deactivate();
 }
 
-register_activation_hook(  __FILE__, 'activate_disqus' );
+register_activation_hook( __FILE__, 'activate_disqus' );
 register_deactivation_hook( __FILE__, 'deactivate_disqus' );
 
 /**
