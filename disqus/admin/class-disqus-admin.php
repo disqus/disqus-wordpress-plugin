@@ -61,6 +61,7 @@ class Disqus_Admin {
         $this->disqus = $disqus;
         $this->version = $version;
         $this->shortname = $shortname;
+        $this->ensure_sync_token();
     }
 
     /**
@@ -276,4 +277,18 @@ class Disqus_Admin {
     private function get_site_name() {
         return esc_html( get_bloginfo( 'name' ) );
     }
+
+    /**
+	 * Checks the stored `disqus_sync_token` and generates a new one if it doesn't exist.
+     * This is used as a secret key for authenticating requests through the REST API.
+	 *
+	 * @since  3.0.8
+	 * @access private
+	 */
+	private function ensure_sync_token() {
+		$existing_token = get_option( 'disqus_sync_token', null );
+		if ( empty( $existing_token ) ) {
+			update_option( 'disqus_sync_token', bin2hex( random_bytes( 16 ) ) );
+		}
+	}
 }

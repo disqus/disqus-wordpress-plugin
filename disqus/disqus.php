@@ -30,15 +30,6 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-disqus-activator.php
- */
-function activate_disqus() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-disqus-activator.php';
-	Disqus_Activator::activate();
-}
-
-/**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-disqus-deactivator.php
  */
@@ -47,7 +38,6 @@ function deactivate_disqus() {
 	Disqus_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_disqus' );
 register_deactivation_hook( __FILE__, 'deactivate_disqus' );
 
 /**
