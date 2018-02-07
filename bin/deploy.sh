@@ -61,8 +61,8 @@ TAGREVISION=`svn info $SVNURL/tags/$PLUGINVERSION --non-interactive --no-auth-ca
 if [ -z "$TAGREVISION" ]; then
     echo "No tag for $PLUGINVERSION yet. Continuing..."
 else
-    echo "Error: A tag exists with the plugin version $PLUGINVERSION. Make sure you update the plugin version before deploying"
-    exit 1;
+    echo "Not deploying to wordpress.org. A tag exists with the version $PLUGINVERSION. Update the plugin version before deploying to trigger an update on wordpress.org. Exiting."
+    exit 0;
 fi
 
 cd ..
