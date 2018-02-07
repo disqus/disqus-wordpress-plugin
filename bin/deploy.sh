@@ -77,9 +77,10 @@ Thumbs.db
 .gitattributes
 .gitignore" "$SVNPATH/trunk/"
 
-# Make sure trunk files are clean
-echo "Removing all files from trunk"
+# Make sure assets and trunk files are clean
+echo "Removing all files from /assets and /trunk"
 rm -rf $SVNPATH/trunk/*
+rm -rf $SVNPATH/assets/*
 
 # Move the folder with the plugin files into trunk
 echo "Copying plugin files into trunk"
