@@ -5,8 +5,6 @@
 PLUGINSLUG="disqus"
 CURRENTDIR=`pwd`
 SVNPATH="$CURRENTDIR/tmp"
-SVNURL="https://plugins.svn.wordpress.org/disqus-comment-system"
-SVNUSER="disqus"
 PLUGINDIR="$CURRENTDIR/$PLUGINSLUG"
 MAINFILE="$PLUGINSLUG.php"
 
@@ -53,12 +51,12 @@ fi
 
 echo
 echo "Creating local copy of SVN repo trunk ..."
-svn checkout $SVNURL $SVNPATH --non-interactive --no-auth-cache --username=$SVNUSER --password=$WP_ORG_PASSWORD --depth immediates
-svn update --quiet $SVNPATH/trunk --set-depth infinity --non-interactive --no-auth-cache --username=$SVNUSER --password=$WP_ORG_PASSWORD
+svn checkout $SVNURL $SVNPATH --non-interactive --no-auth-cache --username=$SVNUSER --password=$SVNPASS --depth immediates
+svn update --quiet $SVNPATH/trunk --set-depth infinity --non-interactive --no-auth-cache --username=$SVNUSER --password=$SVNPASS
 
 # Check latest version tag on SVN and see if this version is a duplicate
 cd $SVNPATH
-TAGREVISION=`svn info ^/tags/$PLUGINVERSION --non-interactive --no-auth-cache --username=$SVNUSER --password=$WP_ORG_PASSWORD | grep Revision | tr -d 'Revison: '`
+TAGREVISION=`svn info ^/tags/$PLUGINVERSION --non-interactive --no-auth-cache --username=$SVNUSER --password=$SVNPASS | grep Revision | tr -d 'Revison: '`
 
 if [ -z "$TAGREVISION" ]; then
     echo "No tag for $PLUGINVERSION yet. Continuing..."
@@ -100,7 +98,7 @@ cd $SVNPATH/trunk/
 svn status | grep -v "^.[ \t]*\..*" | grep "^\!" | awk '{print $2"@"}' | xargs svn del
 # Add all new files that are not set to be ignored
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2"@"}' | xargs svn add
-svn commit --non-interactive --no-auth-cache --username=$SVNUSER --password=$WP_ORG_PASSWORD -m "Preparing for $PLUGINVERSION release"
+svn commit --non-interactive --no-auth-cache --username=$SVNUSER --password=$SVNPASS -m "Preparing for $PLUGINVERSION release"
 
 echo "Updating WordPress plugin repo assets and committing"
 cd $SVNPATH/assets/
@@ -108,17 +106,17 @@ cd $SVNPATH/assets/
 svn status | grep -v "^.[ \t]*\..*" | grep "^\!" | awk '{print $2"@"}' | xargs svn del
 # Add all new files that are not set to be ignored
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2"@"}' | xargs svn add
-svn update --non-interactive --no-auth-cache --username=$SVNUSER --password=$WP_ORG_PASSWORD --accept mine-full $SVNPATH/assets/*
-svn commit --non-interactive --no-auth-cache --username=$SVNUSER --password=$WP_ORG_PASSWORD -m "Updating assets"
+svn update --non-interactive --no-auth-cache --username=$SVNUSER --password=$SVNPASS --accept mine-full $SVNPATH/assets/*
+svn commit --non-interactive --no-auth-cache --username=$SVNUSER --password=$SVNPASS -m "Updating assets"
 
 echo "Creating new SVN tag and committing it"
 cd $SVNPATH
-svn update --quiet $SVNPATH/tags/$PLUGINVERSION --non-interactive --no-auth-cache --username=$SVNUSER --password=$WP_ORG_PASSWORD
+svn update --quiet $SVNPATH/tags/$PLUGINVERSION --non-interactive --no-auth-cache --username=$SVNUSER --password=$SVNPASS
 svn copy --quiet trunk/ tags/$PLUGINVERSION/
 # Remove trunk folder from tag directory
 svn delete --force --quiet $SVNPATH/tags/$PLUGINVERSION/trunk
 cd $SVNPATH/tags/$PLUGINVERSION
-svn commit --non-interactive --no-auth-cache --username=$SVNUSER --password=$WP_ORG_PASSWORD -m "Tagging version $PLUGINVERSION"
+svn commit --non-interactive --no-auth-cache --username=$SVNUSER --password=$SVNPASS -m "Tagging version $PLUGINVERSION"
 
 echo "Removing temporary directory $SVNPATH"
 cd $SVNPATH
