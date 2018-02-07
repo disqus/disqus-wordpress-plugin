@@ -29,6 +29,13 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+function activate_disqus() {
+	if ( version_compare( phpversion(), '5.6', '<' ) ) {
+		deactivate_plugins( plugin_basename( __FILE__ ) );
+		wp_die( 'Disqus requires PHP version 5.6 or higher. Plugin was deactivated.' );
+	}
+}
+
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-disqus-deactivator.php
@@ -38,6 +45,7 @@ function deactivate_disqus() {
 	Disqus_Deactivator::deactivate();
 }
 
+register_activation_hook(  __FILE__, 'activate_disqus' );
 register_deactivation_hook( __FILE__, 'deactivate_disqus' );
 
 /**
