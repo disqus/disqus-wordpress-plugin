@@ -56,7 +56,7 @@ svn update --quiet $SVNPATH/trunk --set-depth infinity --non-interactive --no-au
 
 # Check latest version tag on SVN and see if this version is a duplicate
 cd $SVNPATH
-TAGREVISION=`svn info ^/tags/$PLUGINVERSION --non-interactive --no-auth-cache --username=$SVNUSER --password=$SVNPASS | grep Revision | tr -d 'Revison: '`
+TAGREVISION=`svn info $SVNURL/tags/$PLUGINVERSION --non-interactive --no-auth-cache --username=$SVNUSER --password=$SVNPASS | grep Revision | tr -d 'Revison: '`
 
 if [ -z "$TAGREVISION" ]; then
     echo "No tag for $PLUGINVERSION yet. Continuing..."
