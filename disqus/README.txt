@@ -88,16 +88,14 @@ Check out our [WordPress Troubleshooting guide](https://help.disqus.com/customer
 
 == Installation ==
 
+1. Go to **"Plugins"** > **"Add Plugin"**
+2. Search for **"Disqus Comment System"** by Disqus
+3. Click **"Install Now"**
+4. Activate the plugin
+5. (**Automatic: easiest**) From the Install page of the Disqus plugin settings, follow the Automatic Installation steps to set up Disqus on your site. During this process, you will need to <a href="https://disqus.com/profile/signup/">create a Disqus account</a> and register your site. This also creates the API application required for enabling Comment Syncing.
+6. (**Manual: fastest**) Enter your site's <a href="https://help.disqus.com/customer/en/portal/articles/466208">Disqus shortname</a> in Site Configuration. This requires you to have <a href="https://disqus.com/profile/signup/">created a Disqus account</a> and registered your site. 
+
 **NOTE: It is recommended that you [backup your database](http://codex.wordpress.org/Backing_Up_Your_Database) before installing the plugin.**
-
-1. Unpack archive to this archive to the 'wp-content/plugins/' directory inside
-   of WordPress
-
-  * Maintain the directory structure of the archive (all extracted files
-    should exist in 'wp-content/plugins/disqus-comment-system/'
-
-2. From your blog administration, click on Comments to change settings
-   (WordPress 2.0 users can find the settings under Options > Disqus.)
 
 = Installation trouble? =
 
