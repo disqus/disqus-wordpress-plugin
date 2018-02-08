@@ -1,6 +1,6 @@
 {
   "name": "disqus-wordpress-plugin",
-  "version": "3.0.9",
+  "version": "3.0.10",
   "description": "",
   "main": "frontend/src/js/index.js",
   "scripts": {
