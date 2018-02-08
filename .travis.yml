@@ -14,18 +14,18 @@ branches:
     - travisci
 
 php:
-  - 5.6
+  - 5.4
   - 7.0
-  - 7.1
+  - 7.2
 
 env:
   - WP_VERSION=latest WP_MULTISITE=0
 
 matrix:
   include:
-    - php: 5.6
+    - php: 5.4
       env: WP_VERSION=4.4 WP_MULTISITE=0
-    - php: 5.6
+    - php: 5.4
       env: WP_VERSION=latest WP_MULTISITE=1
 
 before_script:
