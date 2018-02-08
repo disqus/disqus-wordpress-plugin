@@ -33,9 +33,9 @@ if ( ! defined( 'WPINC' ) ) {
  * The code that runs during plugin activation (but not during updates).
  */
 function activate_disqus() {
-	if ( version_compare( phpversion(), '5.6', '<' ) ) {
+	if ( version_compare( phpversion(), '5.4', '<' ) ) {
 		deactivate_plugins( plugin_basename( __FILE__ ) );
-		wp_die( 'Disqus requires PHP version 5.6 or higher. Plugin was deactivated.' );
+		wp_die( 'Disqus requires PHP version 5.4 or higher. Plugin was deactivated.' );
 	}
 }
 
