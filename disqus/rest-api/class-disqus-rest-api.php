@@ -657,7 +657,8 @@ class Disqus_Rest_Api {
             $first_identifier = count( $identifiers ) > 0 ? $identifiers[0] : null;
 
             if ( null !== $first_identifier ) {
-                $wp_post_id = reset( explode( ' ', $first_identifier, 2 ) );
+                $ident_parts = explode( ' ', $first_identifier, 2 );
+                $wp_post_id = reset( $ident_parts );
             }
 
             // Keep the post's thread ID meta up to date.
