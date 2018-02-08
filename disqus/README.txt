@@ -92,10 +92,15 @@ Check out our [WordPress Troubleshooting guide](https://help.disqus.com/customer
 2. Search for **"Disqus Comment System"** by Disqus
 3. Click **"Install Now"**
 4. Activate the plugin
-5. (**Automatic: easiest**) From the Install page of the Disqus plugin settings, follow the Automatic Installation steps to set up Disqus on your site. During this process, you will need to <a href="https://disqus.com/profile/signup/">create a Disqus account</a> and register your site. This also creates the API application required for enabling Comment Syncing.
-6. (**Manual: fastest**) Enter your site's <a href="https://help.disqus.com/customer/en/portal/articles/466208">Disqus shortname</a> in Site Configuration. This requires you to have <a href="https://disqus.com/profile/signup/">created a Disqus account</a> and registered your site. 
+5. (**Automatic: easiest**) From the Install page of the Disqus plugin settings, follow the Automatic Installation steps to set up Disqus on your site. During this process, you will need to [create a Disqus account](https://disqus.com/profile/signup/) and register your site. This also creates the API application required for enabling Comment Syncing.
+6. (**Manual: fastest**) Enter your site's [Disqus shortname](https://help.disqus.com/customer/en/portal/articles/466208) in **Site Configuration**. This requires you to have [created a Disqus account](https://disqus.com/profile/signup/) and registered your site. 
 
 **NOTE: It is recommended that you [backup your database](http://codex.wordpress.org/Backing_Up_Your_Database) before installing the plugin.**
+
+= Syncing comments to WordPress = 
+Comment Syncing copies comments made in Disqus to your WordPress installation as backup in case you ever decide to switch back to native WordPress comments. Syncing is not enabled by default. To enable syncing, you'll need to set it up either by creating an API application (follow [instructions here](https://help.disqus.com/customer/portal/articles/960360)) or via Automatic Installation in the plugin.
+
+For more information, go to [https://help.disqus.com/customer/portal/articles/960360](https://help.disqus.com/customer/portal/articles/960360)
 
 = Installation trouble? =
 
