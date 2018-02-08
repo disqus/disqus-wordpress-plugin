@@ -22,7 +22,7 @@ The Disqus for WordPress plugin lets site owners and developers easily add Disqu
 * Improve SEO ranking with user generated content
 * Keep spam out with our best-in-class anti-spam filter powered by Akismet
 * Single profile for commenting on over 4 million sites including social login support for Facebook, Twitter, and Google accounts
-* Trusted by sites like Wired, The Atlantic, and EW
+* Trusted by sites like Wired, CBS, and Entertainment Weekly
 
 = Disqus Features =
 
