@@ -333,9 +333,7 @@ class Disqus_Rest_Api {
         ) );
 
         // Filter out pingbacks/trackings and comments that have been created by Disqus via syncing.
-        $filtered_comments = array_filter( $comments, function ( $value ) {
-            return empty( $value->comment_type ) && strpos( $value->comment_agent, 'Disqus' ) === false;
-        } );
+        $filtered_comments = array_filter( $comments, array( $this, 'is_pingback_or_disqus_comment' ) );
 
         $response_data = array(
             'comments' => $filtered_comments,
@@ -352,6 +350,17 @@ class Disqus_Rest_Api {
         }
 
         return $this->rest_get_response( $response_data );
+    }
+
+    /**
+     * Checks a comment state to determine if it's valid for syncing.
+     *
+     * @since     3.0.11
+     * @param     array $comment    The WordPress comment instance.
+     * @return    boolean           Whether the comment is valid for syncing.
+     */
+    private function is_pingback_or_disqus_comment( $comment ) {
+        return empty( $comment->comment_type ) && strpos( $comment->comment_agent, 'Disqus' ) === false;
     }
 
     /**
