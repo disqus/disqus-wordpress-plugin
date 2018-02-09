@@ -20,7 +20,7 @@ const getSubmitButton = (props: IFormProps): React.ReactNode => {
 };
 
 const SiteConfigForm = (props: IFormProps) => (
-    <form name='site' action='' method='POST' onSubmit={props.onSubmitSiteForm}>
+    <form name='site' action='' method='POST' onSubmit={props.onSubmitSiteForm} autoComplete='off'>
         <table className='form-table'>
             <tbody>
                 <tr>
@@ -39,6 +39,7 @@ const SiteConfigForm = (props: IFormProps) => (
                             value={props.data.localAdminOptions.get('disqus_forum_url') || ''}
                             onChange={props.onInputChange.bind(null, 'disqus_forum_url')}
                             readOnly={Boolean(props.data.isSiteFormLocked)}
+                            disabled={Boolean(props.data.isSiteFormLocked)}
                         />
                         <p className='description'>
                             {__('Your site\'s unique identifier')}
@@ -62,7 +63,7 @@ const SiteConfigForm = (props: IFormProps) => (
                             value={props.data.localAdminOptions.get('disqus_public_key') || ''}
                             onChange={props.onInputChange.bind(null, 'disqus_public_key')}
                             readOnly={Boolean(props.data.isSiteFormLocked)}
-                            autoComplete='new-password'
+                            disabled={Boolean(props.data.isSiteFormLocked)}
                         />
                         <p className='description'>
                             {__('The public key of your application (optional).')}
@@ -82,7 +83,7 @@ const SiteConfigForm = (props: IFormProps) => (
                             value={props.data.localAdminOptions.get('disqus_secret_key') || ''}
                             onChange={props.onInputChange.bind(null, 'disqus_secret_key')}
                             readOnly={Boolean(props.data.isSiteFormLocked)}
-                            autoComplete='new-password'
+                            disabled={Boolean(props.data.isSiteFormLocked)}
                         />
                         <p className='description'>
                             {__('The secret key of your application (optional).')}
@@ -102,7 +103,7 @@ const SiteConfigForm = (props: IFormProps) => (
                             value={props.data.localAdminOptions.get('disqus_admin_access_token') || ''}
                             onChange={props.onInputChange.bind(null, 'disqus_admin_access_token')}
                             readOnly={Boolean(props.data.isSiteFormLocked)}
-                            autoComplete='new-password'
+                            disabled={Boolean(props.data.isSiteFormLocked)}
                         />
                         <p className='description'>
                             {__('The admin access token of your application (optional).')}

@@ -3,6 +3,7 @@
 exports[`SiteConfigForm component Renders basic form 1`] = `
 <form
   action=""
+  autoComplete="off"
   method="POST"
   name="site"
   onSubmit={[MockFunction]}
@@ -33,6 +34,7 @@ exports[`SiteConfigForm component Renders basic form 1`] = `
         <td>
           <input
             className="regular-text"
+            disabled={true}
             id="disqus_forum_url"
             name="disqus_forum_url"
             onChange={[Function]}
@@ -66,8 +68,8 @@ exports[`SiteConfigForm component Renders basic form 1`] = `
         </th>
         <td>
           <input
-            autoComplete="new-password"
             className="regular-text"
+            disabled={true}
             id="disqus_public_key"
             name="disqus_public_key"
             onChange={[Function]}
@@ -94,8 +96,8 @@ exports[`SiteConfigForm component Renders basic form 1`] = `
         </th>
         <td>
           <input
-            autoComplete="new-password"
             className="regular-text"
+            disabled={true}
             id="disqus_secret_key"
             name="disqus_secret_key"
             onChange={[Function]}
@@ -122,8 +124,8 @@ exports[`SiteConfigForm component Renders basic form 1`] = `
         </th>
         <td>
           <input
-            autoComplete="new-password"
             className="regular-text"
+            disabled={true}
             id="disqus_admin_access_token"
             name="disqus_admin_access_token"
             onChange={[Function]}
@@ -160,6 +162,7 @@ exports[`SiteConfigForm component Renders basic form 1`] = `
 exports[`SiteConfigForm component Renders form with save button unlocked 1`] = `
 <form
   action=""
+  autoComplete="off"
   method="POST"
   name="site"
   onSubmit={[MockFunction]}
@@ -190,6 +193,7 @@ exports[`SiteConfigForm component Renders form with save button unlocked 1`] = `
         <td>
           <input
             className="regular-text"
+            disabled={false}
             id="disqus_forum_url"
             name="disqus_forum_url"
             onChange={[Function]}
@@ -223,8 +227,8 @@ exports[`SiteConfigForm component Renders form with save button unlocked 1`] = `
         </th>
         <td>
           <input
-            autoComplete="new-password"
             className="regular-text"
+            disabled={false}
             id="disqus_public_key"
             name="disqus_public_key"
             onChange={[Function]}
@@ -251,8 +255,8 @@ exports[`SiteConfigForm component Renders form with save button unlocked 1`] = `
         </th>
         <td>
           <input
-            autoComplete="new-password"
             className="regular-text"
+            disabled={false}
             id="disqus_secret_key"
             name="disqus_secret_key"
             onChange={[Function]}
@@ -279,8 +283,8 @@ exports[`SiteConfigForm component Renders form with save button unlocked 1`] = `
         </th>
         <td>
           <input
-            autoComplete="new-password"
             className="regular-text"
+            disabled={false}
             id="disqus_admin_access_token"
             name="disqus_admin_access_token"
             onChange={[Function]}
@@ -313,6 +317,7 @@ exports[`SiteConfigForm component Renders form with save button unlocked 1`] = `
 exports[`SiteConfigForm component Renders form with values 1`] = `
 <form
   action=""
+  autoComplete="off"
   method="POST"
   name="site"
   onSubmit={[MockFunction]}
@@ -343,6 +348,7 @@ exports[`SiteConfigForm component Renders form with values 1`] = `
         <td>
           <input
             className="regular-text"
+            disabled={true}
             id="disqus_forum_url"
             name="disqus_forum_url"
             onChange={[Function]}
@@ -376,8 +382,8 @@ exports[`SiteConfigForm component Renders form with values 1`] = `
         </th>
         <td>
           <input
-            autoComplete="new-password"
             className="regular-text"
+            disabled={true}
             id="disqus_public_key"
             name="disqus_public_key"
             onChange={[Function]}
@@ -404,8 +410,8 @@ exports[`SiteConfigForm component Renders form with values 1`] = `
         </th>
         <td>
           <input
-            autoComplete="new-password"
             className="regular-text"
+            disabled={true}
             id="disqus_secret_key"
             name="disqus_secret_key"
             onChange={[Function]}
@@ -432,8 +438,8 @@ exports[`SiteConfigForm component Renders form with values 1`] = `
         </th>
         <td>
           <input
-            autoComplete="new-password"
             className="regular-text"
+            disabled={true}
             id="disqus_admin_access_token"
             name="disqus_admin_access_token"
             onChange={[Function]}
