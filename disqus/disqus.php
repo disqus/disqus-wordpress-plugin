@@ -15,7 +15,7 @@
  * Plugin Name:       Disqus for WordPress
  * Plugin URI:        https://disqus.com/
  * Description:       Disqus helps publishers increase engagement and build loyal audiences. Supports syncing comments to your database for easy backup.
- * Version:           3.0.11
+ * Version:           3.0.12
  * Author:            Disqus
  * Author URI:        https://disqus.com/
  * License:           GPL-2.0+
@@ -68,7 +68,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-disqus.php';
  */
 function run_disqus() {
 
-	$plugin = new Disqus( '3.0.11' );
+	$plugin = new Disqus( '3.0.12' );
 	$plugin->run();
 
 }
