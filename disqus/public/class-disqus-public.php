@@ -164,7 +164,7 @@ class Disqus_Public {
 	public function dsq_comments_link_template( $comment_text ) {
 		global $post;
 
-		if ( $this->dsq_can_load() ) {
+		if ( $this->dsq_can_load( 'count' ) ) {
 			$disqus_identifier = esc_attr( $this->dsq_identifier_for_post( $post ) );
 			return '<span class="dsq-postid" data-dsqidentifier="' . $disqus_identifier . '">'
 						. $comment_text .
@@ -209,7 +209,7 @@ class Disqus_Public {
 	 * @since    3.0
 	 */
 	public function enqueue_comment_count() {
-		if ( $this->dsq_can_load() ) {
+		if ( $this->dsq_can_load( 'count' ) ) {
 
 			$count_vars = array(
 				'disqusShortname' => $this->shortname,
@@ -242,9 +242,10 @@ class Disqus_Public {
 	 *
 	 * @since     3.0
 	 * @access    private
-	 * @return    boolean    Whether Disqus is configured properly and can load on the current page.
+	 * @param     string $script_name    The name of the script Disqus intends to load.
+	 * @return    boolean                Whether Disqus is configured properly and can load on the current page.
 	 */
-	private function dsq_can_load() {
+	private function dsq_can_load( $script_name ) {
 		// Don't load any Disqus scripts if there's no shortname.
 		if ( ! $this->shortname ) {
 			return false;
@@ -253,6 +254,11 @@ class Disqus_Public {
 		// Don't load any Disqus scripts on feed pages.
 		if ( is_feed() ) {
 			return false;
+        }
+
+        $site_allows_load = apply_filters( 'dsq_can_load', $script_name );
+		if ( is_bool( $site_allows_load ) ) {
+			return $site_allows_load;
 		}
 
 		return true;
@@ -269,7 +275,7 @@ class Disqus_Public {
 	private function dsq_embed_can_load_for_post( $post ) {
 		// Checks if the plugin is configured properly
 		// and is a valid page.
-		if ( ! $this->dsq_can_load() ) {
+		if ( ! $this->dsq_can_load( 'embed' ) ) {
 			return false;
 		}
 
