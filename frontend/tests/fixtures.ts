@@ -15,6 +15,7 @@ export const getDefaultAdminConfig = (): IAdminConfigData => ({
         nonce: 'foo',
     },
     site: {
+        allPlugins: {},
         name: 'Test',
         pluginVersion: '0.0.1',
     },

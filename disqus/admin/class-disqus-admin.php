@@ -102,6 +102,10 @@ class Disqus_Admin {
             return;
         }
 
+        if ( ! function_exists( 'get_plugins' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+
         $admin_js_vars = array(
             'rest' => array(
                 'base' => esc_url_raw( rest_url( '/' ) ),
@@ -120,6 +124,7 @@ class Disqus_Admin {
             'site' => array(
                 'name' => $this->get_site_name(),
                 'pluginVersion' => $this->version,
+                'allPlugins' => get_plugins(),
             ),
         );
 
