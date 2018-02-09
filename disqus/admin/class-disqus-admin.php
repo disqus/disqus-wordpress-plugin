@@ -106,6 +106,8 @@ class Disqus_Admin {
             require_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
 
+        global $wp_version;
+
         $admin_js_vars = array(
             'rest' => array(
                 'base' => esc_url_raw( rest_url( '/' ) ),
@@ -125,6 +127,8 @@ class Disqus_Admin {
                 'name' => $this->get_site_name(),
                 'pluginVersion' => $this->version,
                 'allPlugins' => get_plugins(),
+                'phpVersion' => phpversion(),
+                'wordpressVersion' => $wp_version,
             ),
         );
 

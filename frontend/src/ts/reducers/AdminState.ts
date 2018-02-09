@@ -28,6 +28,8 @@ export interface IWordpressSite {
     name: string;
     pluginVersion: string;
     allPlugins: any;
+    phpVersion: string;
+    wordpressVersion: string;
 }
 
 export interface IAdminConfigData {

@@ -17,7 +17,9 @@ export const getDefaultAdminConfig = (): IAdminConfigData => ({
     site: {
         allPlugins: {},
         name: 'Test',
+        phpVersion: '5.4',
         pluginVersion: '0.0.1',
+        wordpressVersion: '4.9.4',
     },
 });
 
