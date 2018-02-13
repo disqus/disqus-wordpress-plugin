@@ -57,10 +57,14 @@ The Disqus for WordPress plugin lets site owners and developers easily add Disqu
 
 * Search our [Knowledge Base](https://help.disqus.com/customer/portal/articles/472005) for solutions to common troubleshooting questions
 * Check out our support community, [Discuss Disqus](https://disqus.com/home/channel/discussdisqus/), to see if your question has been answered
-* Talk to our Support team at [disqus.com/support](disqus.com/support)
+* Talk to our Support team at [disqus.com/support](https://disqus.com/support)
 * Visit our [Getting Started](https://help.disqus.com/customer/en/portal/articles/1264625-getting-started) page to learn the basics of Disqus
 
 == Frequently Asked Questions ==
+
+= How do I sync comments to WordPress? = 
+
+[Comment Syncing](https://help.disqus.com/customer/portal/articles/960360) automatically copies comments made in Disqus to your WordPress installation as backup in case you ever decide to switch back to native WordPress comments. Syncing is not enabled by default. To enable syncing, you'll need to set it up either via Automatic Installation in the plugin or manually by creating an API application and entering the credentials in Site Configuration.
 
 = Is Disqus free to use on my site? =
 
@@ -72,11 +76,11 @@ Disqus automatically checks your site's font and background color and adapts to 
 
 = Will I lose comments if I deactivate Disqus? =
 
-The Disqus for WordPress plugin automatically syncs comments back to WordPress. These comments will remain in WordPress should Disqus be deactivated or removed. You can also [export your comments](https://help.disqus.com/customer/en/portal/articles/1104797-importing-exporting#exporting) from Disqus at any time.
+No. You can [export your comments](https://help.disqus.com/customer/en/portal/articles/1104797-importing-exporting#exporting) from Disqus at any time even after you have deactivated the plugin. If you enable Comment Syncing, you can automatically have all Disqus comments sync back to your WordPress database and therefore maintain a copy of your comments in both locations.
 
 = Can I import my existing WordPress comments into Disqus? =
 
-Yes, you can import your existing WordPress comments into Disqus during installation.
+Yes, you can import your existing WordPress comments into Disqus during installation. To import comments, just click "Import Comments" in the Syncing tab to get started.
 
 = How do I set up Single Sign-On (SSO)? =
 
@@ -96,11 +100,6 @@ Check out our [WordPress Troubleshooting guide](https://help.disqus.com/customer
 6. (**Manual: fastest**) Enter your site's [Disqus shortname](https://help.disqus.com/customer/en/portal/articles/466208) in **Site Configuration**. This requires you to have [created a Disqus account](https://disqus.com/profile/signup/) and registered your site. 
 
 **NOTE: It is recommended that you [backup your database](http://codex.wordpress.org/Backing_Up_Your_Database) before installing the plugin.**
-
-= Syncing comments to WordPress = 
-Comment Syncing copies comments made in Disqus to your WordPress installation as backup in case you ever decide to switch back to native WordPress comments. Syncing is not enabled by default. To enable syncing, you'll need to set it up either by creating an API application (follow [instructions here](https://help.disqus.com/customer/portal/articles/960360)) or via Automatic Installation in the plugin.
-
-For more information, go to [https://help.disqus.com/customer/portal/articles/960360](https://help.disqus.com/customer/portal/articles/960360)
 
 = Installation trouble? =
 
