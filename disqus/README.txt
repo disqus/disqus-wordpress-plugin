@@ -3,8 +3,8 @@ Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, rya
 Tags: comments, threaded, email, notification, spam, avatars, community, profile, widget, disqus
 Requires at least: 4.4
 Tested up to: 4.9.4
-Stable tag: 3.0.9
-Requires PHP: 5.6.0
+Stable tag: 3.0.12
+Requires PHP: 5.4
 
 Disqus is the web's most popular comment system. Use Disqus to increase engagement, retain readers, and grow your audience.
 
@@ -97,9 +97,14 @@ Check out our [WordPress Troubleshooting guide](https://help.disqus.com/customer
 3. Click **"Install Now"**
 4. Activate the plugin
 5. (**Automatic: easiest**) From the Install page of the Disqus plugin settings, follow the Automatic Installation steps to set up Disqus on your site. During this process, you will need to [create a Disqus account](https://disqus.com/profile/signup/) and register your site. This also creates the API application required for enabling Comment Syncing.
-6. (**Manual: fastest**) Enter your site's [Disqus shortname](https://help.disqus.com/customer/en/portal/articles/466208) in **Site Configuration**. This requires you to have [created a Disqus account](https://disqus.com/profile/signup/) and registered your site. 
+6. (**Manual: fastest**) Enter your site's [Disqus shortname](https://help.disqus.com/customer/en/portal/articles/466208) in **Site Configuration**. This requires you to have [created a Disqus account](https://disqus.com/profile/signup/) and registered your site.
 
 **NOTE: It is recommended that you [backup your database](http://codex.wordpress.org/Backing_Up_Your_Database) before installing the plugin.**
+
+= Syncing comments to WordPress =
+Comment Syncing copies comments made in Disqus to your WordPress installation as backup in case you ever decide to switch back to native WordPress comments. Syncing is not enabled by default. To enable syncing, you'll need to set it up either by creating an API application (follow [instructions here](https://help.disqus.com/customer/portal/articles/960360)) or via Automatic Installation in the plugin.
+
+For more information, go to [https://help.disqus.com/customer/portal/articles/960360](https://help.disqus.com/customer/portal/articles/960360)
 
 = Installation trouble? =
 
@@ -120,6 +125,23 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 11. Moderate by Email Notifications
 
 == Changelog ==
+
+= 3.0.12 =
+
+* Disabled browser autocomplete for site configuration form
+* Fixed an issue where admin JavaScript bundle was missing for sites with WP_DEBUG enabled
+* Implemented a dsq_can_load filter for custom control of when Disqus loads
+
+= 3.0.11 =
+
+* Improved UX on updating the site configuration manually
+* Fixed an issue causing a site crash with PHP version 5.2
+* Added additional information to support diagnostics
+
+= 3.0.10 =
+
+* Lowered minimum-supported version of PHP to 5.4
+* Fixed a syntax issue in PHP version 5.3
 
 = 3.0.9 =
 

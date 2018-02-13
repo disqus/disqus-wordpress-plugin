@@ -3,7 +3,9 @@
  * REST API Tests.
  */
 
-// See for how filter used: https://github.com/WordPress/WordPress/blob/master/wp-includes/class-http.php#L247
+/**
+ *  See for how filter used: https://github.com/WordPress/WordPress/blob/master/wp-includes/class-http.php#L247
+ */
 function reflect_params( $preempt, $args, $url ) {
     // Simply return a json-encoded representation of the args that were passed.
     return array(
@@ -17,6 +19,10 @@ function reflect_params( $preempt, $args, $url ) {
     );
 }
 
+function filter_http_force_error( $preempt, $args, $url ) {
+    return new WP_Error( 'error', 'There was a generic error.' );
+}
+
 class Test_Api_Service extends WP_UnitTestCase {
 
     public function setUp() {
@@ -24,6 +30,12 @@ class Test_Api_Service extends WP_UnitTestCase {
 
         // Filter HTTP requests made from `wp_remote_get` and `wp_remote_post` so we don't actually call server.
         add_filter( 'pre_http_request', 'reflect_params', 1, 3 );
+    }
+
+    public function tearDown() {
+        parent::tearDown();
+
+        remove_filter( 'pre_http_request', 'reflect_params', 1 );
     }
 
     /**
@@ -96,5 +108,25 @@ class Test_Api_Service extends WP_UnitTestCase {
         $api_data = $api_service->api_post( 'forums/details', array() );
 
         $this->assertEquals( '', $api_data->response->args->headers->Referer );
+    }
+
+    /**
+     * Check that the Disqus API returns a proper error.
+     */
+    public function test_api_error() {
+        remove_filter( 'pre_http_request', 'reflect_params', 1 );
+        add_filter( 'pre_http_request', 'filter_http_force_error', 1, 3 );
+
+        $api_service = new Disqus_Api_Service( 'APISECRETKEY', 'ACCESSTOKEN' );
+
+        $api_data = $api_service->api_get( 'forums/details', array(
+            'forum' => 'bobross',
+            'attach' => array( 'forumDaysAlive', 'forumFeatures' ),
+        ) );
+
+        $this->assertGreaterThan( 0, $api_data->code );
+        $this->assertEquals( 'There was a generic error.', $api_data->response );
+
+        remove_filter( 'pre_http_request', 'filter_http_force_error', 1 );
     }
 }

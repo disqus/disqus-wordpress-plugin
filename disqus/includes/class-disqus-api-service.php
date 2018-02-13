@@ -56,7 +56,7 @@ class Disqus_Api_Service {
 	 * @since     3.0
 	 * @param     string $endpoint    The Disqus API secret key.
 	 * @param     array  $params      The params to be appended to the query.
-	 * @return    array               The response data array.
+	 * @return    mixed               The response data.
 	 */
 	public function api_get( $endpoint, $params ) {
 		$api_url = Disqus_Api_Service::DISQUS_API_BASE . $endpoint . '.json?'
@@ -79,9 +79,7 @@ class Disqus_Api_Service {
 			),
 		) );
 
-		$dsq_response_data = json_decode( $dsq_response['body'] );
-
-		return $dsq_response_data;
+		return $this->get_response_body( $dsq_response );
 	}
 
 	/**
@@ -90,7 +88,7 @@ class Disqus_Api_Service {
 	 * @since     3.0
 	 * @param     string $endpoint    The Disqus API secret key.
 	 * @param     array  $params      The params to be added to the body.
-	 * @return    array               The response data array.
+	 * @return    mixed               The response data.
 	 */
 	public function api_post( $endpoint, $params ) {
 		$api_url = Disqus_Api_Service::DISQUS_API_BASE . $endpoint . '.json?'
@@ -105,8 +103,28 @@ class Disqus_Api_Service {
 			'method' => 'POST',
 		) );
 
-		$dsq_response_data = json_decode( $dsq_response['body'] );
+		return $this->get_response_body( $dsq_response );
+	}
 
-		return $dsq_response_data;
+	/**
+	 * Checks the type of response and returns and object variable with the Disqus response.
+	 *
+	 * @since     3.0
+	 * @param     WP_Error|array $response    The remote response.
+	 * @return    mixed                       The response body in Disqus API format.
+	 */
+	private function get_response_body( $response ) {
+		if ( is_wp_error( $response ) ) {
+			// The WP_Error class has no way of getting the response body, so we have to
+			// emulate the Disqus API error format for downstream compatibility.
+			$error_message = $response->get_error_message();
+			$response = new StdClass();
+			$response->code = 2;
+			$response->response = $error_message;
+		} else {
+			$response = json_decode( $response['body'] );
+		}
+
+		return $response;
 	}
 }

@@ -107,6 +107,7 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                         text: __('Changes saved successfully.'),
                         type: 'success',
                     }));
+                    dispatch(toggleValueAction('isSiteFormLocked'));
                 },
             );
         },
