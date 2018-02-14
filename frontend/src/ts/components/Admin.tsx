@@ -124,6 +124,10 @@ const getActiveTabView = (props: IFormProps) => {
                 </h3>
                 <p className='description'>
                     {__('Copy comments created and edited in Disqus to your local WordPress database for backup purposes.')}
+                    {' '}
+                    <a href='https://help.disqus.com/customer/portal/articles/960360' target='_blank'>
+                        {__('Learn More')}
+                    </a>
                 </p>
                 {getSyncContainer(props)}
                 <hr />
