@@ -1,8 +1,8 @@
 CURPATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 CURDIR := $(notdir $(patsubst %/,%,$(dir $(CURPATH))))
 
-phpcs:
-	~/.composer/vendor/bin/phpcs --standard=phpcs.ruleset.xml
+lint:
+	./vendor/bin/phpcs --standard=phpcs.ruleset.xml
 
 run:
 	docker-compose up --build -d
