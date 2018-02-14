@@ -10,7 +10,7 @@ exports[`WelcomePanel renders basic layout 1`] = `
     <p
       className="about-description"
     >
-      Check out what's new
+      Manage Community
     </p>
     <div
       className="welcome-panel-column-container"
