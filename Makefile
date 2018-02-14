@@ -4,6 +4,10 @@ CURDIR := $(notdir $(patsubst %/,%,$(dir $(CURPATH))))
 lint:
 	./vendor/bin/phpcs --standard=phpcs.ruleset.xml
 
+test:
+	./vendor/phpunit/phpunit/phpunit
+	yarn test
+
 run:
 	docker-compose up --build -d
 	yarn run start
