@@ -353,6 +353,65 @@ class Disqus_Rest_Api {
     }
 
     /**
+     * Returns the schema for the Disqus admin settings REST endpoint.
+     *
+     * @since     3.0
+     * @return    array    The REST schema.
+     */
+    public function dsq_get_settings_schema() {
+        return array(
+            // This tells the spec of JSON Schema we are using which is draft 4.
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            // The title property marks the identity of the resource.
+            'title' => 'settings',
+            'type' => 'object',
+            // In JSON Schema you can specify object properties in the properties attribute.
+            'properties' => array(
+                'disqus_forum_url' => array(
+                    'description' => 'Your site\'s unique identifier',
+                    'type' => 'string',
+                    'readonly' => false,
+                ),
+                'disqus_sso_enabled' => array(
+                    'description' => 'This will enable Single Sign-on for this site, if already enabled for your Disqus organization.',
+                    'type' => 'boolean',
+                    'readonly' => false,
+                ),
+                'disqus_public_key' => array(
+                    'description' => 'The public key of your application.',
+                    'type' => 'string',
+                    'readonly' => false,
+                ),
+                'disqus_secret_key' => array(
+                    'description' => 'The secret key of your application.',
+                    'type' => 'string',
+                    'readonly' => false,
+                ),
+                'disqus_admin_access_token' => array(
+                    'description' => 'The primary admin\'s access token for your application.',
+                    'type' => 'string',
+                    'readonly' => false,
+                ),
+                'disqus_sso_button' => array(
+                    'description' => 'A link to a .png, .gif, or .jpg image to show as a button in Disqus.',
+                    'type' => 'string',
+                    'readonly' => false,
+                ),
+                'disqus_sync_token' => array(
+                    'description' => 'The shared secret token for data sync between Disqus and the plugin.',
+                    'type' => 'string',
+                    'readonly' => true,
+                ),
+                'disqus_installed' => array(
+                    'description' => 'The shared secret token for data sync between Disqus and the plugin.',
+                    'type' => 'boolean',
+                    'readonly' => true,
+                ),
+            ),
+        );
+    }
+
+    /**
      * Checks a comment state to determine if it's valid for syncing.
      *
      * @since     3.0.11
@@ -961,65 +1020,5 @@ class Disqus_Rest_Api {
         $wxr = $xml->saveXML();
 
         return $wxr;
-    }
-
-    /**
-     * Returns the schema for the Disqus admin settings REST endpoint.
-     *
-     * @since     3.0
-     * @access    private
-     * @return    array    The REST schema.
-     */
-    private function dsq_get_settings_schema() {
-        return array(
-            // This tells the spec of JSON Schema we are using which is draft 4.
-            '$schema' => 'http://json-schema.org/draft-04/schema#',
-            // The title property marks the identity of the resource.
-            'title' => 'settings',
-            'type' => 'object',
-            // In JSON Schema you can specify object properties in the properties attribute.
-            'properties' => array(
-                'disqus_forum_url' => array(
-                    'description' => 'Your site\'s unique identifier',
-                    'type' => 'string',
-                    'readonly' => false,
-                ),
-                'disqus_sso_enabled' => array(
-                    'description' => 'This will enable Single Sign-on for this site, if already enabled for your Disqus organization.',
-                    'type' => 'boolean',
-                    'readonly' => false,
-                ),
-                'disqus_public_key' => array(
-                    'description' => 'The public key of your application.',
-                    'type' => 'string',
-                    'readonly' => false,
-                ),
-                'disqus_secret_key' => array(
-                    'description' => 'The secret key of your application.',
-                    'type' => 'string',
-                    'readonly' => false,
-                ),
-                'disqus_admin_access_token' => array(
-                    'description' => 'The primary admin\'s access token for your application.',
-                    'type' => 'string',
-                    'readonly' => false,
-                ),
-                'disqus_sso_button' => array(
-                    'description' => 'A link to a .png, .gif, or .jpg image to show as a button in Disqus.',
-                    'type' => 'string',
-                    'readonly' => false,
-                ),
-                'disqus_sync_token' => array(
-                    'description' => 'The shared secret token for data sync between Disqus and the plugin.',
-                    'type' => 'string',
-                    'readonly' => true,
-                ),
-                'disqus_installed' => array(
-                    'description' => 'The shared secret token for data sync between Disqus and the plugin.',
-                    'type' => 'boolean',
-                    'readonly' => true,
-                ),
-            ),
-        );
     }
 }
