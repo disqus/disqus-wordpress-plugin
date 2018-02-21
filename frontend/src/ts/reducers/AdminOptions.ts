@@ -9,6 +9,7 @@ export interface IAdminOptions {
     disqus_sso_button?: string;
     disqus_sso_enabled?: boolean;
     disqus_sync_token?: string;
+    disqus_render_js?: boolean;
 }
 
 export default class AdminOptions extends Record({
@@ -16,6 +17,7 @@ export default class AdminOptions extends Record({
     disqus_forum_url: null,
     disqus_installed: null,
     disqus_public_key: null,
+    disqus_render_js: null,
     disqus_secret_key: null,
     disqus_sso_button: null,
     disqus_sso_enabled: null,
@@ -27,6 +29,7 @@ export default class AdminOptions extends Record({
     public disqus_secret_key?: string;
     public disqus_admin_access_token?: string;
     public disqus_installed?: boolean;
+    public disqus_render_js?: boolean;
     public disqus_sso_button?: string;
     public disqus_sso_enabled?: boolean;
     public disqus_sync_token?: string;

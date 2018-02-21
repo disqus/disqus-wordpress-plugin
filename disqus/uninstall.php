@@ -25,4 +25,5 @@ delete_option( 'disqus_admin_access_token' );
 delete_option( 'disqus_sso_button' );
 delete_option( 'disqus_sync_token' );
 delete_option( 'disqus_last_sync_message' );
+delete_option( 'disqus_render_js' );
 delete_option( 'disqus_manual_sync' ); // Legacy option.

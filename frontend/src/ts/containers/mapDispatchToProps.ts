@@ -28,6 +28,7 @@ const UPDATABLE_FIELDS: string[] = [
     'disqus_sso_button',
     'disqus_sso_enabled',
     'disqus_sync_token',
+    'disqus_render_js',
 ];
 
 const valueFromInput = (element: HTMLInputElement): string => {
