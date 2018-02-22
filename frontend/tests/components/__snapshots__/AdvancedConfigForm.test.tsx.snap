@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdvancedConfigForm component Renders basic form 1`] = `
+<form
+  action=""
+  method="POST"
+  name="advanced"
+  onSubmit={[MockFunction]}
+>
+  <table
+    className="form-table"
+  >
+    <tbody>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_render_js"
+          >
+            Render Comments JavaScript
+          </label>
+        </th>
+        <td>
+          <input
+            checked={false}
+            id="disqus_render_js"
+            name="disqus_render_js"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <p
+            className="description"
+          >
+            This will render the Disqus comments javascript directly into the page markup, rather than use the wp_enqueue_script() function. Enable this if Disqus doesn't load on your posts.
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p
+    className="submit"
+  >
+    <input
+      className="button button-primary"
+      name="submit-application-form"
+      type="submit"
+      value="Save"
+    />
+  </p>
+</form>
+`;
+
+exports[`AdvancedConfigForm component Renders form with values 1`] = `
+<form
+  action=""
+  method="POST"
+  name="advanced"
+  onSubmit={[MockFunction]}
+>
+  <table
+    className="form-table"
+  >
+    <tbody>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_render_js"
+          >
+            Render Comments JavaScript
+          </label>
+        </th>
+        <td>
+          <input
+            checked={true}
+            id="disqus_render_js"
+            name="disqus_render_js"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <p
+            className="description"
+          >
+            This will render the Disqus comments javascript directly into the page markup, rather than use the wp_enqueue_script() function. Enable this if Disqus doesn't load on your posts.
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p
+    className="submit"
+  >
+    <input
+      className="button button-primary"
+      name="submit-application-form"
+      type="submit"
+      value="Save"
+    />
+  </p>
+</form>
+`;

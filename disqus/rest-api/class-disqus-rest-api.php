@@ -407,6 +407,11 @@ class Disqus_Rest_Api {
                     'type' => 'boolean',
                     'readonly' => true,
                 ),
+                'disqus_render_js' => array(
+                    'description' => 'When true, the Disqus embed javascript is output directly into markup rather than being enqueued in a separate file.',
+                    'type' => 'boolean',
+                    'readonly' => false,
+                ),
             ),
         );
     }

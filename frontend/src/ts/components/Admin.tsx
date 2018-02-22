@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactRedux from 'react-redux';
 import * as Redux from 'redux';
+import AdvancedConfigContainer from '../containers/AdvancedConfigContainer';
 import ExportCommentsContainer from '../containers/ExportCommentsContainer';
 import InstallContainer from '../containers/InstallContainer';
 import SiteConfigContainer from '../containers/SiteConfigContainer';
@@ -89,6 +90,9 @@ const AdminTabBar = (props: IFormProps) => (
         <a href='#singleSignOn' className={getTabClassName(props, 'singleSignOn')}>
             {__('Single Sign-on')}
         </a>
+        <a href='#advanced' className={getTabClassName(props, 'advanced')}>
+            {__('Advanced')}
+        </a>
         <a href='#support' className={getTabClassName(props, 'support')}>
             {__('Support')}
         </a>
@@ -158,6 +162,15 @@ const getActiveTabView = (props: IFormProps) => {
                     </a>
                 </p>
                 {getSSOContainer(props)}
+            </div>
+        );
+    case 'advanced':
+        return (
+            <div>
+                <h3>
+                    {__('Advanced Settings')}
+                </h3>
+                <AdvancedConfigContainer />
             </div>
         );
     case 'support':
