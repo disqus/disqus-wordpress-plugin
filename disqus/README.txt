@@ -3,7 +3,7 @@ Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, rya
 Tags: comments, threaded, email, notification, spam, avatars, community, profile, widget, disqus
 Requires at least: 4.4
 Tested up to: 4.9.4
-Stable tag: 3.0.12
+Stable tag: 3.0.13
 Requires PHP: 5.4
 
 Disqus is the web's most popular comment system. Use Disqus to increase engagement, retain readers, and grow your audience.
@@ -121,6 +121,12 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 11. Moderate by Email Notifications
 
 == Changelog ==
+
+= 3.0.13 =
+
+* Added a new option for rendering comments javascript directly into page markup
+* Fixed warning that stated "cannot access private method Disqus_Rest_Api::dsq_get_settings_schema()"
+* A few small copy changes in plugin's admin UI
 
 = 3.0.12 =
 
