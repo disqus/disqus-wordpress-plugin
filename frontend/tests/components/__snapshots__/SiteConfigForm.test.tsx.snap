@@ -140,6 +140,42 @@ exports[`SiteConfigForm component Renders basic form 1`] = `
           </p>
         </td>
       </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_sync_token"
+          >
+            Site Secret Key
+          </label>
+        </th>
+        <td>
+          <input
+            className="regular-text"
+            disabled={true}
+            id="disqus_sync_token"
+            name="disqus_sync_token"
+            onChange={[Function]}
+            readOnly={true}
+            type="text"
+            value=""
+          />
+          <p
+            className="description"
+          >
+            The secret key for your site which allows Disqus to sync comments.
+            <br />
+            <br />
+            <strong>
+              Important
+              :
+            </strong>
+             
+            If you change this you will need to re-enable syncing to use the new key.
+          </p>
+        </td>
+      </tr>
     </tbody>
   </table>
   <p
@@ -299,6 +335,42 @@ exports[`SiteConfigForm component Renders form with save button unlocked 1`] = `
           </p>
         </td>
       </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_sync_token"
+          >
+            Site Secret Key
+          </label>
+        </th>
+        <td>
+          <input
+            className="regular-text"
+            disabled={false}
+            id="disqus_sync_token"
+            name="disqus_sync_token"
+            onChange={[Function]}
+            readOnly={false}
+            type="text"
+            value=""
+          />
+          <p
+            className="description"
+          >
+            The secret key for your site which allows Disqus to sync comments.
+            <br />
+            <br />
+            <strong>
+              Important
+              :
+            </strong>
+             
+            If you change this you will need to re-enable syncing to use the new key.
+          </p>
+        </td>
+      </tr>
     </tbody>
   </table>
   <p
@@ -451,6 +523,42 @@ exports[`SiteConfigForm component Renders form with values 1`] = `
             className="description"
           >
             The admin access token of your application (optional).
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_sync_token"
+          >
+            Site Secret Key
+          </label>
+        </th>
+        <td>
+          <input
+            className="regular-text"
+            disabled={true}
+            id="disqus_sync_token"
+            name="disqus_sync_token"
+            onChange={[Function]}
+            readOnly={true}
+            type="text"
+            value=""
+          />
+          <p
+            className="description"
+          >
+            The secret key for your site which allows Disqus to sync comments.
+            <br />
+            <br />
+            <strong>
+              Important
+              :
+            </strong>
+             
+            If you change this you will need to re-enable syncing to use the new key.
           </p>
         </td>
       </tr>

@@ -14,6 +14,7 @@ import {
     ExportLogStaus,
     InstallationState,
 } from '../reducers/AdminState';
+import { createRandomToken } from '../utils';
 import WordPressCommentExporter from '../WordPressCommentExporter';
 import {
     IRestResponse,
@@ -58,6 +59,12 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
             } catch (err) {
                 // Continue
             }
+        },
+        onGenerateRandomSyncToken: (event: React.SyntheticEvent<HTMLAnchorElement>): void => {
+            event.preventDefault();
+
+            const newToken = createRandomToken();
+            dispatch(updateLocalOptionAction('disqus_sync_token', newToken));
         },
         onInputChange: (key: string, event: React.SyntheticEvent<HTMLInputElement>): void => {
             const value: string = valueFromInput(event.currentTarget);

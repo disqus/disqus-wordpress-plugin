@@ -110,6 +110,33 @@ const SiteConfigForm = (props: IFormProps) => (
                         </p>
                     </td>
                 </tr>
+                <tr>
+                    <th scope='row'>
+                        <label htmlFor='disqus_sync_token'>
+                            {__('Site Secret Key')}
+                        </label>
+                    </th>
+                    <td>
+                        <input
+                            type='text'
+                            id='disqus_sync_token'
+                            name='disqus_sync_token'
+                            className='regular-text'
+                            value={props.data.localAdminOptions.get('disqus_sync_token') || ''}
+                            onChange={props.onInputChange.bind(null, 'disqus_sync_token')}
+                            readOnly={Boolean(props.data.isSiteFormLocked)}
+                            disabled={Boolean(props.data.isSiteFormLocked)}
+                        />
+                        <p className='description'>
+                            {__('The secret key for your site which allows Disqus to sync comments.')}
+                            <br />
+                            <br />
+                            <strong>{__('Important')}:</strong>
+                            {' '}
+                            {__('If you change this you will need to re-enable syncing to use the new key.')}
+                        </p>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <p className='submit'>

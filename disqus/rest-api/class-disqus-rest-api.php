@@ -250,6 +250,14 @@ class Disqus_Rest_Api {
     public function rest_settings( WP_REST_Request $request ) {
         $should_update = 'POST' === $request->get_method();
         $new_settings = $should_update ? $this->get_request_data( $request ) : null;
+
+        // Validate sync token if set.
+        if ( $should_update && isset( $new_settings['disqus_sync_token'] ) ) {
+            if ( strlen( $new_settings['disqus_sync_token'] ) < 32 ) {
+                return $this->rest_get_error( 'The site secret key should be at least 32 characters.' );
+            }
+        }
+
         $updated_settings = $this->get_or_update_settings( $new_settings );
 
         return $this->rest_get_response( $updated_settings );
@@ -400,7 +408,7 @@ class Disqus_Rest_Api {
                 'disqus_sync_token' => array(
                     'description' => 'The shared secret token for data sync between Disqus and the plugin.',
                     'type' => 'string',
-                    'readonly' => true,
+                    'readonly' => false,
                 ),
                 'disqus_installed' => array(
                     'description' => 'The shared secret token for data sync between Disqus and the plugin.',

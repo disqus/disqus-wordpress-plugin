@@ -1,5 +1,6 @@
 import * as React from 'react';
 import InstallContainer from '../containers/InstallContainer';
+import SyncTokenContainer from '../containers/SyncTokenContainer';
 import { getWordpressAdminUrl } from '../utils';
 import Admin from './Admin';
 import { IFormProps } from './FormProps';
@@ -17,6 +18,17 @@ const getMainView = (props: IFormProps) => {
         return __('You don\'t have permission to make any changes here. Please contact the site administrator to get access.');
     else if (props.data.isFetchingAdminOptions || props.data.isFetchingSyncStatus)
         return <Loading />;
+    else if (!props.data.adminOptions.disqus_sync_token)
+        return (
+            <div>
+                <div className={`notice notice-info inline`}>
+                    <p>
+                        {__('The plugin was unable to generate a secret key for your site. You will have to create one below in order for installation and syncing to work.')}
+                    </p>
+                </div>
+                <SyncTokenContainer {...props} />
+            </div>
+        );
     return <Admin {...props} />;
 };
 

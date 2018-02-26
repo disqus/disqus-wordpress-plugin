@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SupportLinks renders with correct links 1`] = `
+<form
+  action=""
+  autoComplete="off"
+  method="POST"
+  name="site"
+  onSubmit={[MockFunction]}
+>
+  <table
+    className="form-table"
+  >
+    <tbody>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            htmlFor="disqus_sync_token"
+          >
+            Site Secret Key
+          </label>
+        </th>
+        <td>
+          <input
+            className="regular-text"
+            id="disqus_sync_token"
+            name="disqus_sync_token"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <p
+            className="description"
+          >
+            Enter any combination of letters and numbers, at least 32 characters.
+            <br />
+            <a
+              href="#"
+              onClick={undefined}
+            >
+              Generate a key
+            </a>
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p
+    className="submit"
+  >
+    <input
+      className="button button-primary"
+      name="submit-site-form"
+      type="submit"
+      value="Save"
+    />
+  </p>
+</form>
+`;
