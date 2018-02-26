@@ -71,6 +71,7 @@ export enum InstallationState {
     noSite,
     hasSite,
     installed,
+    reinstallSite,
 }
 
 export enum ExportLogStaus {

@@ -82,6 +82,45 @@ exports[`Install component rendering InstallationState.hasSite displays a instru
 </div>
 `;
 
+exports[`Install component rendering InstallationState.installed asks to install onto existing site 1`] = `
+<div>
+  <h3>
+    Automatic Installation
+  </h3>
+  <p>
+    Installs Disqus on your site using a generated API application. If your site isn't publicly accessible, use the manual installation method.
+  </p>
+  <div>
+    <p
+      className="submit"
+    >
+      <strong>
+        Do you want to reinstall this site or a different site?
+      </strong>
+    </p>
+    <p>
+      <button
+        className="button button-primary button-large"
+        onClick={[Function]}
+      >
+        Reinstall
+         
+        <em>
+          foo
+        </em>
+      </button>
+       
+      <button
+        className="button button-large"
+        onClick={[Function]}
+      >
+        Choose a new site
+      </button>
+    </p>
+  </div>
+</div>
+`;
+
 exports[`Install component rendering InstallationState.noAccount displays a instructions for registering an account 1`] = `
 <div>
   <h3>
@@ -223,5 +262,50 @@ exports[`Install component rendering InstallationState.none displays the entry f
       </button>
     </p>
   </div>
+</div>
+`;
+
+exports[`Install component rendering InstallationState.reinstallSite links to the site's installation page 1`] = `
+<div>
+  <h3>
+    Automatic Installation
+  </h3>
+  <p>
+    Installs Disqus on your site using a generated API application. If your site isn't publicly accessible, use the manual installation method.
+  </p>
+  <ol
+    className="dsq-installation__instruction-list"
+  >
+    <li>
+      Go to the WordPress installation page
+      <br />
+      <button
+        className="button button-primary button-large"
+        onClick={[Function]}
+      >
+        WordPress installation page
+      </button>
+    </li>
+    <li>
+      If needed, copy the sync token below and paste it to the input field in the installation page
+      <br />
+      <input
+        className="regular-text"
+        id="configKey"
+        readOnly={true}
+        type="text"
+        value="https://foo.com/wp-json/disqus/v1/settings null"
+      />
+      <button
+        className="button"
+        onClick={[Function]}
+      >
+        Copy
+      </button>
+    </li>
+    <li>
+      Click the Install button and finish configuring your Disqus settings
+    </li>
+  </ol>
 </div>
 `;

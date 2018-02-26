@@ -120,6 +120,11 @@ class Install extends React.Component<IFormProps, any> {
                     </ol>
                 );
             case InstallationState.hasSite:
+            case InstallationState.reinstallSite:
+                let installUrl = DISQUS_WORDPRESS_URL;
+                const useExistingSite = this.props.data.installationState === InstallationState.reinstallSite;
+                if (useExistingSite)
+                    installUrl = installUrl.replace('//disqus.com', `//${this.props.data.adminOptions.disqus_forum_url}.disqus.com`);
                 return (
                     <ol className='dsq-installation__instruction-list'>
                         <li>
@@ -127,14 +132,18 @@ class Install extends React.Component<IFormProps, any> {
                             <br />
                             <button
                                 className='button button-primary button-large'
-                                onClick={this.openDisqusPage.bind(this, syncToken, `${DISQUS_LOGIN_URL}?next=${encodeURIComponent(DISQUS_WORDPRESS_URL)}`)}
+                                onClick={this.openDisqusPage.bind(this, syncToken, `${DISQUS_LOGIN_URL}?next=${encodeURIComponent(installUrl)}`)}
                             >
                                 {__('WordPress installation page')}
                             </button>
                         </li>
-                        <li>
-                            {__('When prompted, choose the Disqus site you want to use')}
-                        </li>
+                        {/* tslint:disable:jsx-no-multiline-js */}
+                        {useExistingSite ? null : (
+                            <li>
+                                {__('When prompted, choose the Disqus site you want to use')}
+                            </li>
+                        )}
+                        {/* tslint:enable:jsx-no-multiline-js */}
                         <li>
                             {__('If needed, copy the sync token below and paste it to the input field in the installation page')}
                             <br />
@@ -201,6 +210,31 @@ class Install extends React.Component<IFormProps, any> {
                             {__('Click the Install button and finish configuring your Disqus settings')}
                         </li>
                     </ol>
+                );
+            case InstallationState.installed:
+                return (
+                    <div>
+                        <p className='submit'>
+                            <strong>{__('Do you want to reinstall this site or a different site?')}</strong>
+                        </p>
+                        <p>
+                            <button
+                                className='button button-primary button-large'
+                                onClick={this.props.onUpdateInstallationState.bind(null, InstallationState.reinstallSite)}
+                            >
+                                {__('Reinstall')}
+                                {' '}
+                                <em>{this.props.data.adminOptions.disqus_forum_url}</em>
+                            </button>
+                            {' '}
+                            <button
+                                className='button button-large'
+                                onClick={this.props.onUpdateInstallationState.bind(null, InstallationState.hasSite)}
+                            >
+                                {__('Choose a new site')}
+                            </button>
+                        </p>
+                    </div>
                 );
             default:
                 return null;

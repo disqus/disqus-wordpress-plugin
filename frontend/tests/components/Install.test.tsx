@@ -46,6 +46,38 @@ describe('Install component rendering', () => {
         expect(component.toJSON()).toMatchSnapshot();
     });
 
+    test('InstallationState.installed asks to install onto existing site', () => {
+        const props: IFormProps = getDefaultFormProps();
+        props.data = props.data.with({
+            adminOptions: props.data.adminOptions.with({
+                disqus_forum_url: 'foo',
+            }),
+            installationState: InstallationState.installed,
+            localAdminOptions: props.data.localAdminOptions.with({
+                disqus_forum_url: 'foo',
+            }),
+        });
+        const component = TestRenderer.create(<Install {...props} />);
+
+        expect(component.toJSON()).toMatchSnapshot();
+    });
+
+    test('InstallationState.reinstallSite links to the site\'s installation page', () => {
+        const props: IFormProps = getDefaultFormProps();
+        props.data = props.data.with({
+            adminOptions: props.data.adminOptions.with({
+                disqus_forum_url: 'foo',
+            }),
+            installationState: InstallationState.reinstallSite,
+            localAdminOptions: props.data.localAdminOptions.with({
+                disqus_forum_url: 'foo',
+            }),
+        });
+        const component = TestRenderer.create(<Install {...props} />);
+
+        expect(component.toJSON()).toMatchSnapshot();
+    });
+
     test('Handles cross-site communication', () => {
         // tslint:disable:no-string-literal
         const mockLocationReload = jest.fn();

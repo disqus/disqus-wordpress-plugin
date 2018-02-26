@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import * as ReactRedux from 'react-redux';
 import * as Redux from 'redux';
 import {
+    changeInstallStateAction,
     changeTabStateAction,
     setMessageAction,
     setValueAction,
@@ -13,7 +14,7 @@ import MainContainer from './containers/MainContainer';
 import { DisqusApi } from './DisqusApi';
 import adminApp from './reducers/adminApp';
 import { IAdminOptions } from './reducers/AdminOptions';
-import AdminState from './reducers/AdminState';
+import AdminState, { InstallationState } from './reducers/AdminState';
 import { ISyncStatus } from './reducers/SyncStatus';
 import { IRestResponse, WordPressRestApi } from './WordPressRestApi';
 
@@ -73,6 +74,9 @@ ReactDOM.render(
             DisqusApi.instance.configure(data.disqus_public_key, data.disqus_admin_access_token, data.disqus_forum_url);
 
             store.dispatch(updateAdminOptionsAction(response.data));
+
+            if (response.data.disqus_installed)
+                store.dispatch(changeInstallStateAction(InstallationState.installed));
         });
 
         // Fetch the sync status
