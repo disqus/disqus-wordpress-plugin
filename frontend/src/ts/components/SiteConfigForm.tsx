@@ -56,7 +56,7 @@ const SiteConfigForm = (props: IFormProps) => (
                     </th>
                     <td>
                         <input
-                            type={props.data.isSiteFormLocked ? 'password' : 'text'}
+                            type='text'
                             id='disqus_public_key'
                             name='disqus_public_key'
                             className='regular-text'
@@ -76,7 +76,7 @@ const SiteConfigForm = (props: IFormProps) => (
                     </th>
                     <td>
                         <input
-                            type={props.data.isSiteFormLocked ? 'password' : 'text'}
+                            type='text'
                             id='disqus_secret_key'
                             name='disqus_secret_key'
                             className='regular-text'
@@ -96,7 +96,7 @@ const SiteConfigForm = (props: IFormProps) => (
                     </th>
                     <td>
                         <input
-                            type={props.data.isSiteFormLocked ? 'password' : 'text'}
+                            type='text'
                             id='disqus_admin_access_token'
                             name='disqus_admin_access_token'
                             className='regular-text'

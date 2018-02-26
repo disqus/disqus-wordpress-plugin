@@ -74,7 +74,7 @@ exports[`SiteConfigForm component Renders basic form 1`] = `
             name="disqus_public_key"
             onChange={[Function]}
             readOnly={true}
-            type="password"
+            type="text"
             value=""
           />
           <p
@@ -102,7 +102,7 @@ exports[`SiteConfigForm component Renders basic form 1`] = `
             name="disqus_secret_key"
             onChange={[Function]}
             readOnly={true}
-            type="password"
+            type="text"
             value=""
           />
           <p
@@ -130,7 +130,7 @@ exports[`SiteConfigForm component Renders basic form 1`] = `
             name="disqus_admin_access_token"
             onChange={[Function]}
             readOnly={true}
-            type="password"
+            type="text"
             value=""
           />
           <p
@@ -460,7 +460,7 @@ exports[`SiteConfigForm component Renders form with values 1`] = `
             name="disqus_public_key"
             onChange={[Function]}
             readOnly={true}
-            type="password"
+            type="text"
             value="bar"
           />
           <p
@@ -488,7 +488,7 @@ exports[`SiteConfigForm component Renders form with values 1`] = `
             name="disqus_secret_key"
             onChange={[Function]}
             readOnly={true}
-            type="password"
+            type="text"
             value="baz"
           />
           <p
@@ -516,7 +516,7 @@ exports[`SiteConfigForm component Renders form with values 1`] = `
             name="disqus_admin_access_token"
             onChange={[Function]}
             readOnly={true}
-            type="password"
+            type="text"
             value="qux"
           />
           <p
