@@ -24,7 +24,7 @@ class Test_Admin extends WP_UnitTestCase {
 
         $rest_url = $admin->dsq_filter_rest_url( 'https://example.org/wp-json/disqus/v1' );
 
-        $this->assertEquals( 'https://foo.com/wp-json/disqus/v1', $rest_url );
+        $this->assertEquals( 'https://example.org/wp-json/disqus/v1', $rest_url );
     }
 
     /**
@@ -33,7 +33,9 @@ class Test_Admin extends WP_UnitTestCase {
     function test_dsq_filter_rest_url_different_host() {
         $admin = new Disqus_Admin( 'disqus', '0.0.0', 'foo' );
 
-        $_SERVER['host'] = 'bar.com';
+        $GLOBALS['_SERVER'] = array(
+            'host' => 'bar.com',
+        );
 
         $rest_url = $admin->dsq_filter_rest_url( 'https://example.org/wp-json/disqus/v1' );
 
