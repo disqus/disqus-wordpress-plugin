@@ -4,6 +4,9 @@ CURDIR := $(notdir $(patsubst %/,%,$(dir $(CURPATH))))
 lint:
 	./vendor/bin/phpcs --standard=phpcs.ruleset.xml
 
+setup-tests:
+	bin/install-wp-tests.sh 'test' 'admin' 'root' 'latest'
+
 test:
 	phpunit
 	yarn test
