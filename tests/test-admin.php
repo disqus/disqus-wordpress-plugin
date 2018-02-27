@@ -16,4 +16,30 @@ class Test_Admin extends WP_UnitTestCase {
         $this->assertEquals( 32, strlen( get_option( 'disqus_sync_token' ) ) );
     }
 
+    /**
+     * Check that the REST URL filter doesn't replace the host when they're the same.
+     */
+    function test_dsq_filter_rest_url_same_host() {
+        $admin = new Disqus_Admin( 'disqus', '0.0.0', 'foo' );
+
+        $rest_url = $admin->dsq_filter_rest_url( 'https://example.org/wp-json/disqus/v1' );
+
+        $this->assertEquals( 'https://example.org/wp-json/disqus/v1', $rest_url );
+    }
+
+    /**
+     * Check that the REST URL filter does replace the host when they're different.
+     */
+    function test_dsq_filter_rest_url_different_host() {
+        $admin = new Disqus_Admin( 'disqus', '0.0.0', 'foo' );
+        $previous_host = $_SERVER['HTTP_HOST'];
+        $_SERVER['HTTP_HOST'] = 'bar.com';
+
+        $rest_url = $admin->dsq_filter_rest_url( 'https://example.org/wp-json/disqus/v1' );
+
+        $this->assertEquals( 'https://bar.com/wp-json/disqus/v1', $rest_url );
+
+        $_SERVER['HTTP_HOST'] = $previous_host;
+    }
+
 }
