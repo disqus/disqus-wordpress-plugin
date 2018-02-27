@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SupportLinks renders with correct links 1`] = `
+exports[`SyncTokenForm renders with correct snapshot 1`] = `
 <form
   action=""
   autoComplete="off"
