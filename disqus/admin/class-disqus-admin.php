@@ -151,6 +151,29 @@ class Disqus_Admin {
     }
 
     /**
+     * Filter for the get_rest_url function which ensures REST URLs match admin hosts.
+     *
+     * @since    3.0
+     * @param    string $rest_url    The REST URL.
+     * @return   string              The filtered REST URL.
+     */
+    public function dsq_filter_rest_url( $rest_url ) {
+        $rest_url_parts = parse_url( $rest_url );
+        $rest_host = $rest_url_parts['host'];
+        if ( array_key_exists( 'port', $rest_url_parts ) ) {
+            $rest_host .= ':' . $rest_url_parts['port'];
+        }
+
+        $current_host = $_SERVER['HTTP_HOST'];
+
+        if ( $rest_host !== $current_host ) {
+            $rest_url = preg_replace( '/' . $rest_host . '/', $current_host, $rest_url, 1 );
+        }
+
+        return $rest_url;
+    }
+
+    /**
      * Builds the admin toolbar menu with the various Disqus options
      *
      * @since    3.0
