@@ -5,7 +5,7 @@ lint:
 	./vendor/bin/phpcs --standard=phpcs.ruleset.xml
 
 setup-tests:
-	bin/install-wp-tests.sh 'test' 'admin' 'root' 'latest'
+	bin/install-wp-tests.sh wordpress_test root '' localhost latest
 
 test:
 	phpunit
