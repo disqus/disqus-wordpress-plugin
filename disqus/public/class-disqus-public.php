@@ -283,8 +283,16 @@ class Disqus_Public {
 			return false;
 		}
 
-		// Don't load embed when post is a draft.
-		if ( 'draft' == $post->post_status ) {
+		// Don't load embed for certain types of non-public posts because these post types typically still have the
+		// ID-based URL structure, rather than a friendly permalink URL.
+		$illegal_post_statuses = array(
+			'draft',
+			'auto-draft',
+			'pending',
+			'future',
+			'trash',
+		);
+		if ( in_array( $post->post_status, $illegal_post_statuses ) ) {
 			return false;
 		}
 
