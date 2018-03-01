@@ -3,7 +3,7 @@ Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, rya
 Tags: comments, threaded, email, notification, spam, avatars, community, profile, widget, disqus
 Requires at least: 4.4
 Tested up to: 4.9.4
-Stable tag: 3.0.13
+Stable tag: 3.0.14
 Requires PHP: 5.4
 
 Disqus is the web's most popular comment system. Use Disqus to increase engagement, retain readers, and grow your audience.
@@ -121,6 +121,14 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 11. Moderate by Email Notifications
 
 == Changelog ==
+
+= 3.0.14 =
+
+* Add a prompt to create a secret key if missing. Fixes issue preventing some sites from using automatic installation and enabling syncing
+* Made it easier to reinstall the same site without having to select a new one
+* Bug fix for some browsers from autofilling site configuration forms
+* Bug fix for sites whose admin URL was different than their public site URL
+* Prevent Disqus from loading on pending and scheduled posts
 
 = 3.0.13 =
 
