@@ -27,7 +27,7 @@ const SupportLinks = () => (
         <li className='dsq-support-list-item'>
             <div>
                 <a
-                    href='https://disqus.com/support/?article=contact_wordpress'
+                    href='http://wp-plugin.disqus.net/'
                     target='_blank'
                 >
                     <div className='dashicons dashicons-email-alt dsq-icon-support' />
