@@ -39,7 +39,7 @@ exports[`SupportLinks renders with correct links 1`] = `
   >
     <div>
       <a
-        href="https://disqus.com/support/?article=contact_wordpress"
+        href="http://wp-plugin.disqus.net/"
         target="_blank"
       >
         <div
