@@ -13,6 +13,10 @@ class WordPressCommentExporter {
     constructor(dispatch: Redux.Dispatch<Redux.Action>) {
         this.dispatch = dispatch;
         this.currentPage = 1;
+
+        this.handleDisqusImportResponse = this.handleDisqusImportResponse.bind(this);
+        this.handleExportPostResponse = this.handleExportPostResponse.bind(this);
+        this.handlePostsResponse = this.handlePostsResponse.bind(this);
     }
 
     public startExportPosts(): XMLHttpRequest {
