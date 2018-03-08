@@ -34,8 +34,8 @@ before_script:
     fi
   - |
   - composer install
-  - nvm install 6.10
-  - nvm use 6.10
+  - nvm install --lts
+  - nvm use --lts
   - npm install -g yarn
   - npm install -g webpack
   - yarn install
