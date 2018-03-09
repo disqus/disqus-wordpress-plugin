@@ -51,6 +51,7 @@ export interface IAdminState {
     isFetchingAdminOptions?: boolean;
     isFetchingSyncStatus?: boolean;
     isManualSyncFormVisible?: boolean;
+    isManualSyncRunning?: boolean;
     isSiteFormLocked?: boolean;
     localAdminOptions?: IAdminOptions;
     manualSyncRangeEnd?: string;
@@ -91,6 +92,7 @@ export default class AdminState extends Record({
     exportLogs: null,
     installationState: InstallationState.none,
     isExportRunning: false,
+    isManualSyncRunning: false,
     isFetchingAdminOptions: false,
     isFetchingSyncStatus: false,
     isManualSyncFormVisible: false,
@@ -107,6 +109,7 @@ export default class AdminState extends Record({
     public exportLogs: Map<number, IExportPostLog>;
     public installationState: InstallationState;
     public isExportRunning: boolean;
+    public isManualSyncRunning: boolean;
     public isFetchingAdminOptions: boolean;
     public isFetchingSyncStatus: boolean;
     public isManualSyncFormVisible: boolean;

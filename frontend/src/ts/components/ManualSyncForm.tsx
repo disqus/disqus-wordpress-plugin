@@ -32,6 +32,7 @@ const ManualSyncForm = (props: IFormProps) => {
                                 onChange={props.onDateSelectorInputchange.bind(null, 'manualSyncRangeStart')}
                                 max={props.data.manualSyncRangeEnd}
                                 min={moment(props.data.manualSyncRangeEnd).subtract(12, 'months').format('YYYY-MM-DD')}
+                                disabled={props.data.isManualSyncRunning}
                             />
                             <p className='description'>
                                 {__('The start date for the manual sync')}
@@ -54,6 +55,7 @@ const ManualSyncForm = (props: IFormProps) => {
                                 onChange={props.onDateSelectorInputchange.bind(null, 'manualSyncRangeEnd')}
                                 max={moment().format('YYYY-MM-DD')}
                                 min={props.data.manualSyncRangeStart}
+                                disabled={props.data.isManualSyncRunning}
                             />
                             <p className='description'>
                                 {__('The end date for the manual sync')}
@@ -63,7 +65,7 @@ const ManualSyncForm = (props: IFormProps) => {
                 </tbody>
             </table>
             <p className='submit'>
-                <button type='submit' className='button button-large'>
+                <button type='submit' className='button button-large' disabled={props.data.isManualSyncRunning}>
                     <span className='dashicons dashicons-update' />
                     {' '}
                     {__('Run Manual Sync')}

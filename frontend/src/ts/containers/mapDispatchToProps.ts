@@ -22,6 +22,7 @@ import {
     IRestResponse,
     WordPressRestApi,
 } from '../WordPressRestApi';
+import { Moment } from 'moment';
 
 const UPDATABLE_FIELDS: string[] = [
     'disqus_forum_url',
@@ -92,19 +93,60 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
             const rangeEndInput: HTMLInputElement =
                 event.currentTarget.elements.namedItem('manualSyncRangeEnd') as HTMLInputElement;
 
-            const getApiDateString = (input: HTMLInputElement) => {
+            const getDateFromInput = (input: HTMLInputElement) => {
                 const dateValue: string = input && input.value;
-                const timestamp = moment(dateValue).endOf('day').toISOString();
+                const timestamp = moment(dateValue).endOf('day');
 
                 return timestamp;
             };
-            const startDate: string = getApiDateString(rangeStartInput);
-            const endDate: string = getApiDateString(rangeEndInput);
+            const startDate: Moment = getDateFromInput(rangeStartInput);
+            const endDate: Moment = getDateFromInput(rangeEndInput);
 
-            // TODO:
-            // 1. Create Disqus API instance
-            // 2. Make a request to posts/list with the start/end dates
-            // 3. For each comment, make a request to the local sync API
+            const syncComments = (cursor: string = '') => {
+                DisqusApi.instance.listPostsForForum(cursor, startDate, endDate, 100, (xhr: Event) => {
+                    let disqusData = null;
+                    try {
+                        disqusData = JSON.parse((xhr.target as XMLHttpRequest).responseText);
+                    } catch (error) {
+                        // Continue
+                    }
+
+                    if (!disqusData || disqusData.code !== 0) {
+                        dispatch(setMessageAction({
+                            onDismiss: handleClearMessage,
+                            text: (disqusData && disqusData.response) || 'Error connecting to the Disqus API',
+                            type: 'error',
+                        }));
+                        return;
+                    }
+
+                    disqusData.response.forEach((comment: any) => {
+                        WordPressRestApi.instance.pluginRestPost(
+                            'sync/comment',
+                            {
+                                object_type: 'post',
+                                transformed_data: comment,
+                                verb: 'force_sync',
+                            },
+                            (syncResponse: IRestResponse<string>) => {
+                                const datestr: string = moment().format('YYYY-MM-DD h:mm:ss a');
+                                dispatch(updateSyncStatusAction({
+                                    last_message: `Manually synced comment "${comment.id}" from Disqus: ${datestr}`,
+                                }));
+                            },
+                        );
+                    });
+
+                    const nextCursor = disqusData.cursor;
+                    if (nextCursor && nextCursor.hasNext)
+                        syncComments(nextCursor.next);
+                    else
+                        dispatch(setValueAction('isManualSyncRunning', false));
+                });
+            };
+
+            dispatch(setValueAction('isManualSyncRunning', true));
+            syncComments();
         },
         onSubmitSiteForm: (event: React.SyntheticEvent<HTMLFormElement>) => {
             event.preventDefault();
