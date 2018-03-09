@@ -117,6 +117,13 @@ class Disqus_Rest_Api {
             'permission_callback' => array( $this, 'rest_admin_only_permission_callback' ),
         ) );
 
+        // Alias route for `sync/webhook` to get around plugins/services disabling "abused" routes.
+        register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'sync/comment', array(
+            'methods' => 'POST',
+            'callback' => array( $this, 'rest_sync_webhook' ),
+            'permission_callback' => array( $this, 'rest_admin_only_permission_callback' ),
+        ) );
+
         register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'settings', array(
             array(
                 'methods' => array( 'GET', 'POST' ),
