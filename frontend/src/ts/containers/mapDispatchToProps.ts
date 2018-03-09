@@ -1,7 +1,9 @@
+import * as moment from 'moment';
 import * as Redux from 'redux';
 import {
     changeInstallStateAction,
     setMessageAction,
+    setValueAction,
     toggleValueAction,
     updateAdminOptionsAction,
     updateExportPostLogAction,
@@ -60,6 +62,10 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                 // Continue
             }
         },
+        onDateSelectorInputchange: (key: string, event: React.SyntheticEvent<HTMLInputElement>): void => {
+            const value: string = valueFromInput(event.currentTarget);
+            dispatch(setValueAction(key, value));
+        },
         onGenerateRandomSyncToken: (event: React.SyntheticEvent<HTMLAnchorElement>): void => {
             event.preventDefault();
 
@@ -76,6 +82,29 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
             const exporter: WordPressCommentExporter = new WordPressCommentExporter(dispatch);
 
             exporter.startExportPosts();
+        },
+        onSubmitManualSyncForm: (event: React.SyntheticEvent<HTMLFormElement>) => {
+            event.preventDefault();
+
+            const rangeStartInput: HTMLInputElement =
+                event.currentTarget.elements.namedItem('manualSyncRangeStart') as HTMLInputElement;
+
+            const rangeEndInput: HTMLInputElement =
+                event.currentTarget.elements.namedItem('manualSyncRangeEnd') as HTMLInputElement;
+
+            const getApiDateString = (input: HTMLInputElement) => {
+                const dateValue: string = input && input.value;
+                const timestamp = moment(dateValue).endOf('day').toISOString();
+
+                return timestamp;
+            };
+            const startDate: string = getApiDateString(rangeStartInput);
+            const endDate: string = getApiDateString(rangeEndInput);
+
+            // TODO:
+            // 1. Create Disqus API instance
+            // 2. Make a request to posts/list with the start/end dates
+            // 3. For each comment, make a request to the local sync API
         },
         onSubmitSiteForm: (event: React.SyntheticEvent<HTMLFormElement>) => {
             event.preventDefault();

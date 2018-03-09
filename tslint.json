@@ -8,7 +8,8 @@
     "rules": {
         "curly": false,
         "quotemark": [true, "single"],
-        "max-line-length": [true, 120]
+        "max-line-length": [true, 120],
+        "jsx-no-multiline-js": false
     },
     "rulesDirectory": []
 }

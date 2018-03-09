@@ -4,6 +4,7 @@ import * as Redux from 'redux';
 import AdvancedConfigContainer from '../containers/AdvancedConfigContainer';
 import ExportCommentsContainer from '../containers/ExportCommentsContainer';
 import InstallContainer from '../containers/InstallContainer';
+import ManualSyncContainer from '../containers/ManualSyncContainer';
 import SiteConfigContainer from '../containers/SiteConfigContainer';
 import SSOConfigContainer from '../containers/SSOConfigContainer';
 import SupportDiagnosticsContainer from '../containers/SupportDiagnosticsContainer';
@@ -47,7 +48,12 @@ const getSyncContainer = (props: IFormProps) => {
         );
     }
 
-    return <SyncConfigContainer />;
+    return (
+        <div>
+            <SyncConfigContainer />
+            {props.data.isManualSyncFormVisible ? <ManualSyncContainer /> : null}
+        </div>
+    );
 };
 
 const getActiveTab = (props: IFormProps) => (

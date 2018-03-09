@@ -26,6 +26,7 @@ export const getDefaultAdminConfig = (): IAdminConfigData => ({
 export const getDefaultFormProps = (): IFormProps => ({
     data: new AdminState(getDefaultAdminConfig()),
     onCopyText: jest.fn(),
+    onGenerateRandomSyncToken: jest.fn(),
     onInputChange: jest.fn(),
     onSubmitExportCommentsForm: jest.fn(),
     onSubmitSiteForm: jest.fn(),

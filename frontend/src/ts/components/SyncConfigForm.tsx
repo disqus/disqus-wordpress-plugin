@@ -61,6 +61,17 @@ const SyncConfigForm = (props: IFormProps) => {
                     {syncStatus.button}
                 </button>
             </p>
+            {props.data.isManualSyncFormVisible ? null : (
+                <p>
+                    <button
+                        type='button'
+                        className='button button-link'
+                        onClick={props.onToggleState.bind(null, 'isManualSyncFormVisible')}
+                    >
+                        {__('Manually Sync Comments')}
+                    </button>
+                </p>
+            )}
         </form>
     );
 };
