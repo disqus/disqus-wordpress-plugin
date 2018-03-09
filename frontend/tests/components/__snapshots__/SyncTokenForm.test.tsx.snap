@@ -38,7 +38,7 @@ exports[`SyncTokenForm renders with correct snapshot 1`] = `
             <br />
             <a
               href="#"
-              onClick={undefined}
+              onClick={[MockFunction]}
             >
               Generate a key
             </a>

@@ -32,6 +32,15 @@ exports[`SyncConfigForm component Renders form with disabled sync subscription 1
       Enable Auto Syncing
     </button>
   </p>
+  <p>
+    <button
+      className="button button-link"
+      onClick={[Function]}
+      type="button"
+    >
+      Manually Sync Comments
+    </button>
+  </p>
 </form>
 `;
 
@@ -65,6 +74,15 @@ exports[`SyncConfigForm component Renders form with enabled sync subscription 1`
       />
        
       Pause Auto Syncing
+    </button>
+  </p>
+  <p>
+    <button
+      className="button button-link"
+      onClick={[Function]}
+      type="button"
+    >
+      Manually Sync Comments
     </button>
   </p>
 </form>
@@ -102,6 +120,15 @@ exports[`SyncConfigForm component Renders form with no sync enabled 1`] = `
       Enable Auto Syncing
     </button>
   </p>
+  <p>
+    <button
+      className="button button-link"
+      onClick={[Function]}
+      type="button"
+    >
+      Manually Sync Comments
+    </button>
+  </p>
 </form>
 `;
 
@@ -135,6 +162,15 @@ exports[`SyncConfigForm component Renders form with paused sync subscription 1`]
       />
        
       Update Auto Syncing
+    </button>
+  </p>
+  <p>
+    <button
+      className="button button-link"
+      onClick={[Function]}
+      type="button"
+    >
+      Manually Sync Comments
     </button>
   </p>
 </form>
