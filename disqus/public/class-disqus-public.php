@@ -302,7 +302,7 @@ class Disqus_Public {
 		}
 		
 		// Don't load embed when comments are closed on a post. These lines can solve a conflict with plugin Public Post Preview.
-		if ( ! comments_open() ){
+		if ( ! comments_open() ) {
 			return false;
 		}
 
