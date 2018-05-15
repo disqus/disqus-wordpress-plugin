@@ -58,7 +58,7 @@ class Disqus_Public {
 		if ( $user->ID ) {
 			$payload_user['id'] = $user->ID;
 			$payload_user['username'] = $user->display_name;
-			$payload_user['avatar'] = get_avatar( $user->ID, 92 );
+			$payload_user['avatar'] = get_avatar_url( $user->ID, 92 );
 			$payload_user['email'] = $user->user_email;
 			$payload_user['url'] = $user->user_url;
 		}
