@@ -2,7 +2,13 @@ import * as Immutable from 'immutable';
 import { IAction } from '../actions';
 import * as actions from '../actions';
 import AdminOptions from './AdminOptions';
-import AdminState, { ExportLogStaus, IAdminConfigData, IDisqusWordpressWindow, IExportPostLog, InstallationState } from './AdminState';
+import AdminState, {
+    ExportLogStaus,
+    IAdminConfigData,
+    IDisqusWordpressWindow,
+    IExportPostLog,
+    InstallationState,
+} from './AdminState';
 
 const adminConfigData: IAdminConfigData = (window as IDisqusWordpressWindow).DISQUS_WP;
 

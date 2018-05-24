@@ -1,4 +1,5 @@
 import { Map, Record } from 'immutable';
+import * as moment from 'moment';
 import AdminOptions, { IAdminOptions } from './AdminOptions';
 import SyncStatus, { ISyncStatus } from './SyncStatus';
 
@@ -49,8 +50,12 @@ export interface IAdminState {
     installationState?: InstallationState;
     isFetchingAdminOptions?: boolean;
     isFetchingSyncStatus?: boolean;
+    isManualSyncFormVisible?: boolean;
+    isManualSyncRunning?: boolean;
     isSiteFormLocked?: boolean;
     localAdminOptions?: IAdminOptions;
+    manualSyncRangeEnd?: string;
+    manualSyncRangeStart?: string;
     message?: IMessage;
     [key: string]: any;
 }
@@ -87,10 +92,14 @@ export default class AdminState extends Record({
     exportLogs: null,
     installationState: InstallationState.none,
     isExportRunning: false,
+    isManualSyncRunning: false,
     isFetchingAdminOptions: false,
     isFetchingSyncStatus: false,
+    isManualSyncFormVisible: false,
     isSiteFormLocked: true,
     localAdminOptions: null,
+    manualSyncRangeEnd: null,
+    manualSyncRangeStart: null,
     message: null,
     syncStatus: null,
 }) implements IAdminState {
@@ -100,10 +109,14 @@ export default class AdminState extends Record({
     public exportLogs: Map<number, IExportPostLog>;
     public installationState: InstallationState;
     public isExportRunning: boolean;
+    public isManualSyncRunning: boolean;
     public isFetchingAdminOptions: boolean;
     public isFetchingSyncStatus: boolean;
+    public isManualSyncFormVisible: boolean;
     public isSiteFormLocked: boolean;
     public localAdminOptions: AdminOptions;
+    public manualSyncRangeEnd: string;
+    public manualSyncRangeStart: string;
     public message: IMessage;
     public syncStatus: SyncStatus;
 
@@ -113,6 +126,8 @@ export default class AdminState extends Record({
             config,
             exportLogs: Map(),
             localAdminOptions: new AdminOptions(),
+            manualSyncRangeEnd: moment().format('YYYY-MM-DD'),
+            manualSyncRangeStart: moment().subtract(7, 'days').format('YYYY-MM-DD'),
             syncStatus: new SyncStatus(),
         });
     }

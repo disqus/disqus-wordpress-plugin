@@ -117,6 +117,13 @@ class Disqus_Rest_Api {
             'permission_callback' => array( $this, 'rest_admin_only_permission_callback' ),
         ) );
 
+        // Alias route for `sync/webhook` to get around plugins/services disabling "abused" routes.
+        register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'sync/comment', array(
+            'methods' => 'POST',
+            'callback' => array( $this, 'rest_sync_webhook' ),
+            'permission_callback' => array( $this, 'rest_admin_only_permission_callback' ),
+        ) );
+
         register_rest_route( Disqus_Rest_Api::REST_NAMESPACE, 'settings', array(
             array(
                 'methods' => array( 'GET', 'POST' ),
@@ -223,12 +230,16 @@ class Disqus_Rest_Api {
 
         try {
             switch ( $json_data['verb'] ) {
+                case 'force_sync':
+                    $comment_id = $this->create_or_update_comment_from_post( $json_data['transformed_data'] );
+                    $this->log_sync_message( 'Manually synced comment "' . $json_data['transformed_data']['id'] . '" from Disqus' );
+                    return new WP_REST_Response( (string) $comment_id, 200 );
                 case 'create':
-                    $new_comment_id = $this->create_comment_from_post( $json_data['transformed_data'] );
+                    $new_comment_id = $this->create_or_update_comment_from_post( $json_data['transformed_data'] );
                     $this->log_sync_message( 'Synced new comment "' . $json_data['transformed_data']['id'] . '" from Disqus' );
                     return new WP_REST_Response( (string) $new_comment_id, 201 );
                 case 'update':
-                    $updated_comment_id = $this->update_comment_from_post( $json_data['transformed_data'] );
+                    $updated_comment_id = $this->create_or_update_comment_from_post( $json_data['transformed_data'] );
                     $this->log_sync_message( 'Updated synced comment "' . $json_data['transformed_data']['id'] . '" from Disqus' );
                     return new WP_REST_Response( (string) $updated_comment_id, 200 );
                 default:
@@ -620,6 +631,33 @@ class Disqus_Rest_Api {
     }
 
     /**
+     * Queries the WordPress database for existing comment by dsq_post_id. Creates or updates if comment found
+     * in the WordPress database given a Disqus post.
+     *
+     * @since    3.0.16
+     * @param    array $post    The Disqus post object.
+     * @return   int            The created or updated comment ID.
+     * @throws   Exception      An exception if comment can't be saved from post data.
+     */
+    private function create_or_update_comment_from_post( $post ) {
+        $this->validate_disqus_post_data( $post );
+
+        // Check for existing comment.
+        $comment_query = new WP_Comment_Query( array(
+            'meta_key' => 'dsq_post_id',
+            'meta_value' => $post['id'],
+            'number' => 1,
+        ) );
+
+        $comments = $comment_query->comments;
+        if ( ! empty( $comments ) ) {
+            return $this->update_comment_from_post( $post, $comments );
+        }
+
+        return $this->create_comment_from_post( $post );
+    }
+
+    /**
      * Creates a comment in the WordPress database given a Disqus post.
      *
      * @since    3.0
@@ -628,20 +666,6 @@ class Disqus_Rest_Api {
      * @throws   Exception      An exception if comment can't be saved from post data.
      */
     private function create_comment_from_post( $post ) {
-        $this->validate_disqus_post_data( $post );
-
-        // Check to make sure we haven't synced this comment yet.
-        $comment_query = new WP_Comment_Query( array(
-            'meta_key' => 'dsq_post_id',
-            'meta_value' => $post['id'],
-            'number' => 1,
-        ) );
-
-        if ( ! empty( $comment_query->comments ) ) {
-            $this->log_sync_message( 'Error syncing new comment "' . $post['id'] . '" from Disqus. Comment with this dsq_post_id already in the local database' );
-            return 0;
-        }
-
         $comment_data = $this->comment_data_from_post( $post );
 
         $new_comment_id = wp_insert_comment( $comment_data );
@@ -653,27 +677,12 @@ class Disqus_Rest_Api {
      * Updates a comment in the WordPress database given a Disqus post.
      *
      * @since    3.0
-     * @param    array $post    The Disqus post object.
-     * @return   int            The newly created comment ID.
-     * @throws   Exception      An exception if comment can't be saved from post data.
+     * @param    array $post        The Disqus post object.
+     * @param    array $comments    The comments found matching the dsq_post_id.
+     * @return   int                The newly created comment ID.
+     * @throws   Exception          An exception if comment can't be saved from post data.
      */
-    private function update_comment_from_post( $post ) {
-        $this->validate_disqus_post_data( $post );
-
-        // Check to make sure we have synced this comment already.
-        $comment_query = new WP_Comment_Query( array(
-            'meta_key' => 'dsq_post_id',
-            'meta_value' => $post['id'],
-            'number' => 1,
-        ) );
-
-        $comments = $comment_query->comments;
-
-        if ( empty( $comments ) ) {
-            $this->log_sync_message( 'Error updating synced comment "' . $post['id'] . '" from Disqus. Comment with this dsq_post_id was not in the local database' );
-            return 0;
-        }
-
+    private function update_comment_from_post( $post, $comments ) {
         foreach ( $comments as $comment ) {
             $updated_comment_id = $comment->comment_ID;
         }
@@ -716,7 +725,7 @@ class Disqus_Rest_Api {
      * @throws   Exception      An exception if comment can't be saved from post data.
      */
     private function comment_data_from_post( $post ) {
-        $thread = $post['threadData'];
+        $thread = array_key_exists( 'threadData', $post ) ? $post['threadData'] : $post['thread'];
         $author = $post['author'];
 
         $wp_post_id = null;
