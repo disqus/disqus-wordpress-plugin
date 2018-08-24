@@ -42,4 +42,18 @@ class Test_Admin extends WP_UnitTestCase {
         $_SERVER['HTTP_HOST'] = $previous_host;
     }
 
+    /**
+     * Ensure that REST URL filter will not error when HTTP_HOST is undefined.
+     */
+    function test_dsq_filter_rest_url_no_host() {
+        $admin = new Disqus_Admin( 'disqus', '0.0.0', 'foo' );
+        $previous_host = $_SERVER['HTTP_HOST'];
+        $_SERVER['HTTP_HOST'] = NULL;
+        $init_url = 'https://example.org/wp-json/disqus/v1';
+
+        $rest_url = $admin->dsq_filter_rest_url($init_url);
+
+        $this->assertEquals( $init_url, $rest_url );
+    }
+
 }

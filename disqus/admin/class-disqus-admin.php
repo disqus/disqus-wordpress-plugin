@@ -164,7 +164,7 @@ class Disqus_Admin {
             $rest_host .= ':' . $rest_url_parts['port'];
         }
 
-        $current_host = $_SERVER['HTTP_HOST'];
+        $current_host = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : $rest_host;
 
         if ( $rest_host !== $current_host ) {
             $rest_url = preg_replace( '/' . $rest_host . '/', $current_host, $rest_url, 1 );
@@ -241,7 +241,7 @@ class Disqus_Admin {
         $disqus_settings_node_args = array(
             'parent' => 'disqus',
             'id' => 'disqus_settings',
-            'title' => 'Settings',
+            'title' => 'TEST',
             'href' => $this->get_disqus_admin_url( 'settings/general' ),
         );
 
