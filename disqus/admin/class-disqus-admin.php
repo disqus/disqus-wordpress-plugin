@@ -241,7 +241,7 @@ class Disqus_Admin {
         $disqus_settings_node_args = array(
             'parent' => 'disqus',
             'id' => 'disqus_settings',
-            'title' => 'Settings',
+            'title' => 'TEST',
             'href' => $this->get_disqus_admin_url( 'settings/general' ),
         );
 
