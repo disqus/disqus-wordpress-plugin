@@ -1,5 +1,7 @@
 import { DisqusApi } from '../src/ts/DisqusApi';
 
+declare var global: any
+
 describe('DisqusApi', () => {
     let xmlHttpReq: jest.MockInstance<any>;
     let lastSentFormData: FormData;

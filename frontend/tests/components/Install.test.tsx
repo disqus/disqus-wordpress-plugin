@@ -89,7 +89,7 @@ describe('Install component rendering', () => {
         mockOpenFunction.mockReturnValue({
             postMessage: mockChildWindowPostMessage,
         });
-        let postMessageHandler;
+        let postMessageHandler = jest.fn();
         const mockEventListenerFunction = window['addEventListener'] = jest.fn(
             (type: string, listener: () => void, options: boolean) => {
                 postMessageHandler = jest.fn(listener);

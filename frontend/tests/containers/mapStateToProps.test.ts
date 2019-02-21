@@ -2,6 +2,8 @@ import { IFormProps } from '../../src/ts/components/FormProps';
 import mapStateToProps from '../../src/ts/containers/mapStateToProps';
 import AdminState from '../../src/ts/reducers/AdminState';
 
+declare var global: any
+
 describe('containers/mapStateToProps', () => {
 
     test('returns the expected props shape', () => {
