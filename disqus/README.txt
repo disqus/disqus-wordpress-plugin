@@ -2,7 +2,7 @@
 Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, ryanv12, iamfrancisyo, brevityness
 Tags: comments, threaded, email, notification, spam, avatars, community, profile, widget, disqus
 Requires at least: 4.4
-Tested up to: 5.1.0
+Tested up to: 5.1
 Stable tag: 3.0.16
 Requires PHP: 5.4
 
