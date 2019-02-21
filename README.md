@@ -2,8 +2,6 @@
 
 # Disqus WordPress Plugin
 
-Tested up to: 5.1
-
 ## Local Testing
 
 There's a Docker configuration to bootstrap a local WordPress installation. To start it:
