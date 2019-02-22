@@ -1,6 +1,8 @@
 import REST_OPTIONS from '../src/ts/REST_OPTIONS';
 import { WordPressRestApi } from '../src/ts/WordPressRestApi';
 
+declare var global: any
+
 describe('WordPressRestApi', () => {
     let xmlHttpReq: jest.MockInstance<any>;
     let lastSentFormData: FormData;

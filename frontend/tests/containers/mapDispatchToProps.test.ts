@@ -10,6 +10,8 @@ import { InstallationState } from '../../src/ts/reducers/AdminState';
 import WordPressCommentExporter from '../../src/ts/WordPressCommentExporter';
 import { WordPressRestApi } from '../../src/ts/WordPressRestApi';
 
+declare var global: any
+
 jest.mock('../../src/ts/WordPressCommentExporter');
 
 describe('containers/mapDispatchToProps', () => {

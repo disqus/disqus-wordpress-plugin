@@ -1,5 +1,7 @@
 import AdminState from '../../src/ts/reducers/AdminState';
 
+declare var global: any
+
 describe('AdminState', () => {
 
     test('Constructor populates default values', () => {
