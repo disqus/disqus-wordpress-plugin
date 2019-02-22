@@ -46,9 +46,6 @@ script:
   - yarn run build
   - npm test
 
-before_deploy:
-  - sudo apt-get install jq
-
 deploy:
   provider: script
   skip_cleanup: true
