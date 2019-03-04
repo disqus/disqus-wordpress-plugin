@@ -24,7 +24,7 @@
  * Domain Path:       /languages
  */
 
-$DISQUSVERSION = '3.0.16';
+$DISQUSVERSION = '3.0.17';
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
