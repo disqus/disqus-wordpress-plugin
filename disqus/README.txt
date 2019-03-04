@@ -126,7 +126,7 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 
 = 3.0.17 =
 * Bumping version for WP 5.1 version bump. (Changes to README versions and main php file's version)
-* 04e9f8e gddh: FIX: "Undefined index: HTTP_HOST" for no web server (#60) -   (6 months ago)
+* Fixed Undefined index bug where HTTP_HOST could not find web server
 
 = 3.0.16 =
 
