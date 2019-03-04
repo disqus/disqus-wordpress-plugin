@@ -17,7 +17,7 @@
  * Description:       Disqus helps publishers increase engagement and build loyal audiences. Supports syncing comments to your database for easy backup.
  * Version:           3.0.17
  * Author:            Disqus
- * Author URI:        https://disqus.com/company/
+ * Author URI:        https://disqus.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       disqus

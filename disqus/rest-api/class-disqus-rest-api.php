@@ -634,7 +634,7 @@ class Disqus_Rest_Api {
      * Queries the WordPress database for existing comment by dsq_post_id. Creates or updates if comment found
      * in the WordPress database given a Disqus post.
      *
-     * @since    3.0.16
+     * @since    3.0.17
      * @param    array $post    The Disqus post object.
      * @return   int            The created or updated comment ID.
      * @throws   Exception      An exception if comment can't be saved from post data.
