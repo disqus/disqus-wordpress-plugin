@@ -1,7 +1,7 @@
 {
   "name": "disqus-wordpress-plugin",
-  "version": "3.0.17",
-  "description": "",
+  "version": "3.0.18",
+  "description": "A WordPress plugin that allows site owners to easily replace the default commenting system with Disqus",
   "main": "frontend/src/js/index.js",
   "scripts": {
     "build": "yarn run build:dev && yarn run build:dist",
