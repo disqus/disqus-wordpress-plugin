@@ -13,17 +13,18 @@ php:
   - 5.4
   - 7.2
 
-dist: trusty
-
-env:
-  - WP_VERSION=latest WP_MULTISITE=0
-
 matrix:
   include:
     - php: 5.4
+      # PHP v5.4 isn't supported in the default build environment
+      # Only use Trusty environment for v5.4 builds because it increases queue time
+      dist: trusty
       env: WP_VERSION=4.4 WP_MULTISITE=0
     - php: 5.4
-      env: WP_VERSION=latest WP_MULTISITE=1
+      dist: trusty
+      env: WP_VERSION=4.4 WP_MULTISITE=1
+    - php: 7.2
+      env: WP_VERSION=latest WP_MULTISITE=0
     - php: 7.2
       env: WP_VERSION=latest WP_MULTISITE=1
 
