@@ -55,7 +55,7 @@ before_script:
 
 script:
   - ./vendor/bin/phpcs -s --standard=phpcs.ruleset.xml
-  - ./bin/test.sh
+  - bash bin/test.sh
   - yarn run build
   - npm test
 
