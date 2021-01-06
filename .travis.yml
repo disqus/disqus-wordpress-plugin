@@ -16,16 +16,21 @@ php:
   - 5.4
   - 7.0
   - 7.1
+  - 7.4
 
 env:
-  - WP_VERSION=latest WP_MULTISITE=0
+  - WP_VERSION=4.4 WP_MULTISITE=0
 
 matrix:
   include:
     - php: 5.4
-      env: WP_VERSION=4.4 WP_MULTISITE=0
-    - php: 5.4
       env: WP_VERSION=latest WP_MULTISITE=1
+    - php: 7.0
+      env: WP_VERSION=latest WP_MULTISITE=0
+    - php: 7.1
+      env: WP_VERSION=latest WP_MULTISITE=0
+    - php: 7.4
+      env: WP_VERSION=latest WP_MULTISITE=0
 
 before_script:
   - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
@@ -33,7 +38,7 @@ before_script:
     if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then
       composer global require "phpunit/phpunit=6.5.*"
     elif [[ ${TRAVIS_PHP_VERSION:0:2} == "7." ]]; then
-      composer global require "phpunit/phpunit=7.5.*"
+      composer global require "phpunit/phpunit=7.5.*"g
     else
       composer global require "phpunit/phpunit=4.8.*"
     fi
