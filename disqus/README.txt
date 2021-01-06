@@ -4,7 +4,7 @@ Tags: disqus, comments, engagement, threaded, email, notification, spam, avatars
 Requires at least: 4.4
 Tested up to: 5.6
 Stable tag: 3.0.18
-Requires PHP: 5.4
+Requires PHP: 5.6
 
 Disqus is the web's most popular comment system. Use Disqus to increase engagement, retain readers, and grow your audience.
 
@@ -22,7 +22,7 @@ The Disqus for WordPress plugin lets site owners and developers easily add Disqu
 * Improve SEO ranking with user generated content
 * Keep spam out with our best-in-class anti-spam filter powered by Akismet
 * Single profile for commenting on over 4 million sites including social login support for Facebook, Twitter, and Google accounts
-* Trusted by sites like Wired, CBS, and Entertainment Weekly
+* Trusted by sites like ABC News, Entertainment Weekly, and Rotten Tomatoes
 
 = Disqus Features =
 
@@ -42,7 +42,7 @@ The Disqus for WordPress plugin lets site owners and developers easily add Disqu
 * Flexible login options - Social login with Facebook, Twitter, and Google, SSO, and guest commenting support
 * Instant activity notifications, email notifications, and digests pull readers back in
 * User profiles that show you recent comment history and frequented communities
-* Discovery widget that shows active discussions happening elsewhere on your site
+* Recommendations widget that shows where active discussions are happening elsewhere on your site
 
 = Moderation Features =
 
