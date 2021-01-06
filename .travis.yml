@@ -9,25 +9,25 @@ notifications:
     on_success: never
     on_failure: change
 
-# PHP v5.6 isn't supported in the default build environment
+# PHP v5.x isn't supported in the default build environment
 dist: trusty
 
 php:
-  # PHP v5.6 is the oldest version Wordpress supports
-  - 5.6
   - 7.0
   - 7.1
-  - 7.4
+  - 7.3
 
 env:
   - WP_VERSION=latest WP_MULTISITE=0
+  - WP_VERSION=latest WP_MULTISITE=1
 
 jobs:
   include:
-    - php: 5.6
+    # Canary for our oldest-supported version
+    - name: Legacy
+      # PHP v5.6 is the oldest version Wordpress supports
+      php: 5.6
       env: WP_VERSION=4.4 WP_MULTISITE=0
-    - php: 5.6
-      env: WP_VERSION=latest WP_MULTISITE=1
 
 before_script:
   - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
@@ -40,7 +40,7 @@ before_script:
       composer global require "phpunit/phpunit=4.8.*"
     fi
   - |
-  - composer install
+  - composer install --no-interaction
   - nvm install --lts
   - nvm use --lts
   - npm install -g yarn
