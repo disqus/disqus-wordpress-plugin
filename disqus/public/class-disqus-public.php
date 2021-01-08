@@ -285,7 +285,7 @@ class Disqus_Public {
 			return false;
 		}
 
-		// Make sure comments are open if it's a single post page
+		// Make sure comments are open if it's a single post page.
 		if ( is_singular() && ! comments_open() ) {
 			return false;
 		}
