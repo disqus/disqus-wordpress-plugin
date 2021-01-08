@@ -1,39 +1,52 @@
-sudo: required
+os: linux
 
 language: php
+
+services: mysql
 
 notifications:
   email:
     on_success: never
     on_failure: change
 
+# PHP v5.x isn't supported in the default build environment
+dist: trusty
+
 php:
-  - 5.4
   - 7.0
   - 7.1
+  - 7.3
 
 env:
-  - WP_VERSION=latest WP_MULTISITE=0
+  - WP_VERSION=latest
 
-matrix:
+jobs:
   include:
-    - php: 5.4
-      env: WP_VERSION=4.4 WP_MULTISITE=0
-    - php: 5.4
-      env: WP_VERSION=latest WP_MULTISITE=1
+    # Canary for our oldest-supported version
+    # PHP v5.6 is the oldest version Wordpress supports
+    - php: 5.6
+      env: WP_VERSION=4.4
+
+# Enable dependency caching
+cache:
+  apt: true
+  directories:
+    - vendor
+    - $HOME/.npm
+    - $HOME/.composer/cache
 
 before_script:
   - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
   - |
-    if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then
-      composer global require "phpunit/phpunit=6.*"
-    elif [[ ${TRAVIS_PHP_VERSION:0:2} == "7." ]]; then
-      composer global require "phpunit/phpunit=7.*"
+    if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.6" ]]; then
+      composer require phpunit/phpunit "^4.8"
+    elif [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then
+      composer require phpunit/phpunit "^6.5"
     else
-      composer global require "phpunit/phpunit=4.8.*"
+      composer require phpunit/phpunit "^7.5"
     fi
   - |
-  - composer install
+  - composer install --no-interaction
   - nvm install --lts
   - nvm use --lts
   - npm install -g yarn
@@ -42,13 +55,13 @@ before_script:
 
 script:
   - ./vendor/bin/phpcs -s --standard=phpcs.ruleset.xml
-  - phpunit
+  - bash bin/test.sh
   - yarn run build
   - npm test
 
 deploy:
   provider: script
-  skip_cleanup: true
+  cleanup: false
   script: sh bin/deploy.sh
   on:
     branch: master
