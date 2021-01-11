@@ -124,6 +124,9 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 
 == Changelog ==
 
+= 3.0.19 =
+* Fixed issue with missing admin bundles
+
 = 3.0.18 =
 * Tested plugin with WordPress 5.6 and updated documentation
 * Fixed count.js script being loaded on unnecessary pages
