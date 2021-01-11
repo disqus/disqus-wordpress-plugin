@@ -61,7 +61,7 @@ script:
 
 deploy:
   provider: script
-  cleanup: false
+  skip_cleanup: true
   script: sh bin/deploy.sh
   on:
     branch: master
