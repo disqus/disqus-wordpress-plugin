@@ -26,6 +26,8 @@ Thumbs.db
 nbproject
 *.sublime-project
 *.sublime-workspace
+.vscode
+.nvmrc
 
 # Build files
 

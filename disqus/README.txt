@@ -1,10 +1,10 @@
 === Disqus Comment System ===
-Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, ryanv12, iamfrancisyo, brevityness
-Tags: comments, threaded, email, notification, spam, avatars, community, profile, widget, disqus
+Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, ryanv12, iamfrancisyo, brevityness, tterb
+Tags: disqus, comments, engagement, threaded, email, notification, spam, avatars, community, profile, widget
 Requires at least: 4.4
-Tested up to: 5.1
-Stable tag: 3.0.17
-Requires PHP: 5.4
+Tested up to: 5.6
+Stable tag: 3.0.18
+Requires PHP: 5.6
 
 Disqus is the web's most popular comment system. Use Disqus to increase engagement, retain readers, and grow your audience.
 
@@ -22,7 +22,7 @@ The Disqus for WordPress plugin lets site owners and developers easily add Disqu
 * Improve SEO ranking with user generated content
 * Keep spam out with our best-in-class anti-spam filter powered by Akismet
 * Single profile for commenting on over 4 million sites including social login support for Facebook, Twitter, and Google accounts
-* Trusted by sites like Wired, CBS, and Entertainment Weekly
+* Trusted by sites like ABC News, Entertainment Weekly, and Rotten Tomatoes
 
 = Disqus Features =
 
@@ -42,7 +42,7 @@ The Disqus for WordPress plugin lets site owners and developers easily add Disqu
 * Flexible login options - Social login with Facebook, Twitter, and Google, SSO, and guest commenting support
 * Instant activity notifications, email notifications, and digests pull readers back in
 * User profiles that show you recent comment history and frequented communities
-* Discovery widget that shows active discussions happening elsewhere on your site
+* Recommendations widget that shows where active discussions are happening elsewhere on your site
 
 = Moderation Features =
 
@@ -80,7 +80,7 @@ Yes, you can import your existing WordPress comments into Disqus during installa
 
 = How do I set up Single Sign-On (SSO)? =
 
-SSO allows users in your database to comment without requiring them to register with Disqus. Access to SSO is currently available as an add-on for users with a [Pro subscription](https://help.disqus.com/customer/en/portal/articles/2759918-disqus-pricing-and-plans#pro-plan). If you would like to enable this feature, [contact our Support team](https://disqus.com/support/?article=contact_SSO). Also check out our guide for [setting up SSO on WordPress](https://help.disqus.com/customer/portal/articles/1148635).
+SSO allows users in your database to comment without requiring them to register with Disqus. Access to SSO is currently available as an add-on for users with a [Business subscription](https://help.disqus.com/customer/en/portal/articles/2759918-disqus-pricing-and-plans#business-plan). If you would like to enable this feature, [contact our Support team](https://disqus.com/support/?article=contact_SSO). Also check out our guide for [setting up SSO on WordPress](https://help.disqus.com/customer/portal/articles/1148635).
 
 = I’m experiencing an issue with my installation of Disqus. =
 
@@ -111,10 +111,10 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 == Screenshots ==
 
 1. Disqus Comments
-2. Comment Reply
-3. Disqus Audience Platform
+2. Disqus Audience Platform
+3. Comment Reply
 4. Featured Comment
-5. Discovery Box (part of Disqus Comments)
+5. Recommendations (part of Disqus Comments)
 6. Mentions
 7. Real-time Comments
 8. Commenter User Profile
@@ -123,6 +123,11 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 11. Moderate by Email Notifications
 
 == Changelog ==
+
+= 3.0.18 =
+* Tested plugin with WordPress 5.6 and updated documentation
+* Fixed count.js script being loaded on unnecessary pages
+* Fixed comments showing sync date instead of creation date in WordPress admin
 
 = 3.0.17 =
 * Bumping version for WP 5.1 version bump. (Changes to README versions and main php file's version)
