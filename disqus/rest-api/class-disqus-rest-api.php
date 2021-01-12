@@ -734,6 +734,7 @@ class Disqus_Rest_Api {
         $post_query = new WP_Query( array(
             'meta_key' => 'dsq_thread_id',
             'meta_value' => $thread['id'],
+            'ignore_sticky_posts' => true,
         ) );
 
         if ( $post_query->have_posts() ) {
