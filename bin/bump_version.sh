@@ -89,6 +89,11 @@ bump disqus/README.txt "Stable tag: $current_version" "Stable tag: $new_version"
 # Update disqus.php version
 bump disqus/disqus.php "Version:           $current_version" "Version:           $new_version"
 
+# Create commit with version updates
+echo "Committing version changes: \"Update plugin version to v$new_version\""
+git add package.json disqus/README.txt disqus/disqus.php
+git commit -m "Update plugin version to v$new_version"
+
 # Create a new git version tag
 echo "Adding new version tag: $new_version"
 git tag "$new_version"
