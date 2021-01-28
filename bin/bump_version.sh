@@ -32,6 +32,23 @@ function confirm() {
 	esac
 }
 
+function check_branch() {
+	current_branch=$(git rev-parse --abbrev-ref HEAD)
+	if [[ "$current_branch" != "master" ]]; then
+		echo "This script can only be executed from the 'master' branch."
+		echo "Aborting."
+		exit
+	fi
+}
+
+function check_commits() {
+	staged_commits=$(git log origin/master..HEAD --pretty=format:"%h - %s")
+	commit_count=$(echo $log_str | wc -l)
+	if [[ $commit_count -gt 0 ]]; then
+		printf "The following staged commits will also be pushed to master.\n$staged_commits\n"
+		confirm "Are you sure?"
+	fi
+}
 
 if [ "$1" == "" ]; then
 	echo >&2 "No version type provided. Aborting."
@@ -79,6 +96,14 @@ if ! [[ "$new_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
 fi
 
 confirm "Bump version number from $current_version to $new_version?"
+
+confirm "Have you updated the Changelogs in README.txt and docs/CHANGELOG.md?"
+
+# Make sure this is only executed from the master branch
+check_branch
+
+# Confirm commits that will be pushed with version changes
+check_commits
 
 # Update package.json version
 bump package.json "\"version\": \"$current_version\"" "\"version\": \"$new_version\""
