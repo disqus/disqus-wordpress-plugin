@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# Retrieve the current version number and bump the versions of all required files by the specified amount and create a git version tag.
+# Retrieve the current version number and bump the versions of all required files by the specified amount, create a git version tag, and push the changes to master, triggering a new deploy.
 # Based on https://gist.github.com/andyexeter/da932c9644d832e3be6706d20d539ff7
 
-# Usage: ./bin/bump_version.sh <major|minor|patch> - Increments the relevant version part by one.
+# Usage: ./bin/publish.sh <major|minor|patch> - Increments the relevant version part by one.
 
 set -e
 
@@ -98,4 +98,6 @@ git commit -m "Update plugin version to v$new_version"
 echo "Adding new version tag: $new_version"
 git tag "$new_version"
 
-
+# Push version changes and version tag to master
+echo "Pushing version changes to master"
+git push --tags origin master
