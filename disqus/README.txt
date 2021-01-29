@@ -124,6 +124,9 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 
 == Changelog ==
 
+= 3.0.20 =
+* Fixed issue with comments syncing to one sticky post
+
 = 3.0.19 =
 * Fixed issue with missing admin bundles
 
