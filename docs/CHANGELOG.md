@@ -1,7 +1,15 @@
 # Changelog
 
+### 3.0.21  
+* Fixed issue with DISQUSVERSION not being updated with publishing script
+
 ### 3.0.20  
 * Fixed issue with comments syncing to one sticky post
+* Bumped `ini` from 1.3.5 to 1.3.7
+* Bumped `elliptic` from 6.4.1 to 6.5.3
+* Bumped `lodash` from 4.17.11 to 4.17.20
+* Bumped `acorn` from 5.7.3 to 5.7.4
+* Added bash script to automate plugin publishing process
 
 ### 3.0.19  
 * Fixed issue with missing admin bundles
