@@ -6,14 +6,12 @@ import {
     setValueAction,
     toggleValueAction,
     updateAdminOptionsAction,
-    updateExportPostLogAction,
     updateLocalOptionAction,
     updateSyncStatusAction,
 } from '../actions';
 import { DisqusApi } from '../DisqusApi';
 import { IAdminOptions } from '../reducers/AdminOptions';
 import {
-    ExportLogStaus,
     InstallationState,
 } from '../reducers/AdminState';
 import { createRandomToken } from '../utils';
@@ -46,6 +44,56 @@ const valueFromInput = (element: HTMLInputElement): string => {
 
     return value;
 };
+
+
+let syncedComments = 0;
+let totalSyncedComments = 0;
+
+const syncComments = async (commentQueue: any[], dispatch: Redux.Dispatch<Redux.Action>) => {
+    // We need to throttle the amount of parallel sync requests that we make
+    // because large forums could be syncing thousands of comments
+    const maxParallelRequests = 100;
+    const parallelRequests: Promise <void> [] = [];
+
+    for (let comment of commentQueue) {
+        // Make the sync request and add its promise to the queue,
+        // and remove it from queue when complete
+        const requestPromise = WordPressRestApi.instance.pluginRestPostAsync(
+            'sync/comment',
+            {
+                object_type: 'post',
+                transformed_data: comment,
+                verb: 'force_sync',
+            },
+            (syncResponse: IRestResponse<string>) => {
+                const datestr: string = moment().format('YYYY-MM-DD h:mm:ss a');
+                dispatch(updateSyncStatusAction({
+                    is_manual: true,
+                    progress_message: `Syncing ${syncedComments} of ${totalSyncedComments} comments`,
+                    last_message: `Manually synced comment "${comment.id}" from Disqus: ${datestr}`,
+                }));
+            },
+        ).then(() => {
+            parallelRequests.splice(parallelRequests.indexOf(requestPromise), 1);
+            syncedComments += 1;
+        });
+        parallelRequests.push(requestPromise);
+
+        // If the number of parallel requests matches our limit, wait for one
+        // to finish before enqueueing more
+        if (parallelRequests.length >= maxParallelRequests) {
+            await Promise.race(parallelRequests);
+        }
+    }
+    // Wait for all of the requests to finish
+    Promise.all(parallelRequests).then(() => {
+        dispatch(setValueAction('isManualSyncRunning', false));
+        dispatch(updateSyncStatusAction({
+            is_manual: true,
+            progress_message: `Complete (${syncedComments} of ${totalSyncedComments})`,
+        }));
+    });
+}
 
 const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
     const handleClearMessage = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
@@ -102,51 +150,54 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
             const startDate: Moment = getDateFromInput(rangeStartInput);
             const endDate: Moment = getDateFromInput(rangeEndInput);
 
-            const syncComments = (cursor: string = '') => {
-                DisqusApi.instance.listPostsForForum(cursor, startDate, endDate, 100, (xhr: Event) => {
-                    let disqusData = null;
-                    try {
-                        disqusData = JSON.parse((xhr.target as XMLHttpRequest).responseText);
-                    } catch (error) {
-                        // Continue
-                    }
+            // Create a queue of comments within the provided date-range from the Disqus API
+            let commentQueue: any[] = [];
+            const getDisqusComments = async (cursor: string = '') => {
+                return new Promise((resolve, reject) => {
+                    DisqusApi.instance.listPostsForForum(cursor, startDate, endDate, 100, async (xhr: Event) => {
+                        let disqusData = null;
+                        try {
+                            disqusData = JSON.parse((xhr.target as XMLHttpRequest).responseText);
+                        } catch (error) {
+                            // Continue
+                        }
 
-                    if (!disqusData || disqusData.code !== 0) {
-                        dispatch(setMessageAction({
-                            onDismiss: handleClearMessage,
-                            text: (disqusData && disqusData.response) || 'Error connecting to the Disqus API',
-                            type: 'error',
-                        }));
-                        return;
-                    }
+                        if (!disqusData || disqusData.code !== 0) {
+                            reject(disqusData);
+                        } else {
+                            dispatch(updateSyncStatusAction({
+                                is_manual: true,
+                                progress_message: `Collecting ${totalSyncedComments} comments`,
+                                last_message: null,
+                            }));
+                        }
 
-                    disqusData.response.forEach((comment: any) => {
-                        WordPressRestApi.instance.pluginRestPost(
-                            'sync/comment',
-                            {
-                                object_type: 'post',
-                                transformed_data: comment,
-                                verb: 'force_sync',
-                            },
-                            (syncResponse: IRestResponse<string>) => {
-                                const datestr: string = moment().format('YYYY-MM-DD h:mm:ss a');
-                                dispatch(updateSyncStatusAction({
-                                    last_message: `Manually synced comment "${comment.id}" from Disqus: ${datestr}`,
-                                }));
-                            },
-                        );
+                        const pendingComments = disqusData.response;
+                        totalSyncedComments += pendingComments.length;
+
+                        pendingComments.forEach((comment: any) => {
+                            commentQueue.push(comment);
+                        });
+
+                        const nextCursor = disqusData.cursor;
+                        if (nextCursor && nextCursor.hasNext) {
+                            await getDisqusComments(nextCursor.next);
+                        }
+                        resolve(commentQueue);
                     });
-
-                    const nextCursor = disqusData.cursor;
-                    if (nextCursor && nextCursor.hasNext)
-                        syncComments(nextCursor.next);
-                    else
-                        dispatch(setValueAction('isManualSyncRunning', false));
                 });
             };
 
             dispatch(setValueAction('isManualSyncRunning', true));
-            syncComments();
+            getDisqusComments().then((commentQueue: any[]) => {
+                syncComments(commentQueue, dispatch);
+            }).catch((err: any) => {
+                dispatch(setMessageAction({
+                    onDismiss: handleClearMessage,
+                    text: (err && err.response) || 'Error connecting to the Disqus API',
+                    type: 'error',
+                }));
+            });
         },
         onSubmitSiteForm: (event: React.SyntheticEvent<HTMLFormElement>) => {
             event.preventDefault();
