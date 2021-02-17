@@ -2,6 +2,8 @@ import { Record } from 'immutable';
 
 export interface ISyncStatus {
     enabled?: boolean;
+    is_manual?: boolean;
+    progress_message?: string;
     last_message?: string;
     requires_update?: any;
     subscribed?: boolean;
@@ -10,6 +12,8 @@ export interface ISyncStatus {
 
 export default class SyncStatus extends Record({
     enabled: null,
+    is_manual: false,
+    progress_message: null,
     last_message: null,
     requires_update: null,
     subscribed: null,
@@ -17,6 +21,8 @@ export default class SyncStatus extends Record({
 }) implements ISyncStatus {
     /* tslint:disable:variable-name */
     public enabled?: boolean;
+    public is_manual?: boolean;
+    public progress_message?: string;
     public last_message?: string;
     public requires_update?: any;
     public subscribed?: boolean;
