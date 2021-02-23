@@ -53,7 +53,9 @@ const SyncConfigForm = (props: IFormProps) => {
                 {' '}
                 <strong>{syncStatus.status}</strong>
             </p>
-            {props.data.syncStatus.last_message ? <p>{props.data.syncStatus.last_message}</p> : null}
+            {!props.data.syncStatus.is_manual && props.data.syncStatus.last_message ?
+                <p>{props.data.syncStatus.last_message}</p>
+            : null}
             <p className='submit'>
                 <button type='submit' className='button button-large'>
                     <span className={`dashicons dashicons-controls-${syncStatus.statusIcon}`} />

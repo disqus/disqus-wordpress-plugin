@@ -124,7 +124,7 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 
 == Changelog ==
 
-= 3.0.20 =
+= 3.0.21 =
 * Fixed issue with mismatched DISQUSVERSION causing admin issues
 
 = 3.0.20 =

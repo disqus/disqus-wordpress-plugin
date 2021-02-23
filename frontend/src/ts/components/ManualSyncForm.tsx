@@ -1,6 +1,5 @@
 import * as moment from 'moment';
 import * as React from 'react';
-import SyncStatus from '../reducers/SyncStatus';
 import { IFormProps } from './FormProps';
 
 const ManualSyncForm = (props: IFormProps) => {
@@ -62,8 +61,25 @@ const ManualSyncForm = (props: IFormProps) => {
                             </p>
                         </td>
                     </tr>
+                    {props.data.syncStatus.is_manual && props.data.syncStatus.progress_message ?
+                        <tr>
+                            <th scope='row'>
+                                <label htmlFor='manualSyncProgress'>
+                                    {__('Progress')}
+                                </label>
+                            </th>
+                            <td>
+                                <span>{props.data.syncStatus.progress_message}</span>
+                            </td>
+                        </tr>
+                    : null}
                 </tbody>
             </table>
+
+            {props.data.syncStatus.is_manual && props.data.syncStatus.last_message ?
+                <p>{props.data.syncStatus.last_message}</p>
+            : null}
+
             <p className='submit'>
                 <button type='submit' className='button button-large' disabled={props.data.isManualSyncRunning}>
                     <span className='dashicons dashicons-update' />

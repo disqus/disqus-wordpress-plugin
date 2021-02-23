@@ -8,6 +8,14 @@ export interface IRestResponse<T> {
     message: string;
 }
 
+export type RequestData = () => {
+    path: string;
+    data: any;
+    onLoad: (response: IRestResponse<any>) => void;
+}
+
+export type PendingRequests = () => Promise<void>;
+
 export class WordPressRestApi {
     private static current: WordPressRestApi;
 
@@ -47,6 +55,20 @@ export class WordPressRestApi {
             });
     }
 
+    public pluginRestPostAsync(
+        path: string,
+        data: any,
+        onLoad: (response: IRestResponse<any>) => void,
+    ): Promise <void> {
+        return this.makeApiPromise(
+            'POST',
+            `${REST_OPTIONS.base}${REST_OPTIONS.disqusBase}${path}`,
+            data && JSON.stringify(data),
+            (xhr: Event) => {
+                this.handleResponse((xhr.target as XMLHttpRequest).responseText, onLoad);
+            });
+    }
+
     public wordpressRestGet(path: string, query: string, onLoad: (response: any) => void) {
         return this.makeApiRequest(
             'GET',
@@ -70,6 +92,40 @@ export class WordPressRestApi {
         XHR.send(data);
 
         return XHR;
+    }
+
+    private makeApiPromise(
+        method: string,
+        url: string,
+        data: any,
+        onLoad: EventListenerOrEventListenerObject,
+    ): Promise <void> {
+        const XHR = new XMLHttpRequest();
+        return new Promise((resolve, reject) => {
+            XHR.open(method, url);
+            XHR.setRequestHeader('Content-type', 'application/json');
+            XHR.setRequestHeader('X-WP-Nonce', REST_OPTIONS.nonce);
+            XHR.addEventListener('load', onLoad);
+            XHR.onreadystatechange = () => {
+                // Only run if the request is complete
+                if (XHR.readyState !== 4) {
+                    return;
+                }
+                // Process the response
+                if (XHR.status >= 200 && XHR.status < 300) {
+                    // If successful
+                    resolve();
+                } else {
+                    // If failed
+                    reject({
+                        status: XHR.status,
+                        statusText: XHR.statusText
+                    });
+                    console.error('Error', XHR.statusText);
+                }
+            };
+            XHR.send(data);
+        });
     }
 
     private handleResponse(text: string, callback: (response: IRestResponse<any>) => void) {
