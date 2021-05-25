@@ -168,7 +168,7 @@ class Disqus_Admin {
             $current_host = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : $rest_host;
 
             if ( $rest_host !== $current_host ) {
-                $rest_url = preg_replace( '/' . $rest_host . '/', $current_host, $rest_url, 1);
+                $rest_url = preg_replace( '/' . $rest_host . '/', $current_host, $rest_url, 1 );
             }
         }
 
