@@ -1,5 +1,10 @@
 # Changelog
 
+### 3.0.22
+* Added improvements to manual comment syncing (thanks Artem Russakovskii)
+* Fixed a bug with the embed handling pages with missing container IDs
+* Fixed a bug with REST URLs handling emtpy host configurations
+
 ### 3.0.21  
 * Fixed issue with DISQUSVERSION not being updated with publishing script
 
