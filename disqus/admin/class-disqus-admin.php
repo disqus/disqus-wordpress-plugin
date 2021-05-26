@@ -159,15 +159,17 @@ class Disqus_Admin {
      */
     public function dsq_filter_rest_url( $rest_url ) {
         $rest_url_parts = parse_url( $rest_url );
-        $rest_host = $rest_url_parts['host'];
-        if ( array_key_exists( 'port', $rest_url_parts ) ) {
-            $rest_host .= ':' . $rest_url_parts['port'];
-        }
+        if ( array_key_exists( 'host', $rest_url_parts ) ) {
+            $rest_host = $rest_url_parts['host'];
+            if ( array_key_exists( 'port', $rest_url_parts ) ) {
+                $rest_host .= ':' . $rest_url_parts['port'];
+            }
 
-        $current_host = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : $rest_host;
+            $current_host = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : $rest_host;
 
-        if ( $rest_host !== $current_host ) {
-            $rest_url = preg_replace( '/' . $rest_host . '/', $current_host, $rest_url, 1 );
+            if ( $rest_host !== $current_host ) {
+                $rest_url = preg_replace( '/' . $rest_host . '/', $current_host, $rest_url, 1 );
+            }
         }
 
         return $rest_url;
