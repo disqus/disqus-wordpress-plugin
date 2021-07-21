@@ -1,0 +1,43 @@
+version: '2'
+
+services:
+    db:
+        image: mysql:5.7
+        environment:
+            MYSQL_ROOT_PASSWORD: wordpress
+            MYSQL_DATABASE: wordpress
+            MYSQL_USER: wordpress
+            MYSQL_PASSWORD: wordpress
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-pwordpress"]
+            interval: 5s
+            timeout: 5s
+            retries: 10
+
+    test:
+        build: .
+        depends_on:
+            db:
+                condition: service_healthy
+
+        volumes:
+            # Maps the Disqus plugin folder locally to the container filesystem
+            - "./disqus:/var/www/html/wp-content/plugins/disqus"
+            - ".:/usr/src/app"
+        environment:
+            WORDPRESS_DB_HOST: db:3306
+            WORDPRESS_DB_PASSWORD: wordpress
+            WORDPRESS_DEBUG: debug
+        command: >
+            bash -e -x -c "
+                dockerize -wait tcp://db:3306
+
+                cd /usr/src/app
+                bin/install-wp-tests.sh wordpress_test root wordpress db latest
+
+                # run frontend tests
+                yarnpkg test
+
+                # run backend tests
+                bin/test.sh
+            "

@@ -4,13 +4,6 @@ CURDIR := $(notdir $(patsubst %/,%,$(dir $(CURPATH))))
 lint:
 	./vendor/bin/phpcs --standard=phpcs.ruleset.xml
 
-setup-tests:
-	bin/install-wp-tests.sh wordpress_test root '' localhost latest
-
-test:
-	phpunit
-	yarn test
-
 run:
 	docker-compose up --build -d
 	yarn run start
@@ -30,6 +23,11 @@ activate:
 
 js:
 	yarn run build
+
+docker-test:
+	docker-compose -f docker-compose.test.yml rm -f -v
+	docker-compose -f docker-compose.test.yml build
+	docker-compose -f docker-compose.test.yml up  --abort-on-container-exit
 
 dist:
 	yarn run build
