@@ -18,10 +18,9 @@ There's a Docker configuration to bootstrap a local WordPress installation. To s
 
 To run unit tests locally:
 
-- Install [Composer](https://getcomposer.org/), [yarn](https://yarnpkg.com/) and [MySQL](https://dev.mysql.com/doc/refman/5.7/en/installing.html).
-- From the root project directory, run `$ yarn`, `$ composer install` and `$ composer global require "phpunit/phpunit=4.8.*"` (You may change the version to `6.*` if you're running PHP >= 7.0).
-- To create the WordPress test instance, run `$ bash bin/install-wp-tests.sh wordpress_test root '' localhost latest`
-- You should now be able to run `$ make test` to run both the PHPUnit tests and the frontend JavaScript tests.
+- Run `$ make docker-test`.
+
+This will run all frontend (Jest) and backend (PHPUnit) tests.
 
 ## Installing to existing WordPress site
 
