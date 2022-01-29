@@ -738,25 +738,23 @@ class Disqus_Rest_Api {
         ) );
 
         if ( $post_query->have_posts() ) {
-            $wp_post_id = $post_query->post->ID;
-            wp_reset_postdata();
+            $wp_post_id = $post_query->posts[0]->ID;
         }
 
         // If that doesn't exist, get the  and update the matching post metadata.
-        if ( null === $wp_post_id || false === $wp_post_id ) {
+        if ( empty($wp_post_id) ) {
             $identifiers = $thread['identifiers'];
             $first_identifier = count( $identifiers ) > 0 ? $identifiers[0] : null;
 
-            if ( null !== $first_identifier ) {
-                $ident_parts = explode( ' ', $first_identifier, 2 );
-                $wp_post_id = reset( $ident_parts );
+            if ( ! is_null( $first_identifier ) ) {
+                $wp_post_id = url_to_postid( $first_identifier );
             }
 
             // Keep the post's thread ID meta up to date.
             update_post_meta( $wp_post_id, 'dsq_thread_id', $thread['id'] );
         }
 
-        if ( null === $wp_post_id || false == $wp_post_id ) {
+        if ( empty( $wp_post_id ) ) {
             throw new Exception( 'No post found associated with the thread.' );
         }
 
@@ -779,7 +777,6 @@ class Disqus_Rest_Api {
 
         // Email is a special permission for Disqus API applications and won't be present
         // if the user has not set the permission for their API application.
-        $author_email = null;
         if ( isset( $author['email'] ) ) {
             $author_email = $author['email'];
         } elseif ( $author['isAnonymous'] ) {
