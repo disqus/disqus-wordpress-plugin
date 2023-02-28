@@ -2,6 +2,40 @@
 
 # Disqus WordPress Plugin
 
+## Development Environment Running on the Internet
+
+- Use a cloud provider like Amazon Lightsail or Digital Ocean and spin up a VM using the Bitnami WordPress application installed.
+    - Use at least 1GB RAM.
+
+- Wait a few minutes for WordPress to start up
+
+- Install prerequisites on the server:
+    ```sh
+    sudo apt update && sudo apt install -y git yarnpkg
+    ```
+
+- Disable PHP caching by running:
+    ```sh
+    sudo sed -i 's/opcache.enable = 1/opcache.enable = 0/' /opt/bitnami/php/etc/php.ini
+    sudo systemctl restart bitnami
+    ```
+
+- Enable debugging for WordPress by editing `/opt/bitnami/wordpress/wp-config.php` and adding the following lines before `/* That's all, stop editing! Happy blogging. */`.  Make sure to remove the `WP_DEBUG` line above.
+    ```php
+    define( 'WP_DEBUG', true );
+    define( 'WP_DEBUG_LOG', true );
+    ```
+
+- Install the plugin:
+    ```sh
+    cd $HOME
+    git clone https://github.com/disqus/disqus-wordpress-plugin
+    cd disqus-wordpress-plugin
+    yarnpkg install
+    yarnpkg run build
+    ln -s $HOME/disqus-wordpress-plugin/disqus /opt/bitnami/wordpress/wp-content/plugins/disqus
+    ``` 
+
 ## Local Testing
 
 There's a Docker configuration to bootstrap a local WordPress installation. To start it:
