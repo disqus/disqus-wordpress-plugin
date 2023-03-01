@@ -32,6 +32,14 @@
     overflow: hidden;
 }
 
+.about-description {
+    font-size: 40px !important;
+    color: #dcdcde;
+    font-weight: bold;
+    align-items: center;
+    text-align: center;
+}
+
 .welcome-panel-column .button {
     margin-bottom: 1.33em;
 }
