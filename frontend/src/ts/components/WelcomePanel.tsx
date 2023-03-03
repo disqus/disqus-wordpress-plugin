@@ -16,26 +16,29 @@ const WelcomePanel = (props: IWelcomePanelProps) => (
                     <h3>
                         {__('Comments')}
                     </h3>
-                    <a
-                        className='button button-primary button-hero'
-                        href={getForumAdminUrl(props.shortname, 'moderate')}
-                    >
-                        {__('Moderate')}
-                    </a>
-                    <p>
-                        <strong>{`${__('Manage')}: `}</strong>
-                        <a href={getForumAdminUrl(props.shortname, 'access/banned')} target='_blank'>
-                            {__('Banned users')}
-                        </a>
-                        {' | '}
-                        <a href={getForumAdminUrl(props.shortname, 'settings/access')} target='_blank'>
-                            {__('Restricted words filter')}
-                        </a>
-                        {' | '}
-                        <a href={getForumAdminUrl(props.shortname, 'settings/moderators')} target='_blank'>
-                            {__('Site moderators')}
-                        </a>
-                    </p>
+                    <ul>
+                        <li>
+                            <a className='welcome-icon dashicons-admin-comments' href={getForumAdminUrl(props.shortname, 'moderate')}
+                            >
+                                {__('Moderate')}
+                            </a>
+                        </li>
+                        <li>
+                            <a className='welcome-icon dashicons-warning' href={getForumAdminUrl(props.shortname, 'access/banned')} target='_blank'>
+                                {__('Banned Users')}
+                            </a>
+                        </li>
+                        <li>
+                            <a className='welcome-icon dashicons-filter' href={getForumAdminUrl(props.shortname, 'settings/access')} target='_blank'>
+                                {__('Restricted Words Filter')}
+                            </a>
+                        </li>
+                        <li>
+                            <a className='welcome-icon dashicons-admin-users' href={getForumAdminUrl(props.shortname, 'settings/moderators')} target='_blank'>
+                                {__('Site Moderators')}
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div className='welcome-panel-column'>
                     <h3>

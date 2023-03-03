@@ -21,37 +21,43 @@ exports[`WelcomePanel renders basic layout 1`] = `
         <h3>
           Comments
         </h3>
-        <a
-          className="button button-primary button-hero"
-          href="https://foo.disqus.com/admin/moderate/"
-        >
-          Moderate
-        </a>
-        <p>
-          <strong>
-            Manage: 
-          </strong>
-          <a
-            href="https://foo.disqus.com/admin/access/banned/"
-            target="_blank"
-          >
-            Banned users
-          </a>
-           | 
-          <a
-            href="https://foo.disqus.com/admin/settings/access/"
-            target="_blank"
-          >
-            Restricted words filter
-          </a>
-           | 
-          <a
-            href="https://foo.disqus.com/admin/settings/moderators/"
-            target="_blank"
-          >
-            Site moderators
-          </a>
-        </p>
+        <ul>
+          <li>
+            <a
+              className="welcome-icon dashicons-admin-comments"
+              href="https://foo.disqus.com/admin/moderate/"
+            >
+              Moderate
+            </a>
+          </li>
+          <li>
+            <a
+              className="welcome-icon dashicons-warning"
+              href="https://foo.disqus.com/admin/access/banned/"
+              target="_blank"
+            >
+              Banned Users
+            </a>
+          </li>
+          <li>
+            <a
+              className="welcome-icon dashicons-filter"
+              href="https://foo.disqus.com/admin/settings/access/"
+              target="_blank"
+            >
+              Restricted Words Filter
+            </a>
+          </li>
+          <li>
+            <a
+              className="welcome-icon dashicons-admin-users"
+              href="https://foo.disqus.com/admin/settings/moderators/"
+              target="_blank"
+            >
+              Site Moderators
+            </a>
+          </li>
+        </ul>
       </div>
       <div
         className="welcome-panel-column"
