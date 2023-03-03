@@ -33,7 +33,7 @@ RUN set -ex; \
 
 # Install test dependencies
 RUN mkdir -p /usr/src/app
-COPY composer.json composer.lock package.json package-lock.json yarn.lock /usr/src/app/
+COPY composer.json composer.lock package.json yarn.lock /usr/src/app/
 COPY bin/install-wp-tests.sh /usr/src/app/bin/
 RUN set -ex; \
     cd /usr/src/app; \
