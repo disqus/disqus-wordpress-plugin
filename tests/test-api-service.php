@@ -25,15 +25,15 @@ function filter_http_force_error( $preempt, $args, $url ) {
 
 class Test_Api_Service extends WP_UnitTestCase {
 
-    public function setUp() {
-        parent::setUp();
+    public function set_up() {
+        parent::set_up();
 
         // Filter HTTP requests made from `wp_remote_get` and `wp_remote_post` so we don't actually call server.
         add_filter( 'pre_http_request', 'reflect_params', 1, 3 );
     }
 
-    public function tearDown() {
-        parent::tearDown();
+    public function tear_down() {
+        parent::tear_down();
 
         remove_filter( 'pre_http_request', 'reflect_params', 1 );
     }

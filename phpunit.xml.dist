@@ -10,7 +10,7 @@
 		<env name="DISQUS_PLUGIN" value="disqus/disqus.php"/>
 	</php>
 	<testsuites>
-		<testsuite>
+		<testsuite name="default">
 			<directory prefix="test-" suffix=".php">./tests/</directory>
 		</testsuite>
 	</testsuites>

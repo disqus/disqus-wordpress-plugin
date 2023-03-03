@@ -26,8 +26,8 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
      */
     protected $disqus_post;
 
-    public function setUp() {
-        parent::setUp();
+    public function set_up() {
+        parent::set_up();
 
         global $wp_rest_server;
 

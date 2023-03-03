@@ -455,8 +455,13 @@ class Disqus_Rest_Api {
      */
     private function get_request_data( WP_REST_Request $request ) {
         $content_type = $request->get_content_type();
+        if ( $content_type && $content_type['value'] ) {
+            $content_type_val = $content_type['value'];
+        } else {
+            $content_type_val = null;
+        }
 
-        switch ( $content_type['value'] ) {
+        switch ( $content_type_val ) {
             case 'application/json':
                 return $request->get_json_params();
             default:

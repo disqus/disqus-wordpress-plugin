@@ -5,6 +5,10 @@
  * @package Disqus
  */
 
+// PHPUnit Polyfills is a requirement as of WordPress 5.9, see:
+// https://make.wordpress.org/core/handbook/references/phpunit-compatibility-and-wordpress-versions/
+require dirname( dirname( __FILE__ ) ) . '/vendor/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php';
+
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 if ( ! $_tests_dir ) {
 	$_tests_dir = '/tmp/wordpress-tests-lib';

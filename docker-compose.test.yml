@@ -30,14 +30,23 @@ services:
             WORDPRESS_DEBUG: debug
         command: >
             bash -e -x -c "
+                cd /usr/src/app
+
+                # We need to re-run these because we're mapping our local copy
+                # inside the container
+                echo '=== Installing dependencies ==='
+                composer install
+                yarnpkg install
+
+                echo '=== Waiting for MySQL to be ready ==='
                 dockerize -wait tcp://db:3306
 
-                cd /usr/src/app
+                echo '=== Configuring WordPress ==='
                 bin/install-wp-tests.sh wordpress_test root wordpress db latest
 
-                # run frontend tests
+                echo '=== Running frontend tests ==='
                 yarnpkg test
 
-                # run backend tests
+                echo '=== Running backend tests ==='
                 bin/test.sh
             "

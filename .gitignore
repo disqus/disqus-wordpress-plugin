@@ -1,6 +1,10 @@
 # Javascript
 node_modules
 
+# PHPUnit
+.phpunit.result.cache
+.phpunit.cache
+
 # Numerous always-ignore extensions
 
 *.diff
@@ -28,6 +32,7 @@ nbproject
 *.sublime-workspace
 .vscode
 .nvmrc
+tags
 
 # Build files
 

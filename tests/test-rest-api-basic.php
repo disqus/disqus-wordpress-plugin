@@ -26,8 +26,8 @@ class Test_REST_API_Basic extends WP_UnitTestCase {
      */
     private $subscriber_user_id;
 
-    public function setUp() {
-        parent::setUp();
+    public function set_up() {
+        parent::set_up();
 
         $this->admin_user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
         $this->subscriber_user_id = $this->factory->user->create( array( 'role' => 'subscriber' ) );
@@ -125,6 +125,7 @@ class Test_REST_API_Basic extends WP_UnitTestCase {
 
         $request = new WP_REST_Request( 'POST', DISQUS_REST_NAMESPACE . '/settings' );
         $request->set_body( $body );
+        $request->set_header( 'Content-Type', 'application/json' );
         $request->set_header( 'X-Hub-Signature', 'sha512=' . $hub_signature );
 
         $response = $this->server->dispatch( $request );
