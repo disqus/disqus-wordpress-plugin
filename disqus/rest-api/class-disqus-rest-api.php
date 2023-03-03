@@ -352,7 +352,7 @@ class Disqus_Rest_Api {
         ) );
 
         // Filter out pingbacks/trackings and comments that have been created by Disqus via syncing.
-        $filtered_comments = array_filter( $comments, array( $this, 'is_comment_syncable' ) );
+        $filtered_comments = array_filter( $comments, array( $this, 'is_comment_exportable' ) );
 
         $response_data = array(
             'comments' => $filtered_comments,
@@ -436,15 +436,15 @@ class Disqus_Rest_Api {
     }
 
     /**
-     * Checks a comment state to determine if it's valid for syncing.
+     * Checks a comment state to determine if it's valid for exporting into Disqus.
      *
      * @since     3.0.11
      * @param     array $comment    The WordPress comment instance.
-     * @return    boolean           Whether the comment is valid for syncing.
+     * @return    boolean           Whether the comment is valid for exporting into Disqus.
      */
-    private function is_comment_syncable( $comment ) {
+    private function is_comment_exportable( $comment ) {
         $is_comment = ( empty( $comment->comment_type ) || $comment->comment_type === 'comment' );
-        $is_disqus_comment = strpos( $comment->comment_agent, 'Disqus' );
+        $is_disqus_comment = strpos( $comment->comment_agent, 'Disqus' ) !== false;
         return $is_comment && !$is_disqus_comment;
     }
 
