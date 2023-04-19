@@ -1,0 +1,49 @@
+name: Run Tests
+run-name: Running tests for ${{ github.ref }}
+on: [pull_request, push]
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        php: ["7.4", "8.0", "8.1", "8.2"]
+        mysql: ["5.7", "8.0"]
+        wordpress: ["6.2", "6.0", "5.9"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer, phpunit:8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+
+      - name: Setup MySQL
+        uses: shogo82148/actions-setup-mysql@v1
+        with:
+          mysql-version: ${{ matrix.mysql }}
+
+      - name: Install PHP dependencies
+        run: composer install
+
+      - name: Install Node.js dependencies
+        run: yarn install
+
+      - name: Install WordPress
+        run: bin/install-wp-tests.sh wordpress_test root "" "127.0.0.1" ${{ matrix.wordpress }}
+
+      - name: Run PHPCS
+        run: ./vendor/bin/phpcs -s --standard=phpcs.ruleset.xml
+
+      - name: Run frontend tests
+        run: yarn test
+
+      - name: Run backend tests
+        run: bin/test.sh
