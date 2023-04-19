@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/disqus/disqus-wordpress-plugin.svg?branch=master)](https://travis-ci.org/disqus/disqus-wordpress-plugin)
-
 # Disqus WordPress Plugin
 
 ## Local Testing
