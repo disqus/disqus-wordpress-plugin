@@ -1,0 +1,31 @@
+name: Deploy plugin
+run-name: Deploying ${{ github.sha }}
+on: workflow_dispatch
+
+env:
+  SVNUSER: ${{ vars.SVNUSER }}
+  SVNURL: ${{ vars.SVNURL }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Install Node.js dependencies
+        run: yarn install
+
+      - name: Build frontend
+        run: yarn run build:dist
+
+      - name: Run deploy script
+        run: bash bin/deploy.sh
+        env:
+          SVNPASS: ${{ secrets.SVNPASS }}
