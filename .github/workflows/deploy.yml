@@ -1,5 +1,5 @@
 name: Deploy plugin
-run-name: Deploying ${{ github.sha }}
+run-name: Deploying ${{ github.ref }} (${{ github.sha }})
 on: workflow_dispatch
 
 env:
