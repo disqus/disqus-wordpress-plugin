@@ -443,9 +443,9 @@ class Disqus_Rest_Api {
      * @return    boolean           Whether the comment is valid for exporting into Disqus.
      */
     private function is_comment_exportable( $comment ) {
-        $is_comment = ( empty( $comment->comment_type ) || $comment->comment_type === 'comment' );
+        $is_comment = ( empty( $comment->comment_type ) || 'comment' === $comment->comment_type );
         $is_disqus_comment = strpos( $comment->comment_agent, 'Disqus' ) !== false;
-        return $is_comment && !$is_disqus_comment;
+        return $is_comment && ! $is_disqus_comment;
     }
 
     /**
