@@ -1,9 +1,9 @@
 === Disqus Comment System ===
-Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, ryanv12, iamfrancisyo, brevityness, tterb
+Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, ryanv12, iamfrancisyo, brevityness, tterb, chrisjtang
 Tags: disqus, comments, engagement, threaded, email, notification, spam, avatars, community, profile, widget
 Requires at least: 4.4
-Tested up to: 5.6
-Stable tag: 3.0.22
+Tested up to: 6.2
+Stable tag: 3.0.23
 Requires PHP: 5.6
 
 Disqus is the web's most popular comment system. Use Disqus to increase engagement, retain readers, and grow your audience.
@@ -123,6 +123,11 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 11. Moderate by Email Notifications
 
 == Changelog ==
+= 3.0.23 =
+* Fixed a bug with the automatic comment import tool with newer versions of WordPress and added tests.
+* Improved visual layout of the plugin.  Updated corresponding snapshot for frontend test.
+* Added updated directions for running tests locally.
+* Update CI/CD to use GitHub actions.
 
 = 3.0.22 =
 * Added improvements to manual comment syncing (thanks Artem Russakovskii)
