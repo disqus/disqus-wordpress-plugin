@@ -23,7 +23,7 @@ jobs:
         run: yarn install
 
       - name: Build frontend
-        run: yarn run build:dist
+        run: yarn run build
 
       - name: Run deploy script
         run: bash bin/deploy.sh
