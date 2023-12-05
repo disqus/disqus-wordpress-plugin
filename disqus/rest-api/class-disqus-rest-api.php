@@ -287,7 +287,7 @@ class Disqus_Rest_Api {
 
             return $this->rest_get_response( $status );
         } catch ( Exception $e ) {
-            return $this->rest_get_error( 'There was an error fetching sync status. Please go to Disqus.com and check that you are logged into a Disqus account with moderator privileges on this site, and then reload this page. For further troubleshooting, here is a 150 character error message preview: ' . substr( $e, 0, 150 ) );
+            return $this->rest_get_error( 'There was an error fetching sync status. 150 character error message preview: ' . substr( $e, 0, 150 ) );
         }
     }
 
@@ -304,7 +304,7 @@ class Disqus_Rest_Api {
 
             return $this->rest_get_response( $status );
         } catch ( Exception $e ) {
-            return $this->rest_get_error( 'There was an error fetching sync status. Please go to Disqus.com and check that you are logged into a Disqus account with moderator privileges on this site, and then reload this page. For further troubleshooting, here is a 150 character error message preview: ' . substr( $e, 0, 150 ) );
+            return $this->rest_get_error( 'There was an error attempting to enable syncing. 150 character error message preview: ' . substr( $e, 0, 150 ) );
         }
     }
 
@@ -321,7 +321,7 @@ class Disqus_Rest_Api {
 
             return $this->rest_get_response( $status );
         } catch ( Exception $e ) {
-            return $this->rest_get_error( 'There was an error fetching sync status. Please go to Disqus.com and check that you are logged into a Disqus account with moderator privileges on this site, and then reload this page. For further troubleshooting, here is a 150 character error message preview: ' . substr( $e, 0, 150 ) );
+            return $this->rest_get_error( 'There was an error attempting to disable syncing. 150 character error message preview: ' . substr( $e, 0, 150 ) );
         }
     }
 
