@@ -768,8 +768,8 @@ class Disqus_Rest_Api {
         }
 
         // Find the parent comment, if any.
-        // To simplify our syncing process and prevent syncing errors, 
-        // still sync the comment even if we don't have its parent comment synced. 
+        // To simplify our syncing process and prevent syncing errors,
+        // still sync the comment even if we don't have its parent comment synced.
         $parent = 0;
         if ( null !== $post['parent'] ) {
             $parent_comment_query = new WP_Comment_Query( array(
