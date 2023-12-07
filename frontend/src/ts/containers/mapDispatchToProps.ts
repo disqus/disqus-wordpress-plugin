@@ -76,6 +76,8 @@ const syncComments = async (commentQueue: any[], dispatch: Redux.Dispatch<Redux.
         ).then(() => {
             parallelRequests.splice(parallelRequests.indexOf(requestPromise), 1);
             syncedComments += 1;
+        }).catch (() => {
+            console.error('could not sync comment: ', comment);
         });
         parallelRequests.push(requestPromise);
 
@@ -94,6 +96,36 @@ const syncComments = async (commentQueue: any[], dispatch: Redux.Dispatch<Redux.
             is_manual: true,
             progress_message: `Completed (${syncedComments} of ${totalSyncedComments})`,
         }));
+    });
+}
+
+// takes in a queue and its parent ID and returns a queue of comments from parent to child
+const fetchAllParentComments = async (queue: any[], parentCommentID: number, threadData: any) => {
+    // find parent comment
+    const parentComment: any = await fetchPostDetails(parentCommentID);
+    // assign the thread data to the fetched comment
+    parentComment.thread = threadData;
+    // add parent comment to the front of the queue
+    queue.unshift(parentComment);
+    // if the parent comment has a parent, run the function again with the new parent comment
+    if (parentComment.parent) {
+        fetchAllParentComments(queue, parentComment.parent, threadData);
+    } else {
+        return queue;
+    }
+}
+
+const fetchPostDetails = async (postID: number) => {
+    return new Promise((resolve, reject) => {
+        DisqusApi.instance.listPostDetails(postID, async (xhr: Event) => {
+            let disqusData = null;
+            try {
+                disqusData = JSON.parse((xhr.target as XMLHttpRequest).responseText);
+            } catch (error) {
+                console.error(`Could not fetch post details for postID ${postID}.  Error: ${error}`)
+            }
+            resolve(disqusData.response);
+        });
     });
 }
 
@@ -154,7 +186,7 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
 
             // Create a queue of comments within the provided date-range from the Disqus API
             const parentCommentList: any[] = [];
-            const childCommentList: any[] = [];
+            const commentDict: any = {};
             const getDisqusComments = async (cursor: string = '') => {
                 return new Promise((resolve, reject) => {
                     DisqusApi.instance.listPostsForForum(cursor, startDate, endDate, 100, async (xhr: Event) => {
@@ -174,19 +206,59 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                                 last_message: null,
                             }));
                         }
-
-                        const pendingComments = disqusData.response;
-                        totalSyncedComments += pendingComments.length;
-
-                        pendingComments.forEach((comment: any) => {
-                            comment.parent ? childCommentList.push(comment) : parentCommentList.push(comment);
-                        });
                         const nextCursor = disqusData.cursor;
                         if (nextCursor && nextCursor.hasNext) {
                             await getDisqusComments(nextCursor.next);
                         }
-                        const commentQueue = [parentCommentList, childCommentList];
-                        resolve(commentQueue);
+
+                        const pendingComments = disqusData.response;
+                        totalSyncedComments = pendingComments.length;
+
+                        // Build a dictionary of comments and a list of parentComments
+                        pendingComments.forEach((comment: any) => {
+                            commentDict[comment.id] = comment;
+                            if (!comment.parent) {
+                                parentCommentList.push(comment);
+                            }
+                        });
+
+                        totalSyncedComments = parentCommentList.length;
+                    
+                        // check each childComment to make sure we have the necessary parents to prevent API errors
+                        const buildChildCommentList = async () => {
+                            const childCommentList: any[] = [];
+                            const fetchPromises: any[] = [];
+                            for (const comment of pendingComments) {
+                                let currentComment = comment;
+                                if (currentComment.parent) {
+                                    // if we have the current comment's parent, just add it to the list
+                                    if (commentDict[currentComment.parent]) {
+                                        childCommentList.push(currentComment);
+                                    } else {
+                                        // if we don't have its parent, fetch it and all of its parents
+                                        const queue = await fetchAllParentComments([currentComment], currentComment.parent, currentComment.thread);
+                                        // add the comments to the list
+                                        if (queue) {
+                                            for (const [index, comment] of queue.entries()) {
+                                                if (index === 0) {
+                                                    parentCommentList.push(comment);   
+                                                } else {
+                                                    childCommentList.push(comment);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                fetchPromises.push(Promise.resolve());
+                            };
+                            await Promise.all(fetchPromises);
+                            return childCommentList;
+                        };
+                        buildChildCommentList().then((childCommentList) => {
+                            const commentQueue = [parentCommentList, childCommentList];
+                            totalSyncedComments = parentCommentList.length + childCommentList.length;
+                            resolve(commentQueue);
+                        });
                     });
                 });
             };
