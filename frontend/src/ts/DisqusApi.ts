@@ -62,14 +62,6 @@ export class DisqusApi {
         return this.get('posts/list', query, onLoad);
     }
 
-    public listPostDetails(
-        postID: number,
-        onLoad: EventListenerOrEventListenerObject,
-    ): XMLHttpRequest {
-        const query: string = `post=${postID}`
-        return this.get('posts/details', query, onLoad);
-    }
-
     private get(path: string, query: string, onLoad: EventListenerOrEventListenerObject): XMLHttpRequest {
         if (!this.apiKey)
             return null;
