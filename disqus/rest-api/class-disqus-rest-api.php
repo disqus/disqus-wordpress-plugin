@@ -763,10 +763,6 @@ class Disqus_Rest_Api {
             update_post_meta( $wp_post_id, 'dsq_thread_id', $thread['id'] );
         }
 
-        if ( null === $wp_post_id || false == $wp_post_id ) {
-            throw new Exception( 'No post found associated with the thread.' );
-        }
-
         // Find the parent comment, if any.
         // To simplify our syncing process and prevent syncing errors,
         // still sync the comment even if we don't have its parent comment synced.
