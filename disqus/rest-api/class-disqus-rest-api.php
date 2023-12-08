@@ -700,7 +700,6 @@ class Disqus_Rest_Api {
         // Remove non-updating fields.
         unset( $comment_data['comment_meta'] );
         unset( $comment_data['comment_agent'] );
-        unset( $comment_data['comment_parent'] );
         unset( $comment_data['comment_type'] );
         unset( $comment_data['comment_date_gmt'] );
         unset( $comment_data['comment_post_ID'] );
