@@ -50,11 +50,11 @@ let syncedComments = 0;
 let totalSyncedComments = 0;
 
 const syncComments = async (commentQueue: any[], dispatch: Redux.Dispatch<Redux.Action>, commentType: String) => {
-    const parallelRequests: Promise <void> [] = [];
     // We need to throttle the amount of parallel sync requests that we make
     // because large forums could be syncing thousands of comments
     // Parent comments can be synced in parallel but child comments need to be synced 1 at a time
     const maxParallelRequests = commentType === 'parentComments' ? 100 : 1;
+    const parallelRequests: Promise <void> [] = [];
     for (let comment of commentQueue) {
         // Make the sync request and add its promise to the queue,
         // and remove it from queue when complete
