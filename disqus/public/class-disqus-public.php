@@ -23,13 +23,20 @@ class Disqus_Public {
 
 	/**
 	 * Returns the Disqus identifier for a given post.
+	 * If custom field is defined for the page with
+	 * key 'dsq_cusom_identifier' then the custom identifier is returned.
 	 *
 	 * @since     3.0
 	 * @param     WP_Post $post    The WordPress post to create the title for.
 	 * @return    string           The formatted identifier to be passed to Disqus.
 	 */
 	public static function dsq_identifier_for_post( $post ) {
-		return $post->ID . ' ' . $post->guid;
+		$dsq_custom_identifier = get_post_meta($post->ID, 'dsq_custom_identifier', true);
+		if (!empty($dsq_custom_identifier )) {
+			return $disqus_custom_identifier_meta . ' ' . get_the_guid($disqus_custom_identifier_meta);
+		} else {
+			return $post->ID . ' ' . $post->guid;
+		}
 	}
 
 	/**
