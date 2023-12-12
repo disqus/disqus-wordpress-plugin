@@ -11,7 +11,7 @@ const ManualSyncForm = (props: IFormProps) => {
         >
             <h4>{__('Manually Sync Comments')}</h4>
             <p className='description'>
-                {__('Select a time range to sync past comments. Date ranges are limited to a maximum of 12 months.')}
+                {__('Select a time range to sync past comments. Date ranges can go up to a maximum of 5 years.')}
             </p>
             <table className='form-table'>
                 <tbody>
@@ -30,7 +30,7 @@ const ManualSyncForm = (props: IFormProps) => {
                                 value={props.data.manualSyncRangeStart}
                                 onChange={props.onDateSelectorInputchange.bind(null, 'manualSyncRangeStart')}
                                 max={props.data.manualSyncRangeEnd}
-                                min={moment(props.data.manualSyncRangeEnd).subtract(12, 'months').format('YYYY-MM-DD')}
+                                min={moment(props.data.manualSyncRangeEnd).subtract(60, 'months').format('YYYY-MM-DD')}
                                 disabled={props.data.isManualSyncRunning}
                             />
                             <p className='description'>
