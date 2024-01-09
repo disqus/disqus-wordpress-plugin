@@ -3,7 +3,7 @@ Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, rya
 Tags: disqus, comments, engagement, threaded, email, notification, spam, avatars, community, profile, widget
 Requires at least: 4.4
 Tested up to: 6.4.2
-Stable tag: 3.0.23
+Stable tag: 3.0.24
 Requires PHP: 5.6
 
 Disqus is the web's most popular comment system. Use Disqus to increase engagement, retain readers, and grow your audience.
@@ -123,6 +123,12 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 11. Moderate by Email Notifications
 
 == Changelog ==
+= 3.0.24 =
+* Fixed multiple bugs with the manual syncing tool regarding syncing comments without parents and syncing comments missing thread data.
+* Increased allowable date range for manual syncing tool to allow for easier syncing of historical comment data.
+* Improved automatic syncing tool's error messaging and troubleshooting with regards to issues with fetching sync status and starting automatic syncing.
+* Improved the error messages that get exposed to the browser console when issues occur with the manual and automatic syncing tools for easier future troubleshooting.
+
 = 3.0.23 =
 * Fixed a bug with the automatic comment import tool with newer versions of WordPress and added tests.
 * Improved visual layout of the plugin.  Updated corresponding snapshot for frontend test.
