@@ -49,12 +49,11 @@ const valueFromInput = (element: HTMLInputElement): string => {
 let syncedComments = 0;
 let totalSyncedComments = 0;
 
-const syncComments = async (commentQueue: any[], dispatch: Redux.Dispatch<Redux.Action>) => {
+const syncComments = async (commentQueue: any[], dispatch: Redux.Dispatch<Redux.Action>, commentType: String) => {
     // We need to throttle the amount of parallel sync requests that we make
     // because large forums could be syncing thousands of comments
     const maxParallelRequests = 100;
     const parallelRequests: Promise <void> [] = [];
-
     for (let comment of commentQueue) {
         // Make the sync request and add its promise to the queue,
         // and remove it from queue when complete
@@ -76,6 +75,8 @@ const syncComments = async (commentQueue: any[], dispatch: Redux.Dispatch<Redux.
         ).then(() => {
             parallelRequests.splice(parallelRequests.indexOf(requestPromise), 1);
             syncedComments += 1;
+        }).catch (() => {
+            console.error('could not sync comment: ', comment);
         });
         parallelRequests.push(requestPromise);
 
@@ -85,12 +86,14 @@ const syncComments = async (commentQueue: any[], dispatch: Redux.Dispatch<Redux.
             await Promise.race(parallelRequests);
         }
     }
-    // Wait for all of the requests to finish
     Promise.all(parallelRequests).then(() => {
-        dispatch(setValueAction('isManualSyncRunning', false));
+        // We sync parent comments first then child comments immediately after, so we only update the state of the sync after child comments
+        if (commentType === 'childComments') {
+            dispatch(setValueAction('isManualSyncRunning', false));
+        }
         dispatch(updateSyncStatusAction({
             is_manual: true,
-            progress_message: `Complete (${syncedComments} of ${totalSyncedComments})`,
+            progress_message: `Completed (${syncedComments} of ${totalSyncedComments})`,
         }));
     });
 }
@@ -151,7 +154,8 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
             const endDate: Moment = getDateFromInput(rangeEndInput);
 
             // Create a queue of comments within the provided date-range from the Disqus API
-            let commentQueue: any[] = [];
+            const parentCommentList: any[] = [];
+            const childCommentList: any[] = [];
             const getDisqusComments = async (cursor: string = '') => {
                 return new Promise((resolve, reject) => {
                     DisqusApi.instance.listPostsForForum(cursor, startDate, endDate, 100, async (xhr: Event) => {
@@ -171,33 +175,43 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.Action>) => {
                                 last_message: null,
                             }));
                         }
-
+                        
                         const pendingComments = disqusData.response;
                         totalSyncedComments += pendingComments.length;
 
                         pendingComments.forEach((comment: any) => {
-                            commentQueue.push(comment);
+                            if (comment.parent) {
+                                childCommentList.push(comment);
+                            } else {
+                                parentCommentList.push(comment);
+                            }
                         });
 
                         const nextCursor = disqusData.cursor;
                         if (nextCursor && nextCursor.hasNext) {
                             await getDisqusComments(nextCursor.next);
                         }
-                        resolve(commentQueue);
+                        resolve([parentCommentList, childCommentList]);
                     });
                 });
             };
 
             dispatch(setValueAction('isManualSyncRunning', true));
-            getDisqusComments().then((commentQueue: any[]) => {
-                syncComments(commentQueue, dispatch);
-            }).catch((err: any) => {
-                dispatch(setMessageAction({
-                    onDismiss: handleClearMessage,
-                    text: (err && err.response) || 'Error connecting to the Disqus API',
-                    type: 'error',
-                }));
-            });
+            getDisqusComments()
+                .then((commentQueue: any[]) => {
+                    syncComments(commentQueue[0], dispatch, 'parentComments');
+                    return commentQueue;
+                })
+                .then((commentQueue: any[]) => {
+                    syncComments(commentQueue[1], dispatch, 'childComments');
+                })
+                .catch((err: any) => {
+                    dispatch(setMessageAction({
+                        onDismiss: handleClearMessage,
+                        text: (err && err.response) || 'Error connecting to the Disqus API',
+                        type: 'error',
+                    }));
+                });
         },
         onSubmitSiteForm: (event: React.SyntheticEvent<HTMLFormElement>) => {
             event.preventDefault();

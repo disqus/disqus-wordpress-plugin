@@ -121,7 +121,7 @@ export class WordPressRestApi {
                         status: XHR.status,
                         statusText: XHR.statusText
                     });
-                    console.error('Error', XHR.statusText);
+                    console.error('Error Status: ', XHR.statusText, '100 character server response preview: ', XHR.responseText.substring(0, 100));
                 }
             };
             XHR.send(data);

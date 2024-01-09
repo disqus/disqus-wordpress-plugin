@@ -54,6 +54,7 @@ export class DisqusApi {
             `end=${endDate.toISOString()}`,
             `forum=${this.forum}`,
             'related=thread',
+            'order=asc',
             `limit=${Math.min(Math.max(limit, 1), 100)}`,
             `cursor=${cursor || ''}`,
         ].join('&');
