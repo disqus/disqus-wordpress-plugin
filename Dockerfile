@@ -39,5 +39,6 @@ RUN set -ex; \
     cd /usr/src/app; \
     bin/install-wp-tests.sh "" "" "" "" latest true; \
     composer install; \
+    composer update; \
     yarnpkg
 COPY . /usr/src/app
