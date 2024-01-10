@@ -36,7 +36,6 @@ services:
                 # inside the container
                 echo '=== Installing dependencies ==='
                 composer install
-                composer update
                 yarnpkg install
 
                 echo '=== Waiting for MySQL to be ready ==='
