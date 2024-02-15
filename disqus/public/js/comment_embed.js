@@ -23,11 +23,18 @@ var disqus_config = function () {
 };
 
 (function() {
+    // Adds the disqus_thread id to the comment section if site is using a WP block theme
+    var commentsBlock = document.querySelector('.wp-block-comments');
+    if (commentsBlock) {
+        commentsBlock.id = 'disqus_thread';
+    }
     if (document.getElementById(disqus_container_id)) {
         var dsq = document.createElement('script');
         dsq.type = 'text/javascript';
         dsq.async = true;
         dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    } else {
+        console.error("Could not find 'disqus_thread' container to load DISQUS.  This is usually the result of a WordPress theme conflicting with the DISQUS plugin.  Try switching your site to a Classic Theme, or contact DISQUS support for help.");
     }
 })();
