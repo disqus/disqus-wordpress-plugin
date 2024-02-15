@@ -238,6 +238,22 @@ class Disqus_Public {
 		}
 	}
 
+    /**
+	 * Hides the comment section block for WP block themes.
+     * This prevents the WP block comment section from appearing briefly before being replaced by Disqus.
+	 *
+	 * @since    3.0
+	 */
+	public function hide_block_theme_comment_section() {
+		?>
+            <style>
+                .wp-block-comments {
+                    display: none;
+                }
+            </style>
+        <?php
+	}
+
 	/**
 	 * Determines if Disqus is configured and can load on a given page.
 	 *
