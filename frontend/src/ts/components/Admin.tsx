@@ -15,6 +15,7 @@ import { IFormProps } from './FormProps';
 import HelpResources from './HelpResources';
 import SupportLinks from './SupportLinks';
 import WelcomePanel from './WelcomePanel';
+import WhatsNew from './WhatsNew';
 
 const getSSOContainer = (props: IFormProps) => {
     const adminOptions = props.data.adminOptions;
@@ -230,6 +231,7 @@ const getActiveTabView = (props: IFormProps) => {
 
 const Admin = (props: IFormProps) => (
     <div>
+        <WhatsNew/>
         {props.data.adminOptions.disqus_installed ? <WelcomePanel shortname={props.data.adminOptions.disqus_forum_url} /> : null}
         <AdminTabBar {...props} />
         {getActiveTabView(props)}
