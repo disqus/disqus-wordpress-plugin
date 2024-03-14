@@ -180,6 +180,7 @@ class Disqus {
         $this->loader->add_filter( 'comments_number', $plugin_public, 'dsq_comments_link_template' );
         $this->loader->add_filter( 'comments_template', $plugin_public, 'dsq_comments_template' );
         $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_comment_count' );
+        $this->loader->add_action( 'comment_form_before', $plugin_public, 'hide_block_theme_comment_section' );
         $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_comment_embed' );
         $this->loader->add_action( 'show_user_profile', $plugin_public, 'dsq_close_window_template' );
     }
