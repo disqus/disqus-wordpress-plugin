@@ -76,11 +76,15 @@
             padding: .25rem;
             transition: color 1.3s ease-in-out, box-shadow .3s ease-in-out;
             white-space: nowrap;
+            border-radius: 12px;
             &:hover {
                 box-shadow: inset 150px 0 0 0 var(--disqus-blue);
                 a {
-                    color: white
+                    color: white;
                 }
+            }
+            a:focus {
+                box-shadow: unset !important;
             }
         }
     }
@@ -111,6 +115,20 @@
 
 .submit .button-link {
     text-decoration: none;
+}
+
+.button {
+    border-radius: 12px !important;
+    &:hover {
+        background-color: var(--disqus-blue) !important;
+        color: white !important;
+        transition: color .1s ease-in-out, background-color .3s ease-in-out !important;
+    }
+}
+
+.button.button-link {
+    padding: 0px 5px;
+    border-radius: 6px;
 }
 
 /* Placeholder spinner */
