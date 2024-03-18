@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 const HelpResources = () => (
-    <ul>
+    <ul className='description'>
         <li>
             <a href='https://status.disqus.com/' target='_blank'>
                 {__('Disqus System Status')}

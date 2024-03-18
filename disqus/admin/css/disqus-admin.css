@@ -24,6 +24,17 @@
 
 .dsq-admin-wrapper {
     margin-top: 20px;
+    a {
+        &:hover {
+            color: white;
+            background-color: var(--disqus-blue);
+            transition: color .3s ease-in-out, background-color .3s ease-in-out;
+        }
+    }
+    .description a {
+        padding: 5px;
+        border-radius: 12px;
+    }
 }
 
 .button-hero .disqus-icon {
@@ -224,4 +235,9 @@
 .dsq-support-list-item a {
     text-decoration: none;
     font-size: 14px;
+    &:hover {
+        /* text-decoration: underline; */
+        background-color: transparent;
+        color: var(--disqus-blue);
+    }
 }
