@@ -34,6 +34,7 @@
 
 .welcome-panel {
     overflow: hidden;
+    border-radius: 12px;
 }
 
 .about-description {
