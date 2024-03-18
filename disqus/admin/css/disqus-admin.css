@@ -80,6 +80,22 @@
     }
 }
 
+.nav-tab-wrapper {
+    display: flex;
+    gap: 10px;
+    border-bottom: none;
+    .nav-tab {
+        border-radius: 12px;
+        border: 1px solid #c3c4c7;
+        margin-left: 0;
+        transition: color .3s ease-in-out, background-color .3s ease-in-out;
+        &:hover {
+            background-color: var(--disqus-blue);
+            color: white;
+        }
+    }
+}
+
 .button-large .dashicons {
     margin-top: 4px;
 }
