@@ -15,7 +15,7 @@ const WhatsNew: React.FC = () => {
                 What's New in v{latestVersion}:
             </h2>
             <ul>
-                {updates.map(update => <li>- {update}</li>)}
+                {updates.map((update, index) => <li key={index}>- {update}</li>)}
             </ul>
         </div>
     );
