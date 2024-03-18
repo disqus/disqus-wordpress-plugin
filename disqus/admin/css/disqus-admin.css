@@ -35,6 +35,9 @@
 .welcome-panel {
     overflow: hidden;
     border-radius: 12px;
+    .welcome-panel-content {
+        min-height: unset;
+    }
 }
 
 .about-description {
@@ -49,9 +52,11 @@
     display: flex;
     justify-content: center;
     gap: 10vw;
+    padding: 12px;
     @media screen and (max-width: 768px) {
         flex-direction: column;
         align-items: center;
+        gap: 0px;
         ul {
             display: flex;
             flex-direction: column;
