@@ -90,6 +90,9 @@
     display: flex;
     gap: 10px;
     border-bottom: none;
+    @media screen and (max-width: 682px) {
+        overflow: scroll hidden;
+    }
     .nav-tab {
         border-radius: 12px;
         border: 1px solid #c3c4c7;
