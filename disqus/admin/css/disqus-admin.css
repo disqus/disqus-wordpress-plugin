@@ -3,6 +3,10 @@
  * included in this file.
  */
 
+:root {
+    --disqus-blue: rgb(46, 159, 255);
+}
+
 #wpadminbar #wp-admin-bar-disqus .ab-icon:before {
     content: "\f101";
     top: 3px;
@@ -40,8 +44,27 @@
     text-align: center;
 }
 
-.welcome-panel-column .button {
-    margin-bottom: 1.33em;
+.welcome-panel .welcome-panel-content .welcome-panel-column-container .welcome-panel-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    max-width: 300px;
+
+    .button {
+        margin-bottom: 1.33em;
+    }
+
+    li {
+        box-shadow: inset 0 0 0 0 var(--disqus-blue);
+        padding: .25rem;
+        transition: color 1.3s ease-in-out, box-shadow .3s ease-in-out;
+        &:hover {
+            box-shadow: inset 150px 0 0 0 var(--disqus-blue);
+            a {
+                color: white
+            }
+        }
+    }
 }
 
 .button-large .dashicons {

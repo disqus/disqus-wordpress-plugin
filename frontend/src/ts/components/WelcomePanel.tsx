@@ -30,7 +30,7 @@ const WelcomePanel = (props: IWelcomePanelProps) => (
                         </li>
                         <li>
                             <a className='welcome-icon dashicons-filter' href={getForumAdminUrl(props.shortname, 'settings/access')} target='_blank'>
-                                {__('Restricted Words Filter')}
+                                {__('Restricted Words')}
                             </a>
                         </li>
                         <li>
