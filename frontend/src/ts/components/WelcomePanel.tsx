@@ -9,7 +9,7 @@ const WelcomePanel = (props: IWelcomePanelProps) => (
     <div className='welcome-panel'>
         <div className='welcome-panel-content'>
             <p className='about-description'>
-                {__('Manage Community')}
+                {__('Manage Your Community')}
             </p>
             <div className='welcome-panel-column-container'>
                 <div className='welcome-panel-column'>
