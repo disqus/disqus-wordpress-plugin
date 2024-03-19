@@ -48,6 +48,13 @@
         padding: 5px;
         border-radius: 12px;
     }
+
+    input {
+        border-radius: 6px;
+    }
+    textarea {
+        border-radius: 0;
+    }
 }
 
 .button-hero .disqus-icon {
