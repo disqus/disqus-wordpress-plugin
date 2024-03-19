@@ -42,6 +42,9 @@
                 border-bottom: 3px var(--disqus-blue) solid;
             }
         }
+        &:focus {
+            box-shadow: unset !important;
+        }
     }
     
     .description a {
