@@ -106,6 +106,15 @@ const WelcomePanel = (props: IWelcomePanelProps) => (
                                 {__('Advanced')}
                             </a>
                         </li>
+                        <li>
+                            <a
+                                className='welcome-icon dashicons-align-left'
+                                href={getForumAdminUrl(props.shortname, 'settings/ads')}
+                                target='_blank'
+                            >
+                                {__('Remove Ads')}
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
