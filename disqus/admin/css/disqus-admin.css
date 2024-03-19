@@ -249,7 +249,7 @@
     text-decoration: none;
     font-size: 14px;
     &:hover {
-        border-bottom: 3px var(--disqus-blue) solid;
+        border-bottom: 1px var(--disqus-blue) solid;
         background-color: transparent;
         color: var(--disqus-blue);
     }
