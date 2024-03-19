@@ -66,6 +66,15 @@
     margin-right: 7px;
 }
 
+.whats-new {
+    padding: 5px;
+    &.visible {
+        border: 2px black solid;
+        border-radius: 12px;
+        background-color: white;
+    }
+}
+
 .welcome-panel {
     overflow: hidden;
     border-radius: 12px;

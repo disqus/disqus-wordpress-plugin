@@ -15,14 +15,14 @@ const WhatsNew: React.FC = () => {
         setShowWhatsNew(!showWhatsNew);
     }
     return (
-        <React.Fragment>
+        <div className={`whats-new${showWhatsNew ? ' visible' : ''}`}>
             <button className='button' onClick={handleClick}>{showWhatsNew ? 'Hide' : `What's New in v${latestVersion}?`}</button>
-            <div className={`whats-new${showWhatsNew ? '' : ' hidden'}`}>
+            <div className={`${showWhatsNew ? '' : ' hidden'}`}>
                 <ul>
                     {updates.map((update, index) => <li key={index}>- {update}</li>)}
                 </ul>
             </div>
-        </React.Fragment>
+        </div>
     );
 };
 
