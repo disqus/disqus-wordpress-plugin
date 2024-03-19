@@ -31,6 +31,19 @@
             transition: color .3s ease-in-out, background-color .3s ease-in-out;
         }
     }
+    .disqus-logo {
+        img {
+            padding: 3px;
+            border: 3px transparent solid;
+        }
+        &:hover {
+            background-color: transparent;
+            img {
+                border-bottom: 3px var(--disqus-blue) solid;
+            }
+        }
+    }
+    
     .description a {
         padding: 5px;
         border-radius: 12px;
@@ -236,7 +249,7 @@
     text-decoration: none;
     font-size: 14px;
     &:hover {
-        /* text-decoration: underline; */
+        border-bottom: 3px var(--disqus-blue) solid;
         background-color: transparent;
         color: var(--disqus-blue);
     }
