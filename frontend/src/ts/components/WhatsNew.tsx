@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const latestVersion: String = '3.0.25';
+const latestVersion: String = '3.1';
 const updates: Array<String> = [
     'The Disqus Embed will now render properly on sites using WordPress Block Themes in addition to Classic Themes',
     'A refreshed UI for the Disqus plugin admin panel',
