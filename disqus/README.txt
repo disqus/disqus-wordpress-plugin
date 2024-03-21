@@ -14,6 +14,8 @@ Disqus is the web's most popular comment system. Use Disqus to increase engageme
 
 The Disqus for WordPress plugin lets site owners and developers easily add Disqus to their sites, replacing the default WordPress comment system. Disqus installs in minutes and automatically imports your existing comments.
 
+In addition to our free-to-use, ad-supported Basic plan, we also offer ad-optional subscription plans that come with more advanced features and access to priority support. Please see our [pricing page](https://disqus.com/pricing/) for more details.
+
 = Why Disqus? =
 
 * Simple one-click installation that seamlessly integrates with WordPress without ever needing to edit a single line of code or losing any of your existing comments

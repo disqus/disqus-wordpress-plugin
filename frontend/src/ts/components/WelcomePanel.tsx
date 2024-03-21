@@ -9,7 +9,7 @@ const WelcomePanel = (props: IWelcomePanelProps) => (
     <div className='welcome-panel'>
         <div className='welcome-panel-content'>
             <p className='about-description'>
-                {__('Manage Community')}
+                {__('Manage Your Community')}
             </p>
             <div className='welcome-panel-column-container'>
                 <div className='welcome-panel-column'>
@@ -30,7 +30,7 @@ const WelcomePanel = (props: IWelcomePanelProps) => (
                         </li>
                         <li>
                             <a className='welcome-icon dashicons-filter' href={getForumAdminUrl(props.shortname, 'settings/access')} target='_blank'>
-                                {__('Restricted Words Filter')}
+                                {__('Restricted Words')}
                             </a>
                         </li>
                         <li>
@@ -104,6 +104,15 @@ const WelcomePanel = (props: IWelcomePanelProps) => (
                                 target='_blank'
                             >
                                 {__('Advanced')}
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                className='welcome-icon dashicons-align-left'
+                                href={getForumAdminUrl(props.shortname, 'settings/ads')}
+                                target='_blank'
+                            >
+                                {__('Remove Ads')}
                             </a>
                         </li>
                     </ul>
