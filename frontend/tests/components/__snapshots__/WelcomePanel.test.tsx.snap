@@ -10,7 +10,7 @@ exports[`WelcomePanel renders basic layout 1`] = `
     <p
       className="about-description"
     >
-      Manage Community
+      Manage Your Community
     </p>
     <div
       className="welcome-panel-column-container"
@@ -45,7 +45,7 @@ exports[`WelcomePanel renders basic layout 1`] = `
               href="https://foo.disqus.com/admin/settings/access/"
               target="_blank"
             >
-              Restricted Words Filter
+              Restricted Words
             </a>
           </li>
           <li>
@@ -127,6 +127,15 @@ exports[`WelcomePanel renders basic layout 1`] = `
               target="_blank"
             >
               Advanced
+            </a>
+          </li>
+          <li>
+            <a
+              className="welcome-icon dashicons-align-left"
+              href="https://foo.disqus.com/admin/settings/ads/"
+              target="_blank"
+            >
+              Remove Ads
             </a>
           </li>
         </ul>
