@@ -60,6 +60,8 @@ The Disqus for WordPress plugin lets site owners and developers easily add Disqu
 * Talk to our Support team at [disqus.com/support](disqus.com/support)
 * Visit our [Getting Started](https://help.disqus.com/customer/en/portal/articles/1264625-getting-started) page to learn the basics of Disqus
 
+https://www.youtube.com/watch?v=a4JBJXyuaFk
+
 == Frequently Asked Questions ==
 
 = Is Disqus free to use on my site? =
