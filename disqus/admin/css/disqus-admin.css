@@ -46,11 +46,6 @@
             }
         }
 
-        .description a {
-            padding: 5px;
-            border-radius: 12px;
-        }
-
         input {
             border-radius: 6px;
         }
