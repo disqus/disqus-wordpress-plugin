@@ -1,5 +1,26 @@
 # Changelog
 
+### 3.1
+* Disqus Embed now loads correctly on WordPress Block Themes.
+* Improved visibility for latest plugin version and important changes.
+* Added links to remove ads and clarified language around ad-supported plans.
+* Modernized styling and effects to match Disqus colors.
+
+### 3.0.24.1
+* Add WP 6.4 to Github Actions CI and fixed dependency issues for WP 6.4
+
+### 3.0.24
+* Fixed multiple bugs with the manual syncing tool regarding syncing comments without parents and syncing comments missing thread data.
+* Increased allowable date range for manual syncing tool to allow for easier syncing of historical comment data.
+* Improved automatic syncing tool's error messaging and troubleshooting with regards to issues with fetching sync status and starting automatic syncing.
+* Improved the error messages that get exposed to the browser console when issues occur with the manual and automatic syncing tools for easier future troubleshooting.
+
+### 3.0.23
+* Fixed a bug with the automatic comment import tool with newer versions of WordPress and added tests.
+* Improved visual layout of the plugin.  Updated corresponding snapshot for frontend test.
+* Added updated directions for running tests locally.
+* Update CI/CD to use GitHub actions.
+
 ### 3.0.22
 * Added improvements to manual comment syncing (thanks Artem Russakovskii)
 * Fixed a bug with the embed handling pages with missing container IDs
