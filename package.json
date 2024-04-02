@@ -1,6 +1,6 @@
 {
   "name": "disqus-wordpress-plugin",
-  "version": "3.1",
+  "version": "3.1.1",
   "description": "A WordPress plugin that allows site owners to easily replace the default commenting system with Disqus",
   "main": "frontend/src/js/index.js",
   "scripts": {

@@ -3,7 +3,7 @@ Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, rya
 Tags: disqus, comments, engagement, threaded, email, notification, spam, avatars, community, profile, widget
 Requires at least: 4.4
 Tested up to: 6.5
-Stable tag: 3.1
+Stable tag: 3.1.1
 Requires PHP: 5.6
 
 Disqus is the web's most popular comment system. Use Disqus to increase engagement, retain readers, and grow your audience.
