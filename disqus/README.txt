@@ -2,7 +2,7 @@
 Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, ryanv12, iamfrancisyo, brevityness, tterb, chrisjtang
 Tags: disqus, comments, engagement, threaded, email, notification, spam, avatars, community, profile, widget
 Requires at least: 4.4
-Tested up to: 6.4.2
+Tested up to: 6.5
 Stable tag: 3.1
 Requires PHP: 5.6
 
@@ -125,6 +125,9 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 11. Moderate by Email Notifications
 
 == Changelog ==
+= 3.1.1 =
+* Add WP 6.5 to Github Actions CI
+
 = 3.1 =
 * Disqus Embed now loads correctly on WordPress Block Themes.
 * Improved visibility for latest plugin version and important changes.

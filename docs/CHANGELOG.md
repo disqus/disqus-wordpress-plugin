@@ -1,5 +1,8 @@
 # Changelog
 
+### 3.1.1
+* Add WP 6.5 to Github Actions CI
+
 ### 3.1
 * Disqus Embed now loads correctly on WordPress Block Themes.
 * Improved visibility for latest plugin version and important changes.
