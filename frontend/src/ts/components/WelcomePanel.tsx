@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { getForumAdminUrl } from '../utils';
+import { pricingPolls } from '../constants/links';
 
 export interface IWelcomePanelProps {
     shortname: string;
@@ -58,7 +59,7 @@ const WelcomePanel = (props: IWelcomePanelProps) => (
                         <li>
                             <a
                                 className='welcome-icon dashicons-welcome-widgets-menus'
-                                href={'https://disqus.com/pricing/?product=polls'}
+                                href={pricingPolls}
                                 target='_blank'
                             >
                                 {__('Get Started')}

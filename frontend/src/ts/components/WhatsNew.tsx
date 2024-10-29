@@ -1,11 +1,9 @@
 import * as React from 'react';
+import { pricingPolls } from '../constants/links';
 
-const latestVersion: String = '3.1.1';
+const latestVersion: String = '3.1.2';
 const updates: Array<String> = [
-    'The Disqus Embed will now render properly on sites using WordPress Block Themes in addition to Classic Themes',
-    'A refreshed UI for the Disqus plugin admin panel',
-    'Robust improvements to manual and automatic syncing: multiple bug fixes and increased allowable manual syncing data range',
-    'More informative error messaging in the browser console and plugin UI when encountering issues with manual and automatic syncing for easier troubleshooting'
+    'NEW: Disqus Polls is now live! Engage your audiences with interactive polls, and seamlessly install them on your site.'
 ]
 
 const WhatsNew: React.FC = () => {
@@ -19,7 +17,10 @@ const WhatsNew: React.FC = () => {
             <button className='button' onClick={handleClick}>{showWhatsNew ? 'Hide' : `What's New in v${latestVersion}?`}</button>
             <div className={`${showWhatsNew ? '' : ' hidden'}`}>
                 <ul>
-                    {updates.map((update, index) => <li key={index}>- {update}</li>)}
+                    {updates.map((update, index) => <li key={index}>{update}</li>)}
+                <li>
+                    <a href={pricingPolls} key='pricing-link'>Get started with Disqus Polls today</a>
+                </li>
                 </ul>
             </div>
         </div>
