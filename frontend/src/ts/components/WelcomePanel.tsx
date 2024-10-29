@@ -42,6 +42,32 @@ const WelcomePanel = (props: IWelcomePanelProps) => (
                 </div>
                 <div className='welcome-panel-column'>
                     <h3>
+                        {__('Polls')}
+                    </h3>
+                    <ul>
+                        <li>
+                            <a
+                                className='welcome-icon dashicons-welcome-write-blog'
+                                // TODO: Update with Press Release Link
+                                href={''}
+                                target='_blank'
+                            >
+                                {__('Learn More')}
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                className='welcome-icon dashicons-welcome-widgets-menus'
+                                href={'https://disqus.com/pricing/?product=polls'}
+                                target='_blank'
+                            >
+                                {__('Get Started')}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div className='welcome-panel-column'>
+                    <h3>
                         {__('Analytics')}
                     </h3>
                     <ul>
