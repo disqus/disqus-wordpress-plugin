@@ -1,5 +1,8 @@
 # Changelog
 
+### 3.1.2
+* Add Disqus Polls Information
+
 ### 3.1.1
 * Add WP 6.5 to Github Actions CI
 
