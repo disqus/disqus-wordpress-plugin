@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { getForumAdminUrl } from '../utils';
+import { pricingPolls, pollsBlogPost } from '../constants/links';
 
 export interface IWelcomePanelProps {
     shortname: string;
@@ -36,6 +37,31 @@ const WelcomePanel = (props: IWelcomePanelProps) => (
                         <li>
                             <a className='welcome-icon dashicons-admin-users' href={getForumAdminUrl(props.shortname, 'settings/moderators')} target='_blank'>
                                 {__('Site Moderators')}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div className='welcome-panel-column'>
+                    <h3>
+                        {__('Polls')}
+                    </h3>
+                    <ul>
+                        <li>
+                            <a
+                                className='welcome-icon dashicons-welcome-write-blog'
+                                href={pollsBlogPost}
+                                target='_blank'
+                            >
+                                {__('Learn More')}
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                className='welcome-icon dashicons-welcome-widgets-menus'
+                                href={pricingPolls}
+                                target='_blank'
+                            >
+                                {__('Get Started')}
                             </a>
                         </li>
                     </ul>

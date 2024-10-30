@@ -2,11 +2,11 @@
 Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, ryanv12, iamfrancisyo, brevityness, tterb, chrisjtang
 Tags: disqus, comments, engagement, threaded, email, notification, spam, avatars, community, profile, widget
 Requires at least: 4.4
-Tested up to: 6.5
-Stable tag: 3.1.1
+Tested up to: 6.6.3
+Stable tag: 3.1.2
 Requires PHP: 5.6
 
-Disqus is the web's most popular comment system. Use Disqus to increase engagement, retain readers, and grow your audience.
+Disqus is the web's most popular comment system. Use Disqus to increase engagement, retain readers, and grow your audience. **NEW: Disqus Polls – Engage your audiences with interactive polls, and seamlessly install them on your site.**
 
 == Description ==
 
@@ -15,6 +15,8 @@ Disqus is the web's most popular comment system. Use Disqus to increase engageme
 The Disqus for WordPress plugin lets site owners and developers easily add Disqus to their sites, replacing the default WordPress comment system. Disqus installs in minutes and automatically imports your existing comments.
 
 In addition to our free-to-use, ad-supported Basic plan, we also offer ad-optional subscription plans that come with more advanced features and access to priority support. Please see our [pricing page](https://disqus.com/pricing/) for more details.
+
+**NEW: [Disqus Polls](https://disqus.com/polls)** – Engage your audiences with interactive polls, and seamlessly install them on your site.
 
 = Why Disqus? =
 
@@ -34,6 +36,7 @@ In addition to our free-to-use, ad-supported Basic plan, we also offer ad-option
 * Export comments to WordPress-compatible XML to backup or migrate to another system
 * Analytics dashboard for measuring overall engagement on your site
 * Mobile responsive design
+* **NEW: Disqus Polls** – Create and embed interactive polls directly on your site to boost engagement and gather insights from your audience.
 
 = Engagement Features =
 
@@ -113,8 +116,8 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 == Screenshots ==
 
 1. Disqus Comments
-2. Disqus Audience Platform
-3. Comment Reply
+2. Disqus Polls
+3. Disqus Audience Platform
 4. Featured Comment
 5. Recommendations (part of Disqus Comments)
 6. Mentions
@@ -125,6 +128,9 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 11. Moderate by Email Notifications
 
 == Changelog ==
+= 3.1.2 =
+* Add Disqus Polls Information
+
 = 3.1.1 =
 * Add WP 6.5 to Github Actions CI
 

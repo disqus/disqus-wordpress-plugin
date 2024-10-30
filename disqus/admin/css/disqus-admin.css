@@ -88,7 +88,6 @@
     .welcome-panel .welcome-panel-content .welcome-panel-column-container {
         display: flex;
         justify-content: center;
-        gap: 10vw;
         padding: 12px;
         @media screen and (max-width: 768px) {
             flex-direction: column;
