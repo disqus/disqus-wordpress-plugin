@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { getForumAdminUrl } from '../utils';
-import { pricingPolls } from '../constants/links';
+import { pricingPolls, pollsBlogPost } from '../constants/links';
 
 export interface IWelcomePanelProps {
     shortname: string;
@@ -49,8 +49,7 @@ const WelcomePanel = (props: IWelcomePanelProps) => (
                         <li>
                             <a
                                 className='welcome-icon dashicons-welcome-write-blog'
-                                // TODO: Update with Press Release Link
-                                href={''}
+                                href={pollsBlogPost}
                                 target='_blank'
                             >
                                 {__('Learn More')}

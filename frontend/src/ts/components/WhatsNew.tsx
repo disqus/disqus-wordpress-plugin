@@ -3,7 +3,7 @@ import { pricingPolls } from '../constants/links';
 
 const latestVersion: String = '3.1.2';
 const updates: Array<String> = [
-    'NEW: Disqus Polls is now live! Engage your audiences with interactive polls, and seamlessly install them on your site.'
+    'Disqus Polls is now live! Engage your audiences with interactive polls, and seamlessly install them on your site.'
 ]
 
 const WhatsNew: React.FC = () => {
