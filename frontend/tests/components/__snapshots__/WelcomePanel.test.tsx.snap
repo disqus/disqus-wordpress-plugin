@@ -61,34 +61,7 @@ exports[`WelcomePanel renders basic layout 1`] = `
       </div>
       <div
         className="welcome-panel-column"
-        >
-            <h3>
-                Polls
-            </h3>
-            <ul>
-                <li>
-                    <a
-                        className="welcome-icon dashicons-welcome-write-blog"
-                        href="https://blog.disqus.com/disqus-polls-are-here-and-available-to-all-publishers"
-                        target="_blank"
-                    >
-                        Learn More
-                    </a>
-                </li>
-                <li>
-                    <a
-                        className="welcome-icon dashicons-welcome-widgets-menus"
-                        href="https://disqus.com/pricing/?product=polls"
-                        target="_blank"
-                    >
-                        Get Started
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div
-        className="welcome-panel-column"
-        >
+      >
         <h3>
           Analytics
         </h3>
