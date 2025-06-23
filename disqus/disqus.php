@@ -24,12 +24,12 @@
  * Domain Path:       /languages
  */
 
-$DISQUSVERSION = '3.1.2';
-
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
+
+define( 'DISQUS_VERSION', '3.1.2' );
 
 /**
  * The code that runs during plugin activation (but not during updates).
@@ -69,9 +69,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-disqus.php';
  * @since    3.0
  */
 function run_disqus() {
-	global $DISQUSVERSION;
-
-	$plugin = new Disqus( $DISQUSVERSION );
+	$plugin = new Disqus( DISQUS_VERSION );
 	$plugin->run();
 
 }
