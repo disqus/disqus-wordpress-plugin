@@ -374,7 +374,7 @@ class Disqus_Public {
 	private static function ensure_gravatar_extension( $avatar_url, $ext = '.jpg' ) {
 		if ( strpos( $avatar_url, 'gravatar.com' ) !== false ) {
 			$query_pos = strpos( $avatar_url, '?' );
-			if ( $query_pos !== false ) {
+			if ( false !== $query_pos ) {
 				return substr( $avatar_url, 0, $query_pos ) . $ext . substr( $avatar_url, $query_pos );
 			} else {
 				return $avatar_url . $ext;
