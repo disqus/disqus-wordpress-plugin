@@ -113,7 +113,9 @@ bump disqus/README.txt "Stable tag: $current_version" "Stable tag: $new_version"
 
 # Update disqus.php versions
 bump disqus/disqus.php "Version:           $current_version" "Version:           $new_version"
-bump disqus/disqus.php "$DISQUSVERSION = '$current_version'" "$DISQUSVERSION = '$new_version'"
+bump disqus/disqus.php \
+     "define( 'DISQUS_VERSION', '$current_version' );" \
+     "define( 'DISQUS_VERSION', '$new_version' );"
 
 # Create commit with version updates
 echo "Committing version changes: \"Update plugin version to v$new_version\""

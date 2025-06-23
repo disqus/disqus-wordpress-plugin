@@ -78,11 +78,9 @@ class Disqus_Public {
 	 * @return    array            The embed configuration to localize the comments embed script with.
 	 */
 	public static function embed_vars_for_post( $post ) {
-		global $DISQUSVERSION;
-
 		$embed_vars = array(
 			'disqusConfig' => array(
-				'integration' => 'wordpress ' . $DISQUSVERSION,
+				'integration' => 'wordpress ' . DISQUS_VERSION . ' ' . get_bloginfo( 'version' ),
 			),
 			'disqusIdentifier' => Disqus_Public::dsq_identifier_for_post( $post ),
 			'disqusShortname' => get_option( 'disqus_forum_url' ),
