@@ -732,7 +732,7 @@ class Disqus_Rest_Api {
      */
     private function comment_data_from_post( $post ) {
         $thread = array_key_exists( 'threadData', $post ) ? $post['threadData'] : $post['thread'];
-        $author = $post['author'];
+        $author = isset( $post['author'] ) ? $post['author'] : null;
 
         $wp_post_id = null;
 
@@ -782,12 +782,16 @@ class Disqus_Rest_Api {
         // Email is a special permission for Disqus API applications and won't be present
         // if the user has not set the permission for their API application.
         $author_email = null;
-        if ( isset( $author['email'] ) ) {
-            $author_email = $author['email'];
-        } elseif ( $author['isAnonymous'] ) {
-            $author_email = 'anonymized-' . md5( $author['name'] ) . '@disqus.com';
-        } else {
-            $author_email = 'user-' . $author['id'] . '@disqus.com';
+        if ( $author ) {
+			if ( isset( $author['email'] ) ) {
+				$author_email = $author['email'];
+			} elseif ( isset( $author['isAnonymous'] ) && $author['isAnonymous'] ) {
+				$author_email = 'anonymized-' . md5( $author['name'] ) . '@disqus.com';
+			} elseif ( isset( $author['id'] ) ) {
+				$author_email = 'user-' . $author['id'] . '@disqus.com';
+			}
+		} else {
+            $author_email = 'anonymoususer@disqus.com';
         }
 
         // Translate the comment approval state.
@@ -804,10 +808,10 @@ class Disqus_Rest_Api {
 
         return array(
             'comment_post_ID' => (int) $wp_post_id,
-            'comment_author' => $author['name'],
+            'comment_author' => $author && isset( $author['name'] ) ? $author['name'] : 'Anonymous',
             'comment_author_email' => $author_email,
             'comment_author_IP' => $post['ipAddress'],
-            'comment_author_url' => isset( $author['url'] ) ? $author['url'] : '',
+            'comment_author_url' => $author && isset( $author['url'] ) ? $author['url'] : '',
             'comment_content' => $post['raw_message'],
             'comment_date' => $post['createdAt'],
             'comment_date_gmt' => $post['createdAt'],
