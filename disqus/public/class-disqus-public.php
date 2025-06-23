@@ -372,7 +372,7 @@ class Disqus_Public {
 	 * @return    string                 The modified avatar URL with the correct extension.
 	 */
 	private static function ensure_gravatar_extension( $avatar_url, $ext = '.jpg' ) {
-		if ( $ext[0] !== '.' ) {
+		if ( '.' !== $ext[0] ) {
 			$ext = '.' . $ext;
 		}
 
