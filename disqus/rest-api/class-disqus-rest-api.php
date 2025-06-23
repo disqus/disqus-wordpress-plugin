@@ -791,7 +791,7 @@ class Disqus_Rest_Api {
 				$author_email = 'user-' . $author['id'] . '@disqus.com';
 			}
 		} else {
-            $author_email = 'anonymoususer@disqus.com';
+            $author_email = md5( 'no_author_data' ) . '@disqus.com';
         }
 
         // Translate the comment approval state.
