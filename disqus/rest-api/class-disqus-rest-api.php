@@ -783,14 +783,14 @@ class Disqus_Rest_Api {
         // if the user has not set the permission for their API application.
         $author_email = null;
         if ( $author ) {
-			if ( isset( $author['email'] ) ) {
-				$author_email = $author['email'];
-			} elseif ( isset( $author['isAnonymous'] ) && $author['isAnonymous'] ) {
-				$author_email = 'anonymized-' . md5( $author['name'] ) . '@disqus.com';
-			} elseif ( isset( $author['id'] ) ) {
-				$author_email = 'user-' . $author['id'] . '@disqus.com';
-			}
-		} else {
+            if ( isset( $author['email'] ) ) {
+                $author_email = $author['email'];
+            } elseif ( isset( $author['isAnonymous'] ) && $author['isAnonymous'] ) {
+                $author_email = 'anonymized-' . md5( $author['name'] ) . '@disqus.com';
+            } elseif ( isset( $author['id'] ) ) {
+                $author_email = 'user-' . $author['id'] . '@disqus.com';
+            }
+        } else {
             $author_email = md5( 'no_author_data' ) . '@disqus.com';
         }
 
