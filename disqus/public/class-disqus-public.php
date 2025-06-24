@@ -56,9 +56,10 @@ class Disqus_Public {
 	public static function remote_auth_s3_for_user( $user, $secret_key ) {
 		$payload_user = array();
 		if ( $user->ID ) {
+			$avatar_url = self::ensure_gravatar_extension( get_avatar_url( $user->ID, 92 ) );
 			$payload_user['id'] = $user->ID;
 			$payload_user['username'] = $user->display_name;
-			$payload_user['avatar'] = get_avatar_url( $user->ID, 92 );
+			$payload_user['avatar'] = $avatar_url;
 			$payload_user['email'] = $user->user_email;
 			$payload_user['url'] = $user->user_url;
 		}
@@ -106,7 +107,6 @@ class Disqus_Public {
 			$embed_vars['disqusConfig']['api_key'] = $public_key;
 			$embed_vars['disqusConfig']['remote_auth_s3'] = Disqus_Public::remote_auth_s3_for_user( $user, $secret_key );
 		}
-
 		return $embed_vars;
 	}
 
@@ -356,5 +356,37 @@ class Disqus_Public {
 		}
 
 		return true;
+	}
+
+	/**
+	 * By default, WP uses Gravatar for its avatars without an image extension, but our SSO payload expects an extension,
+	 * so this function ensures a Gravatar URL ends with .jpg before query params and leaves other URLs unchanged.
+	 * Source: https://docs.gravatar.com/sdk/images/
+	 *
+	 * @since     3.1.3
+	 * @access    private
+	 * @param     string $avatar_url     The avatar URL to check.
+	 * @param     string $ext            The extension to append, default is '.jpg'.
+	 * @return    string                 The modified avatar URL with the correct extension.
+	 */
+	private static function ensure_gravatar_extension( $avatar_url, $ext = '.jpg' ) {
+		if ( '.' !== $ext[0] ) {
+			$ext = '.' . $ext;
+		}
+
+		$query_pos = strpos( $avatar_url, '?' );
+		$base = ( false !== $query_pos ) ? substr( $avatar_url, 0, $query_pos ) : $avatar_url;
+		if ( substr( $base, -strlen( $ext ) ) === $ext ) {
+			return $avatar_url;
+		}
+
+		if ( false !== stripos( $avatar_url, 'gravatar.com' ) ) {
+			if ( false !== $query_pos ) {
+				return substr( $avatar_url, 0, $query_pos ) . $ext . substr( $avatar_url, $query_pos );
+			} else {
+				return $avatar_url . $ext;
+			}
+		}
+		return $avatar_url;
 	}
 }
