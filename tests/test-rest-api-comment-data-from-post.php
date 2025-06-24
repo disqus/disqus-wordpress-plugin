@@ -88,7 +88,6 @@ class Test_Disqus_Rest_Api_Comment_Data_From_Post extends WP_UnitTestCase {
             'forum' => get_option( 'disqus_forum_url' ),
         ];
         $data = $this->call_comment_data_from_post( $post );
-        $this->assertStringEndsWith( '@disqus.com', $data['comment_author_email'] );
-        $this->assertNotEmpty( $data['comment_author_email'] );
+        $this->assertNull( $data['comment_author_email'] );
     }
 }
