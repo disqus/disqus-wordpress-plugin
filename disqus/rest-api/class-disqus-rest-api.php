@@ -499,7 +499,7 @@ class Disqus_Rest_Api {
         }
 
         // Add additional non-database options here.
-        $settings['disqus_installed'] = trim( $settings['disqus_forum_url'] ) !== '';
+        $settings['disqus_installed'] = isset( $settings['disqus_forum_url'] ) && trim( $settings['disqus_forum_url'] ) !== '';
 
         return $settings;
     }

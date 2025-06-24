@@ -56,4 +56,26 @@ class Test_Admin extends WP_UnitTestCase {
         $this->assertEquals( $init_url, $rest_url );
     }
 
+    /**
+     * Test that parse_url failure doesn't cause array_key_exists error.
+     */
+    function test_dsq_filter_rest_url_malformed_url() {
+        $admin = new Disqus_Admin( 'disqus', '0.0.0', 'foo' );
+
+        // These malformed URLs should not cause PHP errors
+        $malformed_urls = [
+            'http:///wp-json/',
+            '://example.com/wp-json/',
+            'http://exa[mple.com/wp-json/',
+            '/wp-json/',
+            ''
+        ];
+
+        foreach ( $malformed_urls as $url ) {
+            $result = $admin->dsq_filter_rest_url( $url );
+            // Should return the original URL unchanged when parse_url fails
+            $this->assertEquals( $url, $result );
+        }
+    }
+
 }

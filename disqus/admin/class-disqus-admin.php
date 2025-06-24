@@ -159,7 +159,7 @@ class Disqus_Admin {
      */
     public function dsq_filter_rest_url( $rest_url ) {
         $rest_url_parts = parse_url( $rest_url );
-        if ( array_key_exists( 'host', $rest_url_parts ) ) {
+        if ( is_array( $rest_url_parts ) && array_key_exists( 'host', $rest_url_parts ) ) {
             $rest_host = $rest_url_parts['host'];
             if ( array_key_exists( 'port', $rest_url_parts ) ) {
                 $rest_host .= ':' . $rest_url_parts['port'];
