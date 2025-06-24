@@ -2,8 +2,8 @@
 Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, ryanv12, iamfrancisyo, brevityness, tterb, chrisjtang
 Tags: disqus, comments, engagement, threaded, email, notification, spam, avatars, community, profile, widget
 Requires at least: 4.4
-Tested up to: 6.6.3
-Stable tag: 3.1.2
+Tested up to: 6.8
+Stable tag: 3.1.3
 Requires PHP: 5.6
 
 Disqus is the web's most popular comment system. Use Disqus to increase engagement, retain readers, and grow your audience. **NEW: Disqus Polls – Engage your audiences with interactive polls, and seamlessly install them on your site.**
@@ -128,6 +128,12 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 11. Moderate by Email Notifications
 
 == Changelog ==
+= 3.1.3 =
+* Fixed bug with Disqus SSO and Gravatar Images
+* Switched DISQUSVERSION to constant (issue #139)
+* Fixed comment data issue if post author is null (issue #140)
+* Fixed various conditions missing type checks (issue #141)
+
 = 3.1.2 =
 * Add Disqus Polls Information
 

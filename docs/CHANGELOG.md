@@ -1,5 +1,11 @@
 # Changelog
 
+### 3.1.3
+* Fixed bug with Disqus SSO and Gravatar Images
+* Switched DISQUSVERSION to constant (issue #139)
+* Fixed comment data issue if post author is null (issue #140)
+* Fixed various conditions missing type checks (issue #141)
+
 ### 3.1.2
 * Add Disqus Polls Information
 
