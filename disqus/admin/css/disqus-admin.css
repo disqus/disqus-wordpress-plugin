@@ -3,6 +3,31 @@
  * included in this file.
  */
 
+/* Disqus Ads Notice */
+.disqus-ads-notice {
+    border-left-color: #2e9fff;
+    background: linear-gradient(135deg, #f0f8ff 0%, #ffffff 100%);
+}
+
+.disqus-ads-notice p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.disqus-ads-notice strong {
+    color: #1a1a1a;
+}
+
+.disqus-ads-notice a {
+    color: #2e9fff;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 8px;
+}
+
+.disqus-ads-notice a:hover {
+    text-decoration: underline;
+}
 
 #wpadminbar #wp-admin-bar-disqus .ab-icon:before {
     content: "\f101";

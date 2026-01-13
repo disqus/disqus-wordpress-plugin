@@ -325,4 +325,68 @@ class Disqus_Admin {
 			update_option( 'disqus_sync_token', bin2hex( random_bytes( 16 ) ) );
 		}
 	}
+
+    /**
+     * Display the free version ads notice in the Disqus admin area.
+     *
+     * @since    3.1.4
+     */
+    public function dsq_display_ads_notice() {
+        // Only show on Disqus admin page.
+        if ( ! isset( $_GET['page'] ) || 'disqus' !== $_GET['page'] ) {
+            return;
+        }
+
+        // Check if notice has been dismissed by this user.
+        $user_id = get_current_user_id();
+        $dismissed = get_user_meta( $user_id, 'disqus_ads_notice_dismissed', true );
+        if ( $dismissed ) {
+            return;
+        }
+
+        ?>
+        <div class="notice notice-info is-dismissible disqus-ads-notice">
+            <p>
+                <strong><?php esc_html_e( 'Using the free version of Disqus?', 'disqus' ); ?></strong>
+                <?php esc_html_e( 'To keep the service free, ads may appear within the comment section. You can upgrade to a paid plan for an ad-free experience.', 'disqus' ); ?>
+                <a href="https://disqus.com/pricing/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Learn more', 'disqus' ); ?></a>
+            </p>
+        </div>
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                $(document).on('click', '.disqus-ads-notice .notice-dismiss', function() {
+                    $.ajax({
+                        url: ajaxurl,
+                        type: 'POST',
+                        data: {
+                            action: 'disqus_dismiss_ads_notice',
+                            nonce: '<?php echo esc_js( wp_create_nonce( 'disqus_dismiss_ads_notice' ) ); ?>'
+                        }
+                    });
+                });
+            });
+        </script>
+        <?php
+    }
+
+    /**
+     * AJAX handler to dismiss the ads notice.
+     *
+     * @since    3.1.4
+     */
+    public function dsq_dismiss_ads_notice() {
+        // Verify nonce.
+        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'disqus_dismiss_ads_notice' ) ) {
+            wp_die( 'Security check failed', 'disqus' );
+        }
+
+        // Check user capability.
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_die( 'Unauthorized access', 'disqus' );
+        }
+
+        $user_id = get_current_user_id();
+        update_user_meta( $user_id, 'disqus_ads_notice_dismissed', true );
+        wp_send_json_success();
+    }
 }
