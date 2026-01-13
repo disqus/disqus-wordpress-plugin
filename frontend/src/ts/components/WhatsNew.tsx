@@ -1,12 +1,9 @@
 import * as React from 'react';
 import { pricingPolls } from '../constants/links';
 
-const latestVersion: String = '3.1.3';
+const latestVersion: String = '3.1.4';
 const updates: Array<String> = [
-    'Fixed bug with Disqus SSO and Gravatar Images',
-    'Switched DISQUSVERSION to constant',
-    'Fixed comment data issue if post author is null',
-    'Fixed various conditions missing type checks',
+    'Clarify Free Plan Ads',
 ]
 
 const WhatsNew: React.FC = () => {

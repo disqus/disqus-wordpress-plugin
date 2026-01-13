@@ -1,5 +1,8 @@
 # Changelog
 
+### 3.1.4
+* Added dismissible admin notice explaining free version ads and paid plan options
+
 ### 3.1.3
 * Fixed bug with Disqus SSO and Gravatar Images
 * Switched DISQUSVERSION to constant (issue #139)
