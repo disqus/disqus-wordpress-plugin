@@ -786,7 +786,8 @@ class Disqus_Rest_Api {
             if ( isset( $author['email'] ) ) {
                 $author_email = $author['email'];
             } elseif ( isset( $author['isAnonymous'] ) && $author['isAnonymous'] ) {
-                $author_email = 'anonymized-' . md5( $author['name'] ) . '@disqus.com';
+                $author_name = isset( $author['name'] ) && null !== $author['name'] ? $author['name'] : 'anonymous';
+                $author_email = 'anonymized-' . md5( $author_name ) . '@disqus.com';
             } elseif ( isset( $author['id'] ) ) {
                 $author_email = 'user-' . $author['id'] . '@disqus.com';
             }
