@@ -3,7 +3,8 @@ import { pricingPolls } from '../constants/links';
 
 const latestVersion: String = '3.1.4';
 const updates: Array<String> = [
-    'Clarify Free Plan Ads',
+    'Added dismissible admin notice explaining free version ads and paid plan options',
+    'Fixed deprecation warning when syncing comments with null author name',
 ]
 
 const WhatsNew: React.FC = () => {
@@ -18,9 +19,6 @@ const WhatsNew: React.FC = () => {
             <div className={`${showWhatsNew ? '' : ' hidden'}`}>
                 <ul>
                     {updates.map((update, index) => <li key={index}>{update}</li>)}
-                <li>
-                    <a href={pricingPolls} key='pricing-link'>Get started with Disqus Polls today</a>
-                </li>
                 </ul>
             </div>
         </div>

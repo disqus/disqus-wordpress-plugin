@@ -2,6 +2,7 @@
 
 ### 3.1.4
 * Added dismissible admin notice explaining free version ads and paid plan options
+* Fixed deprecation warning when syncing comments with null author name
 
 ### 3.1.3
 * Fixed bug with Disqus SSO and Gravatar Images
