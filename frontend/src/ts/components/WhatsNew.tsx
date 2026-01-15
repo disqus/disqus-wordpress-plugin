@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { pricingPolls } from '../constants/links';
 
-const latestVersion: String = '3.1.3';
+const latestVersion: String = '3.1.4';
 const updates: Array<String> = [
-    'Fixed bug with Disqus SSO and Gravatar Images',
-    'Switched DISQUSVERSION to constant',
-    'Fixed comment data issue if post author is null',
-    'Fixed various conditions missing type checks',
+    'Added dismissible admin notice explaining free version ads and paid plan options',
+    'Fixed deprecation warning when syncing comments with null author name',
 ]
 
 const WhatsNew: React.FC = () => {
@@ -21,9 +19,6 @@ const WhatsNew: React.FC = () => {
             <div className={`${showWhatsNew ? '' : ' hidden'}`}>
                 <ul>
                     {updates.map((update, index) => <li key={index}>{update}</li>)}
-                <li>
-                    <a href={pricingPolls} key='pricing-link'>Get started with Disqus Polls today</a>
-                </li>
                 </ul>
             </div>
         </div>
