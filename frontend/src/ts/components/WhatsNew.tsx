@@ -5,7 +5,6 @@ const latestVersion: String = '3.1.5';
 const updates: Array<String> = [
     'Fixed synced comments attaching to missing WordPress posts and leaving an empty In response to column',
     'Show a Disqus thread link in In response to when a synced comment has no matching local post (WordPress 6.1+)',
-    'Notify admins on older WordPress that unmatched synced comments may have an empty In response to column until they upgrade',
 ]
 
 const WhatsNew: React.FC = () => {

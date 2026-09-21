@@ -78,32 +78,4 @@ class Test_Admin extends WP_UnitTestCase {
         }
     }
 
-    function test_in_response_column_notice_required_below_wp_6_1() {
-        $admin = new Disqus_Admin( 'disqus', '3.1.5', 'foo' );
-
-        $this->assertTrue( $admin->dsq_needs_wordpress_for_in_response_column( '5.9' ) );
-        $this->assertTrue( $admin->dsq_needs_wordpress_for_in_response_column( '6.0.3' ) );
-        $this->assertFalse( $admin->dsq_needs_wordpress_for_in_response_column( '6.1' ) );
-        $this->assertFalse( $admin->dsq_needs_wordpress_for_in_response_column( '6.9' ) );
-    }
-
-    function test_in_response_column_notice_renders_on_comments_screen_for_old_wp() {
-        wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
-
-        $admin = $this->getMockBuilder( 'Disqus_Admin' )
-            ->setConstructorArgs( array( 'disqus', '3.1.5', 'foo' ) )
-            ->setMethods( array( 'dsq_needs_wordpress_for_in_response_column' ) )
-            ->getMock();
-        $admin->method( 'dsq_needs_wordpress_for_in_response_column' )->willReturn( true );
-
-        $GLOBALS['pagenow'] = 'edit-comments.php';
-
-        ob_start();
-        $admin->dsq_display_in_response_wp_notice();
-        $output = ob_get_clean();
-
-        $this->assertStringContainsString( 'In response to', $output );
-        $this->assertStringContainsString( 'WordPress 6.1', $output );
-    }
-
 }
