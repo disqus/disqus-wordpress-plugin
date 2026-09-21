@@ -143,8 +143,18 @@ install_db() {
 		fi
 	fi
 
+	# MariaDB clients use --skip-ssl; Oracle MySQL clients use --ssl-mode=DISABLED.
+	# GitHub's actions-setup-mysql ships Oracle mysqladmin, which rejects --skip-ssl.
+	local MYSQLADMIN_HELP
+	MYSQLADMIN_HELP=$(mysqladmin --help 2>/dev/null || true)
+	if echo "$MYSQLADMIN_HELP" | grep -q -- '--ssl-mode'; then
+		EXTRA="$EXTRA --ssl-mode=DISABLED"
+	elif echo "$MYSQLADMIN_HELP" | grep -q -- '--skip-ssl'; then
+		EXTRA="$EXTRA --skip-ssl"
+	fi
+
 	# create database
-	mysqladmin create $DB_NAME --user="$DB_USER" --password="$DB_PASS"$EXTRA --skip-ssl
+	mysqladmin create $DB_NAME --user="$DB_USER" --password="$DB_PASS"$EXTRA
 }
 
 install_wp
