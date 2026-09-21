@@ -1,8 +1,6 @@
-version: '2'
-
 services:
     db:
-        image: mysql:5.7
+        image: mysql:8.0
         volumes:
             - db_data:/var/lib/mysql
         restart: always
@@ -11,11 +9,18 @@ services:
             MYSQL_DATABASE: wordpress
             MYSQL_USER: wordpress
             MYSQL_PASSWORD: wordpress
+        command: --default-authentication-plugin=mysql_native_password
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pwordpress"]
+            interval: 5s
+            timeout: 5s
+            retries: 10
 
     wordpress:
         build: .
         depends_on:
-            - db
+            db:
+                condition: service_healthy
         ports:
             - '8888:80'
         restart: always
@@ -24,8 +29,10 @@ services:
             - "./disqus:/var/www/html/wp-content/plugins/disqus"
         environment:
             WORDPRESS_DB_HOST: db:3306
+            WORDPRESS_DB_USER: wordpress
             WORDPRESS_DB_PASSWORD: wordpress
-            WORDPRESS_DEBUG: debug
+            WORDPRESS_DB_NAME: wordpress
+            WORDPRESS_DEBUG: 1
 
 volumes:
     db_data:
