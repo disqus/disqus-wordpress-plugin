@@ -160,6 +160,7 @@ class Disqus {
         $plugin_admin = new Disqus_Admin( $this->get_disqus_name(), $this->get_version(), $this->get_shortname() );
 
         $this->loader->add_filter( 'rest_url', $plugin_admin, 'dsq_filter_rest_url' );
+        $this->loader->add_filter( 'wp_list_table_class_name', $plugin_admin, 'dsq_filter_comments_list_table_class' );
         $this->loader->add_filter( 'plugin_action_links', $plugin_admin, 'dsq_plugin_action_links', 10, 2 );
         $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
         $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );

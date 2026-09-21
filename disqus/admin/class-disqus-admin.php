@@ -176,6 +176,24 @@ class Disqus_Admin {
     }
 
     /**
+     * Swaps in the Disqus comments list table, which links to the Disqus thread when a
+     * synced comment has no matching WordPress post. The filter requires WordPress 6.1.
+     *
+     * @since    3.1.5
+     * @param    string $class_name    The list table class WordPress is about to use.
+     * @return   string                The list table class to use.
+     */
+    public function dsq_filter_comments_list_table_class( $class_name ) {
+        if ( 'WP_Comments_List_Table' !== $class_name ) {
+            return $class_name;
+        }
+
+        require_once plugin_dir_path( __FILE__ ) . 'class-disqus-comments-list-table.php';
+
+        return 'Disqus_Comments_List_Table';
+    }
+
+    /**
      * Builds the admin toolbar menu with the various Disqus options
      *
      * @since    3.0

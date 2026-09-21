@@ -18,6 +18,13 @@ class Test_Disqus_Rest_Api_Comment_Data_From_Post extends WP_UnitTestCase {
         return $method->invokeArgs( $this->disqus_rest_api, array( $post ) );
     }
 
+    private function call_resolve_wp_post_id_from_thread( $thread ) {
+        $class = new ReflectionClass( 'Disqus_Rest_Api' );
+        $method = $class->getMethod( 'resolve_wp_post_id_from_thread' );
+        $method->setAccessible( true );
+        return $method->invokeArgs( $this->disqus_rest_api, array( $thread ) );
+    }
+
     public function test_email_from_author_email() {
         $post = [
             'thread' => [ 'id' => 1, 'identifiers' => [ '1' ] ],
@@ -71,6 +78,48 @@ class Test_Disqus_Rest_Api_Comment_Data_From_Post extends WP_UnitTestCase {
         ];
         $data = $this->call_comment_data_from_post( $post );
         $this->assertEquals( 'user-42@disqus.com', $data['comment_author_email'] );
+    }
+
+    public function test_resolve_post_id_from_matching_identifier() {
+        $post = $this->factory->post->create_and_get();
+        update_option( 'disqus_forum_url', 'bobross' );
+
+        $thread = array(
+            'id' => '99',
+            'identifiers' => array(
+                $post->ID . ' ' . $post->guid,
+            ),
+        );
+
+        $this->assertEquals( $post->ID, $this->call_resolve_wp_post_id_from_thread( $thread ) );
+        $this->assertEquals( '99', get_post_meta( $post->ID, 'dsq_thread_id', true ) );
+    }
+
+    public function test_resolve_post_id_skips_invalid_identifier_and_uses_thread_link() {
+        $post = $this->factory->post->create_and_get();
+        update_option( 'disqus_forum_url', 'bobross' );
+
+        $thread = array(
+            'id' => '100',
+            'identifiers' => array(
+                '99999 http://other-site.example/?p=123',
+            ),
+            'link' => get_permalink( $post->ID ),
+        );
+
+        $this->assertEquals( $post->ID, $this->call_resolve_wp_post_id_from_thread( $thread ) );
+    }
+
+    public function test_resolve_post_id_returns_null_when_unresolved() {
+        $thread = array(
+            'id' => '101',
+            'identifiers' => array(
+                '99999 http://other-site.example/?p=123',
+            ),
+            'link' => 'http://other-site.example/missing-post/',
+        );
+
+        $this->assertNull( $this->call_resolve_wp_post_id_from_thread( $thread ) );
     }
 
     public function test_email_when_no_author() {
