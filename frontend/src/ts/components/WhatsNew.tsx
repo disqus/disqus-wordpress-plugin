@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { pricingPolls } from '../constants/links';
 
-const latestVersion: String = '3.1.4';
+const latestVersion: String = '3.1.5';
 const updates: Array<String> = [
-    'Added dismissible admin notice explaining free version ads and paid plan options',
-    'Fixed deprecation warning when syncing comments with null author name',
+    'Fixed synced comments attaching to missing WordPress posts and leaving an empty In response to column',
+    'Show a Disqus thread link in In response to when a synced comment has no matching local post (WordPress 6.1+)',
+    'Notify admins on older WordPress that unmatched synced comments may have an empty In response to column until they upgrade',
 ]
 
 const WhatsNew: React.FC = () => {
