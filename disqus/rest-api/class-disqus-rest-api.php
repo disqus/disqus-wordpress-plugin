@@ -690,23 +690,51 @@ class Disqus_Rest_Api {
      * @throws   Exception          An exception if comment can't be saved from post data.
      */
     private function update_comment_from_post( $post, $comments ) {
+        $existing_comment = null;
         foreach ( $comments as $comment ) {
             $updated_comment_id = $comment->comment_ID;
+            $existing_comment = $comment;
         }
 
         $comment_data = $this->comment_data_from_post( $post );
         $comment_data['comment_ID'] = $updated_comment_id;
+        $comment_meta = $comment_data['comment_meta'];
 
         // Remove non-updating fields.
         unset( $comment_data['comment_meta'] );
         unset( $comment_data['comment_agent'] );
         unset( $comment_data['comment_type'] );
         unset( $comment_data['comment_date_gmt'] );
-        unset( $comment_data['comment_post_ID'] );
+
+        // Preserve a valid post association; backfill when the existing value is missing or invalid.
+        if ( $this->is_valid_comment_post_id( $existing_comment->comment_post_ID ) ) {
+            unset( $comment_data['comment_post_ID'] );
+        } elseif ( ! $this->is_valid_comment_post_id( $comment_data['comment_post_ID'] ) ) {
+            unset( $comment_data['comment_post_ID'] );
+        }
 
         $updated = wp_update_comment( $comment_data );
 
+        // Thread details are stored separately from the comment row, which is left
+        // untouched when nothing about the comment itself changed.
+        $this->update_thread_comment_meta( $updated_comment_id, $comment_meta );
+
         return 1 === $updated ? $updated_comment_id : 0;
+    }
+
+    /**
+     * Keeps the stored Disqus thread details up to date on an existing comment.
+     *
+     * @since    3.1.5
+     * @param    int   $comment_id      The WordPress comment ID.
+     * @param    array $comment_meta    The comment meta built from the Disqus post.
+     */
+    private function update_thread_comment_meta( $comment_id, $comment_meta ) {
+        foreach ( array( 'dsq_thread_link', 'dsq_thread_title' ) as $meta_key ) {
+            if ( isset( $comment_meta[ $meta_key ] ) ) {
+                update_comment_meta( $comment_id, $meta_key, $comment_meta[ $meta_key ] );
+            }
+        }
     }
 
     /**
@@ -723,6 +751,144 @@ class Disqus_Rest_Api {
     }
 
     /**
+     * Returns whether a comment is associated with an existing WordPress post.
+     *
+     * @since    3.1.5
+     * @param    int $post_id    The WordPress post ID.
+     * @return   boolean         Whether the post ID refers to an existing post.
+     */
+    private function is_valid_comment_post_id( $post_id ) {
+        return (bool) $post_id && get_post( (int) $post_id );
+    }
+
+    /**
+     * Resolves a WordPress post ID from Disqus thread data.
+     *
+     * @since    3.1.5
+     * @param    array $thread    The Disqus thread object.
+     * @return   int|null         The resolved WordPress post ID, or null if unresolved.
+     */
+    private function resolve_wp_post_id_from_thread( $thread ) {
+        $thread_id = isset( $thread['id'] ) ? $thread['id'] : null;
+
+        if ( $thread_id ) {
+            $post_query = new WP_Query( array(
+                'meta_key' => 'dsq_thread_id',
+                'meta_value' => $thread_id,
+                'ignore_sticky_posts' => true,
+                'posts_per_page' => 1,
+            ) );
+
+            if ( $post_query->have_posts() ) {
+                $wp_post_id = (int) $post_query->post->ID;
+                wp_reset_postdata();
+                return $wp_post_id;
+            }
+            wp_reset_postdata();
+        }
+
+        if ( isset( $thread['identifiers'] ) && is_array( $thread['identifiers'] ) ) {
+            foreach ( $thread['identifiers'] as $identifier ) {
+                $wp_post_id = $this->resolve_wp_post_id_from_identifier( $identifier );
+                if ( $wp_post_id ) {
+                    if ( $thread_id ) {
+                        update_post_meta( $wp_post_id, 'dsq_thread_id', $thread_id );
+                    }
+                    return $wp_post_id;
+                }
+            }
+        }
+
+        if ( isset( $thread['link'] ) && $thread['link'] ) {
+            $wp_post_id = $this->resolve_wp_post_id_from_url( $thread['link'] );
+            if ( $wp_post_id ) {
+                if ( $thread_id ) {
+                    update_post_meta( $wp_post_id, 'dsq_thread_id', $thread_id );
+                }
+                return $wp_post_id;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Resolves a WordPress post ID from a Disqus thread identifier.
+     *
+     * @since    3.1.5
+     * @param    string $identifier    The Disqus thread identifier.
+     * @return   int|null              The resolved WordPress post ID, or null if unresolved.
+     */
+    private function resolve_wp_post_id_from_identifier( $identifier ) {
+        if ( empty( $identifier ) ) {
+            return null;
+        }
+
+        $ident_parts = explode( ' ', $identifier, 2 );
+        $post_id = (int) reset( $ident_parts );
+        $guid = count( $ident_parts ) > 1 ? $ident_parts[1] : null;
+
+        if ( ! $post_id ) {
+            return null;
+        }
+
+        $post = get_post( $post_id );
+        if ( ! $post ) {
+            return null;
+        }
+
+        if ( $guid && $post->guid !== $guid ) {
+            return null;
+        }
+
+        return (int) $post->ID;
+    }
+
+    /**
+     * Resolves a WordPress post ID from a thread URL.
+     *
+     * @since    3.1.5
+     * @param    string $url    The Disqus thread URL.
+     * @return   int|null       The resolved WordPress post ID, or null if unresolved.
+     */
+    private function resolve_wp_post_id_from_url( $url ) {
+        if ( empty( $url ) ) {
+            return null;
+        }
+
+        $post_id = url_to_postid( $url );
+        if ( $post_id ) {
+            return (int) $post_id;
+        }
+
+        $parsed_url = wp_parse_url( $url );
+        if ( empty( $parsed_url['path'] ) ) {
+            return null;
+        }
+
+        $home_url = wp_parse_url( home_url() );
+        if ( empty( $home_url['host'] ) ) {
+            return null;
+        }
+
+        $local_url = ( isset( $home_url['scheme'] ) ? $home_url['scheme'] : 'http' ) . '://' . $home_url['host'];
+        if ( ! empty( $home_url['port'] ) ) {
+            $local_url .= ':' . $home_url['port'];
+        }
+        $local_url .= $parsed_url['path'];
+        if ( ! empty( $parsed_url['query'] ) ) {
+            $local_url .= '?' . $parsed_url['query'];
+        }
+
+        $post_id = url_to_postid( $local_url );
+        if ( $post_id ) {
+            return (int) $post_id;
+        }
+
+        return null;
+    }
+
+    /**
      * Checks the state of a Disqus post (comment) and translates to the WordPress comment_approved format.
      *
      * @since    3.0
@@ -734,32 +900,10 @@ class Disqus_Rest_Api {
         $thread = array_key_exists( 'threadData', $post ) ? $post['threadData'] : $post['thread'];
         $author = isset( $post['author'] ) ? $post['author'] : null;
 
-        $wp_post_id = null;
-
-        // Look up posts with the Disqus thread ID meta field.
-        $post_query = new WP_Query( array(
-            'meta_key' => 'dsq_thread_id',
-            'meta_value' => $thread['id'],
-            'ignore_sticky_posts' => true,
-        ) );
-
-        if ( $post_query->have_posts() ) {
-            $wp_post_id = $post_query->post->ID;
-            wp_reset_postdata();
-        }
-
-        // If that doesn't exist, get the  and update the matching post metadata.
-        if ( null === $wp_post_id || false === $wp_post_id ) {
-            $identifiers = $thread['identifiers'];
-            $first_identifier = count( $identifiers ) > 0 ? $identifiers[0] : null;
-
-            if ( null !== $first_identifier ) {
-                $ident_parts = explode( ' ', $first_identifier, 2 );
-                $wp_post_id = reset( $ident_parts );
-            }
-
-            // Keep the post's thread ID meta up to date.
-            update_post_meta( $wp_post_id, 'dsq_thread_id', $thread['id'] );
+        $wp_post_id = $this->resolve_wp_post_id_from_thread( $thread );
+        if ( null === $wp_post_id ) {
+            $thread_id = isset( $thread['id'] ) ? $thread['id'] : 'unknown';
+            $this->log_sync_message( 'Could not resolve WordPress post for Disqus thread "' . $thread_id . '"' );
         }
 
         // Find the parent comment, if any.
@@ -806,7 +950,7 @@ class Disqus_Rest_Api {
         }
 
         return array(
-            'comment_post_ID' => (int) $wp_post_id,
+            'comment_post_ID' => $wp_post_id ? (int) $wp_post_id : 0,
             'comment_author' => $author && isset( $author['name'] ) ? $author['name'] : 'Anonymous',
             'comment_author_email' => $author_email,
             'comment_author_IP' => $post['ipAddress'],
@@ -818,10 +962,33 @@ class Disqus_Rest_Api {
             'comment_parent' => $parent,
             'comment_agent' => 'Disqus Sync Host',
             'comment_approved' => $comment_approved,
-            'comment_meta' => array(
-                'dsq_post_id' => $post['id'],
-            ),
+            'comment_meta' => $this->comment_meta_from_post( $post, $thread ),
         );
+    }
+
+    /**
+     * Builds the comment meta stored alongside a synced Disqus post. The thread details
+     * let the admin link to the Disqus discussion when there's no matching WordPress post.
+     *
+     * @since    3.1.5
+     * @param    array $post      The Disqus post object.
+     * @param    array $thread    The Disqus thread object.
+     * @return   array            The comment meta to be inserted.
+     */
+    private function comment_meta_from_post( $post, $thread ) {
+        $comment_meta = array(
+            'dsq_post_id' => $post['id'],
+        );
+
+        if ( isset( $thread['link'] ) && $thread['link'] ) {
+            $comment_meta['dsq_thread_link'] = $thread['link'];
+        }
+
+        if ( isset( $thread['title'] ) && $thread['title'] ) {
+            $comment_meta['dsq_thread_title'] = $thread['title'];
+        }
+
+        return $comment_meta;
     }
 
     /**

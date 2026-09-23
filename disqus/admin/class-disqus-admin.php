@@ -22,6 +22,14 @@
 class Disqus_Admin {
 
     /**
+     * WordPress version required to replace the comments list table so unmatched
+     * synced comments can show a Disqus thread link in "In response to".
+     *
+     * @since    3.1.5
+     */
+    const COMMENTS_LIST_TABLE_MIN_WP = '6.1';
+
+    /**
      * The ID of this plugin.
      *
      * @since    3.0
@@ -173,6 +181,24 @@ class Disqus_Admin {
         }
 
         return $rest_url;
+    }
+
+    /**
+     * Swaps in the Disqus comments list table, which links to the Disqus thread when a
+     * synced comment has no matching WordPress post. The filter requires WordPress 6.1.
+     *
+     * @since    3.1.5
+     * @param    string $class_name    The list table class WordPress is about to use.
+     * @return   string                The list table class to use.
+     */
+    public function dsq_filter_comments_list_table_class( $class_name ) {
+        if ( 'WP_Comments_List_Table' !== $class_name ) {
+            return $class_name;
+        }
+
+        require_once plugin_dir_path( __FILE__ ) . 'class-disqus-comments-list-table.php';
+
+        return 'Disqus_Comments_List_Table';
     }
 
     /**
@@ -387,6 +413,99 @@ class Disqus_Admin {
 
         $user_id = get_current_user_id();
         update_user_meta( $user_id, 'disqus_ads_notice_dismissed', true );
+        wp_send_json_success();
+    }
+
+    /**
+     * Whether the comments list can show Disqus thread links for unmatched comments.
+     *
+     * @since    3.1.5
+     * @param    string|null $wp_version    WordPress version to check. Defaults to the running version.
+     * @return   boolean                    True when the site is below the required WordPress version.
+     */
+    public function dsq_needs_wordpress_for_in_response_column( $wp_version = null ) {
+        if ( null === $wp_version ) {
+            global $wp_version;
+        }
+
+        return version_compare( $wp_version, self::COMMENTS_LIST_TABLE_MIN_WP, '<' );
+    }
+
+    /**
+     * Notify admins on older WordPress that unmatched synced comments may have an empty
+     * "In response to" column until they upgrade.
+     *
+     * @since    3.1.5
+     */
+    public function dsq_display_in_response_wp_notice() {
+        if ( ! current_user_can( 'moderate_comments' ) ) {
+            return;
+        }
+
+        if ( ! $this->dsq_needs_wordpress_for_in_response_column() ) {
+            return;
+        }
+
+        $pagenow = isset( $GLOBALS['pagenow'] ) ? $GLOBALS['pagenow'] : '';
+        $is_comments_screen = 'edit-comments.php' === $pagenow;
+        $is_disqus_screen = isset( $_GET['page'] ) && 'disqus' === $_GET['page'];
+        if ( ! $is_comments_screen && ! $is_disqus_screen ) {
+            return;
+        }
+
+        $user_id = get_current_user_id();
+        $dismissed = get_user_meta( $user_id, 'disqus_in_response_wp_notice_dismissed', true );
+        if ( $dismissed ) {
+            return;
+        }
+
+        ?>
+        <div class="notice notice-warning is-dismissible disqus-in-response-wp-notice">
+            <p>
+                <?php
+                echo esc_html(
+                    sprintf(
+                        /* translators: %s: Minimum WordPress version required. */
+                        __( 'Synced Disqus comments that do not match a local post may show an empty "In response to" column until this site is running WordPress %s or later. After upgrading, that column can link to the Disqus discussion.', 'disqus' ),
+                        self::COMMENTS_LIST_TABLE_MIN_WP
+                    )
+                );
+                ?>
+            </p>
+        </div>
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                $(document).on('click', '.disqus-in-response-wp-notice .notice-dismiss', function() {
+                    $.ajax({
+                        url: ajaxurl,
+                        type: 'POST',
+                        data: {
+                            action: 'disqus_dismiss_in_response_wp_notice',
+                            nonce: '<?php echo esc_js( wp_create_nonce( 'disqus_dismiss_in_response_wp_notice' ) ); ?>'
+                        }
+                    });
+                });
+            });
+        </script>
+        <?php
+    }
+
+    /**
+     * AJAX handler to dismiss the WordPress version notice for the In response to column.
+     *
+     * @since    3.1.5
+     */
+    public function dsq_dismiss_in_response_wp_notice() {
+        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'disqus_dismiss_in_response_wp_notice' ) ) {
+            wp_die( 'Security check failed', 'disqus' );
+        }
+
+        if ( ! current_user_can( 'moderate_comments' ) ) {
+            wp_die( 'Unauthorized access', 'disqus' );
+        }
+
+        $user_id = get_current_user_id();
+        update_user_meta( $user_id, 'disqus_in_response_wp_notice_dismissed', true );
         wp_send_json_success();
     }
 }

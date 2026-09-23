@@ -260,6 +260,103 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
     }
 
     /**
+     * Check that comments resolve to a post via thread link when identifiers are from another site.
+     */
+    public function test_sync_comment_resolves_post_via_thread_link() {
+        $disqus_post = $this->disqus_post;
+        $disqus_post['transformed_data']['threadData'] = array(
+            'id' => '42',
+            'identifiers' => array(
+                '99999 http://other-site.example/?p=123',
+            ),
+            'link' => get_permalink( $this->post->ID ),
+        );
+
+        $request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
+        $response = $this->server->dispatch( $request );
+
+        $this->assertEquals( 201, $response->get_status() );
+
+        $comment = get_comment( (int) $response->get_data(), ARRAY_A );
+        $this->assertEquals( $this->post->ID, $comment['comment_post_ID'] );
+        $this->assertEquals( '42', get_post_meta( $this->post->ID, 'dsq_thread_id', true ) );
+    }
+
+    /**
+     * Check that the Disqus thread details are stored for unresolved comments.
+     */
+    public function test_sync_stores_thread_details_when_post_unresolved() {
+        $disqus_post = $this->disqus_post;
+        $disqus_post['transformed_data']['threadData'] = array(
+            'id' => '43',
+            'identifiers' => array( '99999 http://other-site.example/?p=123' ),
+            'link' => 'http://other-site.example/a-thread/',
+            'title' => 'A thread on another site',
+        );
+
+        $request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
+        $response = $this->server->dispatch( $request );
+
+        $comment_id = (int) $response->get_data();
+        $comment = get_comment( $comment_id, ARRAY_A );
+
+        $this->assertEquals( 0, $comment['comment_post_ID'] );
+        $this->assertEquals( 'http://other-site.example/a-thread/', get_comment_meta( $comment_id, 'dsq_thread_link', true ) );
+        $this->assertEquals( 'A thread on another site', get_comment_meta( $comment_id, 'dsq_thread_title', true ) );
+    }
+
+    /**
+     * Check that re-syncing an existing comment keeps the Disqus thread details up to date.
+     */
+    public function test_sync_updates_thread_details_on_existing_comment() {
+        $disqus_post = $this->disqus_post;
+        $disqus_post['transformed_data']['threadData'] = array(
+            'id' => '44',
+            'identifiers' => array( '99999 http://other-site.example/?p=123' ),
+            'link' => 'http://other-site.example/original/',
+            'title' => 'Original title',
+        );
+
+        $create_request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
+        $comment_id = (int) $this->server->dispatch( $create_request )->get_data();
+
+        $disqus_post['verb'] = 'update';
+        $disqus_post['transformed_data']['threadData']['link'] = 'http://other-site.example/moved/';
+        $disqus_post['transformed_data']['threadData']['title'] = 'Moved title';
+
+        $update_request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
+        $this->server->dispatch( $update_request );
+
+        $this->assertEquals( 'http://other-site.example/moved/', get_comment_meta( $comment_id, 'dsq_thread_link', true ) );
+        $this->assertEquals( 'Moved title', get_comment_meta( $comment_id, 'dsq_thread_title', true ) );
+    }
+
+    /**
+     * Check that force_sync backfills comment_post_ID for orphaned synced comments.
+     */
+    public function test_sync_force_sync_repair_orphan_comment_post_id() {
+        $orphan_id = wp_insert_comment( array(
+            'comment_post_ID' => 0,
+            'comment_content' => 'Orphaned synced comment',
+            'comment_approved' => 1,
+            'comment_agent' => 'Disqus Sync Host',
+        ) );
+        add_comment_meta( $orphan_id, 'dsq_post_id', '1' );
+
+        $disqus_post = $this->disqus_post;
+        $disqus_post['verb'] = 'force_sync';
+
+        $request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
+        $response = $this->server->dispatch( $request );
+
+        $this->assertEquals( 200, $response->get_status() );
+        $this->assertEquals( $orphan_id, (int) $response->get_data() );
+
+        $comment = get_comment( $orphan_id, ARRAY_A );
+        $this->assertEquals( $this->post->ID, $comment['comment_post_ID'] );
+    }
+
+    /**
      * Check that the sync endpoint will do nothing with non-post objects.
      */
     public function test_sync_non_post_webhook() {

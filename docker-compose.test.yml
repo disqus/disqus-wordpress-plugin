@@ -2,12 +2,13 @@ version: '2'
 
 services:
     db:
-        image: mysql:5.7
+        image: mysql:8.0
         environment:
             MYSQL_ROOT_PASSWORD: wordpress
             MYSQL_DATABASE: wordpress
             MYSQL_USER: wordpress
             MYSQL_PASSWORD: wordpress
+        command: --default-authentication-plugin=mysql_native_password
         healthcheck:
             test: ["CMD", "mysqladmin" ,"ping", "-pwordpress"]
             interval: 5s
