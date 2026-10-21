@@ -1,5 +1,9 @@
 # Changelog
 
+### 3.1.6
+* Fixed PHP warnings on requests without a current post, such as 404s and empty search results
+* Tested up to WP 7.1
+
 ### 3.1.5
 * Fixed synced comments attaching to missing WordPress posts and leaving an empty "In response to" column
 * Show a Disqus thread link in "In response to" when a synced comment has no matching local post (WordPress 6.1+)
