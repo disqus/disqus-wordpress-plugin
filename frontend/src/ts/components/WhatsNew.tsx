@@ -4,6 +4,7 @@ const latestVersion: String = '3.1.6';
 const MIN_WP_FOR_IN_RESPONSE_COLUMN = '6.1';
 const updates: Array<String> = [
     'Fixed PHP warnings on requests without a current post, such as 404s and empty search results',
+    'Fixed PHP warnings when syncing comments that Disqus returns without an IP address, and kept the stored IP address when such a comment is updated',
 ];
 const olderWordpressUpdate: String =
     'Notify admins on older WordPress that unmatched synced comments may have an empty In response to column until they upgrade';

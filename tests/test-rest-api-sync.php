@@ -332,6 +332,45 @@ class Test_REST_API_Sync extends WP_UnitTestCase {
     }
 
     /**
+     * Check that a manual sync still saves comments when Disqus omits the author IP address.
+     */
+    public function test_sync_force_sync_without_ip_address() {
+        $disqus_post = $this->disqus_post;
+        $disqus_post['verb'] = 'force_sync';
+        unset( $disqus_post['transformed_data']['ipAddress'] );
+
+        $request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
+        $response = $this->server->dispatch( $request );
+
+        $this->assertEquals( 200, $response->get_status(), 'Response was: ' . json_encode( $response->get_data() ) );
+
+        $comment = get_comment( (int) $response->get_data(), ARRAY_A );
+        $this->assertEquals( 'This is a test comment', $comment['comment_content'] );
+        $this->assertEquals( '', $comment['comment_author_IP'] );
+    }
+
+    /**
+     * Check that an update without an IP address doesn't erase the IP stored for the comment.
+     */
+    public function test_sync_update_without_ip_address_keeps_stored_ip() {
+        $create_request = $this->get_valid_request_with_signature( $this->disqus_post, 'sync/webhook' );
+        $comment_id = (int) $this->server->dispatch( $create_request )->get_data();
+        $this->assertEquals( '255.255.255.255', get_comment( $comment_id )->comment_author_IP );
+
+        $disqus_post = $this->disqus_post;
+        $disqus_post['verb'] = 'update';
+        $disqus_post['transformed_data']['raw_message'] = 'Edited without an IP address';
+        unset( $disqus_post['transformed_data']['ipAddress'] );
+
+        $update_request = $this->get_valid_request_with_signature( $disqus_post, 'sync/webhook' );
+        $this->server->dispatch( $update_request );
+
+        $comment = get_comment( $comment_id );
+        $this->assertEquals( 'Edited without an IP address', $comment->comment_content );
+        $this->assertEquals( '255.255.255.255', $comment->comment_author_IP );
+    }
+
+    /**
      * Check that force_sync backfills comment_post_ID for orphaned synced comments.
      */
     public function test_sync_force_sync_repair_orphan_comment_post_id() {

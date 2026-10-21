@@ -139,4 +139,48 @@ class Test_Disqus_Rest_Api_Comment_Data_From_Post extends WP_UnitTestCase {
         $data = $this->call_comment_data_from_post( $post );
         $this->assertNull( $data['comment_author_email'] );
     }
+
+    private function disqus_post_fixture() {
+        return [
+            'thread' => [ 'id' => 1, 'identifiers' => [ '1' ] ],
+            'author' => [ 'email' => 'foo@example.com', 'name' => 'Foo' ],
+            'parent' => null,
+            'ipAddress' => '127.0.0.1',
+            'raw_message' => 'Test',
+            'createdAt' => '2020-01-01 00:00:00',
+            'isApproved' => true,
+            'isDeleted' => false,
+            'isSpam' => false,
+            'id' => 123,
+            'forum' => get_option( 'disqus_forum_url' ),
+        ];
+    }
+
+    public function test_author_ip_from_post() {
+        $data = $this->call_comment_data_from_post( $this->disqus_post_fixture() );
+
+        $this->assertEquals( '127.0.0.1', $data['comment_author_IP'] );
+    }
+
+    /**
+     * Disqus omits ipAddress from posts when the requesting user can't view personal data on the forum.
+     * Warnings fail tests because phpunit.xml.dist converts them to exceptions.
+     */
+    public function test_author_ip_when_missing() {
+        $post = $this->disqus_post_fixture();
+        unset( $post['ipAddress'] );
+
+        $data = $this->call_comment_data_from_post( $post );
+
+        $this->assertSame( '', $data['comment_author_IP'] );
+    }
+
+    public function test_author_ip_when_null() {
+        $post = $this->disqus_post_fixture();
+        $post['ipAddress'] = null;
+
+        $data = $this->call_comment_data_from_post( $post );
+
+        $this->assertSame( '', $data['comment_author_IP'] );
+    }
 }

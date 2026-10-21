@@ -706,6 +706,11 @@ class Disqus_Rest_Api {
         unset( $comment_data['comment_type'] );
         unset( $comment_data['comment_date_gmt'] );
 
+        // Disqus omits the IP address when the requesting user can't view personal data, so keep the stored one.
+        if ( '' === $comment_data['comment_author_IP'] ) {
+            unset( $comment_data['comment_author_IP'] );
+        }
+
         // Preserve a valid post association; backfill when the existing value is missing or invalid.
         if ( $this->is_valid_comment_post_id( $existing_comment->comment_post_ID ) ) {
             unset( $comment_data['comment_post_ID'] );
@@ -953,7 +958,7 @@ class Disqus_Rest_Api {
             'comment_post_ID' => $wp_post_id ? (int) $wp_post_id : 0,
             'comment_author' => $author && isset( $author['name'] ) ? $author['name'] : 'Anonymous',
             'comment_author_email' => $author_email,
-            'comment_author_IP' => $post['ipAddress'],
+            'comment_author_IP' => isset( $post['ipAddress'] ) ? $post['ipAddress'] : '',
             'comment_author_url' => $author && isset( $author['url'] ) ? $author['url'] : '',
             'comment_content' => $post['raw_message'],
             'comment_date' => $post['createdAt'],

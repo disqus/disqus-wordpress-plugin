@@ -130,6 +130,7 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 == Changelog ==
 = 3.1.6 =
 * Fixed PHP warnings on requests without a current post, such as 404s and empty search results
+* Fixed PHP warnings when syncing comments that Disqus returns without an IP address, and kept the stored IP address when such a comment is updated
 
 = 3.1.5 =
 * Fixed synced comments attaching to missing WordPress posts and leaving an empty "In response to" column
