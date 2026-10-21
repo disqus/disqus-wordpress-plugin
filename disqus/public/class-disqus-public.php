@@ -25,10 +25,15 @@ class Disqus_Public {
 	 * Returns the Disqus identifier for a given post.
 	 *
 	 * @since     3.0
-	 * @param     WP_Post $post    The WordPress post to create the title for.
-	 * @return    string           The formatted identifier to be passed to Disqus.
+	 * @param     WP_Post|object|null $post    The WordPress post to create the identifier for.
+	 * @return    string                       The formatted identifier to be passed to Disqus, a single space without a post.
 	 */
 	public static function dsq_identifier_for_post( $post ) {
+		if ( ! isset( $post->ID ) ) {
+			// Same value as before posts were checked, in case callers depend on it.
+			return ' ';
+		}
+
 		return $post->ID . ' ' . $post->guid;
 	}
 
@@ -75,8 +80,8 @@ class Disqus_Public {
 	 *
 	 * @since     3.0
 	 * @access    private
-	 * @param     WP_Post $post    The WordPress post to create the configuration for.
-	 * @return    array            The embed configuration to localize the comments embed script with.
+	 * @param     WP_Post|object|null $post    The WordPress post to create the configuration for, null when there is no current post.
+	 * @return    array                        The embed configuration to localize the comments embed script with.
 	 */
 	public static function embed_vars_for_post( $post ) {
 		$embed_vars = array(
@@ -87,7 +92,7 @@ class Disqus_Public {
 			'disqusShortname' => get_option( 'disqus_forum_url' ),
 			'disqusTitle' => Disqus_Public::dsq_title_for_post( $post ),
 			'disqusUrl' => get_permalink( $post ),
-			'postId' => $post->ID,
+			'postId' => isset( $post->ID ) ? $post->ID : null,
 		);
 
 		$public_key = get_option( 'disqus_public_key' );

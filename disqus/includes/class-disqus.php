@@ -268,16 +268,28 @@ class Disqus {
     /**
      * Formats the unique disqus_identifier for a given post.
      *
+     * Not called anywhere: the plugin instance isn't exposed, and the live code uses
+     * Disqus_Public::dsq_identifier_for_post() instead.
+     * TODO: Remove this method and dsq_title_for_post() if confirmed to be unneeded.
+     *
      * @since     3.0
-     * @param     string $post    The WordPress post object.
-     * @return    string          The unique disqus_identifier.
+     * @param     WP_Post|object|null $post    The WordPress post object.
+     * @return    string                       The unique disqus_identifier, a single space without a post.
      */
     public function dsq_identifier_for_post( $post ) {
+        if ( ! isset( $post->ID ) ) {
+            // Same value as before posts were checked, in case callers depend on it.
+            return ' ';
+        }
+
         return $post->ID . ' ' . $post->guid;
     }
 
     /**
      * Formats the title for a given post.
+     *
+     * Not called anywhere, see dsq_identifier_for_post().
+     * TODO: Remove along with dsq_identifier_for_post() if confirmed to be unneeded.
      *
      * @since     3.0
      * @param     string $post    The WordPress post object.

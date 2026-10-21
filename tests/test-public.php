@@ -98,4 +98,49 @@ class Test_Disqus_Public extends WP_UnitTestCase {
         $result = $method->invoke(null, $url);
         $this->assertEquals('https://www.GRAVATAR.com/avatar/205e460b479e2e5b48aec07710c08d50.jpg', $result);
     }
+
+    /**
+     * The identifier for a real post is "<ID> <guid>".
+     */
+    function test_dsq_identifier_for_post() {
+        $post = $this->factory->post->create_and_get();
+
+        $this->assertEquals( $post->ID . ' ' . $post->guid, Disqus_Public::dsq_identifier_for_post( $post ) );
+    }
+
+    /**
+     * Posts that aren't WP_Post instances but carry an ID and guid must keep their identifier.
+     */
+    function test_dsq_identifier_for_post_like_object() {
+        $post = (object) array( 'ID' => 123, 'guid' => 'http://example.org/?p=123' );
+
+        $this->assertEquals( '123 http://example.org/?p=123', Disqus_Public::dsq_identifier_for_post( $post ) );
+    }
+
+    /**
+     * Requests without a current post (404s, empty search results) must not raise warnings.
+     * Warnings fail tests because phpunit.xml.dist converts them to exceptions.
+     */
+    function test_dsq_identifier_for_null_post() {
+        $this->assertSame( ' ', Disqus_Public::dsq_identifier_for_post( null ) );
+    }
+
+    /**
+     * Third-party plugins call embed_vars_for_post() with the global $post, which is null on 404 pages.
+     */
+    function test_embed_vars_for_post() {
+        $post = $this->factory->post->create_and_get();
+
+        $embed_vars = Disqus_Public::embed_vars_for_post( $post );
+
+        $this->assertEquals( $post->ID . ' ' . $post->guid, $embed_vars['disqusIdentifier'] );
+        $this->assertEquals( $post->ID, $embed_vars['postId'] );
+    }
+
+    function test_embed_vars_for_null_post() {
+        $embed_vars = Disqus_Public::embed_vars_for_post( null );
+
+        $this->assertSame( ' ', $embed_vars['disqusIdentifier'] );
+        $this->assertNull( $embed_vars['postId'] );
+    }
 }
