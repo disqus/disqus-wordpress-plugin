@@ -157,7 +157,10 @@ class Disqus_Public {
 	}
 
 	/**
-	 * Determines if Disqus is configured and can load on a given page.
+	 * Wraps the comments number/link with Disqus identifier markup for comment counts.
+	 *
+	 * Skips injection when comments are closed so closed/old posts do not expose
+	 * Disqus identifiers (which include the post GUID) in HTML for crawlers.
 	 *
 	 * @since     3.0
 	 * @param     string $comment_text    The default comment text.
@@ -165,6 +168,12 @@ class Disqus_Public {
 	 */
 	public function dsq_comments_link_template( $comment_text ) {
 		global $post;
+
+		// Don't inject identifiers when there is no post or comments are closed
+		// (includes WP's "automatically close comments on posts older than X days").
+		if ( ! isset( $post ) || ! comments_open( $post ) ) {
+			return $comment_text;
+		}
 
 		if ( $this->dsq_can_load( 'count' ) ) {
 			$disqus_identifier = esc_attr( $this->dsq_identifier_for_post( $post ) );
