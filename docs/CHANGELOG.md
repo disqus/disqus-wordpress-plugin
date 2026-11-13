@@ -1,5 +1,8 @@
 # Changelog
 
+### 3.1.7
+* Stop injecting Disqus comment-count identifier markup when WordPress comments are closed on a post (including auto-close after X days), so closed/old posts no longer expose post GUID URLs in HTML
+
 ### 3.1.6
 * Fixed PHP warnings on requests without a current post, such as 404s and empty search results
 * Fixed PHP warnings when syncing comments that Disqus returns without an IP address, and kept the stored IP address when such a comment is updated

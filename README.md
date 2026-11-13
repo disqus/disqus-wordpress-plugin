@@ -39,8 +39,10 @@ You can override when Disqus loads on a certain page using the `dsq_can_load` fi
 
 Additionally Disqus will not load the embed.js script:
 - On pages that are not 'post' or 'page' types
-- Posts or pages that have comment turned off
+- Posts or pages that have comments turned off
 - Draft posts
+
+Disqus also will not inject comment-count identifier markup (`data-dsqidentifier`, which includes the post GUID) when comments are closed on a post. That includes WordPress's setting to automatically close comments on posts older than a given number of days.
 
 The filter will pass one argument, the `$script_name` enumeration, which can be:
 - `'count'` — The count.js script file for showing comment counts next to a link

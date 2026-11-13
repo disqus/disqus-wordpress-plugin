@@ -143,4 +143,53 @@ class Test_Disqus_Public extends WP_UnitTestCase {
         $this->assertSame( ' ', $embed_vars['disqusIdentifier'] );
         $this->assertNull( $embed_vars['postId'] );
     }
+
+    /**
+     * Open-comment posts still get Disqus count identifier markup.
+     */
+    function test_comments_link_template_wraps_open_comments() {
+        global $post;
+
+        $post = $this->factory->post->create_and_get( array(
+            'comment_status' => 'open',
+        ) );
+        $plugin_public = new Disqus_Public( 'disqus', '0.0.0', 'testforum' );
+
+        $result = $plugin_public->dsq_comments_link_template( '3 Comments' );
+
+        $this->assertStringContainsString( 'dsq-postid', $result );
+        $this->assertStringContainsString( 'data-dsqidentifier="' . $post->ID . ' ' . $post->guid . '"', $result );
+        $this->assertStringContainsString( '3 Comments', $result );
+    }
+
+    /**
+     * Closed-comment posts must not expose Disqus identifiers/GUIDs in HTML.
+     */
+    function test_comments_link_template_skips_closed_comments() {
+        global $post;
+
+        $post = $this->factory->post->create_and_get( array(
+            'comment_status' => 'closed',
+        ) );
+        $plugin_public = new Disqus_Public( 'disqus', '0.0.0', 'testforum' );
+
+        $result = $plugin_public->dsq_comments_link_template( '3 Comments' );
+
+        $this->assertSame( '3 Comments', $result );
+        $this->assertStringNotContainsString( 'dsq-postid', $result );
+        $this->assertStringNotContainsString( 'data-dsqidentifier', $result );
+        $this->assertStringNotContainsString( $post->guid, $result );
+    }
+
+    /**
+     * Missing global $post must leave comment text unchanged.
+     */
+    function test_comments_link_template_skips_null_post() {
+        global $post;
+
+        $post = null;
+        $plugin_public = new Disqus_Public( 'disqus', '0.0.0', 'testforum' );
+
+        $this->assertSame( '3 Comments', $plugin_public->dsq_comments_link_template( '3 Comments' ) );
+    }
 }
