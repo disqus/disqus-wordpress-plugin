@@ -169,8 +169,8 @@ class Disqus_Public {
 	public function dsq_comments_link_template( $comment_text ) {
 		global $post;
 
-		// Don't inject identifiers when there is no post or comments are closed
-		// (includes WP's "automatically close comments on posts older than X days").
+		// Skip Disqus count identifiers for missing posts and closed discussions
+		// (including WordPress auto-close after a configured number of days).
 		if ( ! isset( $post ) || ! comments_open( $post ) ) {
 			return $comment_text;
 		}
